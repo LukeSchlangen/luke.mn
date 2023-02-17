@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { useState } from 'react';
 import defaultStyles from '../styles/Home.module.css'
 import yellowStyles from '../styles/Yellow.module.css'
+import blueStyles from '../styles/Blue.module.css'
 
 const mergeThemes = (defaultStyles, themeStyles) => {
   const allStyleKeys = [...new Set([...Object.keys(defaultStyles), ...Object.keys(themeStyles)])]
@@ -14,6 +15,7 @@ const mergeThemes = (defaultStyles, themeStyles) => {
 const theme = {
   default: defaultStyles,
   yellow: mergeThemes(defaultStyles, yellowStyles),
+  blue: mergeThemes(defaultStyles, blueStyles),
 }
 
 export default function Home() {
@@ -27,8 +29,9 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
+        <button onClick={()=>setStyles(theme.default)}>Default</button>
         <button onClick={()=>setStyles(theme.yellow)}>Yellow</button>
-        <button onClick={()=>setStyles(theme.default)}>None</button>
+        <button onClick={()=>setStyles(theme.blue)}>Blue</button>
         <h1 className={styles.title}>
           Luke Schlangen
         </h1>

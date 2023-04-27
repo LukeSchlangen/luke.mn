@@ -10,14 +10,14 @@ export const metadata = {
 }
 
 export default function Voice({ params }: { params: { voice: string } }) {
-  const voice = params.voice && params.voice[0]
+  const voice = params.voice && params.voice[0] || 'first-person-short';
   if (voice && !['first-person-short', 'third-person-short', 'first-person-long', 'third-person-long'].includes(voice)) {
     notFound();
   }
 
   return (
     <>
-      <Navbar />
+      <Navbar theme={{color: 'light', vibe: 'professional', voice }} />
       Professional
       <Image
         src="/luke-schlangen-headshot-black-suit-white-background.jpg"

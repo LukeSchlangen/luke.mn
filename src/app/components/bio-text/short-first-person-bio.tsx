@@ -2,12 +2,28 @@ import Link from 'next/link'
 
 export default function ShortFirstPersonBio() {
   return (
-    <p>
-      I am a Developer Advocate for Google Kubernetes Engine who believes learning follows excitement.
-      I find it rewarding to give approachable talks for beginners, because everyone is a beginner at something.
-      I previously taught at a coding bootcamp.
-      After that, I led an onboarding program for new software engineers at a Fortune 500 company.
-      Now at Google, I like to introduce newcomers to containers and Kubernetes.
-    </p>
+    <>
+      <p>
+        {'I am a '}
+        <Link href="https://cloud.google.com/developers/advocates/luke-schlangen?hl=en">
+          developer advocate at Google
+        </Link>
+        .
+      </p>
+      <p>
+        {'I am a co-founder of '}
+        <Link href="https://www.codechampionship.com/">
+          Code Championship
+        </Link>
+        .
+      </p>
+      <p>
+        {'I believe '}
+        <Link href="https://youtu.be/n4L4gWoZJBU">
+          learning follows excitement
+        </Link>
+        .
+      </p>
+    </>
   )
 }

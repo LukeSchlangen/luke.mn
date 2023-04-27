@@ -1,17 +1,14 @@
-import ShortFirstPersonBio from './bio-text/short-first-person-bio';
-import LongThirdPersonBio from './bio-text/long-third-person-bio';
-import ShortThirdPersonBio from './bio-text/short-third-person-bio';
-import LongFirstPersonBio from './bio-text/long-first-person-bio';
+import FirstPersonShortBio from './bio-text/first-person-short-bio';
+import ThirdPersonLongBio from './bio-text/third-person-long-bio';
+import ThirdPersonShortBio from './bio-text/third-person-short-bio';
+import FirstPersonLongBio from './bio-text/first-person-long-bio';
+import { Theme } from '../types';
 
-export default function Bio({ voice }: {voice: string}) {
-  switch (voice) {
-    case 'third-person-short':
-      return <ShortThirdPersonBio />;
-    case 'third-person-long':
-      return <LongThirdPersonBio />;
-    case 'first-person-long':
-      return <LongFirstPersonBio />;
-    default:
-      return <ShortFirstPersonBio />;
+export default function Bio({ theme }: {theme: Theme}) {
+  if (theme.tense === 'third-person') {
+    if (theme.verbosity === 'long') return <ThirdPersonLongBio />;
+    return <ThirdPersonShortBio />
   }
+  if (theme.verbosity === 'long') return <FirstPersonLongBio />;
+  return <FirstPersonShortBio />;
 }

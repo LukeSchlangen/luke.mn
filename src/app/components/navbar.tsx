@@ -1,34 +1,32 @@
 import { Roboto } from 'next/font/google'
 import Link from 'next/link'
+import { Theme } from '../types';
 
 const roboto = Roboto({
   weight: '400',
   subsets: ['latin'],
 })
 
-const voiceMap = new Map<string, { tense: 'first-person' | 'third-person', verbosity: 'short' | 'long' }>();
 
-voiceMap.set('third-person-short', { tense: 'third-person', verbosity: 'short' });
-voiceMap.set('first-person-long', { tense: 'first-person', verbosity: 'long' });
-voiceMap.set('third-person-long', { tense: 'third-person', verbosity: 'long' });
 
-export default function Navbar({ theme }: { theme: { vibe: string; color: string; voice: string; } }) {
-  const { vibe, color, voice } = theme;
+export default function Navbar({ theme }: { theme: Theme }) {
+  const { vibe, color, tense, verbosity } = theme;
   const currentVibePath = vibe === 'standard' ? '' : `/${vibe}`;
-  const currentColorPath = color === 'light' ? '' : '/dark';
-  const currentVoicePath = voice === 'first-person-short' ? '' : `/${voice}`;
-  const voiceObject = voiceMap.get(voice) || { tense: 'first-person', verbosity: 'short' };
+  const currentColorPath = color === 'light' ? '' : `/${color}`;
+  const currentTensePath = tense === 'first-person' ? '' : `/${tense}`;
+  const currentVerbosityPath = verbosity === 'short' ? '' : `/${verbosity}`;
+
   return (
     <nav>
       <div>
         {'Color toggle -> '}
         {/* color toggle */}
         {/* Whatever vibe and voice it is right now, flipped to the other color */}
-        <Link href={`${currentVibePath}${currentVoicePath}` || '/'}>
+        <Link href={`${currentVibePath}${currentTensePath}${currentVerbosityPath}` || '/'}>
           Light
         </Link>
         {' | '}
-        <Link href={`${currentVibePath}/dark${currentVoicePath}`}>
+        <Link href={`${currentVibePath}/dark${currentTensePath}${currentVerbosityPath}`}>
           Dark
         </Link>
       </div>
@@ -38,15 +36,15 @@ export default function Navbar({ theme }: { theme: { vibe: string; color: string
         {/* Whatever color and voice it is right now, flipped to the two other vibes */}
 
         {'Vibe toggle -> '}
-        <Link href={`/professional${currentColorPath}${currentVoicePath}` || '/'}>
+        <Link href={`/professional${currentColorPath}${currentTensePath}${currentVerbosityPath}` || '/'}>
           Professional
         </Link>
         {' | '}
-        <Link href={`${currentColorPath}${currentVoicePath}` || '/'}>
+        <Link href={`${currentColorPath}${currentTensePath}${currentVerbosityPath}` || '/'}>
           Standard
         </Link>
         {' | '}
-        <Link href={`/fun${currentColorPath}${currentVoicePath}`}>
+        <Link href={`/fun${currentColorPath}${currentTensePath}${currentVerbosityPath}`}>
           Fun
         </Link>
       </div>
@@ -54,11 +52,11 @@ export default function Navbar({ theme }: { theme: { vibe: string; color: string
 
       <div>
         {'Tense toggle -> '}
-        <Link href={`${currentVibePath}${currentColorPath}${voiceObject.verbosity === 'short' ? '' : '/first-person-long'}` || '/'}>
+        <Link href={`${currentVibePath}${currentColorPath}${currentVerbosityPath}` || '/'}>
           First Person
         </Link>
         {' | '}
-        <Link href={`${currentVibePath}${currentColorPath}/third-person-${voiceObject.verbosity}`}>
+        <Link href={`${currentVibePath}${currentColorPath}/third-person${currentVerbosityPath}`}>
           Third Person
         </Link>
       </div>
@@ -66,11 +64,11 @@ export default function Navbar({ theme }: { theme: { vibe: string; color: string
 
       <div>
         {'Length toggle -> '}
-        <Link href={`${currentVibePath}${currentColorPath}${voiceObject.tense === 'first-person' ? '' : '/third-person-short'}` || '/'}>
+        <Link href={`${currentVibePath}${currentColorPath}${currentTensePath}` || '/'}>
           Short
         </Link>
         {' | '}
-        <Link href={`${currentVibePath}${currentColorPath}/${voiceObject.tense}-long`}>
+        <Link href={`${currentVibePath}${currentColorPath}${currentTensePath}/long`}>
           Long
         </Link>
       </div>

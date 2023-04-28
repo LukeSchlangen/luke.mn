@@ -1,6 +1,13 @@
+export type Vibe = 'standard' | 'professional' | 'fun';
+export type Color = 'light' | 'dark';
+export type Tense = 'first-person' | 'third-person';
+export type Verbosity = 'short' | 'long';
+
+
+
 export type Theme = {
-  vibe: 'standard' | 'professional' | 'fun';
-  color: 'light' | 'dark';
-  tense: 'first-person' | 'third-person';
-  verbosity: 'short' | 'long';
+  vibe: Vibe;
+  color: Color;
+  tense: Tense;
+  verbosity: Verbosity;
 }

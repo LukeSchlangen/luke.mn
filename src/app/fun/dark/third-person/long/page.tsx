@@ -1,11 +1,13 @@
 import { Theme } from '../../../../types'
-import StandardPage from '../../../../components/pages/standard-page'
+import FunPage from '../../../../components/pages/fun-page'
 
 export default function Page() {
   const theme: Partial<Theme> = {
     color: 'dark',
+    tense: 'third-person',
+    verbosity: 'long',
   }
   return (
-    <StandardPage theme={theme} />
+    <FunPage theme={theme} />
   )
 }

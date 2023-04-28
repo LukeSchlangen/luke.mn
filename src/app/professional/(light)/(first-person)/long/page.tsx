@@ -1,11 +1,11 @@
 import { Theme } from '../../../../types'
-import StandardPage from '../../../../components/pages/standard-page'
+import ProfessionalPage from '../../../../components/pages/professional-page'
 
 export default function Page() {
   const theme: Partial<Theme> = {
     verbosity: 'long',
   }
   return (
-    <StandardPage theme={theme} />
+    <ProfessionalPage theme={theme} />
   )
 }

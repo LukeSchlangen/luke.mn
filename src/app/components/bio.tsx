@@ -11,15 +11,20 @@ function bioText(theme: Theme) {
   return <ShortBio tense={theme.tense} />;
 }
 
-export default function Bio({ theme, className }: { theme: Theme, className: string }) {
+export default function Bio({ theme }: { theme: Theme }) {
+
+  const isLight = theme.color === 'light';
+
   return (
-    <div className={`rounded-lg drop-shadow-xl border -mt-8 mx-1 p-4 w-fit ${theme.verbosity === 'short' && 'whitespace-nowrap'} ${className}`}>
-      <div className='flex justify-between mb-4 text-sm font-light'>
-        <TenseToggle theme={theme} />
-        <VerbosityToggle theme={theme} />
-      </div>
-      <div className={`text-md md:text-lg ${theme.verbosity === 'short' ? '' : 'space-y-4'}`}>
-        {bioText(theme)}
+    <div className='max-w-prose m-auto'>
+      <div className={`rounded-lg drop-shadow-xl border -mt-8 sm:-mt-20 lg:mt-2 mx-2 p-4 w-fit ${theme.verbosity === 'short' && 'whitespace-nowrap'} ${isLight ? 'bg-gray-50' : 'bg-gray-950'}`}>
+        <div className='flex justify-between mb-4 text-sm sm:text-base font-light'>
+          <TenseToggle theme={theme} />
+          <VerbosityToggle theme={theme} />
+        </div>
+        <div className={`text-md sm:text-lg lg:text-2xl ${theme.verbosity === 'short' ? '' : 'space-y-4'}`}>
+          {bioText(theme)}
+        </div>
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ export default function CoFounderOfCodeChampionship() {
   return (
     <Link href="https://www.codechampionship.com/" className='underline'>
     {'co-founder of '}
-    <span className={`text-sm sm:text-base ${orbitron.className}`}>
+    <span className={`text-sm sm:text-base lg:text-xl ${orbitron.className}`}>
       Code Championship
     </span>
   </Link>

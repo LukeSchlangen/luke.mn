@@ -12,7 +12,7 @@ export default function NotificationBar({ theme: partialTheme }: { theme?: Parti
   const isLight = theme.color === 'light';
 
   return (
-    <div className={`rounded-lg drop-shadow-xl border mx-1 my-8 p-4 flex justify-between ${isLight ? 'bg-lime-200' : 'bg-emerald-800'}`}>
+    <div className={`rounded-lg drop-shadow-xl border mx-1 mb-8 mt-4 p-4 flex justify-between ${isLight ? 'bg-lime-200' : 'bg-emerald-800'}`}>
       <h2 className='text-xl font-bold sm:flex'>
         <div className='mr-2'>
           {'Derby Day Link: '}

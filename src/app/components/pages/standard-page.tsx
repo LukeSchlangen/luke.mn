@@ -4,6 +4,8 @@ import Navbar from '../navbar'
 import { Theme } from '../../types'
 import NotificationBar from '../notification-bar'
 import ProfileImage from '../profile-image'
+import greySweater from '../../../../public/headshots/luke-schlangen-headshot-grey-sweater.jpg'
+import Header from '../header'
 
 export default function StandardPage({ theme: partialTheme }: { theme?: Partial<Theme> }) {
   const theme: Theme = {
@@ -16,31 +18,14 @@ export default function StandardPage({ theme: partialTheme }: { theme?: Partial<
   const isLight = theme.color === 'light';
 
   return (
-    <div className={`min-h-screen min-w-screen pt-2 ${isLight ? 'text-slate-900' : 'text-slate-100'}`}>
+    <div className={`min-h-screen min-w-screen p-2 ${isLight ? 'text-gray-900' : 'text-gray-100'}`}>
       <style>
         {/* Hacky style tag applied to body here because body has to be defined in layout, but style depends on theme */}
-        {isLight ? 'body { background-color: #e2e8f0 }' : 'body { background-color: #1e293b }'}
+        {isLight ? 'body { background-color: #e5e7eb }' : 'body { background-color: #1f2937 }'}
       </style>
-      <main className='max-w-prose m-auto'>
-        <NotificationBar theme={theme} />
-        <div className='flex w-100'>
-          <div className={`rounded-lg drop-shadow-xl border mt-16 sm:mt-20 ml-4 -mr-4 p-4 ${isLight ? 'bg-slate-50' : 'bg-slate-950'}`}>
-            <h1 className='mb-2'>
-              <div className='text-6xl sm:text-7xl'>
-                Luke
-              </div>
-              <div className='text-2xl sm:text-4xl'>
-                Schlangen
-              </div>
-            </h1>
-            <Navbar theme={theme} />
-          </div>
-          <ProfileImage
-            src="/luke-schlangen-headshot-grey-sweater.jpg"
-            alt="Luke Schlangen in a gray sweater with yellow background"
-          />
-        </div>
-        <Bio className={isLight ? 'bg-slate-50' : 'bg-slate-950'} theme={theme} />
+      <Header theme={theme} imageSrc={greySweater} alt="Luke Schlangen in a grey sweater" />
+      <main className='block lg:hidden'>
+        <Bio theme={theme} />
       </main>
       <Footer />
     </div>

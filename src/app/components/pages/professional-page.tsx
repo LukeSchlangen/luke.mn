@@ -34,13 +34,13 @@ export default function ProfessionalPage({ theme: partialTheme }: { theme?: Part
           {isLight ? (
             <ProfileImage
               src="/luke-schlangen-headshot-black-suit-white-background.jpg"
-              alt="Luke Schlangen in a black suite with white background"
+              alt="Luke Schlangen in a black suit with white background"
             />
           ) : (
 
             <ProfileImage
               src="/luke-schlangen-headshot-black-suit-black-background.jpg"
-              alt="Luke Schlangen in a black suite with black background"
+              alt="Luke Schlangen in a black suit with black background"
             />
           )}
         </div>

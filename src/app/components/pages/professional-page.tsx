@@ -1,9 +1,9 @@
 import Bio from '../bio'
 import Footer from '../footer'
 import Navbar from '../navbar'
-import Image from 'next/image'
 import { Theme } from '../../types'
 import NotificationBar from '../notification-bar'
+import ProfileImage from '../profile-image'
 
 export default function ProfessionalPage({ theme: partialTheme }: { theme?: Partial<Theme> }) {
   const theme: Theme = {
@@ -32,23 +32,15 @@ export default function ProfessionalPage({ theme: partialTheme }: { theme?: Part
             <Navbar theme={theme} />
           </div>
           {isLight ? (
-            <Image
-              className='rounded-lg drop-shadow-xl mx-2'
+            <ProfileImage
               src="/luke-schlangen-headshot-black-suit-white-background.jpg"
               alt="Luke Schlangen in a black suite with white background"
-              height={300}
-              width={200}
-              priority
             />
           ) : (
 
-            <Image
-              className='rounded-lg drop-shadow-xl mx-2'
+            <ProfileImage
               src="/luke-schlangen-headshot-black-suit-black-background.jpg"
               alt="Luke Schlangen in a black suite with black background"
-              height={300}
-              width={200}
-              priority
             />
           )}
         </div>

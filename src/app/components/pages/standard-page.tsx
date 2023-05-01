@@ -1,9 +1,9 @@
 import Bio from '../bio'
 import Footer from '../footer'
 import Navbar from '../navbar'
-import Image from 'next/image'
 import { Theme } from '../../types'
 import NotificationBar from '../notification-bar'
+import ProfileImage from '../profile-image'
 
 export default function StandardPage({ theme: partialTheme }: { theme?: Partial<Theme> }) {
   const theme: Theme = {
@@ -31,13 +31,9 @@ export default function StandardPage({ theme: partialTheme }: { theme?: Partial<
             </h1>
             <Navbar theme={theme} />
           </div>
-          <Image
-            className='rounded-lg drop-shadow-xl mx-2'
+          <ProfileImage
             src="/luke-schlangen-headshot-grey-sweater.jpg"
             alt="Luke Schlangen in a gray sweater with yellow background"
-            height={300}
-            width={200}
-            priority
           />
         </div>
         <Bio className={isLight ? 'bg-slate-50' : 'bg-slate-950'} theme={theme} />

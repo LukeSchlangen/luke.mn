@@ -4,7 +4,6 @@ import Navbar from '../navbar'
 import { Theme } from '../../types'
 import NotificationBar from '../notification-bar'
 import ProfileImage from '../profile-image'
-import Confetti from '../confetti'
 
 export default function Fun({ theme: partialTheme }: { theme?: Partial<Theme> }) {
   const theme: Theme = {
@@ -20,7 +19,6 @@ export default function Fun({ theme: partialTheme }: { theme?: Partial<Theme> })
     <div className={`min-h-screen min-w-screen pt-2 ${isLight ? 'bg-slate-200 text-slate-900' : 'bg-slate-800 text-slate-100'}`}>
       <main className='max-w-prose m-auto'>
         <NotificationBar theme={theme} />
-        <Confetti />
         <div className='flex w-100'>
           <div className={`rounded-lg drop-shadow-xl border mt-16 sm:mt-20 ml-4 -mr-4 p-4 ${isLight ? 'bg-slate-50' : 'bg-slate-950'}`}>
             <h1 className='mb-2'>

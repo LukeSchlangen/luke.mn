@@ -1,3 +1,5 @@
+import Confetti from "../components/confetti"
+
 export const metadata = {
   title: 'Luke Schlangen Having Fun!',
   description: 'I believe learning follows excitement! This is a silly version of my personal website.',
@@ -14,6 +16,7 @@ export default function FunLayout({
   return (
     <>
       {children}
+      <Confetti />
     </>
   )
 }

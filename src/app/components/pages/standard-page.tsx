@@ -16,8 +16,8 @@ export default function StandardPage({ theme: partialTheme }: { theme?: Partial<
   const isLight = theme.color === 'light';
 
   return (
-    <body className={isLight ? 'bg-slate-200 text-slate-900' : 'bg-slate-800 text-slate-100'}>
-      <main className='max-w-prose m-auto mt-2'>
+    <div className={`min-h-screen pt-2 ${isLight ? 'bg-slate-200 text-slate-900' : 'bg-slate-800 text-slate-100'}`}>
+      <main className='max-w-prose m-auto'>
         <NotificationBar theme={theme} />
         <div className='flex w-100'>
           <div className={`rounded-lg drop-shadow-xl border mt-16 sm:mt-20 ml-4 -mr-4 p-4 ${isLight ? 'bg-slate-50' : 'bg-slate-950'}`}>
@@ -39,6 +39,6 @@ export default function StandardPage({ theme: partialTheme }: { theme?: Partial<
         <Bio className={isLight ? 'bg-slate-50' : 'bg-slate-950'} theme={theme} />
       </main>
       <Footer />
-    </body>
+    </div>
   )
 }

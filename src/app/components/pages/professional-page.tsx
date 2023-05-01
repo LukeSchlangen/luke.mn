@@ -16,7 +16,7 @@ export default function ProfessionalPage({ theme: partialTheme }: { theme?: Part
   const isLight = theme.color === 'light';
 
   return (
-    <div className={`min-h-100 min-w-100 pt-2 ${isLight ? 'bg-slate-200 text-slate-900' : 'bg-slate-800 text-slate-100'}`}>
+    <div className={`min-h-screen min-w-screen pt-2 ${isLight ? 'bg-slate-200 text-slate-900' : 'bg-slate-800 text-slate-100'}`}>
       <main className='max-w-prose m-auto'>
         <NotificationBar theme={theme} />
         <div className='flex w-100'>

@@ -24,7 +24,7 @@ export default function StandardPage({ theme: partialTheme }: { theme?: Partial<
         {isLight ? 'body { background-color: #e5e7eb }' : 'body { background-color: #1f2937 }'}
       </style>
       <Header theme={theme} imageSrc={greySweater} alt="Luke Schlangen in a grey sweater" />
-      <main className='block lg:hidden'>
+      <main className='block md:hidden'>
         <Bio theme={theme} />
       </main>
       <Footer />

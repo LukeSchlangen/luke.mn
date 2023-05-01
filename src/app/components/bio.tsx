@@ -17,12 +17,12 @@ export default function Bio({ theme }: { theme: Theme }) {
 
   return (
     <div className='max-w-prose m-auto'>
-      <div className={`rounded-lg drop-shadow-xl border -mt-8 sm:-mt-20 lg:mt-2 mx-2 p-4 w-fit ${theme.verbosity === 'short' && 'whitespace-nowrap'} ${isLight ? 'bg-gray-50' : 'bg-gray-950'}`}>
+      <div className={`rounded-lg drop-shadow-xl border -mt-8 sm:-mt-20 md:mt-2 mx-2 p-4 w-fit md:w-[30rem] lg:w-[40rem] ${theme.verbosity === 'short' && 'whitespace-nowrap'} ${isLight ? 'bg-gray-50' : 'bg-gray-950'}`}>
         <div className='flex justify-between mb-4 text-sm sm:text-base font-light'>
           <TenseToggle theme={theme} />
           <VerbosityToggle theme={theme} />
         </div>
-        <div className={`text-md sm:text-lg lg:text-2xl ${theme.verbosity === 'short' ? '' : 'space-y-4'}`}>
+        <div className={`text-md sm:text-xl lg:text-2xl ${theme.verbosity === 'short' ? '' : 'space-y-4'}`}>
           {bioText(theme)}
         </div>
       </div>

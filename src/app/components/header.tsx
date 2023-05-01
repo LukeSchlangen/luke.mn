@@ -32,7 +32,7 @@ export default function Header({ theme, imageSrc, alt }: { theme: Theme, imageSr
               <Navbar theme={theme} />
             </div>
           </div>
-          <div className='hidden lg:block'>
+          <div className='hidden md:block'>
             <Bio theme={theme} />
           </div>
         </div>

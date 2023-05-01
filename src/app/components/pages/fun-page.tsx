@@ -20,10 +20,12 @@ export default function Fun({ theme: partialTheme }: { theme?: Partial<Theme> })
         {/* Hacky style tag applied to body here because body has to be defined in layout, but style depends on theme */}
         {isLight ? 'body { background-color: #e5e7eb }' : 'body { background-color: #1f2937 }'}
       </style>
-      <Header theme={theme} imageSrc={yellowSweater} alt="Luke Schlangen in a yellow sweater" />
-      <main className='block lg:hidden'>
-        <Bio theme={theme} />
-      </main>
+      <div className='m-auto w-fit'>
+        <Header theme={theme} imageSrc={yellowSweater} alt="Luke Schlangen in a yellow sweater" />
+        <main className='block md:hidden'>
+          <Bio theme={theme} />
+        </main>
+      </div>
       <Footer />
     </div>
   )

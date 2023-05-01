@@ -27,7 +27,7 @@ export default function ProfessionalPage({ theme: partialTheme }: { theme?: Part
         {isLight ? 'body { background-color: #e5e7eb }' : 'body { background-color: #1f2937 }'}
       </style>
       <Header theme={theme} imageSrc={blackSuit} alt="Luke Schlangen in a Black Suit" />
-      <main className='block lg:hidden'>
+      <main className='block md:hidden'>
         <Bio theme={theme} />
       </main>
       <Footer />

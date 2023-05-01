@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import './globals.css';
 
 export default function RootLayout({
@@ -8,7 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className='bg-amber-200 overscroll-none'>
+      <body className='bg-amber-200'>
         {children}
       </body>
     </html>

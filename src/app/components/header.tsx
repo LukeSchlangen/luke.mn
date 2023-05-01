@@ -5,18 +5,18 @@ import ProfileImage from './profile-image';
 import Navbar from './navbar';
 import Bio from './bio';
 
-export default function Header({ theme, imageSrc, alt }: { theme: Theme, imageSrc: StaticImageData, alt: string }) {
+export default function Header({ theme }: { theme: Theme }) {
 
   const isLight = theme.color === 'light';
 
   return (
-    <header>
+    <>
       <span className='block md:hidden'>
         <NotificationBar theme={theme} />
       </span>
       <div className='flex max-w-fit m-1 md:m-auto'>
         <div>
-          <div>
+          <header>
             <span className='hidden md:block'>
               <NotificationBar theme={theme} />
             </span>
@@ -31,18 +31,13 @@ export default function Header({ theme, imageSrc, alt }: { theme: Theme, imageSr
               </h1>
               <Navbar theme={theme} />
             </div>
-          </div>
+          </header>
           <div className='hidden md:block'>
             <Bio theme={theme} />
           </div>
         </div>
-        <div className='max-w-10'>
-          <ProfileImage
-            src={imageSrc}
-            alt={alt}
-          />
-        </div>
+        <ProfileImage theme={theme} />
       </div>
-    </header>
+    </>
   )
 }

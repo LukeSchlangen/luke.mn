@@ -8,11 +8,11 @@ const orbitron = Orbitron({
 
 export default function CoFounderOfCodeChampionship() {
   return (
-    <Link href="https://www.codechampionship.com/" className='underline'>
-    {'co-founder of '}
-    <span className={`text-sm sm:text-base lg:text-xl ${orbitron.className}`}>
-      Code Championship
-    </span>
-  </Link>
+    <Link href="https://www.codechampionship.com/" className='underline decoration-blue-400 hover:decoration-blue-600'>
+      {'co-founder of '}
+      <span className={`text-sm sm:text-base md:text-xl lg:text-2xl ${orbitron.className}`}>
+        Code Championship
+      </span>
+    </Link>
   )
 }

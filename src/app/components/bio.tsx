@@ -22,7 +22,7 @@ export default function Bio({ theme }: { theme: Theme }) {
           <TenseToggle theme={theme} />
           <VerbosityToggle theme={theme} />
         </div>
-        <div className={`text-md sm:text-xl lg:text-2xl ${theme.verbosity === 'short' ? '' : 'space-y-4'}`}>
+        <div className={`sm:text-xl md:text-2xl lg:text-3xl ${theme.verbosity === 'short' ? '' : 'space-y-4'}`}>
           {bioText(theme)}
         </div>
       </div>

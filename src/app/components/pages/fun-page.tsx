@@ -21,7 +21,7 @@ export default function Fun({ theme: partialTheme }: { theme?: Partial<Theme> })
         {isLight ? 'body { background-color: #e5e7eb }' : 'body { background-color: #1f2937 }'}
       </style>
       <div className='m-auto w-fit'>
-        <Header theme={theme} imageSrc={yellowSweater} alt="Luke Schlangen in a yellow sweater" />
+        <Header theme={theme} />
         <main className='block md:hidden'>
           <Bio theme={theme} />
         </main>

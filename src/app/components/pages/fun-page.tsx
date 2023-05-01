@@ -17,7 +17,7 @@ export default function Fun({ theme: partialTheme }: { theme?: Partial<Theme> })
   const isLight = theme.color === 'light';
 
   return (
-    <div className={`min-h-screen pt-2 ${isLight ? 'bg-slate-200 text-slate-900' : 'bg-slate-800 text-slate-100'}`}>
+    <div className={`min-h-screen min-w-screen pt-2 ${isLight ? 'bg-slate-200 text-slate-900' : 'bg-slate-800 text-slate-100'}`}>
       <main className='max-w-prose m-auto'>
         <NotificationBar theme={theme} />
         <Confetti />

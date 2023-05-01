@@ -3,6 +3,7 @@ import Footer from '../footer'
 import Navbar from '../navbar'
 import Image from 'next/image'
 import { Theme } from '../../types'
+import NotificationBar from '../notification-bar'
 
 export default function Fun({ theme: partialTheme }: { theme?: Partial<Theme> }) {
   const theme: Theme = {
@@ -17,6 +18,7 @@ export default function Fun({ theme: partialTheme }: { theme?: Partial<Theme> })
   return (
     <body className={isLight ? 'bg-slate-200 text-slate-900' : 'bg-slate-800 text-slate-100'}>
       <main className='max-w-prose m-auto mt-2'>
+        <NotificationBar theme={theme} />
         <div className='flex w-100'>
           <div className={`rounded-lg drop-shadow-xl border mt-16 sm:mt-20 ml-4 -mr-4 p-4 ${isLight ? 'bg-slate-50' : 'bg-slate-950'}`}>
             <h1 className='mb-2'>

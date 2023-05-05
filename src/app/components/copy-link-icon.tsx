@@ -1,21 +1,21 @@
 'use client'
 
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function CopyLinkIcon({ id }: { id: string }) {
   const [currentClipboard, setCurrentClipboard] = useState('');
+  const router = useRouter();
   const copyToClipboard = (id: string) => {
-    if (window?.location?.href && navigator?.clipboard?.writeText) {
-      navigator.clipboard.writeText(`${window.location.href}#${id}`)
-      setCurrentClipboard(`${window.location.href}#${id}`);
-    }
+    navigator.clipboard.writeText(`${router.pathname}#${id}`)
+    setCurrentClipboard(`${router.pathname}#${id}`);
   }
 
   return (
     <span id={id} onClick={(event) => { event.preventDefault(); copyToClipboard(id) }}>
       {' '}
       <span className="opacity-50 text-xs">
-        {`${window?.location?.href}#${id}` === currentClipboard ? 'Copied' : '🔗'}
+        {`${router.pathname}#${id}` === currentClipboard ? 'Copied' : '🔗'}
       </span>
     </span>
   )

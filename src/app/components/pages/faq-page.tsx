@@ -1,6 +1,5 @@
 import { Theme } from '../../types'
 
-import Header from '../header'
 import ProseContainer from '../prose-container';
 import CopyLinkIcon from '../copy-link-icon';
 import Link from 'next/link';

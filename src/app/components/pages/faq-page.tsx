@@ -1,5 +1,3 @@
-import Bio from '../bio'
-import Footer from '../footer'
 import { Theme } from '../../types'
 
 import Header from '../header'
@@ -8,7 +6,7 @@ import CopyLinkIcon from '../copy-link-icon';
 import Link from 'next/link';
 import CoFounderOfCodeChampionship from '../bio-text/phrases/co-founder-of-code-championship';
 
-export default function FAQPage({ theme }: { theme: Theme }) {
+export default function FAQPage({ theme, pathname }: { theme: Theme, pathname: string }) {
 
   const isLight = theme.color === 'light';
 
@@ -26,12 +24,12 @@ export default function FAQPage({ theme }: { theme: Theme }) {
           <section className='space-y-4'>
             <h3 className="text-3xl">
               Learning to Code
-              <CopyLinkIcon id='learning-to-code' />
+              <CopyLinkIcon pathname={pathname} id='learning-to-code' />
             </h3>
             <details open className='space-y-4 border p-2 pl-4'>
               <summary className="text-xl -ml-2">
                 Where should I start?
-                <CopyLinkIcon id='get-started' />
+                <CopyLinkIcon pathname={pathname} id='get-started' />
               </summary>
               <p>
                 It depends on what you want to do. If you're serious about learning
@@ -50,7 +48,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
             <details open className='space-y-4 border p-2 pl-4'>
               <summary className="text-xl -ml-2">
                 What's a good project?
-                <CopyLinkIcon id='first-project' />
+                <CopyLinkIcon pathname={pathname} id='first-project' />
               </summary>
               <p>
                 As long as you're passionate about it, I think it can make for a good project.
@@ -77,12 +75,12 @@ export default function FAQPage({ theme }: { theme: Theme }) {
           <section className='space-y-4'>
             <h3 className="text-3xl">
               Software Career
-              <CopyLinkIcon id='software-career' />
+              <CopyLinkIcon pathname={pathname} id='software-career' />
             </h3>
             <details open className='space-y-4 border p-2 pl-4'>
               <summary className="text-xl -ml-2">
                 How did you get your first job in tech?
-                <CopyLinkIcon id='first-job' />
+                <CopyLinkIcon pathname={pathname} id='first-job' />
               </summary>
               <p>
                 I used my connections, I took a pay cut, and I got lucky.
@@ -100,7 +98,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
             <details open className='space-y-4 border p-2 pl-4'>
               <summary className="text-xl -ml-2">
                 How did you get a job at Google?
-                <CopyLinkIcon id='google-job' />
+                <CopyLinkIcon pathname={pathname} id='google-job' />
               </summary>
               <p>
                 I applied four times over ten years.
@@ -122,12 +120,12 @@ export default function FAQPage({ theme }: { theme: Theme }) {
           <section className='space-y-4'>
             <h3 className="text-3xl">
               Tech Talent Shortage
-              <CopyLinkIcon id='talent-shortage' />
+              <CopyLinkIcon pathname={pathname} id='talent-shortage' />
             </h3>
             <details open className='space-y-4 border p-2 pl-4'>
               <summary className="text-xl -ml-2">
                 Is the tech talent shortage real?
-                <CopyLinkIcon id='shortage-real' />
+                <CopyLinkIcon pathname={pathname} id='shortage-real' />
               </summary>
               <p>
                 It depends on what you mean. I have opinions...
@@ -136,7 +134,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
             <details open className='space-y-4 border p-2 pl-4'>
               <summary className="text-xl -ml-2">
                 Should we be teaching computer science to students?
-                <CopyLinkIcon id='teaching-students' />
+                <CopyLinkIcon pathname={pathname} id='teaching-students' />
               </summary>
               <p>
                 Yes! I believe that all students should learn a little bit about code.
@@ -150,7 +148,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
             <details open className='space-y-4 border p-2 pl-4'>
               <summary className="text-xl -ml-2">
                 Why can't my company find any qualified candidates?
-                <CopyLinkIcon id='qualified-candidates' />
+                <CopyLinkIcon pathname={pathname} id='qualified-candidates' />
               </summary>
               <p>
                 I know this might sound harsh, but I want to be direct.
@@ -164,7 +162,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
             <details open className='space-y-4 border p-2 pl-4'>
               <summary className="text-xl -ml-2">
                 How can I find entry-level talent?
-                <CopyLinkIcon id='entry-level' />
+                <CopyLinkIcon pathname={pathname} id='entry-level' />
               </summary>
               <p>
                 If you're looking for entry-level talent, there is so much of that available right now.
@@ -194,7 +192,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
             <details open className='space-y-4 border p-2 pl-4'>
               <summary className="text-xl -ml-2">
                 How can I find senior talent?
-                <CopyLinkIcon id='senior-talent' />
+                <CopyLinkIcon pathname={pathname} id='senior-talent' />
               </summary>
               <p>
                 Post the salary in the job description and they will come.
@@ -212,7 +210,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
             <details open className='space-y-4 border p-2 pl-4'>
               <summary className="text-xl -ml-2">
                 How can we onboard new talent?
-                <CopyLinkIcon id='onboard-talent' />
+                <CopyLinkIcon pathname={pathname} id='onboard-talent' />
               </summary>
               <p>
                 Onboarding is something a lot of places <i>think</i> they do well,

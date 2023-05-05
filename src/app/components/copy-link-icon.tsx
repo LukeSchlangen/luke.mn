@@ -1,6 +1,5 @@
 'use client'
 
-import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function CopyLinkIcon({ id, pathname }: { id: string, pathname: string }) {

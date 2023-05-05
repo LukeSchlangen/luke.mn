@@ -176,16 +176,8 @@ export default function FAQPage({ theme }: { theme: Theme }) {
                   Prime Digital Academy
                 </Link>
                 {' '}
-                and that's where I would start my search.
-              </p>
-              <p>
-                If you're looking for senior talent, then you will need to pay more for it.
-                If you're looking for senior talent and not willing to pay more for it, that's the answer
-                to why your company can't find any qualified candidates.
-              </p>
-              <p>
-                If you're looking for senior talent at a less expensive rate, the most effective strategy I've seen
-                is to hire entry-level talent and be very intentional about training them.
+                and that's where I would start my search if I was looking for
+                strong entry-level talent.
               </p>
             </details>
             <details open className='space-y-4 border p-2 pl-4'>

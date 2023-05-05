@@ -18,7 +18,7 @@ export default function CopyLinkIcon({ id }: { id: string }) {
   return (
     <span id={id} onClick={(event) => { event.preventDefault(); copyToClipboard(id) }}>
       {' '}
-      <span className="opacity-50 text-xs">
+      <span className="opacity-50 text-xs cursor-pointer">
         {`${origin}${pathname}#${id}` === currentClipboard ? 'Copied' : '🔗'}
       </span>
     </span>

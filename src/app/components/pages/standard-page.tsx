@@ -4,13 +4,7 @@ import { Theme } from '../../types'
 
 import Header from '../header'
 
-export default function StandardPage({ theme: partialTheme }: { theme?: Partial<Theme> }) {
-  const theme: Theme = {
-    vibe: partialTheme?.vibe || 'standard',
-    color: partialTheme?.color || 'light',
-    tense: partialTheme?.tense || 'first-person',
-    verbosity: partialTheme?.verbosity || 'short'
-  }
+export default function StandardPage({ theme }: { theme: Theme }) {
 
   const isLight = theme.color === 'light';
 

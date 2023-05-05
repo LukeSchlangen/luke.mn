@@ -1,31 +1,30 @@
 import { Theme } from '../types';
 import LongBio from './bio-text/long-bio';
 import ShortBio from './bio-text/short-bio';
+import ProseContainer from './prose-container';
 import TenseToggle from './toggles/tense-toggle';
 import VerbosityToggle from './toggles/verbosity-toggle';
 
-function bioText(theme: Theme) {
-  if (theme.verbosity === 'long') {
-    return <LongBio tense={theme.tense} />;
-  }
-  return <ShortBio tense={theme.tense} />;
+const bioTextLookup = {
+  long: LongBio,
+  short: ShortBio,
 }
 
 export default function Bio({ theme }: { theme: Theme }) {
 
-  const isLight = theme.color === 'light';
+  const BioText = bioTextLookup[theme.verbosity];
 
   return (
-    <div className='max-w-prose m-auto'>
-      <div className={`rounded-lg drop-shadow-xl border -mt-8 sm:-mt-20 md:mt-2 mx-2 p-4 w-fit md:w-[30rem] lg:w-[40rem] ${theme.verbosity === 'short' && 'whitespace-nowrap'} ${isLight ? 'bg-gray-50' : 'bg-gray-950'}`}>
+    <div className='-mt-6 sm:-mt-20 md:mt-0 '>
+      <ProseContainer theme={theme}>
         <div className='flex justify-between mb-4 text-sm sm:text-base font-light'>
           <TenseToggle theme={theme} />
           <VerbosityToggle theme={theme} />
         </div>
-        <div className={`sm:text-xl md:text-2xl lg:text-3xl ${theme.verbosity === 'short' ? '' : 'space-y-4'}`}>
-          {bioText(theme)}
+        <div className={`sm:text-xl md:text-2xl lg:text-3xl ${theme.verbosity === 'short' ? 'whitespace-nowrap' : 'space-y-4'}`}>
+          <BioText tense={theme.tense} />
         </div>
-      </div>
+      </ProseContainer>
     </div>
   );
 }

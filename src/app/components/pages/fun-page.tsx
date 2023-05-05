@@ -4,13 +4,7 @@ import { Theme } from '../../types'
 import yellowSweater from '../../../../public/headshots/luke-schlangen-headshot-yellow-sweater.jpg'
 import Header from '../header'
 
-export default function Fun({ theme: partialTheme }: { theme?: Partial<Theme> }) {
-  const theme: Theme = {
-    vibe: partialTheme?.vibe || 'fun',
-    color: partialTheme?.color || 'light',
-    tense: partialTheme?.tense || 'first-person',
-    verbosity: partialTheme?.verbosity || 'short'
-  }
+export default function Fun({ theme }: { theme: Theme }) {
 
   const isLight = theme.color === 'light';
 

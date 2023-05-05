@@ -5,17 +5,9 @@ import blackSuitWhiteBackground from '../../../../public/headshots/luke-schlange
 import blackSuitBlackBackground from '../../../../public/headshots/luke-schlangen-headshot-black-suit-black-background.jpg'
 import Header from '../header'
 
-export default function ProfessionalPage({ theme: partialTheme }: { theme?: Partial<Theme> }) {
-  const theme: Theme = {
-    vibe: partialTheme?.vibe || 'professional',
-    color: partialTheme?.color || 'light',
-    tense: partialTheme?.tense || 'first-person',
-    verbosity: partialTheme?.verbosity || 'short'
-  }
+export default function ProfessionalPage({ theme }: { theme: Theme }) {
 
   const isLight = theme.color === 'light';
-
-  const blackSuit = isLight ? blackSuitWhiteBackground : blackSuitBlackBackground;
 
   return (
     <div className={`min-h-screen min-w-screen p-2 ${isLight ? 'text-gray-900' : 'text-gray-100'}`}>

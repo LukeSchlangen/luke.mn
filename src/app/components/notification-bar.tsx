@@ -1,13 +1,7 @@
 import Link from 'next/link';
 import { Theme } from '../types'
 
-export default function NotificationBar({ theme: partialTheme }: { theme?: Partial<Theme> }) {
-  const theme: Theme = {
-    vibe: partialTheme?.vibe || 'fun',
-    color: partialTheme?.color || 'light',
-    tense: partialTheme?.tense || 'first-person',
-    verbosity: partialTheme?.verbosity || 'short'
-  }
+export default function NotificationBar({ theme }: { theme: Theme }) {
 
   const isLight = theme.color === 'light';
 

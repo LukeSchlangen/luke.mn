@@ -5,9 +5,9 @@ export type Verbosity = 'short' | 'long';
 
 
 
-export type Theme = {
-  vibe: Vibe;
-  color: Color;
-  tense: Tense;
-  verbosity: Verbosity;
+export class Theme {
+  vibe: Vibe = 'standard';
+  color: Color = 'light';
+  tense: Tense = 'first-person';
+  verbosity: Verbosity = 'short';
 }

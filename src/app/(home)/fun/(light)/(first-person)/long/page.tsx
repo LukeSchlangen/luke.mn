@@ -5,8 +5,8 @@ export default function Page() {
   const theme: Theme = {
     verbosity: 'long',
     vibe: 'fun',
-    color: 'dark',
-    tense: 'third-person'
+    color: 'light',
+    tense: 'first-person'
   }
   return (
     <FunPage theme={theme} />

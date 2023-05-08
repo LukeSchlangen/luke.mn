@@ -5,7 +5,7 @@ export default function Page() {
   const theme: Theme = {
     color: 'dark',
     vibe: 'professional',
-    tense: 'third-person',
+    tense: 'first-person',
     verbosity: 'long'
   }
   return (

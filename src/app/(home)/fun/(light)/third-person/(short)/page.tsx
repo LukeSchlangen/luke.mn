@@ -6,7 +6,7 @@ export default function Page() {
     tense: 'third-person',
     vibe: 'fun',
     color: 'light',
-    verbosity: 'short'
+    verbosity: 'long'
   }
   return (
     <FunPage theme={theme} />

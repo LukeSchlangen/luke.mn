@@ -3,7 +3,7 @@ import ProfessionalPage from '../../../../../components/pages/professional-page'
 
 export default function Page() {
   const theme: Theme = {
-    verbosity: 'long',
+    verbosity: 'short',
     vibe: 'professional',
     color: 'light',
     tense: 'first-person'

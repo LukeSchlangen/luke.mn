@@ -6,7 +6,7 @@ export default function Page() {
     color: 'dark',
     vibe: 'standard',
     tense: 'first-person',
-    verbosity: 'long'
+    verbosity: 'short'
   }
   return (
     <StandardPage theme={theme} />

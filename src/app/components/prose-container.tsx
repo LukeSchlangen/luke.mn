@@ -8,7 +8,7 @@ export default function ProseContainer({ children, theme }: { theme: Theme, chil
     <div className='max-w-prose m-auto'>
       <div 
       className={`
-        rounded-lg drop-shadow-xl border m-2 p-4 w-fit md:w-[32rem] lg:w-[40rem]
+        rounded-lg drop-shadow-xl border m-2 p-2 sm:p-4 w-fit md:w-[32rem] lg:w-[40rem]
         ${isLight ? 'bg-gray-50' : 'bg-gray-950'}
       `}
       >

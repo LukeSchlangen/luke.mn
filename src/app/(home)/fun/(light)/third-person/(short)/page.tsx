@@ -4,7 +4,7 @@ import FunPage from '../../../../../components/pages/fun-page'
 export default function Page() {
   const theme: Theme = {
     tense: 'third-person',
-    vibe: 'standard',
+    vibe: 'fun',
     color: 'light',
     verbosity: 'short'
   }

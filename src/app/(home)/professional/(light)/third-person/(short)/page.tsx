@@ -4,7 +4,7 @@ import ProfessionalPage from '../../../../../components/pages/professional-page'
 export default function Page() {
   const theme: Theme = {
     tense: 'third-person',
-    vibe: 'standard',
+    vibe: 'professional',
     color: 'light',
     verbosity: 'short'
   }

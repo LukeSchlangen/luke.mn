@@ -1,9 +1,9 @@
-import { StaticImageData } from 'next/image';
 import { Theme } from '../types';
 import NotificationBar from './notification-bar';
 import ProfileImage from './profile-image';
-import Navbar from './navbar';
 import Bio from './bio';
+import VibeToggle from './toggles/vibe-toggle';
+import ColorToggle from './toggles/color-toggle';
 
 export default function Header({ theme }: { theme: Theme }) {
 
@@ -29,7 +29,10 @@ export default function Header({ theme }: { theme: Theme }) {
                   Schlangen
                 </div>
               </h1>
-              <Navbar theme={theme} />
+              <nav className='text-xl space-y-3 sm:text-3xl md:text-4xl sm:flex sm:justify-between sm:space-y-0'>
+                <VibeToggle theme={theme} />
+                <ColorToggle theme={theme} />
+              </nav>
             </div>
           </header>
           <div className='hidden md:block'>

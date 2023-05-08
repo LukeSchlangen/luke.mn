@@ -3,7 +3,7 @@ import { Theme } from '../../../../../types'
 
 export default function Page() {
   const theme: Theme = {
-    vibe: 'standard',
+    vibe: 'fun',
     color: 'light',
     tense: 'first-person',
     verbosity: 'short'

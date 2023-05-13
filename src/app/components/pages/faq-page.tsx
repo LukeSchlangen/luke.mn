@@ -22,7 +22,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
       </style>
       <div className="m-auto max-w-prose">
         <h1 className="m-2 text-4xl">Frequently Asked Questions</h1>
-        <h2 className="m-2">Questions I've been asked more than once.</h2>
+        <h2 className="m-2">Questions I have been asked more than once.</h2>
         <h3 className="m-2 my-4 border-4 border-black p-2 text-2xl font-bold">
           The content and opinions on this website are my own.
         </h3>
@@ -38,46 +38,47 @@ export default function FAQPage({ theme }: { theme: Theme }) {
                 <CopyLinkIcon id="get-started" />
               </summary>
               <p>
-                It depends on what you want to do. If you're serious about
+                It depends on what you want to do. If you are serious about
                 learning to code for a career change, there are some great
                 schools out there.
               </p>
               <p>
-                If you're looking for a free guided course, I think Harvard's{" "}
+                If you are looking for a free guided course, I think Harvard
+                &apos; s &nbsp;
                 <Link
                   href="https://pll.harvard.edu/course/cs50-introduction-computer-science?delta=0"
                   className="underline"
                 >
                   CS50
-                </Link>{" "}
-                is hard to beat. If you're looking for something less
+                </Link>
+                &nbsp; is hard to beat. If you are looking for something less
                 structured, start with a project!
               </p>
             </details>
             <details open className="space-y-4 border p-2 pl-4">
               <summary className="-ml-2 text-xl">
-                What's a good project?
+                What is a good project?
                 <CopyLinkIcon id="first-project" />
               </summary>
               <p>
-                As long as you're passionate about it, I think it can make for a
-                good project. Most of what I learned was through automating
+                As long as you are passionate about it, I think it can make for
+                a good project. Most of what I learned was through automating
                 spreadsheets at work because I was passionate about making parts
                 of my job less redundant.
               </p>
               <p>
-                If that's a video game, I think{" "}
+                If that is a video game, I think&nbsp;
                 <Link href="https://scratch.mit.edu/" className="underline">
                   Scratch
-                </Link>{" "}
-                is phenomenal for getting started with logic and fundamentals.
-                If that's a website, start with learning HTML (there are a
-                million great options).
+                </Link>
+                &nbsp; is phenomenal for getting started with logic and
+                fundamentals. If that is a website, start with learning HTML
+                (there are a million great options).
               </p>
               <p>
                 Find a project that excites you and pursue that. Starting with
-                an idea you're passionate about makes it more likely that you'll
-                push through when it gets challenging.
+                an idea you are passionate about makes it more likely that you
+                will push through when it gets challenging.
               </p>
             </details>
           </section>
@@ -98,11 +99,11 @@ export default function FAQPage({ theme }: { theme: Theme }) {
                 still struggle with sharing this story because it forces me to
                 acknowledge the privilege I had and how much luck played a role.
                 If you want to get a job in software, you might have to do those
-                things to land your first role, but this isn't advice.
+                things to land your first role, but this is not advice.
               </p>
               <p>
                 The situation today is different. I joined the industry at a
-                time when bootcamps weren't as prevalent. I think I was a worse
+                time when bootcamps were not as prevalent. I think I was a worse
                 candidate than the typical bootcamp grad is today.
               </p>
             </details>
@@ -120,7 +121,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
                 job in tech, I think luck plays a role.
               </p>
               <p>
-                I don't have any secrets for this one. I signed up for a job
+                I do not have any secrets for this one. I signed up for a job
                 alert and applied to what I felt I was most qualified for. I was
                 also rejected from similar jobs at similar companies in the
                 process.
@@ -148,8 +149,8 @@ export default function FAQPage({ theme }: { theme: Theme }) {
               </summary>
               <p>
                 Yes! I believe that all students should learn a little bit about
-                code. Even if they're not professional software developers, -
-                and I don't think everyone has to be - code is going to be such
+                code. Even if they are not professional software developers, -
+                and I do not think everyone has to be - code is going to be such
                 an important part of their lives, that they should know at least
                 a little bit about it.
               </p>
@@ -159,17 +160,22 @@ export default function FAQPage({ theme }: { theme: Theme }) {
             </details>
             <details open className="space-y-4 border p-2 pl-4">
               <summary className="-ml-2 text-xl">
-                Why can't my company find any qualified candidates?
+                Why can&apos;t my company find any qualified candidates?
                 <CopyLinkIcon id="qualified-candidates" />
               </summary>
               <p>
                 I know this might sound harsh, but I want to be direct. When
-                companies say this, they're typically saying one of these two
+                companies say this, they are typically saying one of these two
                 things:
               </p>
               <ul className="list-inside list-disc">
-                <li>"We aren't willing to pay the market rate for talent."</li>
-                <li>"We're not great at onboarding entry-level talent."</li>
+                <li>
+                  &quot;We are not willing to pay the market rate for
+                  talent.&quot;
+                </li>
+                <li>
+                  &quot;We are not great at onboarding entry-level talent.&quot;
+                </li>
               </ul>
             </details>
             <details open className="space-y-4 border p-2 pl-4">
@@ -178,20 +184,20 @@ export default function FAQPage({ theme }: { theme: Theme }) {
                 <CopyLinkIcon id="entry-level" />
               </summary>
               <p>
-                If you're looking for entry-level talent, there is so much of
+                If you are looking for entry-level talent, there is so much of
                 that available right now. When we opened a posting for an
                 entry-level role in my prior job, we had 600 applicants for 10
                 spots. The quality of the candidate pool was incredibly strong.
               </p>
               <p>
                 There are so many great places to find this talent, but if you
-                genuinely don't know where to start, I spent three years
-                teaching at{" "}
+                genuinely do not know where to start, I spent three years
+                teaching at&nbsp;
                 <Link className="underline" href="https://www.primeacademy.io/">
                   Prime Digital Academy
-                </Link>{" "}
-                and that's where I would start my search if I was looking for
-                strong entry-level talent.
+                </Link>
+                &nbsp; and that is where I would start my search if I was
+                looking for strong entry-level talent.
               </p>
             </details>
             <details open className="space-y-4 border p-2 pl-4">
@@ -201,14 +207,14 @@ export default function FAQPage({ theme }: { theme: Theme }) {
               </summary>
               <p>Post the salary in the job description and they will come.</p>
               <p>
-                If you're looking for senior talent, then you will need to pay
-                more for it. If you're looking for senior talent and you are not
-                willing to pay more for it, that's the answer to why your
-                company can't find any qualified candidates.
+                If you are looking for senior talent, then you will need to pay
+                more for it. If you are looking for senior talent and you are
+                not willing to pay more for it, that is the answer to why your
+                company can&apos;t find any qualified candidates.
               </p>
               <p>
-                If you're looking for senior talent at a less expensive rate,
-                the most effective strategy I've seen is to hire entry-level
+                If you are looking for senior talent at a less expensive rate,
+                the most effective strategy I have seen is to hire entry-level
                 talent and be very intentional about onboarding them.
               </p>
             </details>
@@ -229,10 +235,11 @@ export default function FAQPage({ theme }: { theme: Theme }) {
                 developers is to set aside 30 minutes every day for each junior
                 to meet one-on-one with a senior engineer. These meetings might
                 take 5 minutes or the full 30 minutes, but creating these
-                "unstuck sessions" shows junior engineers that it's ok (and even{" "}
-                <i>expected</i>) for them to need help. These are easy to
-                implement at a team level and don't require permission from the
-                higher-ups.
+                &quot;unstuck sessions&quot; shows junior engineers that it is
+                ok &lpar;and even&nbsp;
+                <i>expected</i>
+                &rpar; for them to need help. These are easy to implement at a
+                team level and do not require permission from the higher-ups.
               </p>
             </details>
           </section>

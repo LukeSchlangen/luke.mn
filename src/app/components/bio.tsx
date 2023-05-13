@@ -14,7 +14,7 @@ export default function Bio({ theme }: { theme: Theme }) {
   const BioText = bioTextLookup[theme.verbosity];
 
   return (
-    <div className="-mt-6 sm:-mt-20 md:mt-0 ">
+    <div className="-mt-6 sm:-mt-20 md:mt-0">
       <ProseContainer theme={theme}>
         <div className="mb-4 flex justify-between text-sm font-light sm:text-base">
           <TenseToggle theme={theme} />

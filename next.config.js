@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   experimental: {
-    appDir: true
+    appDir: true,
   },
-  output: 'standalone',
-}
+  output: "standalone",
+};

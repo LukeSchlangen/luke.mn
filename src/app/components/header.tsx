@@ -31,7 +31,7 @@ export default function Header({ theme }: { theme: Theme }) {
                   Schlangen
                 </div>
               </h1>
-              <nav className="text-3xl sm:flex sm:justify-between md:text-4xl">
+              <nav className="text-3xl md:flex md:justify-between md:text-4xl">
                 <VibeToggle theme={theme} />
                 <ColorToggle theme={theme} />
               </nav>

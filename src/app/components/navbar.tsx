@@ -1,5 +1,6 @@
 import { Theme } from "../types";
 import ColorToggle from "./toggles/color-toggle";
+import PageToggle from "./toggles/page-toggle";
 import VibeToggle from "./toggles/vibe-toggle";
 
 export default function Navbar({
@@ -16,6 +17,7 @@ export default function Navbar({
         <div className="m-auto max-w-3xl">
           <div className="flex justify-between">
             <VibeToggle theme={theme} />
+            <PageToggle theme={theme} />
             <ColorToggle theme={theme} />
           </div>
         </div>

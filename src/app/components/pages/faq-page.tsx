@@ -11,7 +11,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
   const { textColorClass, bodyBackgroundColor } = colorValues(theme);
 
   return (
-    <div className={`min-w-screen min-h-screen p-2 ${textColorClass}`}>
+    <div className={`min-w-screen min-h-screen ${textColorClass}`}>
       <style>
         {/* Hacky style tag applied to body here because body has to be defined in layout, but style depends on theme */}
         {`body { background-color: ${bodyBackgroundColor} }`}

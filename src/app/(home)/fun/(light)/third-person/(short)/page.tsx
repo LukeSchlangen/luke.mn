@@ -1,5 +1,5 @@
 import { Theme } from "../../../../../types";
-import FunPage from "../../../../../components/pages/fun-page";
+import HomePage from "../../../../../components/pages/home-page";
 
 export default function Page() {
   const theme: Theme = {
@@ -8,5 +8,5 @@ export default function Page() {
     color: "light",
     verbosity: "short",
   };
-  return <FunPage theme={theme} />;
+  return <HomePage theme={theme} />;
 }

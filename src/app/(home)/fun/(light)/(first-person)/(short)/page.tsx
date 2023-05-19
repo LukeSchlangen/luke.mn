@@ -1,4 +1,4 @@
-import FunPage from "../../../../../components/pages/fun-page";
+import HomePage from "../../../../../components/pages/home-page";
 import { Theme } from "../../../../../types";
 
 export default function Page() {
@@ -8,5 +8,5 @@ export default function Page() {
     tense: "first-person",
     verbosity: "short",
   };
-  return <FunPage theme={theme} />;
+  return <HomePage theme={theme} />;
 }

@@ -1,4 +1,5 @@
 import { Theme } from "../types";
+import colorValues from "../utils/color-values";
 
 export default function ProseContainer({
   children,
@@ -7,15 +8,12 @@ export default function ProseContainer({
   theme: Theme;
   children: React.ReactNode;
 }) {
-  const isLight = theme.color === "light";
+  const { textBackgroundColorClass } = colorValues(theme);
 
   return (
     <div className="m-auto max-w-prose">
       <div
-        className={`
-        m-2 w-fit rounded-lg border p-2 drop-shadow-xl sm:p-4 md:w-[32rem] lg:w-[40rem]
-        ${isLight ? "bg-gray-50" : "bg-gray-950"}
-      `}
+        className={`m-2 w-fit rounded-lg border p-2 drop-shadow-xl sm:p-4 md:w-[32rem] lg:w-[40rem] ${textBackgroundColorClass}`}
       >
         {children}
       </div>

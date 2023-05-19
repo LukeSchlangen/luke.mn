@@ -1,4 +1,4 @@
-import StandardPage from "../../../../../components/pages/standard-page";
+import HomePage from "../../../../../components/pages/home-page";
 import { Theme } from "../../../../../types";
 
 export default function Page() {
@@ -8,5 +8,5 @@ export default function Page() {
     color: "light",
     verbosity: "short",
   };
-  return <StandardPage theme={theme} />;
+  return <HomePage theme={theme} />;
 }

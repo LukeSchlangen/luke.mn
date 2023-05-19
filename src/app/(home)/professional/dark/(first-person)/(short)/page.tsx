@@ -1,5 +1,5 @@
 import { Theme } from "../../../../../types";
-import ProfessionalPage from "../../../../../components/pages/professional-page";
+import HomePage from "../../../../../components/pages/home-page";
 
 export default function Page() {
   const theme: Theme = {
@@ -8,5 +8,5 @@ export default function Page() {
     tense: "first-person",
     verbosity: "short",
   };
-  return <ProfessionalPage theme={theme} />;
+  return <HomePage theme={theme} />;
 }

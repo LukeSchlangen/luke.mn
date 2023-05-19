@@ -4,21 +4,16 @@ import ProseContainer from "../prose-container";
 import CopyLinkIcon from "../copy-link-icon";
 import Link from "next/link";
 import CoFounderOfCodeChampionship from "../bio-text/phrases/co-founder-of-code-championship";
+import colorValues from "../../utils/color-values";
 
 export default function FAQPage({ theme }: { theme: Theme }) {
-  const isLight = theme.color === "light";
+  const { textColorClass, bodyBackgroundColor } = colorValues(theme);
 
   return (
-    <div
-      className={`min-w-screen min-h-screen p-2 ${
-        isLight ? "text-gray-900" : "text-gray-100"
-      }`}
-    >
+    <div className={`min-w-screen min-h-screen p-2 ${textColorClass}`}>
       <style>
         {/* Hacky style tag applied to body here because body has to be defined in layout, but style depends on theme */}
-        {isLight
-          ? "body { background-color: #e5e7eb }"
-          : "body { background-color: #1f2937 }"}
+        {`body { background-color: ${bodyBackgroundColor} }`}
       </style>
       <div className="m-auto max-w-prose">
         <h1 className="m-2 text-4xl">Frequently Asked Questions</h1>

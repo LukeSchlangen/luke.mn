@@ -1,10 +1,11 @@
 import Image, { StaticImageData } from "next/image";
 import { Theme } from "../types";
 
-import blackSuitWhiteBackground from "../../../public/headshots/luke-schlangen-headshot-black-suit-white-background.jpg";
-import blackSuitBlackBackground from "../../../public/headshots/luke-schlangen-headshot-black-suit-black-background.jpg";
-import greySweater from "../../../public/headshots/luke-schlangen-headshot-grey-sweater.jpg";
-import yellowSweater from "../../../public/headshots/luke-schlangen-headshot-yellow-sweater.jpg";
+import blackSuitWhiteBackground from "../../../public/headshots/luke-schlangen-headshot-black-suit-white-background-banner.jpg";
+import blackSuitBlackBackground from "../../../public/headshots/luke-schlangen-headshot-black-suit-black-background-banner.jpg";
+import greySweater from "../../../public/headshots/luke-schlangen-headshot-grey-sweater-banner.jpg";
+import yellowSweater from "../../../public/headshots/luke-schlangen-headshot-yellow-sweater-banner.jpg";
+import colorValues from "../utils/color-values";
 
 const profileImageMap = {
   blackSuitWhiteBackground: {
@@ -35,15 +36,18 @@ const profileImageSelector = (
 };
 
 export default function ProfileImage({ theme }: { theme: Theme }) {
-  const { src, alt } = profileImageSelector(theme);
+  const { src } = profileImageSelector(theme).src;
+  const backgroundColor = colorValues(theme).bodyBackgroundColor;
   return (
-    <div className="max-w-10">
-      <Image
-        className="mx-2 w-52 rounded-lg drop-shadow-xl sm:w-80"
-        src={src}
-        alt={alt}
-        priority
-      />
-    </div>
+    // <Image className="rounded-lg drop-shadow-xl" src={src} alt={alt} priority />
+    <div
+      className="h-96 w-full"
+      style={{
+        // backgroundImage: `linear-gradient(180deg, rgba(255,255,255,0) 90%, ${backgroundColor} 100%), url(${src})`,
+        backgroundImage: `url(${src})`,
+        backgroundSize: "cover",
+        backgroundPosition: "49% 30%",
+      }}
+    />
   );
 }

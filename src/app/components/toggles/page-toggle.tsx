@@ -9,7 +9,7 @@ export default function PageToggle({ theme }: { theme: Theme }) {
 
   return (
     <div
-      className={`space-x-2 rounded-b-lg border p-1 drop-shadow-xl ${textBackgroundColorClass}`}
+      className={`space-x-2 rounded-b-lg p-1 drop-shadow-xl ${textBackgroundColorClass}`}
     >
       <Link
         href={pathBuilder({ ...theme, page: "home" })}

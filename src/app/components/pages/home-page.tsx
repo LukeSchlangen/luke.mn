@@ -15,15 +15,12 @@ export default function HomePage({ theme }: { theme: Theme }) {
         {/* Hacky style tag applied to body here because body has to be defined in layout, but style depends on theme */}
         {`body { background-color: ${bodyBackgroundColor} }`}
       </style>
-      <Navbar theme={theme}>
-        <div className="col-span-2 col-start-1 row-span-2 row-start-1">
-          <ProfileImage theme={theme} />
-        </div>
-      </Navbar>
+      <Navbar theme={theme} />
+      <ProfileImage theme={theme} />
       <div className="m-auto w-full px-2">
         <header>
           <div
-            className={`m-auto -mt-8 max-w-prose rounded-lg border p-2 drop-shadow-xl md:p-4 ${textBackgroundColorClass}`}
+            className={`m-auto -mt-8 max-w-prose rounded-lg p-2 drop-shadow-xl md:p-4 ${textBackgroundColorClass}`}
           >
             <h1 className="mb-2 md:flex">
               <div className="pr-3 text-4xl sm:text-7xl">Luke Schlangen</div>

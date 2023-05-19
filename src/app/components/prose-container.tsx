@@ -13,7 +13,7 @@ export default function ProseContainer({
   return (
     <div className="m-auto max-w-prose">
       <div
-        className={`m-2 w-fit rounded-lg border p-2 drop-shadow-xl sm:p-4 md:w-[32rem] lg:w-[40rem] ${textBackgroundColorClass}`}
+        className={`m-2 w-fit rounded-lg border p-2 drop-shadow-xl ${textBackgroundColorClass}`}
       >
         {children}
       </div>

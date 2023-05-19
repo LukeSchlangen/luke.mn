@@ -9,7 +9,7 @@ export default function ColorToggle({ theme }: { theme: Theme }) {
 
   return (
     <div
-      className={`space-x-2 rounded-bl-lg border p-1 drop-shadow-xl md:rounded-b-lg ${textBackgroundColorClass}`}
+      className={`space-x-2 rounded-bl-lg p-1 drop-shadow-xl md:rounded-b-lg ${textBackgroundColorClass}`}
     >
       <Link
         href={pathBuilder({ ...theme, color: "light" })}

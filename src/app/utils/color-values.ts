@@ -1,9 +1,11 @@
 import { Theme } from "../types";
 
 const bodyBackgroundColorSelector = (theme: Theme): string => {
-  if (theme.vibe === "fun") return "rgb(233,210,106)";
-  if (theme.vibe === "standard") return "rgb(252,200,63)";
-  if (theme.color === "light") return "rgb(249,249,249)";
+  if (theme.color === "light") {
+    if (theme.vibe === "fun") return "rgb(233,210,106)";
+    if (theme.vibe === "standard") return "rgb(252,200,63)";
+    return "rgb(249,249,249)";
+  }
   return "rgb(61,61,60)";
 };
 

@@ -9,7 +9,7 @@ export default function VibeToggle({ theme }: { theme: Theme }) {
 
   return (
     <div
-      className={`space-x-2 rounded-br-lg border p-1 drop-shadow-xl md:rounded-b-lg ${textBackgroundColorClass}`}
+      className={`space-x-2 rounded-br-lg p-1 drop-shadow-xl md:rounded-b-lg ${textBackgroundColorClass}`}
     >
       <Link
         href={pathBuilder({ ...theme, vibe: "professional" })}

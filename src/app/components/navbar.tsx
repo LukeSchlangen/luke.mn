@@ -14,7 +14,7 @@ export default function Navbar({
     <div className="grid grid-cols-2 gap-4">
       {children}
       <nav className="col-span-2 col-start-1 row-start-1 text-3xl md:text-4xl">
-        <div className="m-auto max-w-3xl">
+        <div className="m-auto min-w-fit max-w-3xl">
           <div className="flex justify-between">
             <VibeToggle theme={theme} />
             <PageToggle theme={theme} />

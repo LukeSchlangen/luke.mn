@@ -1,12 +1,16 @@
 import Link from "next/link";
 import { Theme } from "../../types";
 import pathBuilder from "../../utils/path-builder";
+import colorValues from "../../utils/color-values";
 
 export default function VibeToggle({ theme }: { theme: Theme }) {
+  const { textBackgroundColorClass } = colorValues(theme);
   const { vibe } = theme;
 
   return (
-    <div className="space-x-2 p-1">
+    <div
+      className={`space-x-2 rounded-br-lg border p-1 drop-shadow-xl md:rounded-b-lg ${textBackgroundColorClass}`}
+    >
       <Link
         href={pathBuilder({ ...theme, vibe: "professional" })}
         className={

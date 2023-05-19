@@ -18,16 +18,18 @@ export default function HomePage({ theme }: { theme: Theme }) {
       <Navbar theme={theme} />
       <ProfileImage theme={theme} />
       <div className="m-auto w-full px-2">
-        <header>
-          <div
-            className={`m-auto -mt-8 max-w-prose rounded-lg p-2 drop-shadow-xl md:p-4 ${textBackgroundColorClass}`}
-          >
+        <div
+          className={`m-auto -mt-8 max-w-prose rounded-lg p-2 drop-shadow-xl md:p-4 ${textBackgroundColorClass}`}
+        >
+          <header>
             <h1 className="mb-2 md:flex">
               <div className="pr-3 text-4xl sm:text-7xl">Luke Schlangen</div>
             </h1>
+          </header>
+          <main>
             <Bio theme={theme} />
-          </div>
-        </header>
+          </main>
+        </div>
       </div>
       <Footer />
     </div>

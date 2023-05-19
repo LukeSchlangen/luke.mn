@@ -11,9 +11,9 @@ export default function ProseContainer({
   const { textBackgroundColorClass } = colorValues(theme);
 
   return (
-    <div className="m-auto max-w-prose">
+    <div className="w-full max-w-prose">
       <div
-        className={`m-2 w-fit rounded-lg border p-2 drop-shadow-xl ${textBackgroundColorClass}`}
+        className={`m-2 rounded-lg p-2 drop-shadow-xl md:p-4 ${textBackgroundColorClass}`}
       >
         {children}
       </div>

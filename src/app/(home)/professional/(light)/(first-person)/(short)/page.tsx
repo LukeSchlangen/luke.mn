@@ -3,6 +3,7 @@ import HomePage from "../../../../../components/pages/home-page";
 
 export default function Page() {
   const theme: Theme = {
+    page: "home",
     verbosity: "short",
     vibe: "professional",
     color: "light",

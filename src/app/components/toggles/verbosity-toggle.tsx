@@ -1,22 +1,22 @@
 import Link from "next/link";
 import { Theme } from "../../types";
-import currentPath from "../../utils/current-path";
+import pathBuilder from "../../utils/path-builder";
 
 export default function VerbosityToggle({ theme }: { theme: Theme }) {
-  const { verbosity, vibe, color, tense } = currentPath(theme);
+  const { verbosity } = theme;
 
   return (
     <div>
       <Link
-        href={`${vibe}${color}${tense}` || "/"}
-        className={verbosity === "" ? "underline" : ""}
+        href={pathBuilder({ ...theme, verbosity: "short" })}
+        className={verbosity === "short" ? "underline" : ""}
       >
         Short
       </Link>
       {" | "}
       <Link
-        href={`${vibe}${color}${tense}/long`}
-        className={verbosity === "/long" ? "underline" : ""}
+        href={pathBuilder({ ...theme, verbosity: "long" })}
+        className={verbosity === "long" ? "underline" : ""}
       >
         Long
       </Link>

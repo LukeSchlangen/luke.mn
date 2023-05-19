@@ -5,6 +5,7 @@ import CopyLinkIcon from "../copy-link-icon";
 import Link from "next/link";
 import CoFounderOfCodeChampionship from "../bio-text/phrases/co-founder-of-code-championship";
 import colorValues from "../../utils/color-values";
+import Navbar from "../navbar";
 
 export default function FAQPage({ theme }: { theme: Theme }) {
   const { textColorClass, bodyBackgroundColor } = colorValues(theme);
@@ -15,6 +16,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
         {/* Hacky style tag applied to body here because body has to be defined in layout, but style depends on theme */}
         {`body { background-color: ${bodyBackgroundColor} }`}
       </style>
+      <Navbar theme={theme} />
       <div className="m-auto max-w-prose">
         <h1 className="m-2 text-4xl">Frequently Asked Questions</h1>
         <h2 className="m-2">Questions I have been asked more than once.</h2>

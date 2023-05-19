@@ -3,8 +3,7 @@ import Footer from "../footer";
 import { Theme } from "../../types";
 import colorValues from "../../utils/color-values";
 import ProfileImage from "../profile-image";
-import VibeToggle from "../toggles/vibe-toggle";
-import ColorToggle from "../toggles/color-toggle";
+import Navbar from "../navbar";
 
 export default function HomePage({ theme }: { theme: Theme }) {
   const { textColorClass, bodyBackgroundColor, textBackgroundColorClass } =
@@ -16,19 +15,11 @@ export default function HomePage({ theme }: { theme: Theme }) {
         {/* Hacky style tag applied to body here because body has to be defined in layout, but style depends on theme */}
         {`body { background-color: ${bodyBackgroundColor} }`}
       </style>
-      <div className="grid grid-cols-2 gap-4">
+      <Navbar theme={theme}>
         <div className="col-span-2 col-start-1 row-span-2 row-start-1">
           <ProfileImage theme={theme} />
         </div>
-        <nav className="col-span-2 col-start-1 row-start-1 text-3xl md:text-4xl">
-          <div className="m-auto max-w-3xl">
-            <div className="flex justify-between">
-              <VibeToggle theme={theme} />
-              <ColorToggle theme={theme} />
-            </div>
-          </div>
-        </nav>
-      </div>
+      </Navbar>
       <div className="m-auto w-full px-2">
         <header>
           <div

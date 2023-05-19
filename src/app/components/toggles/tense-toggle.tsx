@@ -1,22 +1,22 @@
 import Link from "next/link";
 import { Theme } from "../../types";
-import currentPath from "../../utils/current-path";
+import pathBuilder from "../../utils/path-builder";
 
 export default function TenseToggle({ theme }: { theme: Theme }) {
-  const { tense, color, vibe, verbosity } = currentPath(theme);
+  const { tense } = theme;
 
   return (
     <div>
       <Link
-        href={`${vibe}${color}${verbosity}` || "/"}
-        className={tense === "" ? "underline" : ""}
+        href={pathBuilder({ ...theme, tense: "first-person" })}
+        className={tense === "first-person" ? "underline" : ""}
       >
         1st Person
       </Link>
       {" | "}
       <Link
-        href={`${vibe}${color}/third-person${verbosity}`}
-        className={tense === "/third-person" ? "underline" : ""}
+        href={pathBuilder({ ...theme, tense: "third-person" })}
+        className={tense === "third-person" ? "underline" : ""}
       >
         3rd Person
       </Link>

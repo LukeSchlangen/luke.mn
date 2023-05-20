@@ -8,9 +8,8 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json pnpm-lock.yaml* ./
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
 RUN \
-  if [ -f pnpm-lock.yaml ]; then pnpm i --frozen-lockfile; \
+  if [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
   else echo "Lockfile not found." && exit 1; \
   fi
 
@@ -26,8 +25,7 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 ENV NEXT_TELEMETRY_DISABLED 1
 
-RUN curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm
-RUN pnpm run build
+RUN yarn global add pnpm && pnpm run build
 
 # If using npm comment out above and use below instead
 # RUN npm run build

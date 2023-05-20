@@ -132,7 +132,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
               </details>
             </section>
           </ProseContainer>
-          <ProseContainer theme={theme}>
+          {/* <ProseContainer theme={theme}>
             <section className="space-y-4">
               <h3 className="text-3xl">
                 Tech Talent Shortage
@@ -253,7 +253,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
                 </p>
               </details>
             </section>
-          </ProseContainer>
+          </ProseContainer> */}
         </main>
       </div>
     </div>

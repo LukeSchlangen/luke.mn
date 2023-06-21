@@ -3,7 +3,6 @@ import { Theme } from "../../types";
 import ProseContainer from "../prose-container";
 import CopyLinkIcon from "../copy-link-icon";
 import Link from "next/link";
-import CoFounderOfCodeChampionship from "../bio-text/phrases/co-founder-of-code-championship";
 import colorValues from "../../utils/color-values";
 import Navbar from "../navbar";
 

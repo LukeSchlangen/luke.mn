@@ -18,7 +18,7 @@ export default function HomePage({ theme }: { theme: Theme }) {
       </style>
       <Navbar theme={theme} />
       <ProfileImage theme={theme} />
-      <div className="m-auto  -mt-20 w-full px-2 max-w-prose">
+      <div className="m-auto  -mt-20 w-full max-w-prose px-2">
         <SocialIconBar theme={theme} />
         <div
           className={`rounded-lg p-2 drop-shadow-xl md:p-4 ${textBackgroundColorClass}`}

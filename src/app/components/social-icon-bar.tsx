@@ -3,7 +3,7 @@ import { SocialIcon } from "react-social-icons";
 
 export default function SocialIconBar({ theme }: { theme: Theme }) {
   return (
-    <div className="flex justify-end space-x-2 m-2">
+    <div className="m-2 flex justify-end space-x-2">
       <SocialIcon
         url="https://www.youtube.com/@ContainerBytes"
         bgColor={theme.color === "light" ? "#FF0000" : "#FFFFFF"}

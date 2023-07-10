@@ -11,3 +11,7 @@ export class Theme {
   tense: Tense = "first-person";
   verbosity: Verbosity = "short";
 }
+
+export type Workout = {
+  [key: string]: string;
+};

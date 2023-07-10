@@ -5,7 +5,7 @@ import { Theme, Workout } from "../../types";
 import colorValues from "../../utils/color-values";
 import { useAuthState } from "react-firehooks";
 import { db, auth } from "../../utils/firebase-initialization";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useState } from "react";
 
 export default function WorkoutPage({ theme }: { theme: Theme }) {
@@ -16,8 +16,7 @@ export default function WorkoutPage({ theme }: { theme: Theme }) {
   const initialArg: Workout = {
     pullups: "",
     pushups: "",
-    time: "",
-    video: "",
+    video: "https://youtu.be/UItWltVZZmE",
     videoDepth: "",
   };
 
@@ -43,7 +42,14 @@ export default function WorkoutPage({ theme }: { theme: Theme }) {
             </div>
           );
         })}
-        <button onClick={() => addDoc(workoutsRef, workout)}>
+        <button
+          onClick={() =>
+            addDoc(workoutsRef, {
+              ...workout,
+              time: serverTimestamp(),
+            })
+          }
+        >
           Add Workout
         </button>
         {/* <WorkoutHistory /> */}

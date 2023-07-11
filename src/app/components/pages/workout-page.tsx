@@ -15,6 +15,10 @@ export default function WorkoutPage({ theme }: { theme: Theme }) {
   const { textColorClass, bodyBackgroundColor } = colorValues(theme);
   const [user, loading, error] = useAuthState(auth);
   const workoutsRef = collection(db, "workouts");
+  const videoOptions = [
+    { title: "20 Minute", url: "https://youtu.be/UItWltVZZmE", t: "0" },
+    { title: "30 Minute", url: "https://youtu.be/cuHwoCWFLIw", t: "40" },
+  ];
 
   const initialArg: Workout = {
     pullups: "",
@@ -52,13 +56,29 @@ export default function WorkoutPage({ theme }: { theme: Theme }) {
         {Object.keys(initialArg).map((key) => {
           return (
             <div key={key}>
-              <input
-                placeholder={key}
-                onChange={(event) =>
-                  setWorkout({ ...workout, [key]: event.target.value })
-                }
-                value={workout[key]}
-              />
+              {key === "video" ? (
+                <>
+                  <select
+                    onChange={(event) =>
+                      setWorkout({ ...workout, [key]: event.target.value })
+                    }
+                    value={workout[key]}
+                  >
+                    {videoOptions.map((videoOption) => (
+                      <option key={videoOption.url} value={videoOption.url}>{videoOption.title}</option>
+                    ))}
+                  </select>
+                  <a href={workout[key]}>{workout[key]}</a>
+                </>
+              ) : (
+                <input
+                  placeholder={key}
+                  onChange={(event) =>
+                    setWorkout({ ...workout, [key]: event.target.value })
+                  }
+                  value={workout[key]}
+                />
+              )}
             </div>
           );
         })}

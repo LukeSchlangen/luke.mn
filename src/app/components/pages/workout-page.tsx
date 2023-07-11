@@ -7,6 +7,9 @@ import { useAuthState } from "react-firehooks";
 import { db, auth } from "../../utils/firebase-initialization";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useState } from "react";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
+const provider = new GoogleAuthProvider();
 
 export default function WorkoutPage({ theme }: { theme: Theme }) {
   const { textColorClass, bodyBackgroundColor } = colorValues(theme);
@@ -21,6 +24,23 @@ export default function WorkoutPage({ theme }: { theme: Theme }) {
   };
 
   const [workout, setWorkout] = useState<Workout>(initialArg);
+
+  if (!user) {
+    return (
+      <div>
+        <button onClick={() => signInWithPopup(auth, provider)}>Log In</button>
+      </div>
+    );
+  }
+
+  if (user.email !== "lukeschlangen@gmail.com") {
+    return (
+      <div>
+        You are not allowed to view this page
+        <button onClick={() => signInWithPopup(auth, provider)}>Log In</button>
+      </div>
+    );
+  }
 
   return (
     <div className={`min-w-screen min-h-screen ${textColorClass}`}>
@@ -53,6 +73,7 @@ export default function WorkoutPage({ theme }: { theme: Theme }) {
           Add Workout
         </button>
         {/* <WorkoutHistory /> */}
+        <pre>{JSON.stringify(user, null, 2)}</pre>
       </main>
     </div>
   );

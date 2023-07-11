@@ -65,7 +65,9 @@ export default function WorkoutPage({ theme }: { theme: Theme }) {
                     value={workout[key]}
                   >
                     {videoOptions.map((videoOption) => (
-                      <option key={videoOption.url} value={videoOption.url}>{videoOption.title}</option>
+                      <option key={videoOption.url} value={videoOption.url}>
+                        {videoOption.title}
+                      </option>
                     ))}
                   </select>
                   <a href={workout[key]}>{workout[key]}</a>

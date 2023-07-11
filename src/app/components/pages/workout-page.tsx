@@ -19,6 +19,7 @@ export default function WorkoutPage({ theme }: { theme: Theme }) {
     { title: "20 Minute", url: "https://youtu.be/UItWltVZZmE", t: "0" },
     { title: "30 Minute", url: "https://youtu.be/cuHwoCWFLIw", t: "40" },
   ];
+  const [status, setStatus] = useState<string>("WORKING_OUT");
 
   const initialArg: Workout = {
     pullups: "",
@@ -28,6 +29,16 @@ export default function WorkoutPage({ theme }: { theme: Theme }) {
   };
 
   const [workout, setWorkout] = useState<Workout>(initialArg);
+
+  const startTime =
+    videoOptions.find((video) => video.url === workout.video)?.t || "0";
+
+  const saveWorkout = () => {
+    addDoc(workoutsRef, {
+      ...workout,
+      time: serverTimestamp(),
+    }).then(() => setStatus("WORKOUT_SAVED"));
+  };
 
   if (!user) {
     return (
@@ -55,14 +66,14 @@ export default function WorkoutPage({ theme }: { theme: Theme }) {
       <main>
         {Object.keys(initialArg).map((key) => {
           return (
-            <div key={key}>
+            <div key={key} className="m-2">
               {key === "video" ? (
                 <>
                   <select
                     onChange={(event) =>
                       setWorkout({ ...workout, [key]: event.target.value })
                     }
-                    value={workout[key]}
+                    value={workout.video}
                   >
                     {videoOptions.map((videoOption) => (
                       <option key={videoOption.url} value={videoOption.url}>
@@ -70,7 +81,9 @@ export default function WorkoutPage({ theme }: { theme: Theme }) {
                       </option>
                     ))}
                   </select>
-                  <a href={workout[key]}>{workout[key]}</a>
+                  <a href={`${workout.video}&t=${startTime}`}>
+                    {`${workout.video}&t=${startTime}`}
+                  </a>
                 </>
               ) : (
                 <input
@@ -84,18 +97,17 @@ export default function WorkoutPage({ theme }: { theme: Theme }) {
             </div>
           );
         })}
-        <button
-          onClick={() =>
-            addDoc(workoutsRef, {
-              ...workout,
-              time: serverTimestamp(),
-            })
-          }
-        >
-          Add Workout
-        </button>
+        {status === "WORKOUT_SAVED" ? (
+          <>Workout Saved!</>
+        ) : (
+          <button
+            className="m-2 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+            onClick={saveWorkout}
+          >
+            Add Workout
+          </button>
+        )}
         {/* <WorkoutHistory /> */}
-        <pre>{JSON.stringify(user, null, 2)}</pre>
       </main>
     </div>
   );

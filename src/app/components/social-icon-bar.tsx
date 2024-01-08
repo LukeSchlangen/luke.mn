@@ -11,8 +11,8 @@ export default function SocialIconBar({ theme }: { theme: Theme }) {
       />
       <SocialIcon
         url="https://www.linkedin.com/in/lukeschlangen/"
-        bgColor={theme.color === "light" ? "#007FB1" : "#E9E9EA"}
-        fgColor={theme.color === "light" ? "#E9E9EA" : "#007FB1"}
+        bgColor={theme.color === "light" ? "#007FB1" : "#FFFFFF"}
+        fgColor={theme.color === "light" ? "#FFFFFF" : "#007FB1"}
       />
     </div>
   );

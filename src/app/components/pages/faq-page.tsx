@@ -45,15 +45,15 @@ export default function FAQPage({ theme }: { theme: Theme }) {
                   schools out there.
                 </p>
                 <p>
-                  If you are looking for a free guided course, I think Harvard
-                  &apos; s &nbsp;
+                  If you are looking for a free guided course, I think
+                  Harvard&apos;s&nbsp;
                   <Link
                     href="https://pll.harvard.edu/course/cs50-introduction-computer-science?delta=0"
                     className="underline"
                   >
                     CS50
                   </Link>
-                  &nbsp; is hard to beat. If you are looking for something less
+                  &nbsp;is hard to beat. If you are looking for something less
                   structured, start with a project!
                 </p>
               </details>
@@ -73,7 +73,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
                   <Link href="https://scratch.mit.edu/" className="underline">
                     Scratch
                   </Link>
-                  &nbsp; is phenomenal for getting started with logic and
+                  &nbsp;is phenomenal for getting started with logic and
                   fundamentals. If that is a website, start with learning HTML
                   (there are a million great options).
                 </p>

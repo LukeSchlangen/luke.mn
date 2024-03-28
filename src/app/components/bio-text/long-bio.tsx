@@ -1,9 +1,9 @@
-import Link from "next/link";
 import DeveloperAdvocateAtGoogle from "./phrases/developer-advocate-at-google";
 import CoFounderOfCodeChampionship from "./phrases/co-founder-of-code-championship";
 import { Tense } from "../../types";
 import LearningFollowsExcitement from "./phrases/learning-follows-excitement";
-import IntroduceNewcomersToContainersAndKubernetes from "./phrases/introduce-newcomers-to-containers-and-kubernetes";
+import GoogleKubernetesEngine from "./phrases/google-kubernetes-engine";
+import GoogleCloudRun from "./phrases/google-cloud-run";
 
 export default function LongBio({ tense }: { tense: Tense }) {
   const isFirstPerson = tense === "first-person";
@@ -11,13 +11,14 @@ export default function LongBio({ tense }: { tense: Tense }) {
     <>
       <p>
         {isFirstPerson ? "I am a " : "Luke is a "}
+        {"JavaScript "}
         <DeveloperAdvocateAtGoogle />
         {" who believes "}
         <LearningFollowsExcitement />
         {". "}
-        {isFirstPerson ? "I find " : "He finds "}
-        it rewarding to give approachable talks for beginners, because everyone
-        is a beginner at something.
+        {isFirstPerson ? "I like " : "He likes "}
+        giving approachable talks for beginners, because everyone is a beginner
+        at something.
       </p>
       <p>
         {isFirstPerson ? " I " : " He "}
@@ -26,12 +27,15 @@ export default function LongBio({ tense }: { tense: Tense }) {
         led an onboarding program for new software engineers at a Fortune 500
         company. Now at Google,
         {isFirstPerson ? " I like to " : " he likes to "}
-        <IntroduceNewcomersToContainersAndKubernetes />.
+        {"help developers deploy their applications to places like "}
+        <GoogleCloudRun />
+        {" and "}
+        <GoogleKubernetesEngine />.
       </p>
       <p>
         Outside of
         {isFirstPerson ? " my " : " his "}
-        day job,
+        work at Google,
         {isFirstPerson ? " I am a " : " he is a "}
         <CoFounderOfCodeChampionship />: a competitive computer coding program
         for 3<sup>rd</sup> to 9<sup>th</sup> grade students.

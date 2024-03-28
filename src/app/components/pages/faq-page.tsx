@@ -5,6 +5,7 @@ import CopyLinkIcon from "../copy-link-icon";
 import Link from "next/link";
 import colorValues from "../../utils/color-values";
 import Navbar from "../navbar";
+import Footer from "../footer";
 
 export default function FAQPage({ theme }: { theme: Theme }) {
   const { textColorClass, bodyBackgroundColor } = colorValues(theme);
@@ -255,6 +256,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
           </ProseContainer> */}
         </main>
       </div>
+      <Footer />
     </div>
   );
 }

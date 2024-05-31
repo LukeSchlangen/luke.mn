@@ -1,12 +1,12 @@
 import Bio from "../bio";
 import Footer from "../footer";
-import { Theme } from "../../types";
+import { DeploymentConfiguration, Theme } from "../../types";
 import colorValues from "../../utils/color-values";
 import ProfileImage from "../profile-image";
 import Navbar from "../navbar";
 import SocialIconBar from "../social-icon-bar";
 
-export default function HomePage({ theme }: { theme: Theme }) {
+export default function HomePage({ theme, deploymentConfiguration }: { theme: Theme, deploymentConfiguration: DeploymentConfiguration }) {
   const { textColorClass, bodyBackgroundColor, textBackgroundColorClass } =
     colorValues(theme);
 
@@ -16,7 +16,7 @@ export default function HomePage({ theme }: { theme: Theme }) {
         {/* Hacky style tag applied to body here because body has to be defined in layout, but style depends on theme */}
         {`body { background-color: ${bodyBackgroundColor} }`}
       </style>
-      <Navbar theme={theme} />
+      <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
       <ProfileImage theme={theme} />
       <div className="m-auto  -mt-20 w-full max-w-prose px-2">
         <SocialIconBar theme={theme} />

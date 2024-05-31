@@ -1,4 +1,4 @@
-import { Theme } from "../../types";
+import { DeploymentConfiguration, Theme } from "../../types";
 
 import ProseContainer from "../prose-container";
 import CopyLinkIcon from "../copy-link-icon";
@@ -7,7 +7,7 @@ import colorValues from "../../utils/color-values";
 import Navbar from "../navbar";
 import Footer from "../footer";
 
-export default function FAQPage({ theme }: { theme: Theme }) {
+export default function FaqPage({ theme, deploymentConfiguration }: { theme: Theme, deploymentConfiguration: DeploymentConfiguration }) {
   const { textColorClass, bodyBackgroundColor } = colorValues(theme);
 
   return (
@@ -16,7 +16,7 @@ export default function FAQPage({ theme }: { theme: Theme }) {
         {/* Hacky style tag applied to body here because body has to be defined in layout, but style depends on theme */}
         {`body { background-color: ${bodyBackgroundColor} }`}
       </style>
-      <Navbar theme={theme} />
+      <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
       <div className="m-auto max-w-prose">
         <header className="my-16">
           <ProseContainer theme={theme}>

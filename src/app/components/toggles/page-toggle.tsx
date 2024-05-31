@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { Theme } from "../../types";
+import { DeploymentConfiguration, Theme } from "../../types";
 import pathBuilder from "../../utils/path-builder";
 import colorValues from "../../utils/color-values";
 
-export default function PageToggle({ theme }: { theme: Theme }) {
+export default function PageToggle({ theme, deploymentConfiguration }: { theme: Theme, deploymentConfiguration: DeploymentConfiguration }) {
   const { textBackgroundColorClass } = colorValues(theme);
   const { page } = theme;
 
@@ -12,7 +12,7 @@ export default function PageToggle({ theme }: { theme: Theme }) {
       className={`space-x-2 rounded-b-lg p-1 drop-shadow-xl ${textBackgroundColorClass}`}
     >
       <Link
-        href={pathBuilder({ ...theme, page: "home" })}
+        href={pathBuilder({ ...theme, page: "home", ...deploymentConfiguration })}
         className={
           page === "home" ? "" : "underline opacity-50 hover:opacity-100"
         }
@@ -20,10 +20,16 @@ export default function PageToggle({ theme }: { theme: Theme }) {
         🏠
       </Link>
       <Link
-        href={pathBuilder({ ...theme, page: "faq" })}
+        href={pathBuilder({ ...theme, page: "faq", ...deploymentConfiguration })}
         className={page === "faq" ? "" : "opacity-50 hover:opacity-100"}
       >
         ❓
+      </Link>
+      <Link
+        href={pathBuilder({ ...theme, page: "deploy", ...deploymentConfiguration })}
+        className={page === "deploy" ? "" : "opacity-50 hover:opacity-100"}
+      >
+        🚀
       </Link>
     </div>
   );

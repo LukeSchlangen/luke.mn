@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.command-list li {
+    display: list-item;
+    list-style-type: ">";
+    padding-inline-start: 1ch;
+}

@@ -10,14 +10,26 @@ const bioTextLookup = {
   short: ShortBio,
 };
 
-export default function Bio({ theme, deploymentConfiguration }: { theme: Theme, deploymentConfiguration: DeploymentConfiguration }) {
+export default function Bio({
+  theme,
+  deploymentConfiguration,
+}: {
+  theme: Theme;
+  deploymentConfiguration: DeploymentConfiguration;
+}) {
   const BioText = bioTextLookup[theme.verbosity];
 
   return (
     <>
       <div className="mb-4 flex justify-between text-sm font-light">
-        <TenseToggle theme={theme} deploymentConfiguration={deploymentConfiguration} />
-        <VerbosityToggle theme={theme} deploymentConfiguration={deploymentConfiguration} />
+        <TenseToggle
+          theme={theme}
+          deploymentConfiguration={deploymentConfiguration}
+        />
+        <VerbosityToggle
+          theme={theme}
+          deploymentConfiguration={deploymentConfiguration}
+        />
       </div>
       <div
         className={`sm:text-lg md:text-2xl lg:text-3xl ${

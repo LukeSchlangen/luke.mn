@@ -35,7 +35,10 @@ export default function HomePage({
             </h1>
           </header>
           <main>
-            <Bio theme={theme} />
+            <Bio
+              theme={theme}
+              deploymentConfiguration={deploymentConfiguration}
+            />
           </main>
         </div>
       </div>

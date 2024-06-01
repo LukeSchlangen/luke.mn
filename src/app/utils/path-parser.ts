@@ -39,8 +39,8 @@ export default function pathParser(slug?: string[]) {
   let remainingSlug = [...slug];
 
   // index seems like a default path added by Next.js for the home route
-  if (remainingSlug[0] === 'index') {
-    theme.page = 'home';
+  if (remainingSlug[0] === "index") {
+    theme.page = "home";
     remainingSlug.shift();
   }
   if (PAGES.includes(remainingSlug[0])) {

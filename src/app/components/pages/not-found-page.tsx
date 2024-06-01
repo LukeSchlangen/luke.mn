@@ -9,10 +9,12 @@ export default function NotFoundPage({
   theme,
   deploymentConfiguration,
   remainingSlug,
+  slug,
 }: {
   theme: Theme;
   deploymentConfiguration: DeploymentConfiguration;
   remainingSlug: string[];
+  slug: string[];
 }) {
   const { textColorClass, bodyBackgroundColor } = colorValues(theme);
 
@@ -37,6 +39,8 @@ export default function NotFoundPage({
                 There were unrecognized pieces of the URL
               </h3>
               <p>I am not sure what these mean:</p>
+              <pre>{JSON.stringify(remainingSlug, null, 2)}</pre>
+              <p>The full path was:</p>
               <pre>{JSON.stringify(remainingSlug, null, 2)}</pre>
             </section>
           </ProseContainer>

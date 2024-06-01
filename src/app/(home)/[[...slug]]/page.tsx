@@ -18,6 +18,7 @@ export default function Page({
         theme={{ ...theme, page: "not-found" }}
         remainingSlug={remainingSlug}
         deploymentConfiguration={deploymentConfiguration}
+        slug={params.slug}
       />
     );
   }

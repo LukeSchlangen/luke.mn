@@ -7,7 +7,13 @@ import colorValues from "../../utils/color-values";
 import Navbar from "../navbar";
 import Footer from "../footer";
 
-export default function FaqPage({ theme, deploymentConfiguration }: { theme: Theme, deploymentConfiguration: DeploymentConfiguration }) {
+export default function FaqPage({
+  theme,
+  deploymentConfiguration,
+}: {
+  theme: Theme;
+  deploymentConfiguration: DeploymentConfiguration;
+}) {
   const { textColorClass, bodyBackgroundColor } = colorValues(theme);
 
   return (

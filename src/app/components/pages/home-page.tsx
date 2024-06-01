@@ -6,7 +6,13 @@ import ProfileImage from "../profile-image";
 import Navbar from "../navbar";
 import SocialIconBar from "../social-icon-bar";
 
-export default function HomePage({ theme, deploymentConfiguration }: { theme: Theme, deploymentConfiguration: DeploymentConfiguration }) {
+export default function HomePage({
+  theme,
+  deploymentConfiguration,
+}: {
+  theme: Theme;
+  deploymentConfiguration: DeploymentConfiguration;
+}) {
   const { textColorClass, bodyBackgroundColor, textBackgroundColorClass } =
     colorValues(theme);
 

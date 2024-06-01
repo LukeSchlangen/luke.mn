@@ -8,7 +8,13 @@ import Navbar from "../navbar";
 import Footer from "../footer";
 import CommandList from "../command-list";
 
-export default function DeployPage({ theme, deploymentConfiguration }: { theme: Theme, deploymentConfiguration: DeploymentConfiguration }) {
+export default function DeployPage({
+  theme,
+  deploymentConfiguration,
+}: {
+  theme: Theme;
+  deploymentConfiguration: DeploymentConfiguration;
+}) {
   const { textColorClass, bodyBackgroundColor } = colorValues(theme);
 
   return (
@@ -22,32 +28,26 @@ export default function DeployPage({ theme, deploymentConfiguration }: { theme: 
         <header className="my-16">
           <ProseContainer theme={theme}>
             <h1 className="m-2 text-4xl">Deploy</h1>
-            <h2 className="m-2">Let's share your application with the world.</h2>
+            <h2 className="m-2">
+              Let&apos;s share your application with the world.
+            </h2>
           </ProseContainer>
         </header>
         <main className="space-y-8">
           <ProseContainer theme={theme}>
             <section className="space-y-4">
-              <h3 className="text-3xl">
-                What are you trying to deploy?
-              </h3>
+              <h3 className="text-3xl">What are you trying to deploy?</h3>
               <label>
-                <p className="mt-4">
-                  Framework
-                </p>
+                <p className="mt-4">Framework</p>
                 <details className="space-y-4 border p-2 pl-4">
                   <summary className="-ml-2 text-xl">
                     {deploymentConfiguration.framework}
                   </summary>
-                  <p>
-                    {/* TODO create list of links for other frameworks */}
-                  </p>
+                  <p>{/* TODO create list of links for other frameworks */}</p>
                 </details>
               </label>
               <label>
-                <p className="mt-4">
-                  Deployment Target
-                </p>
+                <p className="mt-4">Deployment Target</p>
                 <details className="space-y-4 border p-2 pl-4">
                   <summary className="-ml-2 text-xl">
                     {deploymentConfiguration.target}
@@ -58,9 +58,7 @@ export default function DeployPage({ theme, deploymentConfiguration }: { theme: 
                 </details>
               </label>
               <label>
-                <p className="mt-4">
-                  Code Source Location
-                </p>
+                <p className="mt-4">Code Source Location</p>
                 <details className="space-y-4 border p-2 pl-4">
                   <summary className="-ml-2 text-xl">
                     {deploymentConfiguration.source}
@@ -84,7 +82,10 @@ export default function DeployPage({ theme, deploymentConfiguration }: { theme: 
                   <CopyLinkIcon id="create-application" />
                 </summary>
                 <CommandList
-                  steps={['curl https://webi.sh/node@lts | sh', 'curl https://sdk.cloud.google.com | bash']}
+                  steps={[
+                    "curl https://webi.sh/node@lts | sh",
+                    "curl https://sdk.cloud.google.com | bash",
+                  ]}
                 />
               </details>
               <details open className="space-y-4 border p-2 pl-4">
@@ -93,7 +94,10 @@ export default function DeployPage({ theme, deploymentConfiguration }: { theme: 
                   <CopyLinkIcon id="create-application" />
                 </summary>
                 <CommandList
-                  steps={['npx @angular/cli new angular-app --ssr', 'cd angular-app']}
+                  steps={[
+                    "npx @angular/cli new angular-app --ssr",
+                    "cd angular-app",
+                  ]}
                 />
               </details>
               <details className="space-y-4 border p-2 pl-4">
@@ -101,9 +105,7 @@ export default function DeployPage({ theme, deploymentConfiguration }: { theme: 
                   Run application locally
                   <CopyLinkIcon id="create-application" />
                 </summary>
-                <CommandList
-                  steps={['npm start']}
-                />
+                <CommandList steps={["npm start"]} />
               </details>
               <details open className="space-y-4 border p-2 pl-4">
                 <summary className="-ml-2 text-xl">
@@ -111,7 +113,9 @@ export default function DeployPage({ theme, deploymentConfiguration }: { theme: 
                   <CopyLinkIcon id="deploy-app" />
                 </summary>
                 <CommandList
-                  steps={['gcloud run deploy angular-app --allow-unauthenticated --region=us-central1 --source=.']}
+                  steps={[
+                    "gcloud run deploy angular-app --allow-unauthenticated --region=us-central1 --source=.",
+                  ]}
                 />
               </details>
             </section>

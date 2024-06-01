@@ -1,4 +1,23 @@
-import { COLORS, Color, DeploymentConfiguration, FRAMEWORKS, Framework, PAGES, Page, SOURCES, Source, TARGETS, TENSES, Target, Tense, Theme, VERBOSITIES, VIBES, Verbosity, Vibe } from "../types";
+import {
+  COLORS,
+  Color,
+  DeploymentConfiguration,
+  FRAMEWORKS,
+  Framework,
+  PAGES,
+  Page,
+  SOURCES,
+  Source,
+  TARGETS,
+  TENSES,
+  Target,
+  Tense,
+  Theme,
+  VERBOSITIES,
+  VIBES,
+  Verbosity,
+  Vibe,
+} from "../types";
 
 export default function pathParser(slug?: string[]) {
   let theme: Theme = {
@@ -10,9 +29,9 @@ export default function pathParser(slug?: string[]) {
   };
 
   let deploymentConfiguration: DeploymentConfiguration = {
-    framework: 'angular-ssr',
-    target: 'cloud-run',
-    source: 'local',
+    framework: "angular-ssr",
+    target: "cloud-run",
+    source: "local",
   };
 
   if (!slug) return { theme, deploymentConfiguration, remainingSlug: [] };

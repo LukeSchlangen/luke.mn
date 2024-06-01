@@ -5,7 +5,15 @@ import colorValues from "../../utils/color-values";
 import Navbar from "../navbar";
 import Footer from "../footer";
 
-export default function NotFoundPage({ theme, deploymentConfiguration, remainingSlug }: { theme: Theme, deploymentConfiguration: DeploymentConfiguration, remainingSlug: string[] }) {
+export default function NotFoundPage({
+  theme,
+  deploymentConfiguration,
+  remainingSlug,
+}: {
+  theme: Theme;
+  deploymentConfiguration: DeploymentConfiguration;
+  remainingSlug: string[];
+}) {
   const { textColorClass, bodyBackgroundColor } = colorValues(theme);
 
   return (
@@ -28,12 +36,8 @@ export default function NotFoundPage({ theme, deploymentConfiguration, remaining
               <h3 className="text-3xl">
                 There were unrecognized pieces of the URL
               </h3>
-              <p>
-                I am not sure what these mean:
-              </p>
-              <pre>
-                {JSON.stringify(remainingSlug, null, 2)}
-              </pre>
+              <p>I am not sure what these mean:</p>
+              <pre>{JSON.stringify(remainingSlug, null, 2)}</pre>
             </section>
           </ProseContainer>
         </main>

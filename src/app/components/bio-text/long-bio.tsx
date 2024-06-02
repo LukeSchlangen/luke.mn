@@ -1,11 +1,11 @@
 import DeveloperAdvocateAtGoogle from "./phrases/developer-advocate-at-google";
 import CoFounderOfCodeChampionship from "./phrases/co-founder-of-code-championship";
-import { Tense } from "../../types";
+import { TenseOption } from "../../types";
 import LearningFollowsExcitement from "./phrases/learning-follows-excitement";
 import GoogleKubernetesEngine from "./phrases/google-kubernetes-engine";
 import GoogleCloudRun from "./phrases/google-cloud-run";
 
-export default function LongBio({ tense }: { tense: Tense }) {
+export default function LongBio({ tense }: { tense: TenseOption }) {
   const isFirstPerson = tense === "first-person";
   return (
     <>

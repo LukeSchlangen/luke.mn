@@ -1,44 +1,46 @@
-export const PAGES = ["home", "faq", "deploy", "not-found"] as const;
-export type Page = (typeof PAGES)[number];
+export const PAGE_OPTIONS = ["home", "faq", "deploy", "not-found"] as const;
+export type PageOption = (typeof PAGE_OPTIONS)[number];
 
-export const VIBES = ["standard", "professional", "fun"] as const;
-export type Vibe = (typeof VIBES)[number];
+export const VIBE_OPTIONS = ["standard", "professional", "fun"] as const;
+export type VibeOption = (typeof VIBE_OPTIONS)[number];
 
-export const COLORS = ["light", "dark"] as const;
-export type Color = (typeof COLORS)[number];
+export const COLOR_OPTIONS = ["light", "dark"] as const;
+export type ColorOption = (typeof COLOR_OPTIONS)[number];
 
-export const TENSES = ["first-person", "third-person"] as const;
-export type Tense = (typeof TENSES)[number];
+export const TENSE_OPTIONS = ["first-person", "third-person"] as const;
+export type TenseOption = (typeof TENSE_OPTIONS)[number];
 
-export const VERBOSITIES = ["short", "long"] as const;
-export type Verbosity = "short" | "long";
+export const VERBOSITY_OPTIONS = ["short", "long"] as const;
+export type VerbosityOption = "short" | "long";
 
 export type Theme = {
-  page: Page;
-  vibe: Vibe;
-  color: Color;
-  tense: Tense;
-  verbosity: Verbosity;
+  page: PageOption;
+  vibe: VibeOption;
+  color: ColorOption;
+  tense: TenseOption;
+  verbosity: VerbosityOption;
 };
 
-export const FRAMEWORKS = ["angular-ssr"] as const;
-export type Framework = (typeof FRAMEWORKS)[number];
-
-export const TARGETS = ["cloud-run"] as const;
-export type Target = (typeof TARGETS)[number];
-
-export const SOURCES = ["local"] as const;
-export type Source = (typeof SOURCES)[number];
-
 // TODO: add framework details
-// export const FRAMEWORK_DETAILS = new Map({
+// export const FRAMEWORK_DETAILS = {
+//   'angular-ssr': {
+    
+//   }
+// } as const;
 
-// }) as const;
+export const FRAMEWORK_OPTIONS = ["angular-ssr"] as const;
+export type FrameworkOption = (typeof FRAMEWORK_OPTIONS)[number];
+
+export const TARGET_OPTIONS = ["cloud-run"] as const;
+export type TargetOption = (typeof TARGET_OPTIONS)[number];
+
+export const SOURCE_OPTIONS = ["local"] as const;
+export type SourceOption = (typeof SOURCE_OPTIONS)[number];
 
 export type DeploymentConfiguration = {
-  framework: Framework;
-  target: Target;
-  source: Source;
+  framework: FrameworkOption;
+  target: TargetOption;
+  source: SourceOption;
 };
 
 export type Workout = {

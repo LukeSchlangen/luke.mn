@@ -1,22 +1,22 @@
 import {
-  COLORS,
-  Color,
+  COLOR_OPTIONS,
+  ColorOption,
   DeploymentConfiguration,
-  FRAMEWORKS,
-  Framework,
-  PAGES,
-  Page,
-  SOURCES,
-  Source,
-  TARGETS,
-  TENSES,
-  Target,
-  Tense,
+  FRAMEWORK_OPTIONS,
+  FrameworkOption,
+  PAGE_OPTIONS,
+  PageOption,
+  SOURCE_OPTIONS,
+  SourceOption,
+  TARGET_OPTIONS,
+  TENSE_OPTIONS,
+  TargetOption,
+  TenseOption,
   Theme,
-  VERBOSITIES,
-  VIBES,
-  Verbosity,
-  Vibe,
+  VERBOSITY_OPTIONS,
+  VIBE_OPTIONS,
+  VerbosityOption,
+  VibeOption,
 } from "../types";
 
 export default function pathParser(slug?: string[]) {
@@ -43,36 +43,36 @@ export default function pathParser(slug?: string[]) {
     theme.page = "home";
     remainingSlug.shift();
   }
-  if (PAGES.includes(remainingSlug[0])) {
-    theme.page = remainingSlug[0] as Page;
+  if (PAGE_OPTIONS.includes(remainingSlug[0])) {
+    theme.page = remainingSlug[0] as PageOption;
     remainingSlug.shift();
   }
-  if (VIBES.includes(remainingSlug[0])) {
-    theme.vibe = remainingSlug[0] as Vibe;
+  if (VIBE_OPTIONS.includes(remainingSlug[0])) {
+    theme.vibe = remainingSlug[0] as VibeOption;
     remainingSlug.shift();
   }
-  if (COLORS.includes(remainingSlug[0])) {
-    theme.color = remainingSlug[0] as Color;
+  if (COLOR_OPTIONS.includes(remainingSlug[0])) {
+    theme.color = remainingSlug[0] as ColorOption;
     remainingSlug.shift();
   }
-  if (TENSES.includes(remainingSlug[0])) {
-    theme.tense = remainingSlug[0] as Tense;
+  if (TENSE_OPTIONS.includes(remainingSlug[0])) {
+    theme.tense = remainingSlug[0] as TenseOption;
     remainingSlug.shift();
   }
-  if (VERBOSITIES.includes(remainingSlug[0])) {
-    theme.verbosity = remainingSlug[0] as Verbosity;
+  if (VERBOSITY_OPTIONS.includes(remainingSlug[0])) {
+    theme.verbosity = remainingSlug[0] as VerbosityOption;
     remainingSlug.shift();
   }
-  if (FRAMEWORKS.includes(remainingSlug[0])) {
-    deploymentConfiguration.framework = remainingSlug[0] as Framework;
+  if (FRAMEWORK_OPTIONS.includes(remainingSlug[0])) {
+    deploymentConfiguration.framework = remainingSlug[0] as FrameworkOption;
     remainingSlug.shift();
   }
-  if (TARGETS.includes(remainingSlug[0])) {
-    deploymentConfiguration.target = remainingSlug[0] as Target;
+  if (TARGET_OPTIONS.includes(remainingSlug[0])) {
+    deploymentConfiguration.target = remainingSlug[0] as TargetOption;
     remainingSlug.shift();
   }
-  if (SOURCES.includes(remainingSlug[0])) {
-    deploymentConfiguration.source = remainingSlug[0] as Source;
+  if (SOURCE_OPTIONS.includes(remainingSlug[0])) {
+    deploymentConfiguration.source = remainingSlug[0] as SourceOption;
     remainingSlug.shift();
   }
 

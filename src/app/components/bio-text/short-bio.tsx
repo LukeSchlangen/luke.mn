@@ -1,10 +1,10 @@
 import Link from "next/link";
 import DeveloperAdvocateAtGoogle from "./phrases/developer-advocate-at-google";
 import CoFounderOfCodeChampionship from "./phrases/co-founder-of-code-championship";
-import { Tense } from "../../types";
+import { TenseOption } from "../../types";
 import LearningFollowsExcitement from "./phrases/learning-follows-excitement";
 
-export default function ShortBio({ tense }: { tense: Tense }) {
+export default function ShortBio({ tense }: { tense: TenseOption }) {
   const isFirstPerson = tense === "first-person";
   return (
     <>

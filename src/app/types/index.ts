@@ -23,7 +23,11 @@ export type Theme = {
 
 // TODO: add framework details
 export const FRAMEWORK_DETAILS = {
-  "angular-ssr": {},
+  "angular-ssr": {
+    name: "Angular SSR",
+    description: "Angular SSR",
+    defaultApplicationName: "angular-ssr-app",
+  },
 } as const;
 
 export const FRAMEWORK_OPTIONS = Object.keys(FRAMEWORK_DETAILS);
@@ -39,8 +43,4 @@ export type DeploymentConfiguration = {
   framework: FrameworkOption;
   target: TargetOption;
   source: SourceOption;
-};
-
-export type Workout = {
-  [key: string]: string;
 };

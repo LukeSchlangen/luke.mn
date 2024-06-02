@@ -27,11 +27,76 @@ export const FRAMEWORK_DETAILS = {
     name: "Angular SSR",
     description: "Angular SSR",
     defaultApplicationName: "angular-ssr-app",
+    prerequisites: ({ appName }: { appName: string }) => [
+      `curl https://webi.sh/node@lts | sh`,
+    ],
+    createApplication: ({ appName }: { appName: string }) => [
+      `npx @angular/cli new ${appName} --ssr`,
+      `cd ${appName}`,
+    ],
+    runLocally: ({ appName }: { appName: string }) => ["npm start"],
+    deployApplication: ({ appName }: { appName: string }) => [],
+    supportedDeploymentTargets: {
+      "cloud-run": {
+        prerequisites: ({ appName }: { appName: string }) => [
+          `curl https://sdk.cloud.google.com | bash`,
+        ],
+        createApplication: ({ appName }: { appName: string }) => [],
+        runLocally: ({ appName }: { appName: string }) => [],
+        deployApplication: ({ appName }: { appName: string }) => [],
+        supportedSourceOptions: {
+          local: {
+            prerequisites: ({ appName }: { appName: string }) => [],
+            createApplication: ({ appName }: { appName: string }) => [],
+            runLocally: ({ appName }: { appName: string }) => [],
+            deployApplication: ({ appName }: { appName: string }) => [
+              `gcloud run deploy ${appName} --allow-unauthenticated --region=us-central1 --source=.`,
+            ],
+          },
+        },
+      },
+    },
+  },
+  "nextjs": {
+    name: "Next.js",
+    description: "Next.js",
+    defaultApplicationName: "nextjs-app",
+    prerequisites: ({ appName }: { appName: string }) => [
+      `curl https://webi.sh/node@lts | sh`,
+    ],
+    createApplication: ({ appName }: { appName: string }) => [
+      `npx create-next-app@latest ${appName}`,
+      `cd ${appName}`,
+    ],
+    runLocally: ({ appName }: { appName: string }) => ["npm run dev"],
+    deployApplication: ({ appName }: { appName: string }) => [],
+    supportedDeploymentTargets: {
+      "cloud-run": {
+        prerequisites: ({ appName }: { appName: string }) => [
+          `curl https://sdk.cloud.google.com | bash`,
+        ],
+        createApplication: ({ appName }: { appName: string }) => [],
+        runLocally: ({ appName }: { appName: string }) => [],
+        deployApplication: ({ appName }: { appName: string }) => [],
+        supportedSourceOptions: {
+          local: {
+            prerequisites: ({ appName }: { appName: string }) => [],
+            createApplication: ({ appName }: { appName: string }) => [],
+            runLocally: ({ appName }: { appName: string }) => [],
+            deployApplication: ({ appName }: { appName: string }) => [
+              `gcloud run deploy ${appName} --allow-unauthenticated --region=us-central1 --source=.`,
+            ],
+          },
+        },
+      },
+    },
   },
 } as const;
 
-export const FRAMEWORK_OPTIONS = Object.keys(FRAMEWORK_DETAILS);
-export type FrameworkOption = (typeof FRAMEWORK_OPTIONS)[number];
+export type FrameworkOption = keyof typeof FRAMEWORK_DETAILS;
+export const FRAMEWORK_OPTIONS = Object.keys(
+  FRAMEWORK_DETAILS,
+) as FrameworkOption[];
 
 export const TARGET_OPTIONS = ["cloud-run"] as const;
 export type TargetOption = (typeof TARGET_OPTIONS)[number];

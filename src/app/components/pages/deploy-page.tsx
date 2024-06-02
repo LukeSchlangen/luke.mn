@@ -1,4 +1,4 @@
-import { DeploymentConfiguration, Theme } from "../../types";
+import { DeploymentConfiguration, FRAMEWORK_DETAILS, FRAMEWORK_OPTIONS, Theme } from "../../types";
 
 import ProseContainer from "../prose-container";
 import CopyLinkIcon from "../copy-link-icon";
@@ -7,6 +7,7 @@ import colorValues from "../../utils/color-values";
 import Navbar from "../navbar";
 import Footer from "../footer";
 import CommandList from "../command-list";
+import pathBuilder from "../../utils/path-builder";
 
 export default function DeployPage({
   theme,
@@ -16,6 +17,54 @@ export default function DeployPage({
   deploymentConfiguration: DeploymentConfiguration;
 }) {
   const { textColorClass, bodyBackgroundColor } = colorValues(theme);
+
+  const allSteps = FRAMEWORK_DETAILS[deploymentConfiguration.framework];
+
+  const appName = allSteps.defaultApplicationName;
+  const prerequisites = [
+    ...allSteps.prerequisites({ appName }),
+    ...allSteps.supportedDeploymentTargets["cloud-run"].prerequisites({
+      appName,
+    }),
+    ...allSteps.supportedDeploymentTargets["cloud-run"].supportedSourceOptions[
+      "local"
+    ].prerequisites({
+      appName,
+    }),
+  ];
+  const createApplication = [
+    ...allSteps.createApplication({ appName }),
+    ...allSteps.supportedDeploymentTargets["cloud-run"].createApplication({
+      appName,
+    }),
+    ...allSteps.supportedDeploymentTargets["cloud-run"].supportedSourceOptions[
+      "local"
+    ].createApplication({
+      appName,
+    }),
+  ];
+  const runLocally = [
+    ...allSteps.runLocally({ appName }),
+    ...allSteps.supportedDeploymentTargets["cloud-run"].runLocally({
+      appName,
+    }),
+    ...allSteps.supportedDeploymentTargets["cloud-run"].supportedSourceOptions[
+      "local"
+    ].runLocally({
+      appName,
+    }),
+  ];
+  const deployApplication = [
+    ...allSteps.deployApplication({ appName }),
+    ...allSteps.supportedDeploymentTargets["cloud-run"].deployApplication({
+      appName,
+    }),
+    ...allSteps.supportedDeploymentTargets["cloud-run"].supportedSourceOptions[
+      "local"
+    ].deployApplication({
+      appName,
+    }),
+  ];
 
   return (
     <div className={`min-w-screen min-h-screen ${textColorClass}`}>
@@ -43,7 +92,27 @@ export default function DeployPage({
                   <summary className="-ml-2 text-xl">
                     {deploymentConfiguration.framework}
                   </summary>
-                  <p>{/* TODO create list of links for other frameworks */}</p>
+                  <ul>
+                    {FRAMEWORK_OPTIONS.map((framework) => {
+                      const { name } = FRAMEWORK_DETAILS[framework];
+                      return <li>
+                        <Link
+                          href={pathBuilder({
+                            ...theme,
+                            ...deploymentConfiguration,
+                            framework,
+                          })}
+                          className={
+                            deploymentConfiguration.framework === framework
+                              ? "underline"
+                              : ""
+                          }
+                        >
+                          {name}
+                        </Link>
+                      </li>;
+                    })}
+                  </ul>
                 </details>
               </label>
               <label>
@@ -81,42 +150,28 @@ export default function DeployPage({
                   Pre-requisites
                   <CopyLinkIcon id="create-application" />
                 </summary>
-                <CommandList
-                  steps={[
-                    "curl https://webi.sh/node@lts | sh",
-                    "curl https://sdk.cloud.google.com | bash",
-                  ]}
-                />
+                <CommandList steps={prerequisites} />
               </details>
               <details open className="space-y-4 border p-2 pl-4">
                 <summary className="-ml-2 text-xl">
                   Create application
                   <CopyLinkIcon id="create-application" />
                 </summary>
-                <CommandList
-                  steps={[
-                    "npx @angular/cli new angular-app --ssr",
-                    "cd angular-app",
-                  ]}
-                />
+                <CommandList steps={createApplication} />
               </details>
               <details className="space-y-4 border p-2 pl-4">
                 <summary className="-ml-2 text-xl">
                   Run application locally
                   <CopyLinkIcon id="create-application" />
                 </summary>
-                <CommandList steps={["npm start"]} />
+                <CommandList steps={runLocally} />
               </details>
               <details open className="space-y-4 border p-2 pl-4">
                 <summary className="-ml-2 text-xl">
                   Deploy application
                   <CopyLinkIcon id="deploy-app" />
                 </summary>
-                <CommandList
-                  steps={[
-                    "gcloud run deploy angular-app --allow-unauthenticated --region=us-central1 --source=.",
-                  ]}
-                />
+                <CommandList steps={deployApplication} />
               </details>
             </section>
           </ProseContainer>

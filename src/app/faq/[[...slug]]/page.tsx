@@ -8,7 +8,7 @@ export default function Page({
   params: { slug: string[] };
 }) {
   const { theme, remainingSlug, deploymentConfiguration } = pathParser(
-    params.slug
+    params.slug,
   );
 
   if (remainingSlug.length > 0) {

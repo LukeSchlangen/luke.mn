@@ -6,7 +6,7 @@ export default function WorkoutHistory() {
   const workoutsRef = collection(db, "workouts");
   const [data, dataLoading, dataError] = useQueryDataOnce(
     query(workoutsRef),
-    {}
+    {},
   );
 
   return (

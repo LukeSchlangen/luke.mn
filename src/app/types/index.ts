@@ -22,13 +22,11 @@ export type Theme = {
 };
 
 // TODO: add framework details
-// export const FRAMEWORK_DETAILS = {
-//   'angular-ssr': {
-    
-//   }
-// } as const;
+export const FRAMEWORK_DETAILS = {
+  "angular-ssr": {},
+} as const;
 
-export const FRAMEWORK_OPTIONS = ["angular-ssr"] as const;
+export const FRAMEWORK_OPTIONS = Object.keys(FRAMEWORK_DETAILS);
 export type FrameworkOption = (typeof FRAMEWORK_OPTIONS)[number];
 
 export const TARGET_OPTIONS = ["cloud-run"] as const;

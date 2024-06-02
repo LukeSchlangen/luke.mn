@@ -1,4 +1,9 @@
-import { DeploymentConfiguration, FRAMEWORK_DETAILS, FRAMEWORK_OPTIONS, Theme } from "../../types";
+import {
+  DeploymentConfiguration,
+  FRAMEWORK_DETAILS,
+  FRAMEWORK_OPTIONS,
+  Theme,
+} from "../../types";
 
 import ProseContainer from "../prose-container";
 import CopyLinkIcon from "../copy-link-icon";
@@ -95,22 +100,24 @@ export default function DeployPage({
                   <ul>
                     {FRAMEWORK_OPTIONS.map((framework) => {
                       const { name } = FRAMEWORK_DETAILS[framework];
-                      return <li>
-                        <Link
-                          href={pathBuilder({
-                            ...theme,
-                            ...deploymentConfiguration,
-                            framework,
-                          })}
-                          className={
-                            deploymentConfiguration.framework === framework
-                              ? "underline"
-                              : ""
-                          }
-                        >
-                          {name}
-                        </Link>
-                      </li>;
+                      return (
+                        <li key={framework}>
+                          <Link
+                            href={pathBuilder({
+                              ...theme,
+                              ...deploymentConfiguration,
+                              framework,
+                            })}
+                            className={
+                              deploymentConfiguration.framework === framework
+                                ? "underline"
+                                : ""
+                            }
+                          >
+                            {name}
+                          </Link>
+                        </li>
+                      );
                     })}
                   </ul>
                 </details>

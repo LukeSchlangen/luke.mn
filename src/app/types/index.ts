@@ -57,7 +57,7 @@ export const FRAMEWORK_DETAILS = {
       },
     },
   },
-  "nextjs": {
+  nextjs: {
     name: "Next.js",
     description: "Next.js",
     defaultApplicationName: "nextjs-app",

@@ -21,11 +21,70 @@ export type Theme = {
   verbosity: VerbosityOption;
 };
 
+export type DeploymentStepsFunction = ({
+  appName,
+}: {
+  appName: string;
+}) => string[];
+
+export type DeploymentSteps = {
+  prerequisites: DeploymentStepsFunction;
+  createApplication: DeploymentStepsFunction;
+  runLocally: DeploymentStepsFunction;
+  deployApplication: DeploymentStepsFunction;
+};
+
+export type FrameworkDetails = {
+  name: string;
+  defaultApplicationName: string;
+  prerequisites: DeploymentStepsFunction;
+  createApplication: DeploymentStepsFunction;
+  runLocally: DeploymentStepsFunction;
+  deployApplication: DeploymentStepsFunction;
+  supportedDeploymentTargets: Record<
+    TargetOption,
+    Record<SourceOption, DeploymentSteps>
+  >;
+};
+
+export const SOURCE_OPTIONS = ["local"] as const;
+export type SourceOption = (typeof SOURCE_OPTIONS)[number];
+
+export const DEPLOYMENT_SOURCE_DETAILS: Record<SourceOption, { name: string }> =
+  {
+    local: {
+      name: "Local",
+    },
+  };
+
+export const TARGET_OPTIONS = ["cloud-run"] as const;
+export type TargetOption = (typeof TARGET_OPTIONS)[number];
+
+export const DEPLOYMENT_TARGET_DETAILS = {
+  "cloud-run": {
+    name: "Cloud Run",
+    defaultDeploymentSteps: {
+      local: {
+        prerequisites: ({ appName }: { appName: string }) => [
+          `curl https://sdk.cloud.google.com | bash`,
+        ],
+        createApplication: ({ appName }: { appName: string }) => [],
+        runLocally: ({ appName }: { appName: string }) => [],
+        deployApplication: ({ appName }: { appName: string }) => [
+          `gcloud run deploy ${appName} --allow-unauthenticated --region=us-central1 --source=.`,
+        ],
+      },
+    },
+  },
+};
+
+export const FRAMEWORK_OPTIONS = ["angular-ssr", "nextjs", "nuxtjs"] as const;
+export type FrameworkOption = (typeof FRAMEWORK_OPTIONS)[number];
+
 // TODO: add framework details
-export const FRAMEWORK_DETAILS = {
+export const FRAMEWORK_DETAILS: Record<FrameworkOption, FrameworkDetails> = {
   "angular-ssr": {
     name: "Angular SSR",
-    description: "Angular SSR",
     defaultApplicationName: "angular-ssr-app",
     prerequisites: ({ appName }: { appName: string }) => [
       `curl https://webi.sh/node@lts | sh`,
@@ -37,29 +96,29 @@ export const FRAMEWORK_DETAILS = {
     runLocally: ({ appName }: { appName: string }) => ["npm start"],
     deployApplication: ({ appName }: { appName: string }) => [],
     supportedDeploymentTargets: {
-      "cloud-run": {
-        prerequisites: ({ appName }: { appName: string }) => [
-          `curl https://sdk.cloud.google.com | bash`,
-        ],
-        createApplication: ({ appName }: { appName: string }) => [],
-        runLocally: ({ appName }: { appName: string }) => [],
-        deployApplication: ({ appName }: { appName: string }) => [],
-        supportedSourceOptions: {
-          local: {
-            prerequisites: ({ appName }: { appName: string }) => [],
-            createApplication: ({ appName }: { appName: string }) => [],
-            runLocally: ({ appName }: { appName: string }) => [],
-            deployApplication: ({ appName }: { appName: string }) => [
-              `gcloud run deploy ${appName} --allow-unauthenticated --region=us-central1 --source=.`,
-            ],
-          },
-        },
-      },
+      "cloud-run":
+        DEPLOYMENT_TARGET_DETAILS["cloud-run"].defaultDeploymentSteps,
+    },
+  },
+  nuxtjs: {
+    name: "Nuxt.js",
+    defaultApplicationName: "nuxtjs-app",
+    prerequisites: ({ appName }: { appName: string }) => [
+      `curl https://webi.sh/node@lts | sh`,
+    ],
+    createApplication: ({ appName }: { appName: string }) => [
+      `npx nuxi@latest init ${appName}`,
+      `cd ${appName}`,
+    ],
+    runLocally: ({ appName }: { appName: string }) => ["npm run dev"],
+    deployApplication: ({ appName }: { appName: string }) => [],
+    supportedDeploymentTargets: {
+      "cloud-run":
+        DEPLOYMENT_TARGET_DETAILS["cloud-run"].defaultDeploymentSteps,
     },
   },
   nextjs: {
     name: "Next.js",
-    description: "Next.js",
     defaultApplicationName: "nextjs-app",
     prerequisites: ({ appName }: { appName: string }) => [
       `curl https://webi.sh/node@lts | sh`,
@@ -71,38 +130,11 @@ export const FRAMEWORK_DETAILS = {
     runLocally: ({ appName }: { appName: string }) => ["npm run dev"],
     deployApplication: ({ appName }: { appName: string }) => [],
     supportedDeploymentTargets: {
-      "cloud-run": {
-        prerequisites: ({ appName }: { appName: string }) => [
-          `curl https://sdk.cloud.google.com | bash`,
-        ],
-        createApplication: ({ appName }: { appName: string }) => [],
-        runLocally: ({ appName }: { appName: string }) => [],
-        deployApplication: ({ appName }: { appName: string }) => [],
-        supportedSourceOptions: {
-          local: {
-            prerequisites: ({ appName }: { appName: string }) => [],
-            createApplication: ({ appName }: { appName: string }) => [],
-            runLocally: ({ appName }: { appName: string }) => [],
-            deployApplication: ({ appName }: { appName: string }) => [
-              `gcloud run deploy ${appName} --allow-unauthenticated --region=us-central1 --source=.`,
-            ],
-          },
-        },
-      },
+      "cloud-run":
+        DEPLOYMENT_TARGET_DETAILS["cloud-run"].defaultDeploymentSteps,
     },
   },
 } as const;
-
-export type FrameworkOption = keyof typeof FRAMEWORK_DETAILS;
-export const FRAMEWORK_OPTIONS = Object.keys(
-  FRAMEWORK_DETAILS,
-) as FrameworkOption[];
-
-export const TARGET_OPTIONS = ["cloud-run"] as const;
-export type TargetOption = (typeof TARGET_OPTIONS)[number];
-
-export const SOURCE_OPTIONS = ["local"] as const;
-export type SourceOption = (typeof SOURCE_OPTIONS)[number];
 
 export type DeploymentConfiguration = {
   framework: FrameworkOption;

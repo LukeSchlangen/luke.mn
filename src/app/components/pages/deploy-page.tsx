@@ -1,4 +1,6 @@
 import {
+  DEPLOYMENT_SOURCE_DETAILS,
+  DEPLOYMENT_TARGET_DETAILS,
   DeploymentConfiguration,
   FRAMEWORK_DETAILS,
   FRAMEWORK_OPTIONS,
@@ -28,47 +30,27 @@ export default function DeployPage({
   const appName = allSteps.defaultApplicationName;
   const prerequisites = [
     ...allSteps.prerequisites({ appName }),
-    ...allSteps.supportedDeploymentTargets["cloud-run"].prerequisites({
-      appName,
-    }),
-    ...allSteps.supportedDeploymentTargets["cloud-run"].supportedSourceOptions[
-      "local"
-    ].prerequisites({
+    ...allSteps.supportedDeploymentTargets["cloud-run"]["local"].prerequisites({
       appName,
     }),
   ];
   const createApplication = [
     ...allSteps.createApplication({ appName }),
-    ...allSteps.supportedDeploymentTargets["cloud-run"].createApplication({
-      appName,
-    }),
-    ...allSteps.supportedDeploymentTargets["cloud-run"].supportedSourceOptions[
+    ...allSteps.supportedDeploymentTargets["cloud-run"][
       "local"
-    ].createApplication({
-      appName,
-    }),
+    ].createApplication({ appName }),
   ];
   const runLocally = [
     ...allSteps.runLocally({ appName }),
-    ...allSteps.supportedDeploymentTargets["cloud-run"].runLocally({
-      appName,
-    }),
-    ...allSteps.supportedDeploymentTargets["cloud-run"].supportedSourceOptions[
-      "local"
-    ].runLocally({
+    ...allSteps.supportedDeploymentTargets["cloud-run"]["local"].runLocally({
       appName,
     }),
   ];
   const deployApplication = [
     ...allSteps.deployApplication({ appName }),
-    ...allSteps.supportedDeploymentTargets["cloud-run"].deployApplication({
-      appName,
-    }),
-    ...allSteps.supportedDeploymentTargets["cloud-run"].supportedSourceOptions[
+    ...allSteps.supportedDeploymentTargets["cloud-run"][
       "local"
-    ].deployApplication({
-      appName,
-    }),
+    ].deployApplication({ appName }),
   ];
 
   return (
@@ -95,7 +77,7 @@ export default function DeployPage({
                 <p className="mt-4">Framework</p>
                 <details className="space-y-4 border p-2 pl-4">
                   <summary className="-ml-2 text-xl">
-                    {deploymentConfiguration.framework}
+                    {FRAMEWORK_DETAILS[deploymentConfiguration.framework].name}
                   </summary>
                   <ul>
                     {FRAMEWORK_OPTIONS.map((framework) => {
@@ -126,7 +108,10 @@ export default function DeployPage({
                 <p className="mt-4">Deployment Target</p>
                 <details className="space-y-4 border p-2 pl-4">
                   <summary className="-ml-2 text-xl">
-                    {deploymentConfiguration.target}
+                    {
+                      DEPLOYMENT_TARGET_DETAILS[deploymentConfiguration.target]
+                        .name
+                    }
                   </summary>
                   <p>
                     {/* TODO create list of links for other deployment targets, ?filtered by framework? */}
@@ -137,7 +122,10 @@ export default function DeployPage({
                 <p className="mt-4">Code Source Location</p>
                 <details className="space-y-4 border p-2 pl-4">
                   <summary className="-ml-2 text-xl">
-                    {deploymentConfiguration.source}
+                    {
+                      DEPLOYMENT_SOURCE_DETAILS[deploymentConfiguration.source]
+                        .name
+                    }
                   </summary>
                   <p>
                     {/* TODO create list of links for other deployment targets, ?filtered by framework and deployment targets? */}

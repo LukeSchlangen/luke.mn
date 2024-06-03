@@ -1,3 +1,5 @@
+"use client";
+
 import {
   DEPLOYMENT_SOURCE_DETAILS,
   DEPLOYMENT_TARGET_DETAILS,
@@ -15,6 +17,7 @@ import Navbar from "../navbar";
 import Footer from "../footer";
 import CommandList from "../command-list";
 import pathBuilder from "../../utils/path-builder";
+import { useState } from "react";
 
 export default function DeployPage({
   theme,
@@ -23,11 +26,13 @@ export default function DeployPage({
   theme: Theme;
   deploymentConfiguration: DeploymentConfiguration;
 }) {
-  const { textColorClass, bodyBackgroundColor } = colorValues(theme);
+  const { textColorClass, bodyBackgroundColor, textBackgroundColorClass } =
+    colorValues(theme);
 
   const allSteps = FRAMEWORK_DETAILS[deploymentConfiguration.framework];
 
-  const appName = allSteps.defaultApplicationName;
+  const [appName, setAppName] = useState(allSteps.defaultApplicationName);
+
   const prerequisites = [
     ...allSteps.prerequisites({ appName }),
     ...allSteps.supportedDeploymentTargets["cloud-run"]["local"].prerequisites({
@@ -131,6 +136,15 @@ export default function DeployPage({
                     {/* TODO create list of links for other deployment targets, ?filtered by framework and deployment targets? */}
                   </p>
                 </details>
+              </label>
+              <label>
+                <p className="mt-4">Application Name</p>
+                <input
+                  type="text"
+                  value={appName}
+                  onChange={(e) => setAppName(e.target.value)}
+                  className={`border w-full py-2 px-3 text-xl ${textBackgroundColorClass}`}
+                />
               </label>
             </section>
           </ProseContainer>

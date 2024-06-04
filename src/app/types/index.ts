@@ -23,15 +23,13 @@ export type Theme = {
 
 export type StepsFunction = ({ appName }: { appName: string }) => string[];
 
-const emptySteps: StepsFunction = ({ appName }) => [];
+const emptySteps: StepsFunction = () => [];
 
-const nodePrerequisite: StepsFunction = ({ appName }: { appName: string }) => [
+const nodePrerequisite: StepsFunction = () => [
   `curl https://webi.sh/node@lts | sh`,
 ];
 
-const npmRunDevSteps: StepsFunction = ({ appName }: { appName: string }) => [
-  `npm run dev`,
-];
+const npmRunDevSteps: StepsFunction = () => [`npm run dev`];
 
 export type DeploymentSteps = {
   prerequisites: StepsFunction;
@@ -78,9 +76,7 @@ export const TARGET_DETAILS = {
     sources: {
       local: {
         errorMessage: "",
-        prerequisites: ({ appName }: { appName: string }) => [
-          `curl https://sdk.cloud.google.com | bash`,
-        ],
+        prerequisites: () => [`curl https://sdk.cloud.google.com | bash`],
         createApplication: emptySteps,
         runLocally: emptySteps,
         deployApplication: ({ appName }: { appName: string }) => [
@@ -89,7 +85,7 @@ export const TARGET_DETAILS = {
       },
       github: {
         errorMessage: "Not implemented yet.",
-        prerequisites: ({ appName }: { appName: string }) => [
+        prerequisites: () => [
           `curl -sS https://webi.sh/gh | sh`,
           `gh auth login`,
           `curl https://sdk.cloud.google.com | bash`,
@@ -125,12 +121,10 @@ export const TARGET_DETAILS = {
     sources: {
       local: {
         errorMessage: "",
-        prerequisites: ({ appName }: { appName: string }) => [
-          `npm i -g vercel`,
-        ],
+        prerequisites: () => [`npm i -g vercel`],
         createApplication: emptySteps,
         runLocally: emptySteps,
-        deployApplication: ({ appName }: { appName: string }) => [`vercel`],
+        deployApplication: () => [`vercel`],
       },
       github: {
         errorMessage: "Not implemented yet",
@@ -164,7 +158,7 @@ export const FRAMEWORK_DETAILS: Record<FrameworkOption, FrameworkDetails> = {
       `npx @angular/cli new ${appName} --ssr`,
       `cd ${appName}`,
     ],
-    runLocally: ({ appName }: { appName: string }) => ["npm start"],
+    runLocally: () => ["npm start"],
     deployApplication: emptySteps,
     targets: TARGET_DETAILS,
   },

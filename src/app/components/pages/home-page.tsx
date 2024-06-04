@@ -5,6 +5,7 @@ import colorValues from "../../utils/color-values";
 import ProfileImage from "../profile-image";
 import Navbar from "../navbar";
 import SocialIconBar from "../social-icon-bar";
+import Confetti from "../confetti";
 
 export default function HomePage({
   theme,
@@ -42,6 +43,7 @@ export default function HomePage({
           </main>
         </div>
       </div>
+      {theme.vibe === "fun" && <Confetti />}
       <Footer />
     </div>
   );

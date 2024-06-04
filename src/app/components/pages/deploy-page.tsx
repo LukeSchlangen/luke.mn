@@ -162,7 +162,7 @@ export default function DeployPage({
                   </ul>
                 </details>
               </label>
-              <label>
+              {/* <label>
                 <p className="mt-4">Code Source Location</p>
                 <details className="space-y-4 border p-2 pl-4">
                   <summary className="-ml-2 text-xl">
@@ -192,7 +192,7 @@ export default function DeployPage({
                     })}
                   </ul>
                 </details>
-              </label>
+              </label> */}
               <label>
                 <p className="mt-4">Application Name</p>
                 <input
@@ -202,7 +202,7 @@ export default function DeployPage({
                   className={`border w-full py-2 px-3 text-xl ${textBackgroundColorClass}`}
                 />
               </label>
-              <label>
+              {/* <label>
                 <p className="mt-4">Project ID</p>
                 <input
                   type="text"
@@ -210,7 +210,7 @@ export default function DeployPage({
                   onChange={(e) => setProjectId(e.target.value)}
                   className={`border w-full py-2 px-3 text-xl ${textBackgroundColorClass}`}
                 />
-              </label>
+              </label> */}
             </section>
           </ProseContainer>
           {errorMessage && (

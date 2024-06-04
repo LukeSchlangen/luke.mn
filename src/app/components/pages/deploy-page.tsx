@@ -39,12 +39,13 @@ export default function DeployPage({
   );
 
   const errorMessage =
-    allSteps.targets["cloud-run"].sources[deploymentConfiguration.source]
-      .errorMessage;
+    allSteps.targets[deploymentConfiguration.target].sources[
+      deploymentConfiguration.source
+    ].errorMessage;
 
   const prerequisites = [
     ...allSteps.prerequisites({ appName, projectId }),
-    ...allSteps.targets["cloud-run"].sources[
+    ...allSteps.targets[deploymentConfiguration.target].sources[
       deploymentConfiguration.source
     ].prerequisites({
       appName,
@@ -53,7 +54,7 @@ export default function DeployPage({
   ];
   const createApplication = [
     ...allSteps.createApplication({ appName, projectId }),
-    ...allSteps.targets["cloud-run"].sources[
+    ...allSteps.targets[deploymentConfiguration.target].sources[
       deploymentConfiguration.source
     ].createApplication({
       appName,
@@ -62,7 +63,7 @@ export default function DeployPage({
   ];
   const runLocally = [
     ...allSteps.runLocally({ appName, projectId }),
-    ...allSteps.targets["cloud-run"].sources[
+    ...allSteps.targets[deploymentConfiguration.target].sources[
       deploymentConfiguration.source
     ].runLocally({
       appName,
@@ -71,7 +72,7 @@ export default function DeployPage({
   ];
   const deployApplication = [
     ...allSteps.deployApplication({ appName, projectId }),
-    ...allSteps.targets["cloud-run"].sources[
+    ...allSteps.targets[deploymentConfiguration.target].sources[
       deploymentConfiguration.source
     ].deployApplication({
       appName,

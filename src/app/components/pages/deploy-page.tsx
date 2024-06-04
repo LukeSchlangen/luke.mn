@@ -34,9 +34,6 @@ export default function DeployPage({
   const allSteps = FRAMEWORK_DETAILS[deploymentConfiguration.framework];
 
   const [appName, setAppName] = useState(allSteps.defaultApplicationName);
-  const [projectId, setProjectId] = useState(
-    allSteps.targets[deploymentConfiguration.target].defaultProjectId,
-  );
 
   const errorMessage =
     allSteps.targets[deploymentConfiguration.target].sources[
@@ -44,39 +41,35 @@ export default function DeployPage({
     ].errorMessage;
 
   const prerequisites = [
-    ...allSteps.prerequisites({ appName, projectId }),
+    ...allSteps.prerequisites({ appName }),
     ...allSteps.targets[deploymentConfiguration.target].sources[
       deploymentConfiguration.source
     ].prerequisites({
       appName,
-      projectId,
     }),
   ];
   const createApplication = [
-    ...allSteps.createApplication({ appName, projectId }),
+    ...allSteps.createApplication({ appName }),
     ...allSteps.targets[deploymentConfiguration.target].sources[
       deploymentConfiguration.source
     ].createApplication({
       appName,
-      projectId,
     }),
   ];
   const runLocally = [
-    ...allSteps.runLocally({ appName, projectId }),
+    ...allSteps.runLocally({ appName }),
     ...allSteps.targets[deploymentConfiguration.target].sources[
       deploymentConfiguration.source
     ].runLocally({
       appName,
-      projectId,
     }),
   ];
   const deployApplication = [
-    ...allSteps.deployApplication({ appName, projectId }),
+    ...allSteps.deployApplication({ appName }),
     ...allSteps.targets[deploymentConfiguration.target].sources[
       deploymentConfiguration.source
     ].deployApplication({
       appName,
-      projectId,
     }),
   ];
 
@@ -202,58 +195,50 @@ export default function DeployPage({
                   className={`border w-full py-2 px-3 text-xl ${textBackgroundColorClass}`}
                 />
               </label>
-              {/* <label>
-                <p className="mt-4">Project ID</p>
-                <input
-                  type="text"
-                  value={projectId}
-                  onChange={(e) => setProjectId(e.target.value)}
-                  className={`border w-full py-2 px-3 text-xl ${textBackgroundColorClass}`}
-                />
-              </label> */}
             </section>
           </ProseContainer>
-          {errorMessage && (
+          {errorMessage ? (
             <ProseContainer theme={theme}>
               <p className="text-5xl text-red-500">{errorMessage}</p>
             </ProseContainer>
+          ) : (
+            <ProseContainer theme={theme}>
+              <section className="space-y-4">
+                <h3 className="text-3xl">
+                  Deployment Steps
+                  <CopyLinkIcon id="software-career" />
+                </h3>
+                <details open className="space-y-4 border p-2 pl-4">
+                  <summary className="-ml-2 text-xl">
+                    Pre-requisites
+                    <CopyLinkIcon id="create-application" />
+                  </summary>
+                  <CommandList steps={prerequisites} />
+                </details>
+                <details open className="space-y-4 border p-2 pl-4">
+                  <summary className="-ml-2 text-xl">
+                    Create application
+                    <CopyLinkIcon id="create-application" />
+                  </summary>
+                  <CommandList steps={createApplication} />
+                </details>
+                <details className="space-y-4 border p-2 pl-4">
+                  <summary className="-ml-2 text-xl">
+                    Run application locally
+                    <CopyLinkIcon id="create-application" />
+                  </summary>
+                  <CommandList steps={runLocally} />
+                </details>
+                <details open className="space-y-4 border p-2 pl-4">
+                  <summary className="-ml-2 text-xl">
+                    Deploy application
+                    <CopyLinkIcon id="deploy-app" />
+                  </summary>
+                  <CommandList steps={deployApplication} />
+                </details>
+              </section>
+            </ProseContainer>
           )}
-          <ProseContainer theme={theme}>
-            <section className="space-y-4">
-              <h3 className="text-3xl">
-                Deployment Steps
-                <CopyLinkIcon id="software-career" />
-              </h3>
-              <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  Pre-requisites
-                  <CopyLinkIcon id="create-application" />
-                </summary>
-                <CommandList steps={prerequisites} />
-              </details>
-              <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  Create application
-                  <CopyLinkIcon id="create-application" />
-                </summary>
-                <CommandList steps={createApplication} />
-              </details>
-              <details className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  Run application locally
-                  <CopyLinkIcon id="create-application" />
-                </summary>
-                <CommandList steps={runLocally} />
-              </details>
-              <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  Deploy application
-                  <CopyLinkIcon id="deploy-app" />
-                </summary>
-                <CommandList steps={deployApplication} />
-              </details>
-            </section>
-          </ProseContainer>
         </main>
       </div>
       <Footer />

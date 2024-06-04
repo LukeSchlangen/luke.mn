@@ -16,8 +16,8 @@ export default function VerbosityToggle({
       <Link
         href={pathBuilder({
           ...theme,
-          verbosity: "short",
           ...deploymentConfiguration,
+          verbosity: "short",
         })}
         className={verbosity === "short" ? "underline" : ""}
       >
@@ -27,8 +27,8 @@ export default function VerbosityToggle({
       <Link
         href={pathBuilder({
           ...theme,
-          verbosity: "medium",
           ...deploymentConfiguration,
+          verbosity: "medium",
         })}
         className={verbosity === "medium" ? "underline" : ""}
       >
@@ -38,8 +38,8 @@ export default function VerbosityToggle({
       <Link
         href={pathBuilder({
           ...theme,
-          verbosity: "long",
           ...deploymentConfiguration,
+          verbosity: "long",
         })}
         className={verbosity === "long" ? "underline" : ""}
       >

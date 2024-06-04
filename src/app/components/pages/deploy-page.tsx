@@ -1,12 +1,14 @@
 "use client";
 
 import {
-  DEPLOYMENT_SOURCE_DETAILS,
-  DEPLOYMENT_TARGET_DETAILS,
   DeploymentConfiguration,
   FRAMEWORK_DETAILS,
   FRAMEWORK_OPTIONS,
+  SOURCE_DETAILS,
+  SOURCE_OPTIONS,
   Theme,
+  TARGET_DETAILS,
+  TARGET_OPTIONS,
 } from "../../types";
 
 import ProseContainer from "../prose-container";
@@ -32,30 +34,49 @@ export default function DeployPage({
   const allSteps = FRAMEWORK_DETAILS[deploymentConfiguration.framework];
 
   const [appName, setAppName] = useState(allSteps.defaultApplicationName);
+  const [projectId, setProjectId] = useState(
+    allSteps.targets[deploymentConfiguration.target].defaultProjectId,
+  );
+
+  const errorMessage =
+    allSteps.targets["cloud-run"].sources[deploymentConfiguration.source]
+      .errorMessage;
 
   const prerequisites = [
-    ...allSteps.prerequisites({ appName }),
-    ...allSteps.supportedDeploymentTargets["cloud-run"]["local"].prerequisites({
+    ...allSteps.prerequisites({ appName, projectId }),
+    ...allSteps.targets["cloud-run"].sources[
+      deploymentConfiguration.source
+    ].prerequisites({
       appName,
+      projectId,
     }),
   ];
   const createApplication = [
-    ...allSteps.createApplication({ appName }),
-    ...allSteps.supportedDeploymentTargets["cloud-run"][
-      "local"
-    ].createApplication({ appName }),
+    ...allSteps.createApplication({ appName, projectId }),
+    ...allSteps.targets["cloud-run"].sources[
+      deploymentConfiguration.source
+    ].createApplication({
+      appName,
+      projectId,
+    }),
   ];
   const runLocally = [
-    ...allSteps.runLocally({ appName }),
-    ...allSteps.supportedDeploymentTargets["cloud-run"]["local"].runLocally({
+    ...allSteps.runLocally({ appName, projectId }),
+    ...allSteps.targets["cloud-run"].sources[
+      deploymentConfiguration.source
+    ].runLocally({
       appName,
+      projectId,
     }),
   ];
   const deployApplication = [
-    ...allSteps.deployApplication({ appName }),
-    ...allSteps.supportedDeploymentTargets["cloud-run"][
-      "local"
-    ].deployApplication({ appName }),
+    ...allSteps.deployApplication({ appName, projectId }),
+    ...allSteps.targets["cloud-run"].sources[
+      deploymentConfiguration.source
+    ].deployApplication({
+      appName,
+      projectId,
+    }),
   ];
 
   return (
@@ -113,28 +134,62 @@ export default function DeployPage({
                 <p className="mt-4">Deployment Target</p>
                 <details className="space-y-4 border p-2 pl-4">
                   <summary className="-ml-2 text-xl">
-                    {
-                      DEPLOYMENT_TARGET_DETAILS[deploymentConfiguration.target]
-                        .name
-                    }
+                    {TARGET_DETAILS[deploymentConfiguration.target].name}
                   </summary>
-                  <p>
-                    {/* TODO create list of links for other deployment targets, ?filtered by framework? */}
-                  </p>
+                  <ul>
+                    {TARGET_OPTIONS.map((target) => {
+                      const { name } = TARGET_DETAILS[target];
+                      return (
+                        <li key={target}>
+                          <Link
+                            href={pathBuilder({
+                              ...theme,
+                              ...deploymentConfiguration,
+                              target,
+                            })}
+                            className={
+                              deploymentConfiguration.target === target
+                                ? "underline"
+                                : ""
+                            }
+                          >
+                            {name}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </details>
               </label>
               <label>
                 <p className="mt-4">Code Source Location</p>
                 <details className="space-y-4 border p-2 pl-4">
                   <summary className="-ml-2 text-xl">
-                    {
-                      DEPLOYMENT_SOURCE_DETAILS[deploymentConfiguration.source]
-                        .name
-                    }
+                    {SOURCE_DETAILS[deploymentConfiguration.source].name}
                   </summary>
-                  <p>
-                    {/* TODO create list of links for other deployment targets, ?filtered by framework and deployment targets? */}
-                  </p>
+                  <ul>
+                    {SOURCE_OPTIONS.map((source) => {
+                      const { name } = SOURCE_DETAILS[source];
+                      return (
+                        <li key={source}>
+                          <Link
+                            href={pathBuilder({
+                              ...theme,
+                              ...deploymentConfiguration,
+                              source,
+                            })}
+                            className={
+                              deploymentConfiguration.source === source
+                                ? "underline"
+                                : ""
+                            }
+                          >
+                            {name}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </details>
               </label>
               <label>
@@ -146,8 +201,22 @@ export default function DeployPage({
                   className={`border w-full py-2 px-3 text-xl ${textBackgroundColorClass}`}
                 />
               </label>
+              <label>
+                <p className="mt-4">Project ID</p>
+                <input
+                  type="text"
+                  value={projectId}
+                  onChange={(e) => setProjectId(e.target.value)}
+                  className={`border w-full py-2 px-3 text-xl ${textBackgroundColorClass}`}
+                />
+              </label>
             </section>
           </ProseContainer>
+          {errorMessage && (
+            <ProseContainer theme={theme}>
+              <p className="text-5xl text-red-500">{errorMessage}</p>
+            </ProseContainer>
+          )}
           <ProseContainer theme={theme}>
             <section className="space-y-4">
               <h3 className="text-3xl">

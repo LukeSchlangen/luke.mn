@@ -23,15 +23,13 @@ export default function LongBio({ tense }: { tense: TenseOption }) {
       </p>
       <p>
         {isFirstPerson ? " I am " : " He is "}
-        working on making it easier to
-        {" "}
+        working on making it easier to{" "}
         <Link
           href="/deploy"
           className="underline decoration-blue-400 hover:decoration-blue-600"
         >
           deploy your application
-        </Link>
-        {" "}
+        </Link>{" "}
         to the world.
       </p>
       <p>
@@ -57,8 +55,7 @@ export default function LongBio({ tense }: { tense: TenseOption }) {
       <p>
         If you want to know more about what
         {isFirstPerson ? " I " : " he "}
-        thinks, you could check out the
-        {" "}
+        thinks, you could check out the{" "}
         <Link
           href="/faq"
           className="underline decoration-blue-400 hover:decoration-blue-600"

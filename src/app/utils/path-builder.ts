@@ -18,5 +18,5 @@ export default function pathBuilder({
   const frameworkPath = framework === "angular-ssr" ? "" : `/${framework}`;
   const targetPath = target === "cloud-run" ? "" : `/${target}`;
   const sourcePath = source === "local" ? "" : `/${source}`;
-  return `${pagePath}${vibePath}${colorPath}${tensePath}${verbosityPath}${frameworkPath}${targetPath}${sourcePath}`;
+  return `${pagePath}${vibePath}${colorPath}${tensePath}${verbosityPath}${frameworkPath}${targetPath}${sourcePath}` || '/';
 }

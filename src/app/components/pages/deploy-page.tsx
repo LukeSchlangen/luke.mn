@@ -17,9 +17,10 @@ import Link from "next/link";
 import colorValues from "../../utils/color-values";
 import Navbar from "../navbar";
 import Footer from "../footer";
-import CommandList from "../command-list";
 import pathBuilder from "../../utils/path-builder";
 import { useState } from "react";
+import VerbosityToggle from "../toggles/verbosity-toggle";
+import Instructions from "../instructions";
 
 export default function DeployPage({
   theme,
@@ -204,38 +205,23 @@ export default function DeployPage({
           ) : (
             <ProseContainer theme={theme}>
               <section className="space-y-4">
-                <h3 className="text-3xl">
-                  Deployment Steps
-                  <CopyLinkIcon id="software-career" />
-                </h3>
-                <details open className="space-y-4 border p-2 pl-4">
-                  <summary className="-ml-2 text-xl">
-                    Pre-requisites
-                    <CopyLinkIcon id="create-application" />
-                  </summary>
-                  <CommandList steps={prerequisites} />
-                </details>
-                <details open className="space-y-4 border p-2 pl-4">
-                  <summary className="-ml-2 text-xl">
-                    Create application
-                    <CopyLinkIcon id="create-application" />
-                  </summary>
-                  <CommandList steps={createApplication} />
-                </details>
-                <details className="space-y-4 border p-2 pl-4">
-                  <summary className="-ml-2 text-xl">
-                    Run application locally
-                    <CopyLinkIcon id="create-application" />
-                  </summary>
-                  <CommandList steps={runLocally} />
-                </details>
-                <details open className="space-y-4 border p-2 pl-4">
-                  <summary className="-ml-2 text-xl">
-                    Deploy application
-                    <CopyLinkIcon id="deploy-app" />
-                  </summary>
-                  <CommandList steps={deployApplication} />
-                </details>
+                <div className="mb-4 flex justify-between text-sm font-light">
+                  <h3 className="text-3xl">
+                    Deployment Steps
+                    <CopyLinkIcon id="deployment-steps" />
+                  </h3>
+                  <VerbosityToggle
+                    theme={theme}
+                    deploymentConfiguration={deploymentConfiguration}
+                  />
+                </div>
+                <Instructions
+                  theme={theme}
+                  prerequisites={prerequisites}
+                  createApplication={createApplication}
+                  runLocally={runLocally}
+                  deployApplication={deployApplication}
+                />
               </section>
             </ProseContainer>
           )}

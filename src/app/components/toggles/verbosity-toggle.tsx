@@ -27,6 +27,17 @@ export default function VerbosityToggle({
       <Link
         href={pathBuilder({
           ...theme,
+          verbosity: "medium",
+          ...deploymentConfiguration,
+        })}
+        className={verbosity === "medium" ? "underline" : ""}
+      >
+        Medium
+      </Link>
+      {" | "}
+      <Link
+        href={pathBuilder({
+          ...theme,
           verbosity: "long",
           ...deploymentConfiguration,
         })}

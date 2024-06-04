@@ -25,7 +25,7 @@ export default function pathParser(slug?: string[]) {
     vibe: "standard",
     color: "light",
     tense: "first-person",
-    verbosity: "short",
+    verbosity: "medium",
   };
 
   let deploymentConfiguration: DeploymentConfiguration = {

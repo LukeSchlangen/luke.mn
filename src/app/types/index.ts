@@ -10,8 +10,8 @@ export type ColorOption = (typeof COLOR_OPTIONS)[number];
 export const TENSE_OPTIONS = ["first-person", "third-person"] as const;
 export type TenseOption = (typeof TENSE_OPTIONS)[number];
 
-export const VERBOSITY_OPTIONS = ["short", "long"] as const;
-export type VerbosityOption = "short" | "long";
+export const VERBOSITY_OPTIONS = ["short", "medium", "long"] as const;
+export type VerbosityOption = (typeof VERBOSITY_OPTIONS)[number];
 
 export type Theme = {
   page: PageOption;

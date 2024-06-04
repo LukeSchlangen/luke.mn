@@ -14,7 +14,7 @@ export default function pathBuilder({
   const vibePath = vibe === "standard" ? "" : `/${vibe}`;
   const colorPath = color === "light" ? "" : `/${color}`;
   const tensePath = tense === "first-person" ? "" : `/${tense}`;
-  const verbosityPath = verbosity === "short" ? "" : `/${verbosity}`;
+  const verbosityPath = verbosity === "medium" ? "" : `/${verbosity}`;
   const frameworkPath = framework === "angular-ssr" ? "" : `/${framework}`;
   const targetPath = target === "cloud-run" ? "" : `/${target}`;
   const sourcePath = source === "local" ? "" : `/${source}`;

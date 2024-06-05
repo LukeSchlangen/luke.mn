@@ -49,7 +49,16 @@ export type FrameworkDetails = {
     TargetOption,
     {
       defaultProjectId: string;
-      sources: Record<SourceOption, DeploymentSteps & { errorMessage: string }>;
+      sources: Record<
+        SourceOption,
+        DeploymentSteps & {
+          errorMessage: ({
+            framework,
+          }: {
+            framework: FrameworkOption;
+          }) => string;
+        }
+      >;
     }
   >;
 };
@@ -75,7 +84,7 @@ export const TARGET_DETAILS = {
     defaultProjectId: "${GOOGLE_CLOUD_PROJECT}",
     sources: {
       local: {
-        errorMessage: "",
+        errorMessage: () => "",
         prerequisites: () => [`curl https://sdk.cloud.google.com | bash`],
         createApplication: emptySteps,
         runLocally: emptySteps,
@@ -84,7 +93,7 @@ export const TARGET_DETAILS = {
         ],
       },
       github: {
-        errorMessage: "Not implemented yet.",
+        errorMessage: () => "Not implemented yet",
         prerequisites: () => [
           `curl -sS https://webi.sh/gh | sh`,
           `gh auth login`,
@@ -120,14 +129,17 @@ export const TARGET_DETAILS = {
     defaultProjectId: "${VERCEL_PROJECT}",
     sources: {
       local: {
-        errorMessage: "",
+        errorMessage: ({ framework }: { framework: FrameworkOption }) =>
+          framework === "marko"
+            ? `Not implemented yet for ${FRAMEWORK_DETAILS[framework].name}`
+            : "",
         prerequisites: () => [`npm i -g vercel`],
         createApplication: emptySteps,
         runLocally: emptySteps,
         deployApplication: () => [`vercel`],
       },
       github: {
-        errorMessage: "Not implemented yet",
+        errorMessage: () => "Not implemented yet",
         prerequisites: emptySteps,
         createApplication: emptySteps,
         runLocally: emptySteps,

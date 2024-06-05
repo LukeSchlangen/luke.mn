@@ -36,10 +36,9 @@ export default function DeployPage({
 
   const [appName, setAppName] = useState(allSteps.defaultApplicationName);
 
-  const errorMessage =
-    allSteps.targets[deploymentConfiguration.target].sources[
-      deploymentConfiguration.source
-    ].errorMessage;
+  const errorMessage = allSteps.targets[deploymentConfiguration.target].sources[
+    deploymentConfiguration.source
+  ].errorMessage({ framework: deploymentConfiguration.framework });
 
   const prerequisites = [
     ...allSteps.prerequisites({ appName }),

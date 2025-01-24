@@ -9,7 +9,7 @@ const jost = Jost({
 export default function DeveloperAdvocateAtGoogle() {
   return (
     <Link
-      href="https://cloud.google.com/developers/advocates/luke-schlangen?hl=en"
+      href="https://developers.google.com/profile/u/lukeschlangen"
       className="underline decoration-blue-400 hover:decoration-blue-600"
     >
       developer advocate at{" "}

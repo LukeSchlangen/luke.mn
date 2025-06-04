@@ -2,11 +2,12 @@ import DeployPage from "../../components/pages/deploy-page";
 import NotFoundPage from "../../components/pages/not-found-page";
 import pathParser from "../../utils/path-parser";
 
-export default function Page({
-  params = { slug: [] },
+export default async function Page({
+  params: paramsPromise = Promise.resolve({ slug: [] }),
 }: {
-  params: { slug: string[] };
+  params: Promise<{ slug: string[] }>;
 }) {
+  const params = await paramsPromise;
   const { theme, remainingSlug, deploymentConfiguration } = pathParser(
     params.slug,
   );

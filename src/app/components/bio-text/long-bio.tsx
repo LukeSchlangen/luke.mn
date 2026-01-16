@@ -5,6 +5,7 @@ import LearningFollowsExcitement from "./phrases/learning-follows-excitement";
 import GoogleKubernetesEngine from "./phrases/google-kubernetes-engine";
 import GoogleCloudRun from "./phrases/google-cloud-run";
 import Link from "next/link";
+import Firebase from "./phrases/firebase";
 
 export default function LongBio({ tense }: { tense: TenseOption }) {
   const isFirstPerson = tense === "first-person";
@@ -40,8 +41,10 @@ export default function LongBio({ tense }: { tense: TenseOption }) {
         company. Now at Google,
         {isFirstPerson ? " I like to " : " he likes to "}
         {"help developers deploy their applications to places like "}
+        <Firebase />
+        {", "}
         <GoogleCloudRun />
-        {" and "}
+        {", and "}
         <GoogleKubernetesEngine />.
       </p>
       <p>

@@ -4,6 +4,7 @@ import { TenseOption } from "../../types";
 import LearningFollowsExcitement from "./phrases/learning-follows-excitement";
 import GoogleKubernetesEngine from "./phrases/google-kubernetes-engine";
 import GoogleCloudRun from "./phrases/google-cloud-run";
+import Firebase from "./phrases/firebase";
 
 export default function MediumBio({ tense }: { tense: TenseOption }) {
   const isFirstPerson = tense === "first-person";
@@ -28,8 +29,10 @@ export default function MediumBio({ tense }: { tense: TenseOption }) {
         company. Now at Google,
         {isFirstPerson ? " I like to " : " he likes to "}
         {"help developers deploy their applications to places like "}
+        <Firebase />
+        {", "}
         <GoogleCloudRun />
-        {" and "}
+        {", and "}
         <GoogleKubernetesEngine />.
       </p>
       <p>

@@ -6,15 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@types/node": "24.10.1",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "canvas-confetti": "^1.9.4",
-    "eslint": "^9.39.1",
-    "eslint-config-next": "16.0.6",
     "next": "16.0.10",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -26,7 +24,10 @@
     "@total-typescript/ts-reset": "^0.6.1",
     "@types/canvas-confetti": "^1.9.0",
     "autoprefixer": "^10.4.22",
+    "baseline-browser-mapping": "^2.9.19",
     "encoding": "^0.1.13",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "15.5.12",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "postcss": "^8.5.6",

@@ -1,29 +1,32 @@
-# Redux Toolkit TypeScript Example
+# Luke Schlangen's Portfolio Website
 
-This example shows how to integrate Next.js with [Redux Toolkit](https://redux-toolkit.js.org).
+This is a personal portfolio website built with [Next.js](https://nextjs.org/) and [Tailwind CSS](https://tailwindcss.com/). It features a configurable interface that changes themes based on the URL path.
 
-The **Redux Toolkit** is a standardized way to write Redux logic (create actions and reducers, setup the store with some default middlewares like redux devtools extension). This example demonstrates each of these features with Next.js
+## Features
 
-## Deploy your own
+- **Dynamic Theming**: The website's appearance and "vibe" (professional, fun, etc.) can be changed via the URL.
+- **Next.js App Router**: Uses the latest Next.js features including the App Router and Server Components.
+- **Configurable Deployment**: Includes options for simulating different deployment configurations.
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+## Getting Started
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-redux&project-name=with-redux&repository-name=with-redux)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+First, install the dependencies:
 
 ```bash
-npx create-next-app --example with-redux with-redux-app
+pnpm install
 ```
+
+Then, run the development server:
 
 ```bash
-yarn create next-app --example with-redux with-redux-app
+pnpm dev
 ```
 
-```bash
-pnpm create next-app --example with-redux with-redux-app
-```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+## Project Structure
+
+- `src/app`: Application source code (App Router).
+- `src/app/components`: Reusable UI components.
+- `src/app/utils`: Utility functions, including path parsing for themes.
+- `src/app/types`: TypeScript type definitions.

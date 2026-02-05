@@ -5,7 +5,9 @@ import colorValues from "../../utils/color-values";
 import ProfileImage from "../profile-image";
 import Navbar from "../navbar";
 import SocialIconBar from "../social-icon-bar";
-import Confetti from "../confetti";
+import dynamic from "next/dynamic";
+
+const Confetti = dynamic(() => import("../confetti"));
 
 export default function HomePage({
   theme,

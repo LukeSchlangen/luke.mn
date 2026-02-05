@@ -41,7 +41,7 @@ export default function NotFoundPage({
               <p>I am not sure what these mean:</p>
               <pre>{JSON.stringify(remainingSlug, null, 2)}</pre>
               <p>The full path was:</p>
-              <pre>{JSON.stringify(remainingSlug, null, 2)}</pre>
+              <pre>{JSON.stringify(slug, null, 2)}</pre>
             </section>
           </ProseContainer>
         </main>

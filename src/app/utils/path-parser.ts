@@ -19,7 +19,7 @@ import {
   VibeOption,
 } from "../types";
 
-export default function pathParser(slug?: string[]) {
+export function pathParser(slug?: string[]) {
   let theme: Theme = {
     page: "not-found",
     vibe: "standard",
@@ -43,38 +43,43 @@ export default function pathParser(slug?: string[]) {
     theme.page = "home";
     remainingSlug.shift();
   }
-  if (PAGE_OPTIONS.includes(remainingSlug[0])) {
+  if (PAGE_OPTIONS.includes(remainingSlug[0] as PageOption)) {
     theme.page = remainingSlug[0] as PageOption;
     remainingSlug.shift();
   }
-  if (VIBE_OPTIONS.includes(remainingSlug[0])) {
+  if (VIBE_OPTIONS.includes(remainingSlug[0] as VibeOption)) {
     theme.vibe = remainingSlug[0] as VibeOption;
     remainingSlug.shift();
   }
-  if (COLOR_OPTIONS.includes(remainingSlug[0])) {
+  if (COLOR_OPTIONS.includes(remainingSlug[0] as ColorOption)) {
     theme.color = remainingSlug[0] as ColorOption;
     remainingSlug.shift();
   }
-  if (TENSE_OPTIONS.includes(remainingSlug[0])) {
+  if (TENSE_OPTIONS.includes(remainingSlug[0] as TenseOption)) {
     theme.tense = remainingSlug[0] as TenseOption;
     remainingSlug.shift();
   }
-  if (VERBOSITY_OPTIONS.includes(remainingSlug[0])) {
+  if (VERBOSITY_OPTIONS.includes(remainingSlug[0] as VerbosityOption)) {
     theme.verbosity = remainingSlug[0] as VerbosityOption;
     remainingSlug.shift();
   }
-  if (FRAMEWORK_OPTIONS.includes(remainingSlug[0])) {
+  if (FRAMEWORK_OPTIONS.includes(remainingSlug[0] as FrameworkOption)) {
     deploymentConfiguration.framework = remainingSlug[0] as FrameworkOption;
     remainingSlug.shift();
   }
-  if (TARGET_OPTIONS.includes(remainingSlug[0])) {
+  if (TARGET_OPTIONS.includes(remainingSlug[0] as TargetOption)) {
     deploymentConfiguration.target = remainingSlug[0] as TargetOption;
     remainingSlug.shift();
   }
-  if (SOURCE_OPTIONS.includes(remainingSlug[0])) {
+  if (SOURCE_OPTIONS.includes(remainingSlug[0] as SourceOption)) {
     deploymentConfiguration.source = remainingSlug[0] as SourceOption;
     remainingSlug.shift();
   }
 
   return { theme, deploymentConfiguration, remainingSlug };
+}
+
+export async function cachedPathParser(slug?: string[]) {
+  "use cache";
+  return pathParser(slug);
 }

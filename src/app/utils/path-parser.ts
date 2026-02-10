@@ -19,6 +19,11 @@ import {
   VibeOption,
 } from "../types";
 
+export async function cachedPathParser(slug?: string[]) {
+  "use cache";
+  return pathParser(slug);
+}
+
 export default function pathParser(slug?: string[]) {
   let theme: Theme = {
     page: "not-found",

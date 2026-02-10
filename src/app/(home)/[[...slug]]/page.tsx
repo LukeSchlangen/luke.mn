@@ -1,55 +1,52 @@
-import { Theme } from "../../types";
+import { Suspense } from "react";
 import HomePage from "../../components/pages/home-page";
-import pathParser from "../../utils/path-parser";
 import NotFoundPage from "../../components/pages/not-found-page";
-import { Metadata } from "next";
+import { cachedPathParser } from "../../utils/path-parser";
+import {
+  generateStaticMetadata,
+  generateStaticParams as sharedGenerateStaticParams,
+} from "../../utils/metadata-helper";
 
 export async function generateMetadata({
-  params: paramsPromise = Promise.resolve({ slug: [] }),
+  params,
 }: {
-  params: Promise<{ slug: string[] }>;
-}): Promise<Metadata> {
-  const params = await paramsPromise;
-  const { theme } = pathParser(params.slug);
+  params: Promise<{ slug?: string[] }>;
+}) {
+  const { slug = [] } = await params;
+  return generateStaticMetadata(slug);
+}
 
-  let icon = "/favicons/smiling-face.svg";
-  if (theme.vibe === "professional") {
-    icon = "/favicons/briefcase.svg";
-  } else if (theme.vibe === "fun") {
-    icon = "/favicons/party-popper.svg";
-  }
-
-  return {
-    icons: {
-      icon: icon,
-    },
-  };
+export async function generateStaticParams() {
+  return sharedGenerateStaticParams();
 }
 
 export default async function Page({
-  params: paramsPromise = Promise.resolve({ slug: [] }),
+  params,
 }: {
-  params: Promise<{ slug: string[] }>;
+  params: Promise<{ slug?: string[] }>;
 }) {
-  const params = await paramsPromise;
-  const { theme, remainingSlug, deploymentConfiguration } = pathParser(
-    params.slug,
-  );
+  const { slug = [] } = await params;
+  const { theme, remainingSlug, deploymentConfiguration } = await cachedPathParser(slug);
 
   if (remainingSlug.length > 0) {
     return (
-      <NotFoundPage
-        theme={{ ...theme, page: "not-found" }}
-        remainingSlug={remainingSlug}
-        deploymentConfiguration={deploymentConfiguration}
-        slug={params.slug}
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <NotFoundPage
+          theme={{ ...theme, page: "not-found" }}
+          remainingSlug={remainingSlug}
+          deploymentConfiguration={deploymentConfiguration}
+          slug={slug}
+        />
+      </Suspense>
     );
   }
+
   return (
-    <HomePage
-      theme={{ ...theme, page: "home" }}
-      deploymentConfiguration={deploymentConfiguration}
-    />
+    <Suspense fallback={<div>Loading...</div>}>
+      <HomePage
+        theme={{ ...theme, page: "home" }}
+        deploymentConfiguration={deploymentConfiguration}
+      />
+    </Suspense>
   );
 }

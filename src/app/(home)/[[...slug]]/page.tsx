@@ -3,6 +3,12 @@ import HomePage from "../../components/pages/home-page";
 import pathParser from "../../utils/path-parser";
 import NotFoundPage from "../../components/pages/not-found-page";
 import { Metadata } from "next";
+import { getSlugsForPage } from "../../utils/static-params";
+
+export async function generateStaticParams() {
+  const slugs = getSlugsForPage();
+  return slugs.map((slug) => ({ slug }));
+}
 
 export async function generateMetadata({
   params: paramsPromise = Promise.resolve({ slug: [] }),

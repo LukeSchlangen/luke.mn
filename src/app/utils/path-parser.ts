@@ -78,3 +78,8 @@ export default function pathParser(slug?: string[]) {
 
   return { theme, deploymentConfiguration, remainingSlug };
 }
+
+export async function cachedPathParser(slug?: string[]) {
+  "use cache";
+  return pathParser(slug);
+}

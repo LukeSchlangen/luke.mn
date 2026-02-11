@@ -1,54 +1,19 @@
-import FaqPage from "../../components/pages/faq-page";
-import NotFoundPage from "../../components/pages/not-found-page";
-import pathParser from "../../utils/path-parser";
-import { Metadata } from "next";
+import {
+  generateMetadataHelper,
+  generateStaticParamsHelper,
+} from "../../utils/metadata-helper";
+import SharedPage from "../../components/shared-page";
 
-export async function generateMetadata({
-  params: paramsPromise = Promise.resolve({ slug: [] }),
-}: {
-  params: Promise<{ slug: string[] }>;
-}): Promise<Metadata> {
-  const params = await paramsPromise;
-  const { theme } = pathParser(params.slug);
+export const generateMetadata = generateMetadataHelper;
 
-  let icon = "/favicons/smiling-face.svg";
-  if (theme.vibe === "professional") {
-    icon = "/favicons/briefcase.svg";
-  } else if (theme.vibe === "fun") {
-    icon = "/favicons/party-popper.svg";
-  }
-
-  return {
-    icons: {
-      icon: icon,
-    },
-  };
+export async function generateStaticParams() {
+  return generateStaticParamsHelper("faq");
 }
 
-export default async function Page({
-  params: paramsPromise = Promise.resolve({ slug: [] }),
+export default function Page({
+  params,
 }: {
   params: Promise<{ slug: string[] }>;
 }) {
-  const params = await paramsPromise;
-  const { theme, remainingSlug, deploymentConfiguration } = pathParser(
-    params.slug,
-  );
-
-  if (remainingSlug.length > 0) {
-    return (
-      <NotFoundPage
-        theme={{ ...theme, page: "not-found" }}
-        remainingSlug={remainingSlug}
-        deploymentConfiguration={deploymentConfiguration}
-        slug={params.slug}
-      />
-    );
-  }
-  return (
-    <FaqPage
-      theme={{ ...theme, page: "faq" }}
-      deploymentConfiguration={deploymentConfiguration}
-    />
-  );
+  return <SharedPage params={params} basePage="faq" />;
 }

@@ -56,8 +56,8 @@ export default function LongBio({ tense }: { tense: TenseOption }) {
       </p>
       <p>
         If you want to know more about what
-        {isFirstPerson ? " I " : " he "}
-        thinks, you could check out the{" "}
+        {isFirstPerson ? " I think" : " he thinks"}
+        {", you could check out the "}
         <Link
           href="/faq"
           className="underline decoration-blue-400 hover:decoration-blue-600"

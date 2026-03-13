@@ -13,7 +13,6 @@ export default function LongBio({ tense }: { tense: TenseOption }) {
     <>
       <p>
         {isFirstPerson ? "I am a " : "Luke is a "}
-        {"JavaScript "}
         <DeveloperAdvocateAtGoogle />
         {" who believes "}
         <LearningFollowsExcitement />

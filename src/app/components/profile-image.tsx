@@ -33,14 +33,14 @@ export default function ProfileImage({ theme }: { theme: Theme }) {
         return (
           <Image
             key={vibe}
-            className="absolute transition-all duration-500 ease-in-out"
+            className="absolute transition-all duration-700 ease-in-out"
             src={src}
             alt={alt}
             height={400}
             priority
             style={{
-              opacity: isActive ? 1 : 0,
-              transform: isActive ? "translateY(0)" : "translateY(100px)",
+              transform: isActive ? "translateY(0)" : "translateY(400px)",
+              zIndex: isActive ? 5 : 0,
               pointerEvents: isActive ? "auto" : "none",
               viewTransitionName: `profile-pic-${vibe}`,
               width: "auto",

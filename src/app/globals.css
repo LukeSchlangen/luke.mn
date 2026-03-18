@@ -19,12 +19,12 @@
   z-index: 1;
 }
 
-::view-transition-old(profile-pic-professional),
-::view-transition-new(profile-pic-professional),
-::view-transition-old(profile-pic-standard),
-::view-transition-new(profile-pic-standard),
-::view-transition-old(profile-pic-fun),
-::view-transition-new(profile-pic-fun) {
+::view-transition-group(profile-pic) {
+  z-index: 1;
+}
+
+::view-transition-old(profile-pic),
+::view-transition-new(profile-pic) {
   height: 100%;
   width: auto;
   object-fit: contain;

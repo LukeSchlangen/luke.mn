@@ -11,7 +11,7 @@ export default function Navbar({
   deploymentConfiguration: DeploymentConfiguration;
 }) {
   return (
-    <nav className="m-auto min-w-fit max-w-3xl text-3xl md:text-4xl">
+    <nav className="relative z-20 m-auto min-w-fit max-w-3xl text-3xl md:text-4xl">
       <div className="flex justify-between">
         <VibeToggle
           theme={theme}

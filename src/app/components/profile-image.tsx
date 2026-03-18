@@ -16,7 +16,11 @@ export default function ProfileImage({ theme }: { theme: Theme }) {
     <div className="relative flex justify-center h-[400px] w-full overflow-hidden">
       <Image
         className={`${imgBaseClass} ${theme.vibe !== "professional" ? "translate-y-[400px]" : "translate-y-0"}`}
-        style={{ viewTransitionName: "profile-pic-professional" }}
+        style={
+          theme.vibe === "professional"
+            ? { viewTransitionName: "profile-pic" }
+            : {}
+        }
         src={blackSuit}
         alt="Luke Schlangen in a Black Suit"
         height={400}
@@ -25,7 +29,9 @@ export default function ProfileImage({ theme }: { theme: Theme }) {
 
       <Image
         className={`${imgBaseClass} ${theme.vibe !== "standard" ? "translate-y-[400px]" : "translate-y-0"}`}
-        style={{ viewTransitionName: "profile-pic-standard" }}
+        style={
+          theme.vibe === "standard" ? { viewTransitionName: "profile-pic" } : {}
+        }
         src={greySweater}
         alt="Luke Schlangen in a Grey Sweater"
         height={400}
@@ -34,7 +40,9 @@ export default function ProfileImage({ theme }: { theme: Theme }) {
 
       <Image
         className={`${imgBaseClass} ${theme.vibe !== "fun" ? "translate-y-[400px]" : "translate-y-0"}`}
-        style={{ viewTransitionName: "profile-pic-fun" }}
+        style={
+          theme.vibe === "fun" ? { viewTransitionName: "profile-pic" } : {}
+        }
         src={yellowSweater}
         alt="Luke Schlangen in a Yellow Sweater"
         height={400}

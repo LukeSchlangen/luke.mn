@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import { Theme } from "../types";
 
 import blackSuit from "../../../public/headshots/luke-schlangen-headshot-black-suit-no-background.png";
@@ -22,27 +22,30 @@ const profileImageMap = {
 
 export default function ProfileImage({ theme }: { theme: Theme }) {
   return (
-    <div className="relative m-auto flex h-[400px] justify-center">
+    <div className="relative m-auto flex h-[400px] justify-center overflow-hidden">
       {(
         Object.entries(profileImageMap) as [
           keyof typeof profileImageMap,
-          { src: any; alt: string },
+          { src: StaticImageData; alt: string },
         ][]
       ).map(([vibe, { src, alt }]) => {
         const isActive = theme.vibe === vibe;
         return (
           <Image
             key={vibe}
-            className={`${isActive ? "relative" : "absolute"}`}
+            className="absolute transition-all duration-500 ease-in-out"
             src={src}
             alt={alt}
-            height="400"
+            height={400}
             priority
             style={{
               opacity: isActive ? 1 : 0,
+              transform: isActive ? "translateY(0)" : "translateY(100px)",
               pointerEvents: isActive ? "auto" : "none",
-              viewTransitionName: isActive ? "profile-pic" : "none",
-              width: "auto", // Ensure width is calculated from height
+              viewTransitionName: `profile-pic-${vibe}`,
+              width: "auto",
+              height: "400px",
+              objectFit: "contain",
             }}
           />
         );

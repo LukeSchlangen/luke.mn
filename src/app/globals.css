@@ -10,6 +10,7 @@
     padding-inline-start: 1ch;
 }
 
+/* Animations for the profile picture */
 @keyframes profile-slide-down {
     from {
         transform: translateY(0);
@@ -32,25 +33,37 @@
     }
 }
 
-::view-transition-old(profile-pic) {
-    animation: 300ms cubic-bezier(0.4, 0, 0.2, 1) both profile-slide-down;
+/* Apply specific transitions for each profile picture vibe */
+::view-transition-old(profile-pic-standard),
+::view-transition-old(profile-pic-professional),
+::view-transition-old(profile-pic-fun) {
+    animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) both profile-slide-down;
 }
 
-::view-transition-new(profile-pic) {
+::view-transition-new(profile-pic-standard),
+::view-transition-new(profile-pic-professional),
+::view-transition-new(profile-pic-fun) {
     animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) both profile-slide-up;
 }
 
+/* Ensure bio-card stays on top and other elements are positioned correctly */
 ::view-transition-group(bio-card) {
     z-index: 10;
 }
 
-::view-transition-group(profile-pic) {
+::view-transition-group(profile-pic-standard),
+::view-transition-group(profile-pic-professional),
+::view-transition-group(profile-pic-fun) {
     z-index: 1;
 }
 
-/* Ensure images don't stretch during transition */
-::view-transition-old(profile-pic),
-::view-transition-new(profile-pic) {
+/* Ensure images maintain aspect ratio during transition */
+::view-transition-old(profile-pic-standard),
+::view-transition-new(profile-pic-standard),
+::view-transition-old(profile-pic-professional),
+::view-transition-new(profile-pic-professional),
+::view-transition-old(profile-pic-fun),
+::view-transition-new(profile-pic-fun) {
     height: 100%;
     width: auto;
     object-fit: contain;

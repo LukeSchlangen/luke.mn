@@ -47,3 +47,11 @@
 ::view-transition-group(profile-pic) {
     z-index: 1;
 }
+
+/* Ensure images don't stretch during transition */
+::view-transition-old(profile-pic),
+::view-transition-new(profile-pic) {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+}

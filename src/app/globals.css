@@ -1,7 +1,31 @@
 @import "tailwindcss";
 
+@view-transition {
+  navigation: auto;
+}
+
 .command-list li {
     display: list-item;
     list-style-type: ">";
     padding-inline-start: 1ch;
+}
+
+.bio-card {
+  z-index: 10;
+  position: relative;
+}
+
+.profile-pic {
+  z-index: 1;
+}
+
+::view-transition-group(profile-pic) {
+  z-index: 1;
+}
+
+::view-transition-old(profile-pic),
+::view-transition-new(profile-pic) {
+  height: 100%;
+  width: auto;
+  object-fit: contain;
 }

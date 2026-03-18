@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import confetti from "canvas-confetti";
+import { confetti } from "@tsparticles/confetti";
 
 export default function Confetti() {
   useEffect(() => {

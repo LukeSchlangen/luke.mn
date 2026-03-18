@@ -21,6 +21,35 @@ const profileImageMap = {
 };
 
 export default function ProfileImage({ theme }: { theme: Theme }) {
-  const { src, alt } = profileImageMap[theme.vibe];
-  return <Image className="m-auto" src={src} alt={alt} height="400" priority />;
+  return (
+    <div className="relative m-auto flex h-[400px] justify-center overflow-hidden">
+      {(
+        Object.entries(profileImageMap) as [
+          keyof typeof profileImageMap,
+          { src: StaticImageData; alt: string },
+        ][]
+      ).map(([vibe, { src, alt }]) => {
+        const isActive = theme.vibe === vibe;
+        return (
+          <Image
+            key={vibe}
+            className="absolute transition-all duration-700 ease-in-out"
+            src={src}
+            alt={alt}
+            height={400}
+            priority
+            style={{
+              transform: isActive ? "translateY(0)" : "translateY(400px)",
+              zIndex: isActive ? 5 : 0,
+              pointerEvents: isActive ? "auto" : "none",
+              viewTransitionName: `profile-pic-${vibe}`,
+              width: "auto",
+              height: "400px",
+              objectFit: "contain",
+            }}
+          />
+        );
+      })}
+    </div>
+  );
 }

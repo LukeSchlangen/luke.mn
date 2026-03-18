@@ -1,7 +1,34 @@
 @import "tailwindcss";
 
+@view-transition {
+    navigation: auto;
+}
+
 .command-list li {
     display: list-item;
     list-style-type: ">";
     padding-inline-start: 1ch;
+}
+
+/* Ensure bio-card stays on top and other elements are positioned correctly */
+::view-transition-group(bio-card) {
+    z-index: 10;
+}
+
+::view-transition-group(profile-pic-standard),
+::view-transition-group(profile-pic-professional),
+::view-transition-group(profile-pic-fun) {
+    z-index: 1;
+}
+
+/* Ensure images maintain aspect ratio during transition */
+::view-transition-old(profile-pic-standard),
+::view-transition-new(profile-pic-standard),
+::view-transition-old(profile-pic-professional),
+::view-transition-new(profile-pic-professional),
+::view-transition-old(profile-pic-fun),
+::view-transition-new(profile-pic-fun) {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
 }

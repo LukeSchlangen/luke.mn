@@ -5,9 +5,7 @@ import colorValues from "../../utils/color-values";
 import ProfileImage from "../profile-image";
 import Navbar from "../navbar";
 import SocialIconBar from "../social-icon-bar";
-import dynamic from "next/dynamic";
-
-const Confetti = dynamic(() => import("../confetti"));
+import Confetti from "../confetti";
 
 export default function HomePage({
   theme,
@@ -27,10 +25,11 @@ export default function HomePage({
       </style>
       <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
       <ProfileImage theme={theme} />
-      <div className="m-auto  -mt-20 w-full max-w-prose px-2">
+      <div className="m-auto -mt-20 w-full max-w-prose px-2">
         <SocialIconBar theme={theme} />
         <div
-          className={`rounded-lg p-2 drop-shadow-xl md:p-4 ${textBackgroundColorClass}`}
+          style={{ viewTransitionName: "bio-card" }}
+          className={`relative z-10 rounded-lg p-2 drop-shadow-xl md:p-4 ${textBackgroundColorClass}`}
         >
           <header>
             <h1 className="mb-2 md:flex">

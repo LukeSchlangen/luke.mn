@@ -30,7 +30,7 @@ export default function HomePage({
       <div className="m-auto  -mt-20 w-full max-w-prose px-2">
         <SocialIconBar theme={theme} />
         <div
-          className={`rounded-lg p-2 drop-shadow-xl md:p-4 ${textBackgroundColorClass}`}
+          className={`bio-card rounded-lg p-2 drop-shadow-xl md:p-4 ${textBackgroundColorClass}`}
         >
           <header>
             <h1 className="mb-2 md:flex">

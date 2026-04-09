@@ -1,4 +1,4 @@
-export const PAGE_OPTIONS = ["home", "faq", "deploy", "not-found"] as const;
+export const PAGE_OPTIONS = ["home", "faq", "deploy", "short", "not-found"] as const;
 export type PageOption = (typeof PAGE_OPTIONS)[number];
 
 export const VIBE_OPTIONS = ["standard", "professional", "fun"] as const;

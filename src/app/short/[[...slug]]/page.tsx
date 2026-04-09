@@ -1,10 +1,7 @@
-import { Theme } from "../../types";
-import HomePage from "../../components/pages/home-page";
-import pathParser from "../../utils/path-parser";
+import ShortPage from "../../components/pages/short-page";
 import NotFoundPage from "../../components/pages/not-found-page";
+import pathParser from "../../utils/path-parser";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
-import { SHORT_LINKS } from "../../components/pages/short-page";
 
 export async function generateMetadata({
   params: paramsPromise = Promise.resolve({ slug: [] }),
@@ -38,10 +35,6 @@ export default async function Page({
     params.slug,
   );
 
-  if (remainingSlug.length === 1 && Object.hasOwn(SHORT_LINKS, remainingSlug[0])) {
-    redirect(SHORT_LINKS[remainingSlug[0]]);
-  }
-
   if (remainingSlug.length > 0) {
     return (
       <NotFoundPage
@@ -53,8 +46,8 @@ export default async function Page({
     );
   }
   return (
-    <HomePage
-      theme={{ ...theme, page: "home" }}
+    <ShortPage
+      theme={{ ...theme, page: "short" }}
       deploymentConfiguration={deploymentConfiguration}
     />
   );

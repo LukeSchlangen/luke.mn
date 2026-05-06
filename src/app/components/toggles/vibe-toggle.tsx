@@ -23,6 +23,7 @@ export default function VibeToggle({
           vibe: "professional",
           ...deploymentConfiguration,
         })}
+        prefetch={false}
         className={
           vibe === "professional" ? "" : "opacity-50 hover:opacity-100"
         }
@@ -35,6 +36,7 @@ export default function VibeToggle({
           vibe: "standard",
           ...deploymentConfiguration,
         })}
+        prefetch={false}
         className={vibe === "standard" ? "" : "opacity-50 hover:opacity-100"}
       >
         😃
@@ -45,6 +47,7 @@ export default function VibeToggle({
           vibe: "fun",
           ...deploymentConfiguration,
         })}
+        prefetch={false}
         className={vibe === "fun" ? "" : "opacity-50 hover:opacity-100"}
       >
         🎉

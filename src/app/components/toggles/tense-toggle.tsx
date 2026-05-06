@@ -19,6 +19,7 @@ export default function TenseToggle({
           tense: "first-person",
           ...deploymentConfiguration,
         })}
+        prefetch={false}
         className={tense === "first-person" ? "underline" : ""}
       >
         1st Person
@@ -30,6 +31,7 @@ export default function TenseToggle({
           tense: "third-person",
           ...deploymentConfiguration,
         })}
+        prefetch={false}
         className={tense === "third-person" ? "underline" : ""}
       >
         3rd Person

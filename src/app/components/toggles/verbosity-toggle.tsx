@@ -19,6 +19,7 @@ export default function VerbosityToggle({
           ...deploymentConfiguration,
           verbosity: "short",
         })}
+        prefetch={false}
         className={verbosity === "short" ? "underline" : ""}
       >
         Short
@@ -30,6 +31,7 @@ export default function VerbosityToggle({
           ...deploymentConfiguration,
           verbosity: "medium",
         })}
+        prefetch={false}
         className={verbosity === "medium" ? "underline" : ""}
       >
         Medium
@@ -41,6 +43,7 @@ export default function VerbosityToggle({
           ...deploymentConfiguration,
           verbosity: "long",
         })}
+        prefetch={false}
         className={verbosity === "long" ? "underline" : ""}
       >
         Long

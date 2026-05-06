@@ -23,6 +23,7 @@ export default function PageToggle({
           page: "home",
           ...deploymentConfiguration,
         })}
+        prefetch={false}
         className={
           page === "home" ? "" : "underline opacity-50 hover:opacity-100"
         }
@@ -35,6 +36,7 @@ export default function PageToggle({
           page: "faq",
           ...deploymentConfiguration,
         })}
+        prefetch={false}
         className={page === "faq" ? "" : "opacity-50 hover:opacity-100"}
       >
         ❓
@@ -45,6 +47,7 @@ export default function PageToggle({
           page: "deploy",
           ...deploymentConfiguration,
         })}
+        prefetch={false}
         className={page === "deploy" ? "" : "opacity-50 hover:opacity-100"}
       >
         🚀

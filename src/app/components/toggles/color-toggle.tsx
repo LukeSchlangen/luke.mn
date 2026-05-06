@@ -23,6 +23,7 @@ export default function ColorToggle({
           color: "light",
           ...deploymentConfiguration,
         })}
+        prefetch={false}
         className={color === "light" ? "" : "opacity-50 hover:opacity-100"}
       >
         ☀️
@@ -33,6 +34,7 @@ export default function ColorToggle({
           color: "dark",
           ...deploymentConfiguration,
         })}
+        prefetch={false}
         className={color === "dark" ? "" : "opacity-50 hover:opacity-100"}
       >
         🌙

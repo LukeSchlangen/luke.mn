@@ -15,27 +15,27 @@ export default function ProfileImage({ theme }: { theme: Theme }) {
     <div className="relative flex justify-center h-[400px] w-full overflow-hidden">
       
       <Image 
-        className={`${imgBaseClass} ${theme.vibe !== 'professional' ? 'translate-y-100' : 'translate-y-0'}`} 
+        className={`${imgBaseClass} ${theme.vibe !== 'professional' ? 'translate-y-[400px]' : 'translate-y-0'}`}
         src={blackSuit} 
         alt="Luke Schlangen in a Black Suit" 
         height={400} 
-        priority 
+        priority={theme.vibe === 'professional'}
       />
       
       <Image 
-        className={`${imgBaseClass} ${theme.vibe !== 'standard' ? 'translate-y-100' : 'translate-y-0'}`} 
+        className={`${imgBaseClass} ${theme.vibe !== 'standard' ? 'translate-y-[400px]' : 'translate-y-0'}`}
         src={greySweater} 
         alt="Luke Schlangen in a Grey Sweater" 
         height={400} 
-        priority 
+        priority={theme.vibe === 'standard'}
       />
       
       <Image 
-        className={`${imgBaseClass} ${theme.vibe !== 'fun' ? 'translate-y-100' : 'translate-y-0'}`} 
+        className={`${imgBaseClass} ${theme.vibe !== 'fun' ? 'translate-y-[400px]' : 'translate-y-0'}`}
         src={yellowSweater} 
         alt="Luke Schlangen in a Yellow Sweater" 
         height={400} 
-        priority 
+        priority={theme.vibe === 'fun'}
       />
 
     </div>

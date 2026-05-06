@@ -110,6 +110,7 @@ export default function DeployPage({
                               ...deploymentConfiguration,
                               framework,
                             })}
+                            prefetch={false}
                             className={
                               deploymentConfiguration.framework === framework
                                 ? "underline"
@@ -141,6 +142,7 @@ export default function DeployPage({
                               ...deploymentConfiguration,
                               target,
                             })}
+                            prefetch={false}
                             className={
                               deploymentConfiguration.target === target
                                 ? "underline"

@@ -19,6 +19,9 @@ export async function generateMetadata({
   }
 
   return {
+    title: "Deploy | Luke Schlangen",
+    description:
+      "Step-by-step instructions for deploying your web application to Cloud Run or Vercel using various frameworks.",
     icons: {
       icon: icon,
     },

@@ -20,6 +20,14 @@ export async function generateMetadata({
   }
 
   return {
+    title:
+      theme.vibe === "professional"
+        ? "Luke Schlangen | Professional Portfolio"
+        : theme.vibe === "fun"
+          ? "Luke Schlangen | 🎉 Let's build something!"
+          : "Luke Schlangen | Developer Advocate",
+    description:
+      "The personal website of Luke Schlangen, a Developer Advocate at Google and Co-Founder of Code Championship.",
     icons: {
       icon: icon,
     },

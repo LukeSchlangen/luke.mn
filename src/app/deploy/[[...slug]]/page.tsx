@@ -19,6 +19,8 @@ export async function generateMetadata({
   }
 
   return {
+    title: "Deploy | Luke Schlangen",
+    description: "Deployment steps for various frameworks and targets.",
     icons: {
       icon: icon,
     },

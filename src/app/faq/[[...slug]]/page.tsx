@@ -19,6 +19,8 @@ export async function generateMetadata({
   }
 
   return {
+    title: "FAQ | Luke Schlangen",
+    description: "Frequently asked questions about Luke Schlangen.",
     icons: {
       icon: icon,
     },

@@ -20,6 +20,9 @@ export async function generateMetadata({
   }
 
   return {
+    title: "Luke Schlangen | Software Engineer",
+    description:
+      "Luke Schlangen's personal website. Software engineer, educator, and lifelong learner.",
     icons: {
       icon: icon,
     },

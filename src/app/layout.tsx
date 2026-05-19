@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import WebMcpInitializer from "./components/webmcp-initializer";
 
 export const metadata: Metadata = {
   title: "Luke Schlangen | Software Engineer",
@@ -14,7 +15,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <WebMcpInitializer />
+        {children}
+      </body>
     </html>
   );
 }

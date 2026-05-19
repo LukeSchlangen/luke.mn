@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@mcp-b/global':
+        specifier: ^2.3.2
+        version: 2.3.2(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3)
       '@tsparticles/confetti':
         specifier: ^3.9.1
         version: 3.9.1
@@ -38,6 +41,12 @@ importers:
       typescript:
         specifier: 5.9.3
         version: 5.9.3
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
+      zod-to-json-schema:
+        specifier: ^3.25.2
+        version: 3.25.2(zod@4.4.3)
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3.3.3
@@ -91,6 +100,9 @@ packages:
   '@babel/runtime@7.28.4':
     resolution: {integrity: sha512-Q/N6JNWvIvPnLDvjlE1OUBLPQHH6l3CltCEsHIujp45zQUSSh8K+gHnaEX45yAT1nyngnINhvWtzN+Nb9D8RAQ==}
     engines: {node: '>=6.9.0'}
+
+  '@cfworker/json-schema@4.1.1':
+    resolution: {integrity: sha512-gAmrUZSGtKc3AiBL71iNWxDsyUC5uMaKKGdvzYsBoTW/xi42JQHl7eKV2OYzCUqvc+D2RCcf7EXY2iCyFIk6og==}
 
   '@emnapi/core@1.7.1':
     resolution: {integrity: sha512-o1uhUASyo921r2XtHYOHy7gdkGLge8ghBEQHMWmyJFoXlpU58kIrhhN3w26lpQb6dspetweapMn2CSNwQ8I4wg==}
@@ -324,6 +336,32 @@ packages:
   '@jridgewell/trace-mapping@0.3.31':
     resolution: {integrity: sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw==}
 
+  '@mcp-b/global@2.3.2':
+    resolution: {integrity: sha512-44+Rxn2cuwJKUwVBi/xwpQ/+yEuKrmrrOJH/vysyr7JbE74Pr2Pfqb8YZCWwpk6wB4jwBHIfrFWigNfeMMaYAQ==}
+    engines: {node: '>=18'}
+
+  '@mcp-b/transports@2.3.2':
+    resolution: {integrity: sha512-aRKaF1TjwSBXEXYUpWfz3JKOiagYMHH4D7gpesaU1aGAs69cjTVX4lDwFZ9qIO+4a/1CijLcBnOsKmsPzFWQjA==}
+
+  '@mcp-b/webmcp-polyfill@2.3.2':
+    resolution: {integrity: sha512-kvGmGypnsASUUGLI/NJ2E1eNLhtRkOq+dxaXxv01EKli9C78hb7x1KpIfknSCxpfIufJGE8wzjjIf279pQT/gQ==}
+    engines: {node: '>=18'}
+
+  '@mcp-b/webmcp-ts-sdk@2.3.2':
+    resolution: {integrity: sha512-mRZMXSM7bNkNsnGws884DpcatwZCYoAFIaV39Bb/YsBjLKhGYA8/9z4GmftIPnKFZm+BljYi9h+AUMgEc/Cz4Q==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      zod: ^3.25 || ^4.0
+      zod-to-json-schema: ^3.25.0
+    peerDependenciesMeta:
+      zod:
+        optional: true
+      zod-to-json-schema:
+        optional: true
+
+  '@mcp-b/webmcp-types@2.3.2':
+    resolution: {integrity: sha512-167nu2e5qIh8BcKvFp4dUzaeyO1+S+eMWGUaohjkwnqgc2Gq49Fv+i/Lei19019s1iCfQJ3yjtrzDK0nApivKg==}
+
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
 
@@ -410,6 +448,9 @@ packages:
 
   '@rushstack/eslint-patch@1.15.0':
     resolution: {integrity: sha512-ojSshQPKwVvSMR8yT2L/QtUkV5SXi/IfDiJ4/8d6UbTPjiHVmxZzUAzGD8Tzks1b9+qQkZa0isUOvYObedITaw==}
+
+  '@standard-schema/spec@1.1.0':
+    resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
 
   '@swc/helpers@0.5.15':
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
@@ -2079,11 +2120,24 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
 
+  zod-to-json-schema@3.25.2:
+    resolution: {integrity: sha512-O/PgfnpT1xKSDeQYSCfRI5Gy3hPf91mKVDuYLUHZJMiDFptvP41MSnWofm8dnCm0256ZNfZIM7DSzuSMAFnjHA==}
+    peerDependencies:
+      zod: ^3.25.28 || ^4
+
+  zod@3.25.76:
+    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+
+  zod@4.4.3:
+    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
+
 snapshots:
 
   '@alloc/quick-lru@5.2.0': {}
 
   '@babel/runtime@7.28.4': {}
+
+  '@cfworker/json-schema@4.1.1': {}
 
   '@emnapi/core@1.7.1':
     dependencies:
@@ -2273,6 +2327,47 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.5
 
+  '@mcp-b/global@2.3.2(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3)':
+    dependencies:
+      '@mcp-b/transports': 2.3.2(zod-to-json-schema@3.25.2(zod@4.4.3))
+      '@mcp-b/webmcp-polyfill': 2.3.2
+      '@mcp-b/webmcp-ts-sdk': 2.3.2(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3)
+      '@mcp-b/webmcp-types': 2.3.2
+    transitivePeerDependencies:
+      - zod
+      - zod-to-json-schema
+
+  '@mcp-b/transports@2.3.2(zod-to-json-schema@3.25.2(zod@4.4.3))':
+    dependencies:
+      '@mcp-b/webmcp-ts-sdk': 2.3.2(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@3.25.76)
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - zod-to-json-schema
+
+  '@mcp-b/webmcp-polyfill@2.3.2':
+    dependencies:
+      '@cfworker/json-schema': 4.1.1
+      '@mcp-b/webmcp-types': 2.3.2
+      '@standard-schema/spec': 1.1.0
+
+  '@mcp-b/webmcp-ts-sdk@2.3.2(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@3.25.76)':
+    dependencies:
+      '@mcp-b/webmcp-polyfill': 2.3.2
+      '@mcp-b/webmcp-types': 2.3.2
+    optionalDependencies:
+      zod: 3.25.76
+      zod-to-json-schema: 3.25.2(zod@4.4.3)
+
+  '@mcp-b/webmcp-ts-sdk@2.3.2(zod-to-json-schema@3.25.2(zod@4.4.3))(zod@4.4.3)':
+    dependencies:
+      '@mcp-b/webmcp-polyfill': 2.3.2
+      '@mcp-b/webmcp-types': 2.3.2
+    optionalDependencies:
+      zod: 4.4.3
+      zod-to-json-schema: 3.25.2(zod@4.4.3)
+
+  '@mcp-b/webmcp-types@2.3.2': {}
+
   '@napi-rs/wasm-runtime@0.2.12':
     dependencies:
       '@emnapi/core': 1.7.1
@@ -2329,6 +2424,8 @@ snapshots:
   '@rtsao/scc@1.1.0': {}
 
   '@rushstack/eslint-patch@1.15.0': {}
+
+  '@standard-schema/spec@1.1.0': {}
 
   '@swc/helpers@0.5.15':
     dependencies:
@@ -4226,3 +4323,11 @@ snapshots:
   word-wrap@1.2.5: {}
 
   yocto-queue@0.1.0: {}
+
+  zod-to-json-schema@3.25.2(zod@4.4.3):
+    dependencies:
+      zod: 4.4.3
+
+  zod@3.25.76: {}
+
+  zod@4.4.3: {}

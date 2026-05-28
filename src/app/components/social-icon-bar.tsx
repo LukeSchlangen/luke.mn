@@ -10,7 +10,7 @@ export default function SocialIconBar({ theme }: { theme: Theme }) {
         fgColor={theme.color === "light" ? "#FFFFFF" : "#FF0000"}
       />
       <SocialIcon
-        url="https://www.linkedin.com/in/lukeschlangen/"
+        url="https://www.linkedin.com/in/lukeschlangen"
         bgColor={theme.color === "light" ? "#007FB1" : "#FFFFFF"}
         fgColor={theme.color === "light" ? "#FFFFFF" : "#007FB1"}
       />

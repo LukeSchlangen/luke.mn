@@ -2,20 +2,18 @@
 
 import { useState, useEffect, useRef } from "react";
 import QRCode from "qrcode";
-import Link from "next/link";
-import { Theme } from "../../types";
+import { DeploymentConfiguration, Theme } from "../../types";
 import colorValues from "../../utils/color-values";
 import Footer from "../footer";
+import Navbar from "../navbar";
 
-export default function QRPageClient() {
-  // Website theme state for styling consistency
-  const [theme, setTheme] = useState<Theme>({
-    page: "faq", // just a page value
-    vibe: "standard",
-    color: "light",
-    tense: "first-person",
-    verbosity: "medium",
-  });
+export default function QRPageClient({
+  theme,
+  deploymentConfiguration,
+}: {
+  theme: Theme;
+  deploymentConfiguration: DeploymentConfiguration;
+}) {
 
   // Color values for current website theme
   const { textColorClass, bodyBackgroundColor, textBackgroundColorClass } =
@@ -167,50 +165,7 @@ export default function QRPageClient() {
         {`body { background-color: ${bodyBackgroundColor} }`}
       </style>
 
-      {/* Custom Simple Header matching Luke's site */}
-      <nav className="m-auto min-w-fit max-w-3xl text-3xl md:text-4xl px-4 py-4">
-        <div className="flex justify-between items-center">
-          {/* Vibe selection */}
-          <div className={`space-x-2 rounded-b-lg p-1 drop-shadow-xl ${textBackgroundColorClass} text-xl md:text-2xl`}>
-            <button
-              onClick={() => setTheme((prev) => ({ ...prev, vibe: "standard" }))}
-              className={`px-2 py-1 rounded ${theme.vibe === "standard" ? "bg-opacity-20 bg-gray-500 font-bold" : "opacity-50"}`}
-            >
-              Standard
-            </button>
-            <button
-              onClick={() => setTheme((prev) => ({ ...prev, vibe: "professional" }))}
-              className={`px-2 py-1 rounded ${theme.vibe === "professional" ? "bg-opacity-20 bg-gray-500 font-bold" : "opacity-50"}`}
-            >
-              Professional
-            </button>
-            <button
-              onClick={() => setTheme((prev) => ({ ...prev, vibe: "fun" }))}
-              className={`px-2 py-1 rounded ${theme.vibe === "fun" ? "bg-opacity-20 bg-gray-500 font-bold" : "opacity-50"}`}
-            >
-              Fun
-            </button>
-          </div>
-
-          {/* Quick links */}
-          <div className={`space-x-4 rounded-b-lg p-1 drop-shadow-xl ${textBackgroundColorClass} text-xl md:text-2xl flex items-center`}>
-            <Link href="/" className="underline opacity-75 hover:opacity-100">
-              🏠 Home
-            </Link>
-          </div>
-
-          {/* Light/Dark Toggle */}
-          <div className={`rounded-b-lg p-1 drop-shadow-xl ${textBackgroundColorClass} text-xl md:text-2xl`}>
-            <button
-              onClick={() => setTheme((prev) => ({ ...prev, color: prev.color === "light" ? "dark" : "light" }))}
-              className="p-1"
-              title="Toggle theme color"
-            >
-              {theme.color === "light" ? "🌙" : "☀️"}
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
 
       <div className="m-auto max-w-5xl px-4 mt-8">
         <header className="mb-8 text-center">

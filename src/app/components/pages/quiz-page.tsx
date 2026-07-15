@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import { DeploymentConfiguration, Theme } from "../../types";
 import colorValues from "../../utils/color-values";
 import Footer from "../footer";
@@ -355,6 +355,16 @@ export default function QuizPageClient({
 }) {
   const { textColorClass, bodyBackgroundColor, textBackgroundColorClass } =
     colorValues(theme);
+
+  // References for container size monitoring and styling
+  const containerRef916 = useRef<HTMLDivElement>(null);
+  const containerRef169 = useRef<HTMLDivElement>(null);
+  const containerRef11 = useRef<HTMLDivElement>(null);
+
+  // State to hold dynamically computed font sizes
+  const [fontSize916, setFontSize916] = useState<number>(16);
+  const [fontSize169, setFontSize169] = useState<number>(16);
+  const [fontSize11, setFontSize11] = useState<number>(16);
 
   // Core quiz state
   const [format, setFormat] = useState<"markdown" | "json" | "yaml">("markdown");
@@ -729,33 +739,130 @@ ${q.explanation}`;
     }
   };
 
+  // Binary search to find optimal font size so scrollHeight <= clientHeight
+  const adjustFontSize = (
+    container: HTMLDivElement | null,
+    setFontSize: (size: number) => void,
+    isWidescreen: boolean
+  ) => {
+    if (!container) return;
+
+    // Temporarily remove any transitions and overflow/max-height constraints to get precise, instant measurements
+    const originalTransition = container.style.transition;
+    container.style.transition = "none";
+
+    const descendants = container.querySelectorAll("*");
+    const savedStyles: {
+      el: HTMLElement;
+      transition: string;
+      overflow: string;
+      maxHeight: string;
+      height: string;
+    }[] = [];
+
+    descendants.forEach((el) => {
+      const htmlEl = el as HTMLElement;
+      savedStyles.push({
+        el: htmlEl,
+        transition: htmlEl.style.transition,
+        overflow: htmlEl.style.overflow,
+        maxHeight: htmlEl.style.maxHeight,
+        height: htmlEl.style.height,
+      });
+
+      htmlEl.style.transition = "none";
+      const computed = window.getComputedStyle(htmlEl);
+      if (computed.overflow === "hidden") {
+        htmlEl.style.overflow = "visible";
+      }
+      if (computed.maxHeight !== "none") {
+        htmlEl.style.maxHeight = "none";
+      }
+    });
+
+    let low = 8;
+    let high = isWidescreen ? 40 : 80; // Widescreen uses landscape bounds, vertical mode is taller
+    let optimal = low;
+
+    // Perform a binary search on font size
+    while (low <= high) {
+      const mid = Math.floor((low + high) / 2);
+      container.style.fontSize = `${mid}px`;
+
+      // Check overflow: both vertical and horizontal scrollHeight/Width
+      const hasOverflow =
+        container.scrollHeight > container.clientHeight ||
+        container.scrollWidth > container.clientWidth;
+
+      if (!hasOverflow) {
+        optimal = mid;
+        low = mid + 1; // Try to make it larger
+      } else {
+        high = mid - 1; // Shrink it
+      }
+    }
+
+    // Apply the optimal size found
+    setFontSize(optimal);
+    container.style.fontSize = `${optimal}px`;
+
+    // Restore transitions and styles
+    container.style.transition = originalTransition;
+    savedStyles.forEach((item) => {
+      item.el.style.transition = item.transition;
+      item.el.style.overflow = item.overflow;
+      item.el.style.maxHeight = item.maxHeight;
+      item.el.style.height = item.height;
+    });
+  };
+
+  // Setup ResizeObserver and Layout Effects to trigger font resizing
+  useLayoutEffect(() => {
+    if (phase === "edit") return;
+
+    const handleResize = () => {
+      adjustFontSize(containerRef916.current, setFontSize916, false);
+      adjustFontSize(containerRef169.current, setFontSize169, true);
+      adjustFontSize(containerRef11.current, setFontSize11, false);
+    };
+
+    const observer = new ResizeObserver(() => {
+      handleResize();
+    });
+
+    if (containerRef916.current) observer.observe(containerRef916.current);
+    if (containerRef169.current) observer.observe(containerRef169.current);
+    if (containerRef11.current) observer.observe(containerRef11.current);
+
+    // Initial run
+    handleResize();
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [phase, questionData, aspectRatio, colorTheme, ambientAnimation]);
+
   const renderViewport = (ratio: "9:16" | "16:9" | "1:1") => {
     const isWidescreen = ratio === "16:9";
 
-    // Dynamic classes based on 16:9 or others
-    const questionTextClass = isWidescreen
-      ? "text-lg md:text-xl lg:text-2xl font-black text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)] leading-snug"
-      : "text-2xl md:text-3xl lg:text-4xl font-black text-center text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)] leading-snug";
+    // References mapping
+    let containerRef = containerRef916;
+    let activeFontSize = fontSize916;
+    if (ratio === "16:9") {
+      containerRef = containerRef169;
+      activeFontSize = fontSize169;
+    } else if (ratio === "1:1") {
+      containerRef = containerRef11;
+      activeFontSize = fontSize11;
+    }
 
-    const questionTextSmallClass = isWidescreen
-      ? "text-sm md:text-base lg:text-lg font-extrabold text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-normal line-clamp-3"
-      : "text-lg md:text-xl lg:text-2xl font-extrabold text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-normal line-clamp-4";
-
-    const answerPaddingClass = isWidescreen
-      ? "p-2 px-3 lg:p-2.5 lg:px-4"
-      : "p-4 lg:p-5";
-
-    const answerTextClass = isWidescreen
-      ? "text-xs md:text-sm leading-tight break-words"
-      : "text-sm md:text-base lg:text-lg leading-snug break-words";
-
-    const badgeSizeClass = isWidescreen
-      ? "w-7 h-7 text-xs font-black shrink-0"
-      : "w-9 h-9 text-sm lg:text-base font-black shrink-0";
-
-    const explanationTextClass = isWidescreen
-      ? "text-xs md:text-sm leading-normal font-medium drop-shadow-sm"
-      : "text-sm md:text-base lg:text-lg leading-relaxed font-medium drop-shadow-sm";
+    // Dynamic, container-relative font sizes using relative 'em' units
+    const questionTextClass = "text-[1.8em] font-black text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)] leading-snug";
+    const questionTextSmallClass = "text-[1.25em] font-extrabold text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-normal";
+    const answerPaddingClass = "p-[0.7em] px-[0.9em]";
+    const answerTextClass = "text-[0.9em] leading-tight break-words";
+    const badgeSizeClass = "w-[2em] h-[2em] text-[0.8em] font-black shrink-0";
+    const explanationTextClass = "text-[0.85em] leading-normal font-medium drop-shadow-sm";
 
     // Ambient class helper
     const getAmbientClass = (isActiveElement: boolean) => {
@@ -774,10 +881,13 @@ ${q.explanation}`;
 
     return (
       <div
+        ref={containerRef}
         onClick={advancePhase}
-        className={`relative select-none cursor-pointer border border-white/10 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between p-6 md:p-8 ${getPlayerThemeClasses()} ${getAspectClasses(ratio)}`}
+        className={`relative select-none cursor-pointer border border-white/10 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between p-[1.5em] ${getPlayerThemeClasses()} ${getAspectClasses(ratio)}`}
         style={{
+          fontSize: `${activeFontSize}px`,
           transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+          transitionProperty: "opacity, transform, background, border-color, box-shadow", // Avoid transitioning font-size directly to ensure precise layout observer measurements
         }}
       >
         {/* Style block for local animations */}
@@ -814,7 +924,7 @@ ${q.explanation}`;
 
         {/* View 1: Question Only (Phase 0) */}
         {phase === 0 && (
-          <div className="flex-1 flex flex-col justify-center items-center py-8 px-4 animate-fade-in">
+          <div className="flex-1 flex flex-col justify-center items-center py-[2em] px-[1em] animate-fade-in">
             <h2 className={`${questionTextClass} ${getAmbientClass(true)}`}>
               {questionData.question}
             </h2>
@@ -823,16 +933,17 @@ ${q.explanation}`;
 
         {/* Views 2, 3, 4, 5, 6: Question + Options (Phase 1 to 5) */}
         {phase !== "edit" && phase >= 1 && (
-          <div className="flex-1 flex flex-col justify-center space-y-4 md:space-y-6 py-2 h-full overflow-hidden">
+          <div className="flex-1 flex flex-col justify-center space-y-[1em] py-[0.5em]">
 
             {/* Question Text (Collapses/Fades in Phase 5) */}
             <div
               style={{
-                maxHeight: phase === 5 ? "0px" : "150px",
+                maxHeight: phase === 5 ? "0px" : "8em",
                 opacity: phase === 5 ? 0 : 1,
-                marginBottom: phase === 5 ? "0px" : isWidescreen ? "8px" : "16px",
+                marginBottom: phase === 5 ? "0px" : "1em",
                 overflow: "hidden",
                 transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                transitionProperty: "max-height, opacity, margin-bottom",
               }}
             >
               <h3 className={questionTextSmallClass}>
@@ -841,7 +952,7 @@ ${q.explanation}`;
             </div>
 
             {/* Answers & Explanation Stack */}
-            <div className="flex-1 flex flex-col justify-center space-y-2 md:space-y-3 overflow-hidden">
+            <div className="flex-1 flex flex-col justify-center space-y-[0.6em]">
               {questionData.answers.map((ans, i) => {
                 const isHighlighted = (phase - 1) === i;
                 const isCorrect = questionData.correctIndex === i;
@@ -850,15 +961,15 @@ ${q.explanation}`;
                 const isVisibleInPhase5 = isCorrect;
 
                 let opacity = 1;
-                let maxHeight = "120px";
+                let maxHeight = "6em";
                 let marginBot = "0px";
                 let pointerEvents: "auto" | "none" = "auto";
 
                 if (phase === 5) {
                   if (isVisibleInPhase5) {
                     opacity = 1;
-                    maxHeight = "120px";
-                    marginBot = "12px";
+                    maxHeight = "6em";
+                    marginBot = "0.8em";
                     pointerEvents = "auto";
                   } else {
                     opacity = 0;
@@ -879,6 +990,7 @@ ${q.explanation}`;
                       marginBottom: marginBot,
                       pointerEvents,
                       transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                      transitionProperty: "max-height, opacity, margin-bottom",
                     }}
                     className={`overflow-hidden rounded-none ${showSpinningBorder ? "p-[3px] relative" : "border"}`}
                   >
@@ -893,7 +1005,7 @@ ${q.explanation}`;
                     )}
 
                     <div
-                      className={`relative z-10 rounded-none text-white font-bold text-left flex items-center gap-4 w-full h-full ${answerPaddingClass} ${
+                      className={`relative z-10 rounded-none text-white font-bold text-left flex items-center gap-[0.8em] w-full h-full ${answerPaddingClass} ${
                         showSpinningBorder
                           ? "bg-black/90 border-0"
                           : isHighlighted
@@ -902,6 +1014,7 @@ ${q.explanation}`;
                       }`}
                       style={{
                         transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                        transitionProperty: "background-color, border-color, box-shadow, transform",
                       }}
                     >
                       <span className={`rounded-none border flex items-center justify-center transition-colors duration-300 ${badgeSizeClass} ${
@@ -924,15 +1037,16 @@ ${q.explanation}`;
               {/* Explanation Container (Slides Up in Phase 5) */}
               <div
                 style={{
-                  maxHeight: phase === 5 ? (isWidescreen ? "150px" : "320px") : "0px",
+                  maxHeight: phase === 5 ? "12em" : "0px",
                   opacity: phase === 5 ? 1 : 0,
-                  marginTop: phase === 5 ? "12px" : "0px",
+                  marginTop: phase === 5 ? "0.8em" : "0px",
                   overflow: "hidden",
                   transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                  transitionProperty: "max-height, opacity, margin-top",
                 }}
               >
-                <div className="text-center text-white px-4 py-3 md:py-4 bg-black/35 border border-white/10 rounded-none flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[140px] md:max-h-[300px]">
-                  <span className="text-[10px] md:text-xs font-bold text-white/40 tracking-widest block mb-1 uppercase">
+                <div className="text-center text-white px-[1em] py-[0.8em] bg-black/35 border border-white/10 rounded-none flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[10em]">
+                  <span className="text-[0.6em] font-bold text-white/40 tracking-widest block mb-[0.3em] uppercase">
                     Explanation
                   </span>
                   <p className={explanationTextClass}>

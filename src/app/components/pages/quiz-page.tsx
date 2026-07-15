@@ -376,8 +376,11 @@ Infrastructure as a Service (IaaS) provides virtualized computing resources, giv
   const [copied, setCopied] = useState(false);
 
   // Style customization state
-  const [aspectRatio, setAspectRatio] = useState<"9:16" | "16:9" | "1:1">("9:16");
+  const [aspectRatio, setAspectRatio] = useState<"9:16" | "16:9" | "1:1" | "Both">("9:16");
   const [colorTheme, setColorTheme] = useState<"Google Cloud" | "Firebase" | "Flutter/Dart" | "Go">("Google Cloud");
+  const [ambientAnimation, setAmbientAnimation] = useState<"none" | "pulse" | "float" | "glow">("none");
+  const [transitionTime, setTransitionTime] = useState<number>(1.0);
+  const [hidePanels, setHidePanels] = useState<boolean>(false);
 
   // Player phase state:
   // "edit" | 0 (Question) | 1 (A highlight) | 2 (B highlight) | 3 (C highlight) | 4 (D highlight) | 5 (Explanation)
@@ -665,9 +668,11 @@ ${q.explanation}`;
 
   // Keyboard navigation for presentation mode
   useEffect(() => {
-    if (phase === "edit") return;
-
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setHidePanels(false);
+      }
+      if (phase === "edit") return;
       if (e.key === "ArrowRight") {
         advancePhase();
       } else if (e.key === "ArrowLeft") {
@@ -698,8 +703,8 @@ ${q.explanation}`;
     }
   };
 
-  const getAspectClasses = () => {
-    switch (aspectRatio) {
+  const getAspectClasses = (ratio: "9:16" | "16:9" | "1:1") => {
+    switch (ratio) {
       case "16:9":
         return "aspect-[16/9] w-full max-w-[850px] h-auto";
       case "1:1":
@@ -708,6 +713,240 @@ ${q.explanation}`;
       default:
         return "aspect-[9/16] w-full max-w-[420px] h-auto max-h-[82vh]";
     }
+  };
+
+  const getSpinningGradient = () => {
+    switch (colorTheme) {
+      case "Firebase":
+        return "conic-gradient(from 0deg, #DD2C00, #FF6D00, #FFD600, #DD2C00)";
+      case "Flutter/Dart":
+        return "conic-gradient(from 0deg, #02569B, #0175C2, #13B9FD, #02569B)";
+      case "Go":
+        return "conic-gradient(from 0deg, #00ADD8, #5DC9E2, #0096b7, #00ADD8)";
+      case "Google Cloud":
+      default:
+        return "conic-gradient(from 0deg, #4285F4, #34A853, #FBBC05, #EA4335, #4285F4)";
+    }
+  };
+
+  const renderViewport = (ratio: "9:16" | "16:9" | "1:1") => {
+    const isWidescreen = ratio === "16:9";
+
+    // Dynamic classes based on 16:9 or others
+    const questionTextClass = isWidescreen
+      ? "text-lg md:text-xl lg:text-2xl font-black text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)] leading-snug"
+      : "text-2xl md:text-3xl lg:text-4xl font-black text-center text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)] leading-snug";
+
+    const questionTextSmallClass = isWidescreen
+      ? "text-sm md:text-base lg:text-lg font-extrabold text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-normal line-clamp-3"
+      : "text-lg md:text-xl lg:text-2xl font-extrabold text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-normal line-clamp-4";
+
+    const answerPaddingClass = isWidescreen
+      ? "p-2 px-3 lg:p-2.5 lg:px-4"
+      : "p-4 lg:p-5";
+
+    const answerTextClass = isWidescreen
+      ? "text-xs md:text-sm leading-tight break-words"
+      : "text-sm md:text-base lg:text-lg leading-snug break-words";
+
+    const badgeSizeClass = isWidescreen
+      ? "w-7 h-7 text-xs font-black shrink-0"
+      : "w-9 h-9 text-sm lg:text-base font-black shrink-0";
+
+    const explanationTextClass = isWidescreen
+      ? "text-xs md:text-sm leading-normal font-medium drop-shadow-sm"
+      : "text-sm md:text-base lg:text-lg leading-relaxed font-medium drop-shadow-sm";
+
+    // Ambient class helper
+    const getAmbientClass = (isActiveElement: boolean) => {
+      if (ambientAnimation === "none" || !isActiveElement) return "";
+      switch (ambientAnimation) {
+        case "pulse":
+          return "ambient-pulse";
+        case "float":
+          return "ambient-float";
+        case "glow":
+          return "ambient-glow";
+        default:
+          return "";
+      }
+    };
+
+    return (
+      <div
+        onClick={advancePhase}
+        className={`relative select-none cursor-pointer border border-white/10 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between p-6 md:p-8 ${getPlayerThemeClasses()} ${getAspectClasses(ratio)}`}
+        style={{
+          transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+        }}
+      >
+        {/* Style block for local animations */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          @keyframes spin-gradient {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+          @keyframes float-anim {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+          }
+          @keyframes pulse-anim {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+          }
+          @keyframes glow-anim {
+            0%, 100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.2); border-color: rgba(255,255,255,0.4); }
+            50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); border-color: rgba(255,255,255,0.9); }
+          }
+          .animate-spin-gradient {
+            animation: spin-gradient var(--spin-duration, 2s) linear infinite;
+          }
+          .ambient-float {
+            animation: float-anim 3s ease-in-out infinite;
+          }
+          .ambient-pulse {
+            animation: pulse-anim 2s ease-in-out infinite;
+          }
+          .ambient-glow {
+            animation: glow-anim 2.5s ease-in-out infinite;
+          }
+        `}} />
+
+        {/* View 1: Question Only (Phase 0) */}
+        {phase === 0 && (
+          <div className="flex-1 flex flex-col justify-center items-center py-8 px-4 animate-fade-in">
+            <h2 className={`${questionTextClass} ${getAmbientClass(true)}`}>
+              {questionData.question}
+            </h2>
+          </div>
+        )}
+
+        {/* Views 2, 3, 4, 5, 6: Question + Options (Phase 1 to 5) */}
+        {phase !== "edit" && phase >= 1 && (
+          <div className="flex-1 flex flex-col justify-center space-y-4 md:space-y-6 py-2 h-full overflow-hidden">
+
+            {/* Question Text (Collapses/Fades in Phase 5) */}
+            <div
+              style={{
+                maxHeight: phase === 5 ? "0px" : "150px",
+                opacity: phase === 5 ? 0 : 1,
+                marginBottom: phase === 5 ? "0px" : isWidescreen ? "8px" : "16px",
+                overflow: "hidden",
+                transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+              }}
+            >
+              <h3 className={questionTextSmallClass}>
+                {questionData.question}
+              </h3>
+            </div>
+
+            {/* Answers & Explanation Stack */}
+            <div className="flex-1 flex flex-col justify-center space-y-2 md:space-y-3 overflow-hidden">
+              {questionData.answers.map((ans, i) => {
+                const isHighlighted = (phase - 1) === i;
+                const isCorrect = questionData.correctIndex === i;
+
+                // Determine layout visibility/sizing in Phase 5
+                const isVisibleInPhase5 = isCorrect;
+
+                let opacity = 1;
+                let maxHeight = "120px";
+                let marginBot = "0px";
+                let pointerEvents: "auto" | "none" = "auto";
+
+                if (phase === 5) {
+                  if (isVisibleInPhase5) {
+                    opacity = 1;
+                    maxHeight = "120px";
+                    marginBot = "12px";
+                    pointerEvents = "auto";
+                  } else {
+                    opacity = 0;
+                    maxHeight = "0px";
+                    marginBot = "0px";
+                    pointerEvents = "none";
+                  }
+                }
+
+                const showSpinningBorder = phase === 5 && isCorrect && ambientAnimation !== "none";
+
+                return (
+                  <div
+                    key={i}
+                    style={{
+                      opacity,
+                      maxHeight,
+                      marginBottom: marginBot,
+                      pointerEvents,
+                      transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                    }}
+                    className={`overflow-hidden rounded-none ${showSpinningBorder ? "p-[3px] relative" : "border"}`}
+                  >
+                    {showSpinningBorder && (
+                      <div
+                        className="absolute inset-[-50%] animate-spin-gradient"
+                        style={{
+                          background: getSpinningGradient(),
+                          animationDuration: `${transitionTime * 2}s`,
+                        }}
+                      />
+                    )}
+
+                    <div
+                      className={`relative z-10 rounded-none text-white font-bold text-left flex items-center gap-4 w-full h-full ${answerPaddingClass} ${
+                        showSpinningBorder
+                          ? "bg-black/90 border-0"
+                          : isHighlighted
+                          ? `bg-white/25 border-white/80 scale-[1.02] shadow-[0_0_15px_rgba(255,255,255,0.2)] ${getAmbientClass(true)}`
+                          : "bg-white/5 border-white/10 opacity-50"
+                      }`}
+                      style={{
+                        transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                      }}
+                    >
+                      <span className={`rounded-none border flex items-center justify-center transition-colors duration-300 ${badgeSizeClass} ${
+                        showSpinningBorder
+                          ? "bg-emerald-500 text-white border-emerald-400"
+                          : isHighlighted
+                          ? "bg-white text-black border-white"
+                          : "bg-white/10 border-white/20 text-white"
+                      }`}>
+                        {String.fromCharCode(65 + i)}
+                      </span>
+                      <span className={answerTextClass}>
+                        {ans}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Explanation Container (Slides Up in Phase 5) */}
+              <div
+                style={{
+                  maxHeight: phase === 5 ? (isWidescreen ? "150px" : "320px") : "0px",
+                  opacity: phase === 5 ? 1 : 0,
+                  marginTop: phase === 5 ? "12px" : "0px",
+                  overflow: "hidden",
+                  transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                }}
+              >
+                <div className="text-center text-white px-4 py-3 md:py-4 bg-black/35 border border-white/10 rounded-none flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[140px] md:max-h-[300px]">
+                  <span className="text-[10px] md:text-xs font-bold text-white/40 tracking-widest block mb-1 uppercase">
+                    Explanation
+                  </span>
+                  <p className={explanationTextClass}>
+                    {questionData.explanation}
+                  </p>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        )}
+      </div>
+    );
   };
 
   // Input styling based on theme
@@ -721,51 +960,67 @@ ${q.explanation}`;
         {`body { background-color: ${bodyBackgroundColor} }`}
       </style>
 
-      <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
+      {!hidePanels && (
+        <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
+      )}
+
+      {/* Floating Panel Restorer Button for Recording Mode */}
+      {hidePanels && (
+        <button
+          onClick={() => setHidePanels(false)}
+          className="fixed top-4 right-4 z-50 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs px-4 py-2.5 shadow-2xl transition cursor-pointer flex items-center gap-2 border border-amber-400/20"
+          title="Press ESC or click to restore control panel layout"
+        >
+          <span>👁️ Show Control Panels</span>
+          <span className="opacity-60 text-[9px] bg-black/20 px-1 py-0.5 rounded">ESC</span>
+        </button>
+      )}
 
       {/* Main Container Layout */}
       <div className="mx-auto w-full max-w-[1700px] px-4 mt-6">
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+        <div className={`grid grid-cols-1 ${hidePanels ? "" : "xl:grid-cols-12"} gap-6 items-start`}>
 
           {/* LEFT PANEL: Nested GCP Presets (Static List, No Accordion) */}
-          <div className={`xl:col-span-3 rounded-2xl p-4 shadow-xl ${textBackgroundColorClass} border border-gray-200/10 max-h-[85vh] overflow-y-auto`}>
-            <h2 className="text-lg font-extrabold mb-4 pb-2 border-b border-gray-200/10 flex items-center justify-between">
-              <span>GCP Certifications</span>
-              <span className="text-xs font-normal opacity-60">50 Questions</span>
-            </h2>
-            <div className="space-y-6">
-              {GCP_EXAMS_PRESETS.map((exam, examIdx) => (
-                <div key={examIdx} className="space-y-2">
-                  <h3 className="text-sm font-black text-amber-500 uppercase tracking-wide">
-                    {exam.examName}
-                  </h3>
-                  <ul className="space-y-1.5 ml-2 border-l border-gray-200/10 pl-2">
-                    {exam.questions.map((q, qIdx) => {
-                      const isSelected = questionData.question === q.question;
-                      return (
-                        <li key={qIdx}>
-                          <button
-                            onClick={() => loadQuestionPreset(q)}
-                            className={`w-full text-left text-xs py-1 px-2 rounded-lg transition-all duration-150 ${
-                              isSelected
-                                ? "bg-amber-500/20 text-amber-400 font-bold border-l-2 border-amber-500 pl-1.5"
-                                : "text-gray-400 hover:text-white hover:bg-white/5"
-                            }`}
-                          >
-                            <span className="opacity-50 mr-1">Q{qIdx + 1}:</span>
-                            <span className="line-clamp-2 inline align-middle">{q.question}</span>
-                          </button>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              ))}
+          {!hidePanels && (
+            <div className={`xl:col-span-3 rounded-2xl p-4 shadow-xl ${textBackgroundColorClass} border border-gray-200/10 max-h-[85vh] overflow-y-auto`}>
+              <h2 className="text-lg font-extrabold mb-4 pb-2 border-b border-gray-200/10 flex items-center justify-between">
+                <span>GCP Certifications</span>
+                <span className="text-xs font-normal opacity-60">50 Questions</span>
+              </h2>
+              <div className="space-y-6">
+                {GCP_EXAMS_PRESETS.map((exam, examIdx) => (
+                  <div key={examIdx} className="space-y-2">
+                    <h3 className="text-sm font-black text-amber-500 uppercase tracking-wide">
+                      {exam.examName}
+                    </h3>
+                    <ul className="space-y-1.5 ml-2 border-l border-gray-200/10 pl-2">
+                      {exam.questions.map((q, qIdx) => {
+                        const isSelected = questionData.question === q.question;
+                        return (
+                          <li key={qIdx}>
+                            <button
+                              onClick={() => loadQuestionPreset(q)}
+                              className={`w-full text-left text-xs py-1 px-2 rounded-lg transition-all duration-150 ${
+                                isSelected
+                                  ? "bg-amber-500/20 text-amber-400 font-bold border-l-2 border-amber-500 pl-1.5"
+                                  : "text-gray-400 hover:text-white hover:bg-white/5"
+                              }`}
+                            >
+                              <span className="opacity-50 mr-1">Q{qIdx + 1}:</span>
+                              <span className="line-clamp-2 inline align-middle">{q.question}</span>
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* MAIN CENTER PANEL: Editor OR Presentation Screen */}
-          <div className="xl:col-span-9">
+          <div className={hidePanels ? "w-full" : "xl:col-span-9"}>
             {phase === "edit" ? (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
@@ -902,85 +1157,33 @@ ${q.explanation}`;
               <div className="flex flex-col lg:flex-row gap-8 items-stretch justify-center">
 
                 {/* 1. Large Centered Interactive Quiz Viewport */}
-                <div className="flex-1 flex justify-center items-center">
-                  <div
-                    onClick={advancePhase}
-                    className={`relative select-none cursor-pointer transition-all duration-300 border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between p-8 ${getPlayerThemeClasses()} ${getAspectClasses()}`}
-                  >
-                    {/* View 1: Question Only */}
-                    {phase === 0 && (
-                      <div className="flex-1 flex flex-col justify-center items-center py-8 px-4 animate-fade-in">
-                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-center text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)] leading-snug">
-                          {questionData.question}
-                        </h2>
+                <div className="flex-1 flex flex-wrap gap-8 justify-center items-center">
+                  {aspectRatio === "Both" ? (
+                    <>
+                      {/* 9:16 Preview */}
+                      <div className="flex flex-col items-center">
+                        {!hidePanels && (
+                          <span className="text-xs font-bold opacity-60 mb-2 uppercase tracking-widest">9:16 Viewport</span>
+                        )}
+                        {renderViewport("9:16")}
                       </div>
-                    )}
 
-                    {/* Views 2, 3, 4, 5: Question + Subtle Highlight on Option A, B, C, D */}
-                    {phase >= 1 && phase <= 4 && (
-                      <div className="flex-1 flex flex-col justify-center space-y-6 lg:space-y-8 py-4 animate-fade-in">
-                        <h3 className="text-lg md:text-xl lg:text-2xl font-extrabold text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-normal line-clamp-4">
-                          {questionData.question}
-                        </h3>
-
-                        <div className="space-y-4">
-                          {questionData.answers.map((ans, i) => {
-                            const isHighlighted = (phase - 1) === i;
-                            return (
-                              <div
-                                key={i}
-                                className={`border rounded-2xl p-4 lg:p-5 text-white font-bold text-left transition-all duration-300 flex items-center gap-4 w-full shadow-md ${
-                                  isHighlighted
-                                    ? "bg-white/25 border-white/80 scale-[1.03] shadow-[0_0_15px_rgba(255,255,255,0.2)]"
-                                    : "bg-white/5 border-white/10 opacity-50"
-                                }`}
-                              >
-                                <span className={`w-9 h-9 rounded-full border flex items-center justify-center text-sm lg:text-base font-black shrink-0 transition-colors duration-300 ${
-                                  isHighlighted
-                                    ? "bg-white text-black border-white"
-                                    : "bg-white/10 border-white/20 text-white"
-                                }`}>
-                                  {String.fromCharCode(65 + i)}
-                                </span>
-                                <span className="text-sm md:text-base lg:text-lg leading-snug break-words">
-                                  {ans}
-                                </span>
-                              </div>
-                            );
-                          })}
-                        </div>
+                      {/* 16:9 Preview */}
+                      <div className="flex flex-col items-center">
+                        {!hidePanels && (
+                          <span className="text-xs font-bold opacity-60 mb-2 uppercase tracking-widest">16:9 Viewport</span>
+                        )}
+                        {renderViewport("16:9")}
                       </div>
-                    )}
-
-                    {/* View 6: Explanation & Correct Answer */}
-                    {phase === 5 && (
-                      <div className="flex-1 flex flex-col justify-between space-y-6 py-4 animate-fade-in">
-                        {/* Correct Answer Header */}
-                        <div className="w-full bg-emerald-500/20 border border-emerald-500/40 rounded-2xl p-5 text-center mt-2 shadow-inner">
-                          <span className="text-xs font-black text-emerald-400 tracking-widest block mb-1 uppercase">
-                            ✅ Correct Answer
-                          </span>
-                          <p className="text-lg md:text-xl lg:text-2xl font-black text-white drop-shadow">
-                            {String.fromCharCode(65 + questionData.correctIndex)}: {questionData.answers[questionData.correctIndex]}
-                          </p>
-                        </div>
-
-                        {/* Explanation container */}
-                        <div className="flex-1 text-center text-white text-sm md:text-base lg:text-lg leading-relaxed px-5 overflow-y-auto max-h-[350px] bg-black/35 border border-white/10 rounded-2xl p-5 flex flex-col justify-center shadow-inner">
-                          <span className="text-xs font-bold text-white/40 tracking-widest block mb-2 uppercase">
-                            Explanation
-                          </span>
-                          <p className="font-medium drop-shadow-sm">
-                            {questionData.explanation}
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
+                    </>
+                  ) : (
+                    renderViewport(aspectRatio as any)
+                  )}
                 </div>
 
                 {/* 2. Side Control Column */}
-                <div className={`w-full lg:w-[320px] rounded-2xl p-6 shadow-xl ${textBackgroundColorClass} border border-gray-200/10 flex flex-col justify-between space-y-6 self-start`}>
+                {!hidePanels && (
+                  <div className={`w-full lg:w-[320px] rounded-2xl p-6 shadow-xl ${textBackgroundColorClass} border border-gray-200/10 flex flex-col justify-between space-y-6 self-start`}>
 
                   {/* Top: Header Info */}
                   <div>
@@ -1024,17 +1227,56 @@ ${q.explanation}`;
                     </div>
                   </div>
 
+                  {/* Transition Speed control */}
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider opacity-60">
+                      <span>Transition Duration</span>
+                      <span className="text-amber-500">{transitionTime.toFixed(1)}s</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.1"
+                      max="3.0"
+                      step="0.1"
+                      value={transitionTime}
+                      onChange={(e) => setTransitionTime(parseFloat(e.target.value))}
+                      className="w-full accent-amber-500 bg-white/10"
+                    />
+                  </div>
+
+                  {/* Ambient Animation controls */}
+                  <div className="space-y-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
+                      Attention Animation
+                    </label>
+                    <div className="grid grid-cols-4 gap-1">
+                      {(["none", "pulse", "float", "glow"] as const).map((anim) => (
+                        <button
+                          key={anim}
+                          onClick={() => setAmbientAnimation(anim)}
+                          className={`py-1 px-1 rounded-lg text-[10px] font-bold border transition text-center capitalize ${
+                            ambientAnimation === anim
+                              ? "bg-amber-500 text-white border-amber-600"
+                              : "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400"
+                          }`}
+                        >
+                          {anim}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
                   {/* Aspect Ratio controls */}
                   <div className="space-y-2">
                     <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
                       Aspect Ratio
                     </label>
-                    <div className="grid grid-cols-3 gap-1.5">
-                      {(["9:16", "16:9", "1:1"] as const).map((ratio) => (
+                    <div className="grid grid-cols-4 gap-1">
+                      {(["9:16", "16:9", "1:1", "Both"] as const).map((ratio) => (
                         <button
                           key={ratio}
                           onClick={() => setAspectRatio(ratio)}
-                          className={`py-1.5 px-2 rounded-lg text-xs font-bold border transition ${
+                          className={`py-1.5 px-1 rounded-lg text-[10px] font-bold border transition text-center ${
                             aspectRatio === ratio
                               ? "bg-amber-500 text-white border-amber-600"
                               : "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400"
@@ -1071,6 +1313,12 @@ ${q.explanation}`;
                   {/* Bottom: Exit Controls */}
                   <div className="pt-4 border-t border-gray-200/10 space-y-2">
                     <button
+                      onClick={() => setHidePanels(true)}
+                      className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold shadow transition text-center"
+                    >
+                      📷 Hide Panels (Recording Mode)
+                    </button>
+                    <button
                       onClick={() => setPhase("edit")}
                       className="w-full py-2.5 px-4 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-sm font-bold shadow transition text-center"
                     >
@@ -1087,6 +1335,7 @@ ${q.explanation}`;
                   </div>
 
                 </div>
+                )}
 
               </div>
             )}
@@ -1095,9 +1344,11 @@ ${q.explanation}`;
         </div>
       </div>
 
-      <div className="mt-12">
-        <Footer />
-      </div>
+      {!hidePanels && (
+        <div className="mt-12">
+          <Footer />
+        </div>
+      )}
     </div>
   );
 }

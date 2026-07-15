@@ -383,8 +383,8 @@ Infrastructure as a Service (IaaS) provides virtualized computing resources, giv
   const [hidePanels, setHidePanels] = useState<boolean>(false);
 
   // Player phase state:
-  // "edit" | 0 (Question) | 1 (A highlight) | 2 (B highlight) | 3 (C highlight) | 4 (D highlight) | 5 (Explanation)
-  const [phase, setPhase] = useState<"edit" | 0 | 1 | 2 | 3 | 4 | 5>("edit");
+  // "edit" | 0 (Question) | 1 (A highlight) | 2 (B highlight) | 3 (C highlight) | 4 (D highlight) | 5 (All answers, pause) | 6 (Explanation & correct answer highlighted)
+  const [phase, setPhase] = useState<"edit" | 0 | 1 | 2 | 3 | 4 | 5 | 6>("edit");
 
   // Format Helper Functions
   const formatYaml = (q: QuizQuestion) => {
@@ -650,7 +650,7 @@ ${q.explanation}`;
 
   const advancePhase = () => {
     if (phase === "edit") return;
-    if (phase === 5) {
+    if (phase === 6) {
       setPhase(0);
     } else {
       setPhase((prev) => (prev as number) + 1 as any);
@@ -660,7 +660,7 @@ ${q.explanation}`;
   const retreatPhase = () => {
     if (phase === "edit") return;
     if (phase === 0) {
-      setPhase(5);
+      setPhase(6);
     } else {
       setPhase((prev) => (prev as number) - 1 as any);
     }
@@ -812,50 +812,51 @@ ${q.explanation}`;
           }
         `}} />
 
-        {/* View 1: Question Only (Phase 0) */}
-        {phase === 0 && (
-          <div className="flex-1 flex flex-col justify-center items-center py-8 px-4 animate-fade-in">
-            <h2 className={`${questionTextClass} ${getAmbientClass(true)}`}>
+        {/* Layer 1: Question Only Layer (Phase 0) */}
+        <div
+          className="absolute inset-0 flex flex-col justify-center items-center p-6 md:p-8"
+          style={{
+            transform: phase === 0 ? "translateY(0)" : "translateY(-150%)",
+            opacity: phase === 0 ? 1 : 0,
+            pointerEvents: phase === 0 ? "auto" : "none",
+            transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+          }}
+        >
+          <div className={`w-full max-w-xl bg-black/75 backdrop-blur-md border-2 border-white/20 p-8 rounded-none shadow-2xl text-center ${getAmbientClass(phase === 0)}`}>
+            <h2 className={questionTextClass}>
               {questionData.question}
             </h2>
           </div>
-        )}
+        </div>
 
-        {/* Views 2, 3, 4, 5, 6: Question + Options (Phase 1 to 5) */}
-        {phase !== "edit" && phase >= 1 && (
+        {/* Layer 2: Answers & Explanation Layer (Phases 1 to 6) */}
+        <div
+          className="absolute inset-0 flex flex-col justify-center p-6 md:p-8"
+          style={{
+            transform: phase !== "edit" && phase >= 1 ? "translateY(0)" : "translateY(150%)",
+            opacity: phase !== "edit" && phase >= 1 ? 1 : 0,
+            pointerEvents: phase !== "edit" && phase >= 1 ? "auto" : "none",
+            transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+          }}
+        >
           <div className="flex-1 flex flex-col justify-center space-y-4 md:space-y-6 py-2 h-full overflow-hidden">
-
-            {/* Question Text (Collapses/Fades in Phase 5) */}
-            <div
-              style={{
-                maxHeight: phase === 5 ? "0px" : "150px",
-                opacity: phase === 5 ? 0 : 1,
-                marginBottom: phase === 5 ? "0px" : isWidescreen ? "8px" : "16px",
-                overflow: "hidden",
-                transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-              }}
-            >
-              <h3 className={questionTextSmallClass}>
-                {questionData.question}
-              </h3>
-            </div>
 
             {/* Answers & Explanation Stack */}
             <div className="flex-1 flex flex-col justify-center space-y-2 md:space-y-3 overflow-hidden">
               {questionData.answers.map((ans, i) => {
-                const isHighlighted = (phase - 1) === i;
+                const isHighlighted = phase !== "edit" && phase >= 1 && phase <= 4 && (phase - 1) === i;
                 const isCorrect = questionData.correctIndex === i;
 
-                // Determine layout visibility/sizing in Phase 5
-                const isVisibleInPhase5 = isCorrect;
+                // Determine layout visibility/sizing in Phase 6
+                const isVisibleInPhase6 = isCorrect;
 
                 let opacity = 1;
                 let maxHeight = "120px";
                 let marginBot = "0px";
                 let pointerEvents: "auto" | "none" = "auto";
 
-                if (phase === 5) {
-                  if (isVisibleInPhase5) {
+                if (phase === 6) {
+                  if (isVisibleInPhase6) {
                     opacity = 1;
                     maxHeight = "120px";
                     marginBot = "12px";
@@ -868,7 +869,9 @@ ${q.explanation}`;
                   }
                 }
 
-                const showSpinningBorder = phase === 5 && isCorrect && ambientAnimation !== "none";
+                // Correct answer is highlighted in Phase 6
+                const isCorrectHighlighted = phase === 6 && isCorrect;
+                const showSpinningBorder = isCorrectHighlighted && ambientAnimation !== "none";
 
                 return (
                   <div
@@ -880,7 +883,7 @@ ${q.explanation}`;
                       pointerEvents,
                       transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                     }}
-                    className={`overflow-hidden rounded-none ${showSpinningBorder ? "p-[3px] relative" : "border"}`}
+                    className={`overflow-hidden rounded-none ${showSpinningBorder ? "p-[4px] relative" : isCorrectHighlighted ? "border-[5px] border-emerald-400 shadow-[0_0_25px_rgba(52,211,153,0.6)] animate-fade-in" : "border border-white/10"}`}
                   >
                     {showSpinningBorder && (
                       <div
@@ -896,17 +899,21 @@ ${q.explanation}`;
                       className={`relative z-10 rounded-none text-white font-bold text-left flex items-center gap-4 w-full h-full ${answerPaddingClass} ${
                         showSpinningBorder
                           ? "bg-black/90 border-0"
+                          : isCorrectHighlighted
+                          ? `bg-emerald-950/95 scale-[1.04] ${getAmbientClass(true)}`
                           : isHighlighted
                           ? `bg-white/25 border-white/80 scale-[1.02] shadow-[0_0_15px_rgba(255,255,255,0.2)] ${getAmbientClass(true)}`
-                          : "bg-white/5 border-white/10 opacity-50"
+                          : phase === 5
+                          ? "bg-white/10 border-white/20 opacity-100" // All shown uniformly during pause
+                          : "bg-white/5 border-white/10 opacity-50" // Dimmed during other's highlight
                       }`}
                       style={{
                         transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                       }}
                     >
                       <span className={`rounded-none border flex items-center justify-center transition-colors duration-300 ${badgeSizeClass} ${
-                        showSpinningBorder
-                          ? "bg-emerald-500 text-white border-emerald-400"
+                        isCorrectHighlighted
+                          ? "bg-emerald-500 text-white border-emerald-400 font-black scale-110"
                           : isHighlighted
                           ? "bg-white text-black border-white"
                           : "bg-white/10 border-white/20 text-white"
@@ -921,12 +928,12 @@ ${q.explanation}`;
                 );
               })}
 
-              {/* Explanation Container (Slides Up in Phase 5) */}
+              {/* Explanation Container (Slides Up in Phase 6) */}
               <div
                 style={{
-                  maxHeight: phase === 5 ? (isWidescreen ? "150px" : "320px") : "0px",
-                  opacity: phase === 5 ? 1 : 0,
-                  marginTop: phase === 5 ? "12px" : "0px",
+                  maxHeight: phase === 6 ? (isWidescreen ? "150px" : "320px") : "0px",
+                  opacity: phase === 6 ? 1 : 0,
+                  marginTop: phase === 6 ? "12px" : "0px",
                   overflow: "hidden",
                   transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                 }}
@@ -944,7 +951,7 @@ ${q.explanation}`;
             </div>
 
           </div>
-        )}
+        </div>
       </div>
     );
   };
@@ -1194,7 +1201,7 @@ ${q.explanation}`;
                   {/* Playback step selector */}
                   <div className="space-y-2">
                     <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
-                      Step Navigation ({phase === 5 ? "6" : phase + 1}/6)
+                      Step Navigation ({phase + 1}/7)
                     </label>
                     <div className="grid grid-cols-2 gap-2">
                       <button
@@ -1210,8 +1217,8 @@ ${q.explanation}`;
                         Next ▶
                       </button>
                     </div>
-                    <div className="grid grid-cols-6 gap-1 mt-1">
-                      {[0, 1, 2, 3, 4, 5].map((num) => (
+                    <div className="grid grid-cols-7 gap-1 mt-1">
+                      {[0, 1, 2, 3, 4, 5, 6].map((num) => (
                         <button
                           key={num}
                           onClick={() => setPhase(num as any)}

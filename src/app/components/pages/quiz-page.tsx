@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { DeploymentConfiguration, Theme } from "../../types";
 import colorValues from "../../utils/color-values";
 import Footer from "../footer";
@@ -13,36 +13,336 @@ interface QuizQuestion {
   explanation: string;
 }
 
-const PRESETS = [
+interface ExamPreset {
+  examName: string;
+  questions: QuizQuestion[];
+}
+
+const GCP_EXAMS_PRESETS: ExamPreset[] = [
   {
-    name: "JavaScript Scopes",
-    format: "markdown" as const,
-    data: {
-      question: "Which of the following is block-scoped in JavaScript?",
-      answers: ["var", "let", "function", "both let and var"],
-      correctIndex: 1,
-      explanation: "'let' and 'const' are block-scoped variables introduced in ES6, meaning they are only accessible within the block they are defined. 'var' is function-scoped."
-    }
+    examName: "Cloud Digital Leader",
+    questions: [
+      {
+        question: "Which cloud computing service model offers the highest level of customization and control over the underlying infrastructure?",
+        answers: ["SaaS (Software as a Service)", "PaaS (Platform as a Service)", "IaaS (Infrastructure as a Service)", "FaaS (Function as a Service)"],
+        correctIndex: 2,
+        explanation: "Infrastructure as a Service (IaaS) provides virtualized computing resources, giving users maximum control over operating systems, storage, and networking."
+      },
+      {
+        question: "Which Google Cloud service is a fully managed, serverless database designed for document store workloads?",
+        answers: ["Cloud SQL", "Firestore", "Cloud Spanner", "Cloud Bigtable"],
+        correctIndex: 1,
+        explanation: "Firestore is a flexible, scalable, serverless NoSQL document database for mobile, web, and server development."
+      },
+      {
+        question: "What is the primary benefit of deploying applications across multiple Google Cloud zones in a region?",
+        answers: ["High availability", "Reduced latency", "Lower cost", "Global distribution"],
+        correctIndex: 0,
+        explanation: "Deploying across multiple zones provides fault tolerance and high availability if a single zone experiences an outage."
+      },
+      {
+        question: "Which pricing model provides discounts on virtual machine instances in exchange for a commitment to use a minimum level of resources for 1 or 3 years?",
+        answers: ["Spot VMs", "Committed Use Discounts (CUDs)", "Sustained Use Discounts (SUDs)", "On-demand pricing"],
+        correctIndex: 1,
+        explanation: "Committed Use Discounts (CUDs) offer significant savings when you commit to a contract of 1 or 3 years."
+      },
+      {
+        question: "What Google Cloud service allows users to manage and enforce access control policies across all resources?",
+        answers: ["Cloud Identity", "Identity and Access Management (IAM)", "Cloud Armor", "VPC Service Controls"],
+        correctIndex: 1,
+        explanation: "IAM lets administrators authorize who can take action on specific resources, giving full control and visibility."
+      },
+      {
+        question: "Which of the following is a key advantage of utilizing serverless computing on Google Cloud?",
+        answers: ["No code required", "Zero infrastructure management", "Fixed monthly cost", "Complete control over CPU hardware"],
+        correctIndex: 1,
+        explanation: "Serverless computing abstracts away all infrastructure management, allowing developers to focus on writing code while the platform automatically scales."
+      },
+      {
+        question: "Which service provides a central repository for viewing and managing security posture, vulnerabilities, and threats?",
+        answers: ["Cloud Logging", "Cloud Monitoring", "Security Command Center (SCC)", "Artifact Registry"],
+        correctIndex: 2,
+        explanation: "Security Command Center (SCC) is Google Cloud's security and risk management platform for identifying vulnerabilities and threats."
+      },
+      {
+        question: "What does 'Elasticity' in cloud computing refer to?",
+        answers: ["The speed of network data transfers", "The ability to scale resources up or down on demand", "The security level of virtual networks", "The recovery of deleted cloud resources"],
+        correctIndex: 1,
+        explanation: "Elasticity is the ability of cloud systems to dynamically scale resources to match real-time workload demands."
+      },
+      {
+        question: "Which Google Cloud migration tool helps plan, track, and execute physical migrations of workloads to the cloud?",
+        answers: ["Database Migration Service", "BigQuery Omni", "Google Cloud Migration Center", "Storage Transfer Service"],
+        correctIndex: 2,
+        explanation: "Migration Center is a unified platform that helps assess, plan, and optimize your cloud migration journey."
+      },
+      {
+        question: "What is Google Cloud's globally distributed, horizontal-scaling SQL database with up to 99.999% availability?",
+        answers: ["Cloud SQL", "Cloud Spanner", "Firestore", "BigQuery"],
+        correctIndex: 1,
+        explanation: "Cloud Spanner is a fully managed relational database with unlimited scale, strong consistency, and high availability."
+      }
+    ]
   },
   {
-    name: "CSS Specificity",
-    format: "json" as const,
-    data: {
-      question: "Which CSS selector has the highest specificity?",
-      answers: ["An ID selector (#id)", "A class selector (.class)", "An element selector (div)", "An inline style attribute"],
-      correctIndex: 3,
-      explanation: "Inline styles (e.g., style=\"...\") have the highest specificity (1000), followed by ID selectors (100), class/attribute selectors (10), and element selectors (1)."
-    }
+    examName: "Associate Cloud Engineer",
+    questions: [
+      {
+        question: "Which gcloud command-line component is used to view configuration properties for the active account?",
+        answers: ["gcloud config list", "gcloud info config", "gcloud config show", "gcloud account list"],
+        correctIndex: 0,
+        explanation: "Running 'gcloud config list' displays the properties of your active configuration, including active account and project."
+      },
+      {
+        question: "Which service is best suited for hosting a containerized application with automatic scaling to zero when there is no traffic?",
+        answers: ["Compute Engine", "Google Kubernetes Engine (GKE)", "Cloud Run", "App Engine Flexible"],
+        correctIndex: 2,
+        explanation: "Cloud Run is a fully managed compute platform that automatically scales containerized applications up and down to zero."
+      },
+      {
+        question: "What IAM role should you assign to a developer who needs to view but not modify any resources within a project?",
+        answers: ["roles/viewer", "roles/browser", "roles/editor", "roles/owner"],
+        correctIndex: 0,
+        explanation: "The Viewer role (roles/viewer) provides read-only permissions to see resources but not alter their configurations."
+      },
+      {
+        question: "You want to run a batch processing job on Compute Engine that can be terminated at any time. Which type of VM should you use to minimize cost?",
+        answers: ["Sole-tenant Node", "Spot VM", "Shielded VM", "Confidential VM"],
+        correctIndex: 1,
+        explanation: "Spot VMs offer steep discounts (60-91%) compared to standard VMs, but Google can reclaim them with a 30-second notice."
+      },
+      {
+        question: "Which Cloud Storage class is most cost-effective for storing backups that are accessed less than once a year?",
+        answers: ["Standard", "Nearline", "Coldline", "Archive"],
+        correctIndex: 3,
+        explanation: "Archive Storage is designed for data archiving, online backup, and disaster recovery, accessed less than once a year."
+      },
+      {
+        question: "What tool allows you to establish a secure, private, high-performance connection between your on-premises network and VPC without traversing the public internet?",
+        answers: ["Cloud VPN", "Cloud Interconnect", "VPC Network Peering", "Cloud Router"],
+        correctIndex: 1,
+        explanation: "Cloud Interconnect provides direct, low-latency, physical connections between your on-premises and Google Cloud networks."
+      },
+      {
+        question: "How can you ensure that a set of Compute Engine instances can communicate with each other using internal IP addresses across different VPC networks?",
+        answers: ["Use VPC Network Peering", "Configure Cloud NAT", "Assign public IP addresses", "Use a Shared VPC"],
+        correctIndex: 0,
+        explanation: "VPC Network Peering allows secure connection of two Virtual Private Cloud (VPC) networks so that resources can communicate privately."
+      },
+      {
+        question: "Which service allows you to capture and analyze real-time streaming data from IoT devices at scale?",
+        answers: ["Pub/Sub", "BigQuery", "Cloud Storage", "Cloud Memorystore"],
+        correctIndex: 0,
+        explanation: "Pub/Sub is an asynchronous, scalable messaging service that ingests event streams and distributes them to processing pipelines."
+      },
+      {
+        question: "You need to automate the creation of a group of identical VM instances with load balancing. What should you configure?",
+        answers: ["Managed Instance Group (MIG)", "Unmanaged Instance Group", "Sole-tenant node group", "Compute Engine cluster"],
+        correctIndex: 0,
+        explanation: "A Managed Instance Group uses an instance template to automatically deploy, scale, and manage a group of identical VM instances."
+      },
+      {
+        question: "Which Google Cloud service acts as a distributed, scalable caching layer for application database queries?",
+        answers: ["Cloud SQL", "Cloud Memorystore", "Firestore", "BigQuery"],
+        correctIndex: 1,
+        explanation: "Cloud Memorystore is a fully managed in-memory data store service for Redis and Memcached, ideal for low-latency caching."
+      }
+    ]
   },
   {
-    name: "Next.js Dynamic Routing",
-    format: "yaml" as const,
-    data: {
-      question: "What catch-all parameter slug in Next.js matches all nested paths including the parent?",
-      answers: ["[slug]", "[...slug]", "[[...slug]]", "slug*"],
-      correctIndex: 2,
-      explanation: "Double square brackets [[...slug]] create an optional catch-all route, which matches the base path as well as any nested sub-paths."
-    }
+    examName: "Professional Cloud Architect",
+    questions: [
+      {
+        question: "Your organization requires high-volume database transactions with sub-millisecond response times globally. Which database should you choose?",
+        answers: ["BigQuery", "Cloud Spanner", "Cloud SQL", "Cloud Bigtable"],
+        correctIndex: 1,
+        explanation: "Cloud Spanner provides high-throughput transactional database access with strict consistency and global replication."
+      },
+      {
+        question: "You are designing a disaster recovery strategy with a recovery time objective (RTO) of several hours and low cost. Which pattern should you select?",
+        answers: ["Active-Active Warm Standby", "Cold Standby (Backup & Restore)", "Multi-Region Live Sync", "Active-Passive Pilot Light"],
+        correctIndex: 1,
+        explanation: "A Cold Standby (Backup and Restore) approach has the lowest cost, but requires rebuilding resources, which takes hours (high RTO)."
+      },
+      {
+        question: "Which network load balancer should you use for external, non-HTTP(S) traffic on TCP ports 80 and 443 where client IP preservation is required?",
+        answers: ["Global External Application Load Balancer", "Regional External Network Load Balancer", "Global External Proxy Load Balancer", "Internal TCP/UDP Load Balancer"],
+        correctIndex: 1,
+        explanation: "The Regional External Network Load Balancer is a pass-through layer-4 balancer that preserves client source IP addresses."
+      },
+      {
+        question: "To comply with regulatory standards, you must encrypt storage buckets using keys managed entirely outside of Google Cloud. Which option should you use?",
+        answers: ["Google-owned default keys", "Customer-Managed Encryption Keys (CMEK)", "Customer-Supplied Encryption Keys (CSEK)", "External Key Manager (EKM) via Cloud KMS"],
+        correctIndex: 3,
+        explanation: "External Key Manager (EKM) allows you to use keys stored in an external third-party key management partner to encrypt GCP data."
+      },
+      {
+        question: "Which design principle helps minimize operational overhead when managing microservices running on Google Kubernetes Engine?",
+        answers: ["Deploying everything to a single node", "Using Autopilot cluster mode", "Manually managing GKE node versions", "Hardcoding network configurations"],
+        correctIndex: 1,
+        explanation: "GKE Autopilot manages the entire underlying cluster infrastructure, including node provisioning, scaling, and security."
+      },
+      {
+        question: "You need to migrate a monolithic application to microservices with minimum downtime. What migration strategy is recommended?",
+        answers: ["Big Bang migration", "Strangler Fig pattern", "Lift and Shift", "Rehosting"],
+        correctIndex: 1,
+        explanation: "The Strangler Fig pattern migrates parts of a monolith incrementally to microservices until the monolith can be decommissioned."
+      },
+      {
+        question: "How should you design a secure, high-bandwidth hybrid network connection that requires encryption over the public internet?",
+        answers: ["Dedicated Interconnect", "Partner Interconnect", "HA VPN over Cloud Interconnect", "Direct Peering"],
+        correctIndex: 2,
+        explanation: "IPsec HA VPN over Cloud Interconnect provides both the high bandwidth of Interconnect and the security of IPsec encryption."
+      },
+      {
+        question: "To enforce fine-grained organizational policies across all folders and projects in your hierarchy, which tool is best suited?",
+        answers: ["IAM Roles", "Resource Manager Org Policies", "VPC Service Controls", "Cloud Asset Inventory"],
+        correctIndex: 1,
+        explanation: "Organization Policies provide centralized, programmatic control over your organization's cloud resources."
+      },
+      {
+        question: "Your API needs to distribute load globally across instances in multiple regions, while using a single external IP address. Which load balancer is required?",
+        answers: ["Global External Application Load Balancer", "Regional External Network Load Balancer", "Internal Application Load Balancer", "Regional External Proxy Load Balancer"],
+        correctIndex: 0,
+        explanation: "The Global External Application Load Balancer routes HTTP/S traffic globally using a single, global Anycast IP address."
+      },
+      {
+        question: "Which Google Cloud service provides isolated execution environments for running highly sensitive, confidential workloads with runtime encryption?",
+        answers: ["Shielded VMs", "Confidential Computing VMs", "Cloud HSM", "Binary Authorization"],
+        correctIndex: 1,
+        explanation: "Confidential VMs leverage hardware-based memory encryption to protect data in use/at runtime."
+      }
+    ]
+  },
+  {
+    examName: "Professional Data Engineer",
+    questions: [
+      {
+        question: "You need to analyze petabytes of structured and semi-structured data with SQL queries at high speeds. Which service is best?",
+        answers: ["BigQuery", "Cloud Bigtable", "Cloud Spanner", "Datastore"],
+        correctIndex: 0,
+        explanation: "BigQuery is a serverless, highly-scalable cloud data warehouse designed for fast analytics over petabytes of data."
+      },
+      {
+        question: "Which Apache Beam runner is utilized by Cloud Dataflow to run unified batch and streaming data processing pipelines?",
+        answers: ["Direct Runner", "Flink Runner", "Spark Runner", "Dataflow Runner"],
+        correctIndex: 3,
+        explanation: "Cloud Dataflow executes Apache Beam pipelines using the specialized, serverless Dataflow Runner."
+      },
+      {
+        question: "What database service is optimized for high-throughput, low-latency analytical and operational workloads on non-relational wide-column data?",
+        answers: ["Cloud SQL", "Firestore", "Cloud Bigtable", "Cloud Spanner"],
+        correctIndex: 2,
+        explanation: "Cloud Bigtable is Google's NoSQL wide-column database, designed for large analytical and operational workloads."
+      },
+      {
+        question: "You want to automate the ingestion of continuous real-time data from Pub/Sub, transform it, and write to BigQuery. Which managed service is recommended?",
+        answers: ["Cloud Composer", "Cloud Dataflow", "Cloud Dataproc", "Cloud Data Fusion"],
+        correctIndex: 1,
+        explanation: "Cloud Dataflow is a serverless data processing engine ideal for building real-time stream processing pipelines."
+      },
+      {
+        question: "Which service should you use to migrate existing Apache Hadoop and Apache Spark clusters directly to Google Cloud without major code changes?",
+        answers: ["Cloud Dataflow", "Cloud Dataproc", "Cloud Composer", "BigQuery Omni"],
+        correctIndex: 1,
+        explanation: "Cloud Dataproc is a fully managed service for running Apache Spark and Apache Hadoop clusters on Google Cloud."
+      },
+      {
+        question: "What feature of BigQuery should you implement to reduce query costs and improve performance for queries filtering on a specific date column?",
+        answers: ["Materialized Views", "Partitioning", "Search Indexes", "Row-level Security"],
+        correctIndex: 1,
+        explanation: "Partitioning divides a large table into smaller segments based on a date or integer column, reducing scanned bytes and costs."
+      },
+      {
+        question: "Which service manages workflow orchestration, letting you build and schedule complex data pipelines with Apache Airflow?",
+        answers: ["Cloud Composer", "Cloud Workflows", "Cloud Scheduler", "Cloud Functions"],
+        correctIndex: 0,
+        explanation: "Cloud Composer is a managed workflow orchestration service built on Apache Airflow to coordinate multi-step pipelines."
+      },
+      {
+        question: "What ML tool is best for developers with limited machine learning expertise to build custom high-quality models using Google's transfer learning?",
+        answers: ["Vertex AI Custom Training", "Vertex AI AutoML", "TensorFlow Enterprise", "BigQuery ML"],
+        correctIndex: 1,
+        explanation: "Vertex AI AutoML enables users to train state-of-the-art models on image, tabular, text, or video data without writing ML code."
+      },
+      {
+        question: "How can you query data stored in external Google Cloud Storage buckets directly inside BigQuery without loading the data first?",
+        answers: ["Use an External Table", "Use BigQuery Storage Write API", "Create a BigQuery View", "Use federated queries via Cloud SQL"],
+        correctIndex: 0,
+        explanation: "External tables allow BigQuery to query data stored in GCS, Google Drive, or Bigtable directly using federated queries."
+      },
+      {
+        question: "What is the most effective way to continuously stream high-velocity event data into a BigQuery table with immediate query availability?",
+        answers: ["Use BigQuery Load Jobs", "Use the Storage Write API", "Export GCS logs to BigQuery", "Use Datastream"],
+        correctIndex: 1,
+        explanation: "The BigQuery Storage Write API supports high-performance streaming ingestion with immediate query accessibility."
+      }
+    ]
+  },
+  {
+    examName: "Professional Cloud Security Engineer",
+    questions: [
+      {
+        question: "Which tool provides defense-in-depth security by defining a secure perimeter around VPC resources and preventing exfiltration?",
+        answers: ["Cloud Armor", "VPC Service Controls", "Cloud Firewalls", "Cloud Identity-Aware Proxy"],
+        correctIndex: 1,
+        explanation: "VPC Service Controls allows you to set up security perimeters to protect sensitive data and prevent unauthorized exfiltration."
+      },
+      {
+        question: "You need to secure a web application by restricting access only to users who meet specific device-security and identity criteria. What should you use?",
+        answers: ["Cloud VPN", "VPC Network Peering", "Identity-Aware Proxy (IAP) with BeyondCorp", "Cloud Firewalls"],
+        correctIndex: 2,
+        explanation: "IAP enables context-aware access control to applications, verifying user identity and device posture before granting access."
+      },
+      {
+        question: "Which service is a distributed denial-of-service (DDoS) defense and Web Application Firewall (WAF) for HTTP(S) load balanced workloads?",
+        answers: ["Cloud IDS", "Cloud Armor", "Security Command Center", "VPC Service Controls"],
+        correctIndex: 1,
+        explanation: "Cloud Armor provides enterprise-grade DDoS protection and WAF features to block web attacks like SQLi and XSS."
+      },
+      {
+        question: "To securely store and rotate application API keys, database credentials, and certificates, which service is recommended?",
+        answers: ["Cloud KMS", "Secret Manager", "Cloud Storage", "Cloud HSM"],
+        correctIndex: 1,
+        explanation: "Secret Manager is a secure and convenient storage system for API keys, passwords, certificates, and other sensitive data."
+      },
+      {
+        question: "What Google Cloud feature allows you to audit all read and write operations performed on your cloud resources by administrators and users?",
+        answers: ["Cloud Auditing", "Cloud Audit Logs", "Cloud Logging", "Cloud Access Transparency"],
+        correctIndex: 1,
+        explanation: "Cloud Audit Logs record administrative actions, system events, and data access, providing critical trails for security audits."
+      },
+      {
+        question: "How can you ensure that only container images verified by a continuous integration (CI) pipeline can be deployed to GKE?",
+        answers: ["Binary Authorization", "VPC Service Controls", "Artifact Registry Policies", "Container Analysis"],
+        correctIndex: 0,
+        explanation: "Binary Authorization is a deploy-time security control that ensures only trusted, signed container images are deployed to GKE."
+      },
+      {
+        question: "Which IAM role type should be avoided for general user accounts to follow the principle of least privilege?",
+        answers: ["Predefined Roles", "Custom Roles", "Primitive Roles (Owner, Editor, Viewer)", "Service Account Roles"],
+        correctIndex: 2,
+        explanation: "Primitive roles are extremely broad and grant sweeping permissions across all services. Predefined or custom roles are preferred."
+      },
+      {
+        question: "What service provides managed intrusion detection system (IDS) capabilities, inspecting network traffic for malicious signatures?",
+        answers: ["Cloud Firewalls", "Cloud IDS", "Cloud Armor", "Packet Mirroring"],
+        correctIndex: 1,
+        explanation: "Cloud IDS delivers industry-leading threat detection, inspecting cloud network traffic for malware, spyware, and exploits."
+      },
+      {
+        question: "You want to dynamically mask sensitive data like credit card numbers or Social Security numbers from a dataset. Which service is designed for this?",
+        answers: ["Cloud KMS", "Sensitive Data Protection (formerly Cloud DLP)", "Secret Manager", "BigQuery Masking"],
+        correctIndex: 1,
+        explanation: "Google's Sensitive Data Protection service scans, classifies, and de-identifies/masks sensitive information automatically."
+      },
+      {
+        question: "To verify that Google employees access your resources only for valid business reasons (like support), which service should you enable?",
+        answers: ["Access Approval", "Access Transparency", "Cloud Audit Logs", "IAM Policy Troubleshooter"],
+        correctIndex: 1,
+        explanation: "Access Transparency provides near real-time logs of actions taken by Google administrators when accessing your content."
+      }
+    ]
   }
 ];
 
@@ -58,30 +358,30 @@ export default function QuizPageClient({
 
   // Core quiz state
   const [format, setFormat] = useState<"markdown" | "json" | "yaml">("markdown");
-  const [questionData, setQuestionData] = useState<QuizQuestion>({
-    question: "What is the capital of France?",
-    answers: ["Paris", "London", "Berlin", "Madrid"],
-    correctIndex: 0,
-    explanation: "Paris is the capital of France, situated on the Seine River."
-  });
+  const [questionData, setQuestionData] = useState<QuizQuestion>(GCP_EXAMS_PRESETS[0].questions[0]);
   const [rawText, setRawText] = useState(() => {
     return `# Question
-What is the capital of France?
+Which cloud computing service model offers the highest level of customization and control over the underlying infrastructure?
 
 ## Answers
-- [x] Paris
-- [ ] London
-- [ ] Berlin
-- [ ] Madrid
+- [ ] SaaS (Software as a Service)
+- [ ] PaaS (Platform as a Service)
+- [x] IaaS (Infrastructure as a Service)
+- [ ] FaaS (Function as a Service)
 
 ## Explanation
-Paris is the capital of France, situated on the Seine River.`;
+Infrastructure as a Service (IaaS) provides virtualized computing resources, giving users maximum control over operating systems, storage, and networking.`;
   });
   const [errors, setErrors] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
 
-  // Player phase state: "edit" | "question" | "answers" | "explanation"
-  const [phase, setPhase] = useState<"edit" | "question" | "answers" | "explanation">("edit");
+  // Style customization state
+  const [aspectRatio, setAspectRatio] = useState<"9:16" | "16:9" | "1:1">("9:16");
+  const [colorTheme, setColorTheme] = useState<"Google Cloud" | "Firebase" | "Flutter/Dart" | "Go">("Google Cloud");
+
+  // Player phase state:
+  // "edit" | 0 (Question) | 1 (A highlight) | 2 (B highlight) | 3 (C highlight) | 4 (D highlight) | 5 (Explanation)
+  const [phase, setPhase] = useState<"edit" | 0 | 1 | 2 | 3 | 4 | 5>("edit");
 
   // Format Helper Functions
   const formatYaml = (q: QuizQuestion) => {
@@ -320,18 +620,17 @@ ${q.explanation}`;
     setRawText(formatted);
   };
 
-  // Presets trigger
-  const applyPreset = (preset: typeof PRESETS[number]) => {
-    setFormat(preset.format);
-    setQuestionData(preset.data);
+  // Presets load
+  const loadQuestionPreset = (q: QuizQuestion) => {
+    setQuestionData(q);
     setErrors([]);
     let formatted = "";
-    if (preset.format === "json") {
-      formatted = JSON.stringify(preset.data, null, 2);
-    } else if (preset.format === "yaml") {
-      formatted = formatYaml(preset.data);
+    if (format === "json") {
+      formatted = JSON.stringify(q, null, 2);
+    } else if (format === "yaml") {
+      formatted = formatYaml(q);
     } else {
-      formatted = formatMarkdown(preset.data);
+      formatted = formatMarkdown(q);
     }
     setRawText(formatted);
   };
@@ -346,28 +645,52 @@ ${q.explanation}`;
     }
   };
 
-  const handleViewportClick = () => {
-    if (phase === "question") {
-      setPhase("answers");
-    } else if (phase === "answers") {
-      setPhase("explanation");
-    } else if (phase === "explanation") {
-      setPhase("question");
+  const advancePhase = () => {
+    if (phase === "edit") return;
+    if (phase === 5) {
+      setPhase(0);
+    } else {
+      setPhase((prev) => (prev as number) + 1 as any);
     }
   };
 
-  // Select dynamic gradients for player based on current website theme and vibe
-  const getPlayerGradient = () => {
-    if (theme.vibe === "fun") {
-      return "from-fuchsia-600 via-purple-700 to-indigo-800";
+  const retreatPhase = () => {
+    if (phase === "edit") return;
+    if (phase === 0) {
+      setPhase(5);
+    } else {
+      setPhase((prev) => (prev as number) - 1 as any);
     }
-    if (theme.vibe === "professional") {
-      return "from-slate-800 via-indigo-950 to-blue-900";
-    }
-    return "from-amber-500 via-orange-600 to-red-700";
   };
 
-  // Helper classes for input elements based on Light/Dark mode
+  // Get Custom Styled Gradients & Appearance
+  const getPlayerThemeClasses = () => {
+    switch (colorTheme) {
+      case "Firebase":
+        return "from-[#DD2C00] via-[#FF6D00] to-[#FFD600] text-white";
+      case "Flutter/Dart":
+        return "from-[#02569B] via-[#0175C2] to-[#13B9FD] text-white";
+      case "Go":
+        return "from-[#00ADD8] via-[#5DC9E2] to-[#0096b7] text-white";
+      case "Google Cloud":
+      default:
+        return "from-[#4285F4] via-[#34A853] to-[#FBBC05] text-white";
+    }
+  };
+
+  const getAspectClasses = () => {
+    switch (aspectRatio) {
+      case "16:9":
+        return "aspect-[16/9] w-full max-w-[850px] h-auto";
+      case "1:1":
+        return "aspect-[1/1] w-full max-w-[550px] h-auto";
+      case "9:16":
+      default:
+        return "aspect-[9/16] w-full max-w-[420px] h-auto max-h-[82vh]";
+    }
+  };
+
+  // Input styling based on theme
   const inputThemeClass = theme.color === "dark"
     ? "bg-gray-950 text-white border-gray-800 focus:ring-amber-500 placeholder-gray-500"
     : "bg-white text-black border-gray-200 focus:ring-orange-500 placeholder-gray-400";
@@ -380,278 +703,376 @@ ${q.explanation}`;
 
       <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
 
-      <div className="m-auto max-w-5xl px-4 mt-8">
-        <header className="mb-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-2">Quiz Creator & Player</h1>
-          <p className="text-lg opacity-75">Create interactive 9:16 quizzes for YouTube Shorts entirely in your browser.</p>
-        </header>
+      {/* Main Container Layout */}
+      <div className="mx-auto w-full max-w-[1700px] px-4 mt-6">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
 
-        {phase === "edit" ? (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Editor Input Form Panel (Left) */}
-            <div className={`lg:col-span-7 rounded-2xl p-6 shadow-xl ${textBackgroundColorClass} space-y-6 border border-gray-200/10`}>
-              <div className="flex justify-between items-center border-b border-gray-200/10 pb-3">
-                <h2 className="text-xl font-bold">Interactive Form</h2>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs opacity-60">Load Preset:</span>
-                  <div className="flex gap-1.5">
-                    {PRESETS.map((p) => (
-                      <button
-                        key={p.name}
-                        onClick={() => applyPreset(p)}
-                        className="text-[11px] font-bold bg-white/5 hover:bg-white/15 px-2 py-1 rounded border border-white/10 transition cursor-pointer"
-                      >
-                        {p.name}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* Form Input fields */}
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-semibold mb-1" htmlFor="quiz-question">
-                    Question Text
-                  </label>
-                  <textarea
-                    id="quiz-question"
-                    rows={2}
-                    value={questionData.question}
-                    onChange={(e) => handleFormChange({ ...questionData, question: e.target.value })}
-                    placeholder="Enter the question text..."
-                    className={`w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 resize-none ${inputThemeClass}`}
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <label className="block text-sm font-semibold">Answers (Check the correct one)</label>
-                  {questionData.answers.map((ans, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <input
-                        type="radio"
-                        id={`correct-ans-${i}`}
-                        name="correctAnswerSelection"
-                        checked={questionData.correctIndex === i}
-                        onChange={() => handleFormChange({ ...questionData, correctIndex: i })}
-                        className="w-5 h-5 accent-orange-500 cursor-pointer"
-                      />
-                      <input
-                        type="text"
-                        value={ans}
-                        onChange={(e) => {
-                          const nextAnswers = [...questionData.answers];
-                          nextAnswers[i] = e.target.value;
-                          handleFormChange({ ...questionData, answers: nextAnswers });
-                        }}
-                        placeholder={`Option ${String.fromCharCode(65 + i)}`}
-                        className={`flex-1 px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 ${inputThemeClass}`}
-                      />
-                    </div>
-                  ))}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-semibold mb-1" htmlFor="quiz-explanation">
-                    Explanation
-                  </label>
-                  <textarea
-                    id="quiz-explanation"
-                    rows={3}
-                    value={questionData.explanation}
-                    onChange={(e) => handleFormChange({ ...questionData, explanation: e.target.value })}
-                    placeholder="Explain why the answer is correct..."
-                    className={`w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 resize-none ${inputThemeClass}`}
-                  />
-                </div>
-              </div>
-
-              {/* Errors Panel */}
-              {errors.length > 0 && (
-                <div className="bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl p-4 text-sm font-medium space-y-1">
-                  <p className="font-bold">⚠️ Correct the following issues:</p>
-                  <ul className="list-disc list-inside space-y-0.5 opacity-90 pl-1">
-                    {errors.map((err, i) => (
-                      <li key={i}>{err}</li>
-                    ))}
+          {/* LEFT PANEL: Nested GCP Presets (Static List, No Accordion) */}
+          <div className={`xl:col-span-3 rounded-2xl p-4 shadow-xl ${textBackgroundColorClass} border border-gray-200/10 max-h-[85vh] overflow-y-auto`}>
+            <h2 className="text-lg font-extrabold mb-4 pb-2 border-b border-gray-200/10 flex items-center justify-between">
+              <span>GCP Certifications</span>
+              <span className="text-xs font-normal opacity-60">50 Questions</span>
+            </h2>
+            <div className="space-y-6">
+              {GCP_EXAMS_PRESETS.map((exam, examIdx) => (
+                <div key={examIdx} className="space-y-2">
+                  <h3 className="text-sm font-black text-amber-500 uppercase tracking-wide">
+                    {exam.examName}
+                  </h3>
+                  <ul className="space-y-1.5 ml-2 border-l border-gray-200/10 pl-2">
+                    {exam.questions.map((q, qIdx) => {
+                      const isSelected = questionData.question === q.question;
+                      return (
+                        <li key={qIdx}>
+                          <button
+                            onClick={() => loadQuestionPreset(q)}
+                            className={`w-full text-left text-xs py-1 px-2 rounded-lg transition-all duration-150 ${
+                              isSelected
+                                ? "bg-amber-500/20 text-amber-400 font-bold border-l-2 border-amber-500 pl-1.5"
+                                : "text-gray-400 hover:text-white hover:bg-white/5"
+                            }`}
+                          >
+                            <span className="opacity-50 mr-1">Q{qIdx + 1}:</span>
+                            <span className="line-clamp-2 inline align-middle">{q.question}</span>
+                          </button>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
-              )}
-
-              {/* Start Buttons */}
-              <button
-                disabled={errors.length > 0}
-                onClick={() => setPhase("question")}
-                className={`w-full py-3 px-6 rounded-xl font-extrabold text-white text-base shadow-lg transition flex items-center justify-center gap-2 ${
-                  errors.length > 0
-                    ? "bg-gray-400 dark:bg-gray-800 cursor-not-allowed opacity-50 text-gray-500 dark:text-gray-400"
-                    : "bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 cursor-pointer hover:scale-[1.02] active:scale-[0.98]"
-                }`}
-              >
-                🎬 Start Quiz presentation (9:16)
-              </button>
-            </div>
-
-            {/* Formatted Text Box Panel (Right) */}
-            <div className={`lg:col-span-5 rounded-2xl p-6 shadow-xl ${textBackgroundColorClass} space-y-4 border border-gray-200/10`}>
-              <div className="flex justify-between items-center">
-                <h2 className="text-xl font-bold">Raw Copy / Paste</h2>
-                <select
-                  value={format}
-                  onChange={(e) => handleFormatChange(e.target.value as any)}
-                  className={`px-3 py-1 rounded-lg border text-xs font-bold focus:outline-none ${inputThemeClass}`}
-                >
-                  <option value="markdown">Markdown</option>
-                  <option value="json">JSON</option>
-                  <option value="yaml">YAML</option>
-                </select>
-              </div>
-
-              <div className="relative">
-                <textarea
-                  id="quiz-raw-text"
-                  rows={14}
-                  value={rawText}
-                  onChange={(e) => handleRawTextChange(e.target.value)}
-                  placeholder="Paste or type formatted Markdown, JSON, or YAML here to parse directly..."
-                  className={`w-full p-4 rounded-xl border focus:outline-none focus:ring-2 font-mono text-xs leading-relaxed resize-y ${inputThemeClass}`}
-                />
-                <button
-                  onClick={handleCopy}
-                  className="absolute top-3 right-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white p-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow cursor-pointer"
-                  title="Copy to Clipboard"
-                >
-                  {copied ? "✅ Copied!" : "📋 Copy"}
-                </button>
-              </div>
-
-              <div className="text-xs opacity-60 space-y-1">
-                <p>💡 <b>Quick Tip:</b> You can paste raw question texts in JSON, YAML, or Markdown. The site detects the format automatically, parses the content, and updates the form in real-time!</p>
-              </div>
+              ))}
             </div>
           </div>
-        ) : (
-          /* Presentation / Interactive Player Mode */
-          <div className="flex flex-col items-center space-y-6">
-            <div className="flex justify-between items-center w-full max-w-[360px]">
-              <button
-                onClick={() => setPhase("edit")}
-                className={`py-1.5 px-4 rounded-xl text-sm font-bold border border-gray-200/10 hover:bg-white/5 transition flex items-center gap-1.5 cursor-pointer`}
-              >
-                ← Back to Creator
-              </button>
-              <span className="text-xs font-bold tracking-wider opacity-65 uppercase">
-                {phase} view
-              </span>
-            </div>
 
-            {/* 9:16 Aspect Ratio Frame */}
-            <div
-              onClick={handleViewportClick}
-              className={`w-full max-w-[360px] h-[640px] aspect-[9/16] bg-gradient-to-br ${getPlayerGradient()} rounded-3xl shadow-2xl relative overflow-hidden flex flex-col justify-between p-6 select-none cursor-pointer transition-all duration-300 border border-white/10 hover:brightness-[1.02]`}
-            >
-              {/* Top Watermark & Details */}
-              <div className="flex justify-between items-center z-10 w-full text-white/50 text-[11px] font-bold tracking-widest uppercase">
-                <span>Luke Schlangen</span>
-                <span>Quiz Short</span>
-              </div>
+          {/* MAIN CENTER PANEL: Editor OR Presentation Screen */}
+          <div className="xl:col-span-9">
+            {phase === "edit" ? (
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-              {/* Main Dynamic View Content */}
-              {phase === "question" && (
-                <div className="flex-1 flex flex-col justify-center items-center z-10 py-8 px-2 animate-fade-in">
-                  <h2 className="text-2xl md:text-3xl font-black text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-snug">
-                    {questionData.question}
-                  </h2>
+                {/* Form Editor */}
+                <div className={`lg:col-span-7 rounded-2xl p-6 shadow-xl ${textBackgroundColorClass} space-y-6 border border-gray-200/10`}>
+                  <div className="flex justify-between items-center border-b border-gray-200/10 pb-3">
+                    <h2 className="text-xl font-bold">Interactive Form</h2>
+                  </div>
+
+                  {/* Form fields */}
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-semibold mb-1" htmlFor="quiz-question">
+                        Question Text
+                      </label>
+                      <textarea
+                        id="quiz-question"
+                        rows={3}
+                        value={questionData.question}
+                        onChange={(e) => handleFormChange({ ...questionData, question: e.target.value })}
+                        placeholder="Enter the question text..."
+                        className={`w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 resize-none ${inputThemeClass}`}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="block text-sm font-semibold">Answers (Check the correct one)</label>
+                      {questionData.answers.map((ans, i) => (
+                        <div key={i} className="flex items-center gap-3">
+                          <input
+                            type="radio"
+                            id={`correct-ans-${i}`}
+                            name="correctAnswerSelection"
+                            checked={questionData.correctIndex === i}
+                            onChange={() => handleFormChange({ ...questionData, correctIndex: i })}
+                            className="w-5 h-5 accent-orange-500 cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={ans}
+                            onChange={(e) => {
+                              const nextAnswers = [...questionData.answers];
+                              nextAnswers[i] = e.target.value;
+                              handleFormChange({ ...questionData, answers: nextAnswers });
+                            }}
+                            placeholder={`Option ${String.fromCharCode(65 + i)}`}
+                            className={`flex-1 px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 ${inputThemeClass}`}
+                          />
+                        </div>
+                      ))}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-semibold mb-1" htmlFor="quiz-explanation">
+                        Explanation
+                      </label>
+                      <textarea
+                        id="quiz-explanation"
+                        rows={3}
+                        value={questionData.explanation}
+                        onChange={(e) => handleFormChange({ ...questionData, explanation: e.target.value })}
+                        placeholder="Explain why the answer is correct..."
+                        className={`w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 resize-none ${inputThemeClass}`}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Errors Panel */}
+                  {errors.length > 0 && (
+                    <div className="bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl p-4 text-sm font-medium space-y-1">
+                      <p className="font-bold">⚠️ Correct the following issues:</p>
+                      <ul className="list-disc list-inside space-y-0.5 opacity-90 pl-1">
+                        {errors.map((err, i) => (
+                          <li key={i}>{err}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Start Button */}
+                  <button
+                    disabled={errors.length > 0}
+                    onClick={() => setPhase(0)}
+                    className={`w-full py-3.5 px-6 rounded-xl font-extrabold text-white text-base shadow-lg transition flex items-center justify-center gap-2 ${
+                      errors.length > 0
+                        ? "bg-gray-400 dark:bg-gray-800 cursor-not-allowed opacity-50 text-gray-500 dark:text-gray-400"
+                        : "bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 cursor-pointer hover:scale-[1.01] active:scale-[0.99]"
+                    }`}
+                  >
+                    🎬 Launch Quiz Player Screen
+                  </button>
                 </div>
-              )}
 
-              {phase === "answers" && (
-                <div className="flex-1 flex flex-col justify-center space-y-6 z-10 py-4 animate-fade-in">
-                  {/* Small top header question to keep context */}
-                  <h3 className="text-lg font-extrabold text-center text-white drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] leading-normal line-clamp-3">
-                    {questionData.question}
-                  </h3>
+                {/* Raw Copy/Paste Box */}
+                <div className={`lg:col-span-5 rounded-2xl p-6 shadow-xl ${textBackgroundColorClass} space-y-4 border border-gray-200/10`}>
+                  <div className="flex justify-between items-center">
+                    <h2 className="text-xl font-bold">Raw Copy / Paste</h2>
+                    <select
+                      value={format}
+                      onChange={(e) => handleFormatChange(e.target.value as any)}
+                      className={`px-3 py-1 rounded-lg border text-xs font-bold focus:outline-none ${inputThemeClass}`}
+                    >
+                      <option value="markdown">Markdown</option>
+                      <option value="json">JSON</option>
+                      <option value="yaml">YAML</option>
+                    </select>
+                  </div>
 
-                  {/* Vertically stacked styled answers */}
-                  <div className="space-y-3">
-                    {questionData.answers.map((ans, i) => (
-                      <div
-                        key={i}
-                        className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-white font-bold text-left transition flex items-center gap-3 w-full shadow-md hover:bg-white/15"
-                      >
-                        <span className="w-8 h-8 rounded-full bg-white/20 border border-white/30 flex items-center justify-center text-sm font-black text-white shrink-0">
-                          {String.fromCharCode(65 + i)}
-                        </span>
-                        <span className="text-sm md:text-base leading-snug break-words">
-                          {ans}
-                        </span>
+                  <div className="relative">
+                    <textarea
+                      id="quiz-raw-text"
+                      rows={14}
+                      value={rawText}
+                      onChange={(e) => handleRawTextChange(e.target.value)}
+                      placeholder="Paste or type formatted Markdown, JSON, or YAML here to parse directly..."
+                      className={`w-full p-4 rounded-xl border focus:outline-none focus:ring-2 font-mono text-xs leading-relaxed resize-y ${inputThemeClass}`}
+                    />
+                    <button
+                      onClick={handleCopy}
+                      className="absolute top-3 right-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white p-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow cursor-pointer"
+                      title="Copy to Clipboard"
+                    >
+                      {copied ? "✅ Copied!" : "📋 Copy"}
+                    </button>
+                  </div>
+
+                  <div className="text-xs opacity-60 space-y-1">
+                    <p>💡 <b>Quick Tip:</b> You can paste raw questions in JSON, YAML, or Markdown. The site detects the format, parses the content, and updates the form in real-time!</p>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              /* Presentation / Interactive Player Mode with Side Controls */
+              <div className="flex flex-col lg:flex-row gap-8 items-stretch justify-center">
+
+                {/* 1. Large Centered Interactive Quiz Viewport */}
+                <div className="flex-1 flex justify-center items-center">
+                  <div
+                    onClick={advancePhase}
+                    className={`relative select-none cursor-pointer transition-all duration-300 border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between p-8 bg-gradient-to-br ${getPlayerThemeClasses()} ${getAspectClasses()}`}
+                  >
+                    {/* View 1: Question Only */}
+                    {phase === 0 && (
+                      <div className="flex-1 flex flex-col justify-center items-center py-8 px-4 animate-fade-in">
+                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-black text-center text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)] leading-snug">
+                          {questionData.question}
+                        </h2>
                       </div>
-                    ))}
+                    )}
+
+                    {/* Views 2, 3, 4, 5: Question + Subtle Highlight on Option A, B, C, D */}
+                    {phase >= 1 && phase <= 4 && (
+                      <div className="flex-1 flex flex-col justify-center space-y-6 lg:space-y-8 py-4 animate-fade-in">
+                        <h3 className="text-lg md:text-xl lg:text-2xl font-extrabold text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-normal line-clamp-4">
+                          {questionData.question}
+                        </h3>
+
+                        <div className="space-y-4">
+                          {questionData.answers.map((ans, i) => {
+                            const isHighlighted = (phase - 1) === i;
+                            return (
+                              <div
+                                key={i}
+                                className={`border rounded-2xl p-4 lg:p-5 text-white font-bold text-left transition-all duration-300 flex items-center gap-4 w-full shadow-md ${
+                                  isHighlighted
+                                    ? "bg-white/25 border-white/80 scale-[1.03] shadow-[0_0_15px_rgba(255,255,255,0.2)]"
+                                    : "bg-white/5 border-white/10 opacity-50"
+                                }`}
+                              >
+                                <span className={`w-9 h-9 rounded-full border flex items-center justify-center text-sm lg:text-base font-black shrink-0 transition-colors duration-300 ${
+                                  isHighlighted
+                                    ? "bg-white text-black border-white"
+                                    : "bg-white/10 border-white/20 text-white"
+                                }`}>
+                                  {String.fromCharCode(65 + i)}
+                                </span>
+                                <span className="text-sm md:text-base lg:text-lg leading-snug break-words">
+                                  {ans}
+                                </span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* View 6: Explanation & Correct Answer */}
+                    {phase === 5 && (
+                      <div className="flex-1 flex flex-col justify-between space-y-6 py-4 animate-fade-in">
+                        {/* Correct Answer Header */}
+                        <div className="w-full bg-emerald-500/20 border border-emerald-500/40 rounded-2xl p-5 text-center mt-2 shadow-inner">
+                          <span className="text-xs font-black text-emerald-400 tracking-widest block mb-1 uppercase">
+                            ✅ Correct Answer
+                          </span>
+                          <p className="text-lg md:text-xl lg:text-2xl font-black text-white drop-shadow">
+                            {String.fromCharCode(65 + questionData.correctIndex)}: {questionData.answers[questionData.correctIndex]}
+                          </p>
+                        </div>
+
+                        {/* Explanation container */}
+                        <div className="flex-1 text-center text-white text-sm md:text-base lg:text-lg leading-relaxed px-5 overflow-y-auto max-h-[350px] bg-black/35 border border-white/10 rounded-2xl p-5 flex flex-col justify-center shadow-inner">
+                          <span className="text-xs font-bold text-white/40 tracking-widest block mb-2 uppercase">
+                            Explanation
+                          </span>
+                          <p className="font-medium drop-shadow-sm">
+                            {questionData.explanation}
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
-              )}
 
-              {phase === "explanation" && (
-                <div className="flex-1 flex flex-col justify-between space-y-6 z-10 py-4 animate-fade-in">
-                  {/* Correct Answer Header */}
-                  <div className="w-full bg-emerald-500/20 border border-emerald-500/30 rounded-2xl p-4 text-center mt-2 shadow-inner">
-                    <span className="text-[10px] font-black text-emerald-400 tracking-widest block mb-1 uppercase">
-                      ✅ Correct Answer
-                    </span>
-                    <p className="text-base md:text-lg font-black text-white drop-shadow">
-                      {String.fromCharCode(65 + questionData.correctIndex)}: {questionData.answers[questionData.correctIndex]}
-                    </p>
+                {/* 2. Side Control Column */}
+                <div className={`w-full lg:w-[320px] rounded-2xl p-6 shadow-xl ${textBackgroundColorClass} border border-gray-200/10 flex flex-col justify-between space-y-6 self-start`}>
+
+                  {/* Top: Header Info */}
+                  <div>
+                    <h3 className="text-base font-extrabold mb-1">Presenter Panel</h3>
+                    <p className="text-xs text-gray-400">Customization & control options. Out of camera frame.</p>
                   </div>
 
-                  {/* Explanation text container */}
-                  <div className="flex-1 text-center text-white text-sm md:text-base leading-relaxed px-4 overflow-y-auto max-h-[300px] bg-black/20 border border-white/10 rounded-2xl p-4 flex flex-col justify-center shadow-inner">
-                    <span className="text-[10px] font-bold text-white/40 tracking-widest block mb-2 uppercase">
-                      Explanation
-                    </span>
-                    <p className="font-medium drop-shadow-sm">
-                      {questionData.explanation}
-                    </p>
+                  {/* Playback step selector */}
+                  <div className="space-y-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
+                      Step Navigation ({phase === 5 ? "6" : phase + 1}/6)
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        onClick={retreatPhase}
+                        className="py-2 px-3 bg-white/5 hover:bg-white/15 border border-white/10 text-xs font-bold rounded-lg transition text-center"
+                      >
+                        ◀ Previous
+                      </button>
+                      <button
+                        onClick={advancePhase}
+                        className="py-2 px-3 bg-white/5 hover:bg-white/15 border border-white/10 text-xs font-bold rounded-lg transition text-center"
+                      >
+                        Next ▶
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-6 gap-1 mt-1">
+                      {[0, 1, 2, 3, 4, 5].map((num) => (
+                        <button
+                          key={num}
+                          onClick={() => setPhase(num as any)}
+                          className={`py-1 text-xs font-black rounded transition ${
+                            phase === num
+                              ? "bg-amber-500 text-white"
+                              : "bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400"
+                          }`}
+                        >
+                          {num + 1}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
 
-              {/* Bottom Interactive Clue Banner */}
-              <div className="flex flex-col items-center justify-center space-y-2 z-10">
-                <span className="text-[10px] text-white/50 tracking-wider font-semibold uppercase animate-pulse">
-                  {phase === "question" && "🖱️ Tap screen to show options..."}
-                  {phase === "answers" && "🖱️ Tap screen to show explanation..."}
-                  {phase === "explanation" && "🖱️ Tap screen to replay..."}
-                </span>
-                <div className="flex justify-center gap-1.5 w-full">
-                  <div className={`h-1 flex-1 rounded-full ${phase === "question" ? "bg-white" : "bg-white/20"}`} />
-                  <div className={`h-1 flex-1 rounded-full ${phase === "answers" ? "bg-white" : "bg-white/20"}`} />
-                  <div className={`h-1 flex-1 rounded-full ${phase === "explanation" ? "bg-white" : "bg-white/20"}`} />
+                  {/* Aspect Ratio controls */}
+                  <div className="space-y-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
+                      Aspect Ratio
+                    </label>
+                    <div className="grid grid-cols-3 gap-1.5">
+                      {(["9:16", "16:9", "1:1"] as const).map((ratio) => (
+                        <button
+                          key={ratio}
+                          onClick={() => setAspectRatio(ratio)}
+                          className={`py-1.5 px-2 rounded-lg text-xs font-bold border transition ${
+                            aspectRatio === ratio
+                              ? "bg-amber-500 text-white border-amber-600"
+                              : "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400"
+                          }`}
+                        >
+                          {ratio}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Color Theme controls */}
+                  <div className="space-y-2">
+                    <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
+                      Color Theme
+                    </label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {(["Google Cloud", "Firebase", "Flutter/Dart", "Go"] as const).map((style) => (
+                        <button
+                          key={style}
+                          onClick={() => setColorTheme(style)}
+                          className={`py-2 px-2.5 rounded-lg text-xs font-bold border transition text-left flex flex-col justify-between ${
+                            colorTheme === style
+                              ? "bg-amber-500 text-white border-amber-600"
+                              : "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400"
+                          }`}
+                        >
+                          <span>{style}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Bottom: Exit Controls */}
+                  <div className="pt-4 border-t border-gray-200/10 space-y-2">
+                    <button
+                      onClick={() => setPhase("edit")}
+                      className="w-full py-2.5 px-4 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-sm font-bold shadow transition text-center"
+                    >
+                      ✏️ Edit Question / Form
+                    </button>
+                    <button
+                      onClick={() => {
+                        setPhase(0);
+                      }}
+                      className="w-full py-2 px-4 bg-white/5 hover:bg-white/10 rounded-xl text-xs font-semibold border border-white/10 transition text-center"
+                    >
+                      🔄 Reset presentation
+                    </button>
+                  </div>
+
                 </div>
+
               </div>
-            </div>
-
-            <div className="flex gap-4">
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setPhase("question");
-                }}
-                className="py-2 px-5 bg-white/5 hover:bg-white/10 rounded-xl text-sm font-bold border border-white/10 transition cursor-pointer"
-              >
-                🔄 Restart Presenter
-              </button>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setPhase("edit");
-                }}
-                className="py-2 px-5 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-sm font-bold shadow transition cursor-pointer"
-              >
-                ✏️ Edit Question
-              </button>
-            </div>
+            )}
           </div>
-        )}
+
+        </div>
       </div>
 
       <div className="mt-12">

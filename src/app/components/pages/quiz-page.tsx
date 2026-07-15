@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { DeploymentConfiguration, Theme } from "../../types";
 import colorValues from "../../utils/color-values";
 import Footer from "../footer";
@@ -663,18 +663,38 @@ ${q.explanation}`;
     }
   };
 
+  // Keyboard navigation for presentation mode
+  useEffect(() => {
+    if (phase === "edit") return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowRight") {
+        advancePhase();
+      } else if (e.key === "ArrowLeft") {
+        retreatPhase();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
+
   // Get Custom Styled Gradients & Appearance
   const getPlayerThemeClasses = () => {
     switch (colorTheme) {
       case "Firebase":
-        return "from-[#DD2C00] via-[#FF6D00] to-[#FFD600] text-white";
+        return "bg-gradient-to-br from-[#DD2C00] via-[#FF6D00] to-[#FFD600] text-white";
       case "Flutter/Dart":
-        return "from-[#02569B] via-[#0175C2] to-[#13B9FD] text-white";
+        return "bg-gradient-to-br from-[#02569B] via-[#0175C2] to-[#13B9FD] text-white";
       case "Go":
-        return "from-[#00ADD8] via-[#5DC9E2] to-[#0096b7] text-white";
+        return "bg-gradient-to-br from-[#00ADD8] via-[#5DC9E2] to-[#0096b7] text-white";
       case "Google Cloud":
       default:
-        return "from-[#4285F4] via-[#34A853] to-[#FBBC05] text-white";
+        // Beautiful Google Cloud Gradient utilizing its 4 signature colors (Blue, Green, Yellow, and Red)
+        return "bg-[linear-gradient(135deg,#4285F4_0%,#34A853_33%,#FBBC05_66%,#EA4335_100%)] text-white";
     }
   };
 
@@ -885,7 +905,7 @@ ${q.explanation}`;
                 <div className="flex-1 flex justify-center items-center">
                   <div
                     onClick={advancePhase}
-                    className={`relative select-none cursor-pointer transition-all duration-300 border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between p-8 bg-gradient-to-br ${getPlayerThemeClasses()} ${getAspectClasses()}`}
+                    className={`relative select-none cursor-pointer transition-all duration-300 border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between p-8 ${getPlayerThemeClasses()} ${getAspectClasses()}`}
                   >
                     {/* View 1: Question Only */}
                     {phase === 0 && (

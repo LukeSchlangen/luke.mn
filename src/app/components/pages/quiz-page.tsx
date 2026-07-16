@@ -416,7 +416,7 @@ interface QuizViewportProps {
   phase: "edit" | 0 | 1 | 2 | 3 | 4 | 5 | 6;
   questionData: QuizQuestion;
   colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go";
-  ambientAnimation: "none" | "pulse" | "float" | "glow";
+  ambientAnimation: "none" | "pulse" | "float" | "glow" | "lava-lamp";
   transitionTime: number;
   hidePanels: boolean;
   advancePhase: () => void;
@@ -551,7 +551,7 @@ function QuizViewport({
     <div
       ref={containerRef}
       onClick={advancePhase}
-      className={`relative select-none cursor-pointer border border-white/10 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between p-[1.5em] ${getPlayerThemeClasses(colorTheme)} ${getAspectClasses(ratio)}`}
+      className={`relative select-none cursor-pointer border border-white/10 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between p-[1.5em] ${getPlayerThemeClasses(colorTheme)} ${getAspectClasses(ratio)} ${ambientAnimation === "lava-lamp" ? "ambient-lava" : ""}`}
       style={{
         transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
       }}
@@ -581,6 +581,20 @@ function QuizViewport({
             stroke-dashoffset: 0;
           }
         }
+        @keyframes lava-lamp-anim {
+          0% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+          100% { background-position: 0% 50%; }
+        }
+        @keyframes lava-blob-1 {
+          0%, 100% { transform: translate(0px, 0px) scale(1); }
+          33% { transform: translate(30px, -50px) scale(1.2); }
+          66% { transform: translate(-20px, 20px) scale(0.8); }
+        }
+        @keyframes lava-blob-2 {
+          0%, 100% { transform: translate(0px, 0px) scale(1); }
+          50% { transform: translate(-40px, 30px) scale(1.3); }
+        }
         .animate-spin-gradient {
           animation: spin-gradient var(--spin-duration, 2s) linear infinite;
         }
@@ -593,7 +607,24 @@ function QuizViewport({
         .ambient-glow {
           animation: glow-anim 2.5s ease-in-out infinite;
         }
+        .ambient-lava {
+          background-size: 300% 300% !important;
+          animation: lava-lamp-anim 12s ease infinite !important;
+        }
+        .animate-lava-blob-1 {
+          animation: lava-blob-1 15s ease-in-out infinite;
+        }
+        .animate-lava-blob-2 {
+          animation: lava-blob-2 18s ease-in-out infinite;
+        }
       `}} />
+
+      {ambientAnimation === "lava-lamp" && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+          <div className="absolute w-[60%] h-[60%] rounded-full bg-white/20 blur-[50px] top-[10%] left-[10%] animate-lava-blob-1" />
+          <div className="absolute w-[50%] h-[50%] rounded-full bg-white/15 blur-[50px] bottom-[10%] right-[10%] animate-lava-blob-2" />
+        </div>
+      )}
 
       {/* Layer 1: Question Only Layer (Phase 0) */}
       <div
@@ -794,7 +825,7 @@ Infrastructure as a Service (IaaS) provides virtualized computing resources, giv
   // Style customization state
   const [aspectRatio, setAspectRatio] = useState<"9:16" | "16:9" | "1:1" | "Both">("9:16");
   const [colorTheme, setColorTheme] = useState<"Google Cloud" | "Firebase" | "Flutter/Dart" | "Go">("Google Cloud");
-  const [ambientAnimation, setAmbientAnimation] = useState<"none" | "pulse" | "float" | "glow">("none");
+  const [ambientAnimation, setAmbientAnimation] = useState<"none" | "pulse" | "float" | "glow" | "lava-lamp">("none");
   const [transitionTime, setTransitionTime] = useState<number>(1.0);
   const [hidePanels, setHidePanels] = useState<boolean>(false);
 
@@ -1430,18 +1461,18 @@ ${q.explanation}`;
                     <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
                       Attention Animation
                     </label>
-                    <div className="grid grid-cols-4 gap-1">
-                      {(["none", "pulse", "float", "glow"] as const).map((anim) => (
+                    <div className="grid grid-cols-5 gap-1">
+                      {(["none", "pulse", "float", "glow", "lava-lamp"] as const).map((anim) => (
                         <button
                           key={anim}
                           onClick={() => setAmbientAnimation(anim)}
-                          className={`py-1 px-1 rounded-lg text-[10px] font-bold border transition text-center capitalize ${
+                          className={`py-1 px-1 rounded-lg font-bold border transition text-center capitalize ${
                             ambientAnimation === anim
                               ? "bg-amber-500 text-white border-amber-600"
                               : "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400"
-                          }`}
+                          } ${anim === "lava-lamp" ? "text-[8px] leading-tight" : "text-[10px]"}`}
                         >
-                          {anim}
+                          {anim === "lava-lamp" ? "Lava Lamp" : anim}
                         </button>
                       ))}
                     </div>

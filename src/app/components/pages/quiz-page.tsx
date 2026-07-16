@@ -575,7 +575,7 @@ function QuizViewport({
         }
         @keyframes draw-border {
           from {
-            stroke-dashoffset: 100;
+            stroke-dashoffset: 102;
           }
           to {
             stroke-dashoffset: 0;
@@ -677,6 +677,8 @@ function QuizViewport({
                         height="100%"
                         fill="none"
                         stroke="url(#theme-reveal-grad)"
+                        strokeLinecap="square"
+                        strokeLinejoin="miter"
                         pathLength="100"
                         style={{
                           x: "0.125em",
@@ -684,8 +686,8 @@ function QuizViewport({
                           width: "calc(100% - 0.25em)",
                           height: "calc(100% - 0.25em)",
                           strokeWidth: "0.25em",
-                          strokeDasharray: "100",
-                          strokeDashoffset: "100",
+                          strokeDasharray: "102",
+                          strokeDashoffset: "102",
                           animation: `draw-border ${transitionTime}s linear forwards`,
                         }}
                       />
@@ -693,14 +695,16 @@ function QuizViewport({
                   )}
 
                   <div
-                    className={`relative z-10 rounded-none text-white font-bold text-left flex items-center gap-[0.8em] w-full h-full p-[0.8em] ${
+                    className={`relative z-10 rounded-none text-white font-bold text-left flex items-center gap-[0.8em] w-full h-full ${
                       isCorrectHighlighted
-                        ? `bg-emerald-950/95 scale-[1.04] ${getAmbientClass(true)}`
-                        : isHighlighted
-                        ? `bg-white/25 border-white/80 scale-[1.02] shadow-[0_0_1em_rgba(255,255,255,0.2)] ${getAmbientClass(true)}`
-                        : phase === 5
-                        ? "bg-white/10 border-white/20 opacity-100"
-                        : "bg-white/5 border-white/10 opacity-50"
+                        ? `p-[1.2em] bg-emerald-950/95 scale-[1.04] ${getAmbientClass(true)}`
+                        : `p-[0.8em] ${
+                          isHighlighted
+                            ? "bg-white/25 border-white/80 scale-[1.02] shadow-[0_0_1em_rgba(255,255,255,0.2)]"
+                            : phase === 5
+                            ? "bg-white/10 border-white/20 opacity-100"
+                            : "bg-white/5 border-white/10 opacity-50"
+                        } ${getAmbientClass(isHighlighted)}`
                     }`}
                     style={{
                       transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,

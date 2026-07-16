@@ -386,45 +386,6 @@ const getSpinningGradient = (colorTheme: "Google Cloud" | "Firebase" | "Flutter/
   }
 };
 
-const getSvgGradientDefs = (theme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go") => {
-  switch (theme) {
-    case "Firebase":
-      return (
-        <linearGradient id="circling-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#DD2C00" />
-          <stop offset="50%" stopColor="#FF6D00" />
-          <stop offset="100%" stopColor="#FFD600" />
-        </linearGradient>
-      );
-    case "Flutter/Dart":
-      return (
-        <linearGradient id="circling-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#02569B" />
-          <stop offset="50%" stopColor="#0175C2" />
-          <stop offset="100%" stopColor="#13B9FD" />
-        </linearGradient>
-      );
-    case "Go":
-      return (
-        <linearGradient id="circling-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#00ADD8" />
-          <stop offset="50%" stopColor="#5DC9E2" />
-          <stop offset="100%" stopColor="#0096b7" />
-        </linearGradient>
-      );
-    case "Google Cloud":
-    default:
-      return (
-        <linearGradient id="circling-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#4285F4" />
-          <stop offset="33%" stopColor="#34A853" />
-          <stop offset="66%" stopColor="#FBBC05" />
-          <stop offset="100%" stopColor="#EA4335" />
-        </linearGradient>
-      );
-  }
-};
-
 interface QuizViewportProps {
   ratio: "9:16" | "16:9" | "1:1";
   phase: "edit" | 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -464,47 +425,102 @@ function QuizViewport({
     }
   };
 
-  // Dynamically calculate responsive cqw sizes so they never overflow and use space optimally
-  const getQuestionFontSize = (text: string, currentRatio: string) => {
-    const len = text.length;
-    let baseCqw = 3.6;
-    if (len > 150) {
-      baseCqw = 2.4;
-    } else if (len > 100) {
-      baseCqw = 2.8;
-    } else if (len > 70) {
-      baseCqw = 3.2;
-    }
+  useEffect(() => {
+    const adjustFontSize = () => {
+      const container = containerRef.current;
+      if (!container) return;
 
-    if (currentRatio === "16:9") {
-      baseCqw *= 0.65;
-    } else if (currentRatio === "1:1") {
-      baseCqw *= 0.85;
-    }
-    return `${baseCqw}cqw`;
-  };
+      const containerRect = container.getBoundingClientRect();
+      const targetWidth = containerRect.width * 0.92;
+      const targetHeight = containerRect.height * 0.92;
 
-  const getAnswersFontSize = (question: QuizQuestion, currentRatio: string, currentPhase: any) => {
-    const totalLength = question.answers.reduce((acc, a) => acc + a.length, 0) +
-                       (currentPhase === 6 ? question.explanation.length : 0);
-    let baseCqw = 3.4;
-    if (totalLength > 400) {
-      baseCqw = 2.1;
-    } else if (totalLength > 300) {
-      baseCqw = 2.4;
-    } else if (totalLength > 200) {
-      baseCqw = 2.8;
-    } else if (totalLength > 120) {
-      baseCqw = 3.1;
-    }
+      // 1. Adjust Layer 1 (Question only)
+      if (layer1Ref.current) {
+        const el = layer1Ref.current;
+        let low = 8;
+        let high = 120;
+        let optimal = 16;
 
-    if (currentRatio === "16:9") {
-      baseCqw *= 0.55;
-    } else if (currentRatio === "1:1") {
-      baseCqw *= 0.8;
-    }
-    return `${baseCqw}cqw`;
-  };
+        const originalHeight = el.style.height;
+        const originalMaxHeight = el.style.maxHeight;
+        const originalTransform = el.style.transform;
+        const originalOpacity = el.style.opacity;
+
+        el.style.height = "auto";
+        el.style.maxHeight = "none";
+        el.style.transform = "none";
+        el.style.opacity = "1";
+
+        for (let i = 0; i < 11; i++) {
+          const mid = (low + high) / 2;
+          el.style.fontSize = `${mid}px`;
+          const rect = el.getBoundingClientRect();
+          if (rect.height <= targetHeight && rect.width <= targetWidth) {
+            optimal = mid;
+            low = mid;
+          } else {
+            high = mid;
+          }
+        }
+
+        el.style.fontSize = `${optimal}px`;
+        el.style.height = originalHeight;
+        el.style.maxHeight = originalMaxHeight;
+        el.style.transform = originalTransform;
+        el.style.opacity = originalOpacity;
+      }
+
+      // 2. Adjust Layer 2 (Answers & Explanation)
+      if (layer2Ref.current) {
+        const el = layer2Ref.current;
+        let low = 8;
+        let high = 120;
+        let optimal = 16;
+
+        const originalHeight = el.style.height;
+        const originalMaxHeight = el.style.maxHeight;
+        const originalTransform = el.style.transform;
+        const originalOpacity = el.style.opacity;
+
+        el.style.height = "auto";
+        el.style.maxHeight = "none";
+        el.style.transform = "none";
+        el.style.opacity = "1";
+
+        for (let i = 0; i < 11; i++) {
+          const mid = (low + high) / 2;
+          el.style.fontSize = `${mid}px`;
+          const rect = el.getBoundingClientRect();
+          if (rect.height <= targetHeight && rect.width <= targetWidth) {
+            optimal = mid;
+            low = mid;
+          } else {
+            high = mid;
+          }
+        }
+
+        el.style.fontSize = `${optimal}px`;
+        el.style.height = originalHeight;
+        el.style.maxHeight = originalMaxHeight;
+        el.style.transform = originalTransform;
+        el.style.opacity = originalOpacity;
+      }
+    };
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new ResizeObserver(() => {
+      adjustFontSize();
+    });
+    observer.observe(container);
+
+    adjustFontSize();
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [phase, questionData, ratio, colorTheme, transitionTime, ambientAnimation]);
 
   return (
     <div
@@ -513,8 +529,6 @@ function QuizViewport({
       className={`relative select-none cursor-pointer border border-white/10 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between p-[1.5em] ${getPlayerThemeClasses(colorTheme)} ${getAspectClasses(ratio)}`}
       style={{
         transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-        containerType: "inline-size",
-        containerName: "responsive-box",
       }}
     >
       <style dangerouslySetInnerHTML={{ __html: `
@@ -546,18 +560,6 @@ function QuizViewport({
         .ambient-glow {
           animation: glow-anim 2.5s ease-in-out infinite;
         }
-        @keyframes circle-border-draw {
-          0% {
-            stroke-dashoffset: 100;
-          }
-          100% {
-            stroke-dashoffset: 0;
-          }
-        }
-        .animate-circle-draw {
-          stroke-dasharray: 100;
-          animation: circle-border-draw var(--circle-duration, 1s) cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
       `}} />
 
       {/* Layer 1: Question Only Layer (Phase 0) */}
@@ -569,7 +571,6 @@ function QuizViewport({
           opacity: phase === 0 ? 1 : 0,
           pointerEvents: phase === 0 ? "auto" : "none",
           transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-          fontSize: getQuestionFontSize(questionData.question, ratio),
         }}
       >
         <div className={`w-full max-w-[90%] bg-black/75 backdrop-blur-md border-[0.1em] border-white/20 p-[2em] rounded-none shadow-2xl text-center ${getAmbientClass(phase === 0)}`}>
@@ -588,7 +589,6 @@ function QuizViewport({
           opacity: phase !== "edit" && phase >= 1 ? 1 : 0,
           pointerEvents: phase !== "edit" && phase >= 1 ? "auto" : "none",
           transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-          fontSize: getAnswersFontSize(questionData, ratio, phase),
         }}
       >
         <div className="flex-1 flex flex-col justify-center space-y-[0.8em] py-[0.5em] h-full overflow-hidden">
@@ -619,6 +619,7 @@ function QuizViewport({
               }
 
               const isCorrectHighlighted = phase === 6 && isCorrect;
+              const showSpinningBorder = isCorrectHighlighted && ambientAnimation !== "none";
 
               return (
                 <div
@@ -630,15 +631,23 @@ function QuizViewport({
                     pointerEvents,
                     transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                   }}
-                  className={`overflow-hidden rounded-none relative border-[0.05em] ${
-                    isCorrectHighlighted
-                      ? "border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.25)]"
-                      : "border-white/10"
-                  }`}
+                  className={`overflow-hidden rounded-none ${showSpinningBorder ? "p-[0.2em] relative" : isCorrectHighlighted ? "border-[0.25em] border-emerald-400 shadow-[0_0_1.5em_rgba(52,211,153,0.6)]" : "border-[0.05em] border-white/10"}`}
                 >
+                  {showSpinningBorder && (
+                    <div
+                      className="absolute inset-[-50%] animate-spin-gradient"
+                      style={{
+                        background: getSpinningGradient(colorTheme),
+                        animationDuration: `${transitionTime * 2}s`,
+                      }}
+                    />
+                  )}
+
                   <div
                     className={`relative z-10 rounded-none text-white font-bold text-left flex items-center gap-[0.8em] w-full h-full p-[0.8em] ${
-                      isCorrectHighlighted
+                      showSpinningBorder
+                        ? "bg-black/90 border-0"
+                        : isCorrectHighlighted
                         ? `bg-emerald-950/95 scale-[1.04] ${getAmbientClass(true)}`
                         : isHighlighted
                         ? `bg-white/25 border-white/80 scale-[1.02] shadow-[0_0_1em_rgba(255,255,255,0.2)] ${getAmbientClass(true)}`
@@ -650,31 +659,7 @@ function QuizViewport({
                       transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                     }}
                   >
-                    {isCorrectHighlighted && (
-                      <svg
-                        className="absolute inset-0 w-full h-full pointer-events-none z-20 overflow-visible"
-                      >
-                        <defs>
-                          {getSvgGradientDefs(colorTheme)}
-                        </defs>
-                        <rect
-                          x="0.5"
-                          y="0.5"
-                          style={{
-                            width: "calc(100% - 1px)",
-                            height: "calc(100% - 1px)",
-                            "--circle-duration": `${transitionTime}s`,
-                          } as React.CSSProperties}
-                          fill="none"
-                          stroke="url(#circling-gradient)"
-                          strokeWidth="3.5"
-                          vectorEffect="non-scaling-stroke"
-                          pathLength="100"
-                          className="animate-circle-draw"
-                        />
-                      </svg>
-                    )}
-                    <span className={`rounded-none border flex items-center justify-center transition-all duration-300 w-[2.5em] h-[2.5em] text-[0.85em] font-black shrink-0 ${
+                    <span className={`rounded-none border flex items-center justify-center transition-colors duration-300 w-[2em] h-[2em] text-[0.85em] font-black shrink-0 ${
                       isCorrectHighlighted
                         ? "bg-emerald-500 text-white border-emerald-400 font-black scale-110"
                         : isHighlighted
@@ -1105,22 +1090,17 @@ ${q.explanation}`;
                     <ul className="space-y-1.5 ml-2 border-l border-gray-200/10 pl-2">
                       {exam.questions.map((q, qIdx) => {
                         const isSelected = questionData.question === q.question;
-                        const isLight = theme.color === "light";
                         return (
                           <li key={qIdx}>
                             <button
                               onClick={() => loadQuestionPreset(q)}
-                              className={`w-full text-left text-xs py-2 px-3 rounded-lg transition-all duration-150 cursor-pointer ${
+                              className={`w-full text-left text-xs py-1 px-2 rounded-lg transition-all duration-150 ${
                                 isSelected
-                                  ? isLight
-                                    ? "bg-amber-600 text-white font-black border-l-4 border-amber-800 shadow-md pl-2"
-                                    : "bg-amber-500 text-black font-black border-l-4 border-amber-700 shadow-md pl-2"
-                                  : isLight
-                                  ? "text-gray-700 hover:text-black hover:bg-black/5 font-medium"
-                                  : "text-gray-300 hover:text-white hover:bg-white/10 font-medium"
+                                  ? "bg-amber-500/20 text-amber-400 font-bold border-l-2 border-amber-500 pl-1.5"
+                                  : "text-gray-400 hover:text-white hover:bg-white/5"
                               }`}
                             >
-                              <span className={`opacity-65 mr-1 font-bold ${isSelected ? (isLight ? "text-amber-100" : "text-amber-950") : ""}`}>Q{qIdx + 1}:</span>
+                              <span className="opacity-50 mr-1">Q{qIdx + 1}:</span>
                               <span className="line-clamp-2 inline align-middle">{q.question}</span>
                             </button>
                           </li>

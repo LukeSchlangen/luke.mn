@@ -7,8 +7,8 @@
 - Network:       http://192.168.0.2:3000
 
 ✓ Starting...
-✓ Ready in 705ms
+✓ Ready in 702ms
 Browserslist: browsers data (caniuse-lite) is 8 months old. Please run:
   npx update-browserslist-db@latest
   Why you should do it regularly: https://github.com/browserslist/update-db#readme
- GET /quiz 200 in 3.8s (compile: 3.5s, render: 316ms)
+ GET /quiz 200 in 4.0s (compile: 3.6s, render: 336ms)

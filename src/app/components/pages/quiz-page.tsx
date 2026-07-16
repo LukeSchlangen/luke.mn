@@ -469,32 +469,58 @@ function QuizViewport({
       const { prepare, layout } = pretext;
 
       const containerRect = container.getBoundingClientRect();
-      const targetWidth = containerRect.width * 0.92;
-      const targetHeight = containerRect.height * 0.92;
+      const targetWidth = containerRect.width;
+      const targetHeight = containerRect.height;
 
       const fontFamily = window.getComputedStyle(container).fontFamily || "system-ui, sans-serif";
+
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
 
       // 1. Adjust Layer 1 (Question only)
       if (layer1Ref.current) {
         const el = layer1Ref.current;
         let low = 8;
         let high = 120;
-        let optimal = 16;
+        let optimal = low;
+
+        const normalizedQuestion = questionData.question.replace(/\s+\?/g, "\u00A0?");
+        const words = normalizedQuestion.split(/\s+/).filter(Boolean);
 
         for (let i = 0; i < 11; i++) {
           const mid = (low + high) / 2;
           const textFontSize = mid * 1.8;
           const font = `900 ${textFontSize}px ${fontFamily}`;
 
-          const innerContainerWidth = Math.min(containerRect.width * 0.90, containerRect.width - (3 * mid));
-          const questionMaxWidth = innerContainerWidth - (4 * mid);
+          // Precise card measurements:
+          // layer1Ref has p-[1.5em] (horizontal padding is 3 * mid total)
+          // card has max-w-[88%] (0.88 multiplier) and p-[2em] (horizontal padding is 4 * mid total)
+          const parentWidth = containerRect.width - (3 * mid);
+          const cardWidth = parentWidth * 0.88;
+          const questionMaxWidth = cardWidth - (4 * mid);
+
+          // Card height is text height + vertical padding (4 * mid)
+          // We want the card to fit comfortably, leaving at least 12.5% margins on top and bottom (so max 75% height)
+          const maxCardHeight = containerRect.height * 0.75;
 
           try {
-            const prepared = prepare(questionData.question, font);
+            const prepared = prepare(normalizedQuestion, font);
             const { height } = layout(prepared, questionMaxWidth, textFontSize * 1.375);
             const totalHeight = height + 4 * mid;
 
-            if (totalHeight <= targetHeight && innerContainerWidth <= targetWidth) {
+            // Check single-word constraints
+            let wordOverflows = false;
+            if (ctx) {
+              ctx.font = font;
+              for (const word of words) {
+                if (ctx.measureText(word).width > questionMaxWidth) {
+                  wordOverflows = true;
+                  break;
+                }
+              }
+            }
+
+            if (!wordOverflows && totalHeight <= maxCardHeight && cardWidth <= containerRect.width) {
               optimal = mid;
               low = mid;
             } else {
@@ -513,73 +539,128 @@ function QuizViewport({
         const el = layer2Ref.current;
         let low = 8;
         let high = 120;
-        let optimal = 16;
+        let optimal = low;
 
         for (let i = 0; i < 11; i++) {
           const mid = (low + high) / 2;
+          // layer2Ref has p-[1.5em] (horizontal padding is 3 * mid total)
           const layer2MaxWidth = containerRect.width - (3 * mid);
           let totalHeight = 0;
+          let wordOverflows = false;
 
           if (phase === 6) {
             // Only correct answer card is shown, plus explanation
             const correctAns = questionData.answers[questionData.correctIndex];
+            const normalizedAns = correctAns.replace(/\s+\?/g, "\u00A0?");
             const badgeAndGapWidth = (2 * 0.85 + 0.8) * mid;
-            const paddingWidth = 2.4 * mid;
+            const paddingWidth = 2.4 * mid; // p-[1.2em] is 2.4 * mid total
             const answerTextMaxWidth = layer2MaxWidth - (badgeAndGapWidth + paddingWidth);
 
             const font = `bold ${mid}px ${fontFamily}`;
             let cardHeight = 0;
             try {
-              const preparedAns = prepare(correctAns, font);
+              const preparedAns = prepare(normalizedAns, font);
               const { height: ansTextHeight } = layout(preparedAns, answerTextMaxWidth, mid * 1.375);
               const badgeHeight = 2 * 0.85 * mid;
-              cardHeight = Math.max(badgeHeight, ansTextHeight) + 2.4 * mid + 0.5 * mid;
+              cardHeight = Math.max(badgeHeight, ansTextHeight) + 2.4 * mid + 0.1 * mid; // padding 2.4 * mid + border 0.1 * mid
+
+              // Check single-word constraints for the correct answer
+              if (ctx) {
+                ctx.font = font;
+                const ansWords = normalizedAns.split(/\s+/).filter(Boolean);
+                for (const word of ansWords) {
+                  if (ctx.measureText(word).width > answerTextMaxWidth) {
+                    wordOverflows = true;
+                    break;
+                  }
+                }
+              }
             } catch (e) {
               cardHeight = 100;
             }
 
             // Explanation card
-            const explanationText = questionData.explanation;
+            const explanationText = questionData.explanation.replace(/\s+\?/g, "\u00A0?");
             const expFontSize = mid * 0.85;
             const expFont = `500 ${expFontSize}px ${fontFamily}`;
-            const expMaxWidth = layer2MaxWidth - 1.6 * mid;
+            const expMaxWidth = layer2MaxWidth - 1.6 * mid; // px-[0.8em] is 1.6 * mid total
 
             let expCardHeight = 0;
             try {
               const preparedExp = prepare(explanationText, expFont);
               const { height: expTextHeight } = layout(preparedExp, expMaxWidth, expFontSize * 1.625);
               const expTitleHeight = (0.6 * 1.2 + 0.2) * mid;
-              const computedExpHeight = expTextHeight + expTitleHeight + 1.2 * mid + 0.1 * mid;
+              const computedExpHeight = expTextHeight + expTitleHeight + 1.2 * mid + 0.1 * mid; // py-[0.6em] is 1.2 * mid + border 0.1 * mid
               expCardHeight = Math.min(10 * mid, computedExpHeight);
+
+              // Check single-word constraints for explanation
+              if (ctx && !wordOverflows) {
+                ctx.font = expFont;
+                const expWords = explanationText.split(/\s+/).filter(Boolean);
+                for (const word of expWords) {
+                  if (ctx.measureText(word).width > expMaxWidth) {
+                    wordOverflows = true;
+                    break;
+                  }
+                }
+              }
             } catch (e) {
               expCardHeight = 100;
             }
 
-            totalHeight = cardHeight + 0.6 * mid + expCardHeight;
+            // Phase 6 total height calculations:
+            // Correct card height
+            // + Explanation card height
+            // + spacing: margin-bottom of correct card (0.6 * mid) + margin-top of explanation (0.6 * mid) = 1.2 * mid
+            // + outer padding of layer2Ref (3.0 * mid)
+            // + inner container padding (1.0 * mid)
+            totalHeight = cardHeight + expCardHeight + 5.2 * mid;
           } else {
             // All 4 answer cards are shown
             let answersHeight = 0;
             for (let j = 0; j < 4; j++) {
               const ans = questionData.answers[j];
+              const normalizedAns = ans.replace(/\s+\?/g, "\u00A0?");
               const badgeAndGapWidth = (2 * 0.85 + 0.8) * mid;
-              const paddingWidth = 1.6 * mid;
+              const paddingWidth = 1.6 * mid; // p-[0.8em] is 1.6 * mid total
               const answerTextMaxWidth = layer2MaxWidth - (badgeAndGapWidth + paddingWidth);
 
               const font = `bold ${mid}px ${fontFamily}`;
               try {
-                const preparedAns = prepare(ans, font);
+                const preparedAns = prepare(normalizedAns, font);
                 const { height: ansTextHeight } = layout(preparedAns, answerTextMaxWidth, mid * 1.375);
                 const badgeHeight = 2 * 0.85 * mid;
-                const cardHeight = Math.max(badgeHeight, ansTextHeight) + 1.6 * mid + 0.1 * mid;
+                const cardHeight = Math.max(badgeHeight, ansTextHeight) + 1.6 * mid + 0.1 * mid; // padding 1.6 * mid + border 0.1 * mid
                 answersHeight += cardHeight;
+
+                // Check single-word constraints
+                if (ctx && !wordOverflows) {
+                  ctx.font = font;
+                  const ansWords = normalizedAns.split(/\s+/).filter(Boolean);
+                  for (const word of ansWords) {
+                    if (ctx.measureText(word).width > answerTextMaxWidth) {
+                      wordOverflows = true;
+                      break;
+                    }
+                  }
+                }
               } catch (e) {
                 answersHeight += 50;
               }
             }
-            totalHeight = answersHeight + 1.8 * mid + 1.0 * mid;
+            // All answers total height:
+            // Answers height
+            // + 3 gaps of space-y-[0.6em] = 1.8 * mid
+            // + inner container padding py-[0.5em] = 1.0 * mid
+            // + outer padding of layer2Ref (3.0 * mid)
+            totalHeight = answersHeight + 5.8 * mid;
           }
 
-          if (totalHeight <= targetHeight && layer2MaxWidth <= targetWidth) {
+          // Spacing limits: Layer 2 content should comfortably fit within 80% height and 85% width
+          const maxLayer2Height = containerRect.height * 0.80;
+          const maxLayer2Width = containerRect.width * 0.85;
+
+          if (!wordOverflows && totalHeight <= maxLayer2Height && layer2MaxWidth <= maxLayer2Width) {
             optimal = mid;
             low = mid;
           } else {
@@ -610,7 +691,7 @@ function QuizViewport({
     <div
       ref={containerRef}
       onClick={advancePhase}
-      className={`relative select-none cursor-pointer border border-white/10 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between p-[1.5em] ${getPlayerThemeClasses(colorTheme)} ${getAspectClasses(ratio)} ${ambientAnimation === "lava-lamp" ? "ambient-lava" : ""}`}
+      className={`relative select-none cursor-pointer border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between p-[1.5em] ${getPlayerThemeClasses(colorTheme)} ${getAspectClasses(ratio)} ${ambientAnimation === "lava-lamp" ? "ambient-lava" : ""}`}
       style={{
         transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
       }}
@@ -696,9 +777,9 @@ function QuizViewport({
           transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
         }}
       >
-        <div className={`w-full max-w-[90%] bg-black/75 backdrop-blur-md border-[0.1em] border-white/20 p-[2em] rounded-none shadow-2xl text-center ${getAmbientClass(phase === 0)}`}>
-          <h2 className="text-[1.8em] font-black text-center text-white drop-shadow-[0_0.1em_0.2em_rgba(0,0,0,0.85)] leading-snug break-words">
-            {questionData.question}
+        <div className={`w-full max-w-[88%] bg-black/80 backdrop-blur-xl border-[0.1em] border-white/15 p-[2em] rounded-3xl shadow-2xl text-center ${getAmbientClass(phase === 0)}`}>
+          <h2 className="text-[1.8em] font-black text-center text-white drop-shadow-[0_0.1em_0.2em_rgba(0,0,0,0.85)] leading-snug whitespace-normal">
+            {questionData.question.replace(/\s+\?/g, "\u00A0?")}
           </h2>
         </div>
       </div>
@@ -762,7 +843,7 @@ function QuizViewport({
                     pointerEvents,
                     transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                   }}
-                  className={`overflow-hidden rounded-none relative ${isCorrectHighlighted ? "border-[0.25em] border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.1)]" : `border-[0.05em] ${borderClass}`}`}
+                  className={`overflow-hidden rounded-[1em] relative ${isCorrectHighlighted ? "border-[0.25em] border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.15)]" : `border-[0.05em] ${borderClass}`}`}
                 >
                   {isCorrectHighlighted && (
                     <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
@@ -775,9 +856,11 @@ function QuizViewport({
                         width="100%"
                         height="100%"
                         fill="none"
+                        rx="0.8em"
+                        ry="0.8em"
                         stroke="url(#theme-reveal-grad)"
-                        strokeLinecap="square"
-                        strokeLinejoin="miter"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
                         pathLength="100"
                         style={{
                           x: "0.125em",
@@ -794,7 +877,7 @@ function QuizViewport({
                   )}
 
                   <div
-                    className={`relative z-10 rounded-none text-white font-bold text-left flex items-center gap-[0.8em] w-full h-full ${
+                    className={`relative z-10 rounded-[0.95em] text-white font-bold text-left flex items-center gap-[0.8em] w-full h-full ${
                       isCorrectHighlighted
                         ? `p-[1.2em] bg-emerald-950/95 scale-[1.04] ${getAmbientClass(true)}`
                         : `p-[0.8em] ${
@@ -809,7 +892,7 @@ function QuizViewport({
                       transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                     }}
                   >
-                    <span className={`rounded-none border flex items-center justify-center transition-colors duration-300 w-[2em] h-[2em] text-[0.85em] font-black shrink-0 ${
+                    <span className={`rounded-full border flex items-center justify-center transition-colors duration-300 w-[2em] h-[2em] text-[0.85em] font-black shrink-0 ${
                       isCorrectHighlighted
                         ? "bg-emerald-500 text-white border-emerald-400 font-black scale-110"
                         : isHighlighted
@@ -818,8 +901,8 @@ function QuizViewport({
                     }`}>
                       {String.fromCharCode(65 + i)}
                     </span>
-                    <span className="text-[1em] leading-snug break-words">
-                      {ans}
+                    <span className="text-[1em] leading-snug whitespace-normal">
+                      {ans.replace(/\s+\?/g, "\u00A0?")}
                     </span>
                   </div>
                 </div>
@@ -835,12 +918,12 @@ function QuizViewport({
                 transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
               }}
             >
-              <div className="text-center text-white px-[0.8em] py-[0.6em] bg-black/55 border-[0.05em] border-white/10 rounded-none flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[10em]">
+              <div className="text-center text-white px-[0.8em] py-[0.6em] bg-black/55 border-[0.05em] border-white/10 rounded-[1em] flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[10em]">
                 <span className="text-[0.6em] font-bold text-white/40 tracking-widest block mb-[0.2em] uppercase">
                   Explanation
                 </span>
                 <p className="text-[0.85em] leading-relaxed font-medium drop-shadow-sm">
-                  {questionData.explanation}
+                  {questionData.explanation.replace(/\s+\?/g, "\u00A0?")}
                 </p>
               </div>
             </div>

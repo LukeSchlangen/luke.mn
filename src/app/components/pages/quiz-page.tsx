@@ -546,9 +546,11 @@ function QuizViewport({
           let wordOverflows = false;
 
           // Always calculate font-size based on all 4 answer cards to ensure size stability across all phases
-          let answersHeight = 0;
-          for (let j = 0; j < 4; j++) {
-            const ans = questionData.answers[j];
+          if (phase === 6) {
+            // In Phase 6, only the correct answer card and the explanation are visible.
+            // Let's compute their heights dynamically!
+            const correctIndex = questionData.correctIndex;
+            const ans = questionData.answers[correctIndex];
             const normalizedAns = ans.replace(/\s+\?/g, "\u00A0?");
             const badgeAndGapWidth = (2 * 0.85 + 0.8) * mid;
             const paddingWidth = 2.2 * mid; // py-[0.8em] pl-[1.2em] pr-[1.0em] gives 2.2 * mid total horizontal padding
@@ -558,35 +560,125 @@ function QuizViewport({
               wordOverflows = true;
             }
 
+            let correctAnswerCardHeight = 0;
             const font = `bold ${mid}px ${fontFamily}`;
             try {
               const preparedAns = prepare(normalizedAns, font);
               const { height: ansTextHeight } = layout(preparedAns, answerTextMaxWidth, mid * 1.375);
               const badgeHeight = 2 * 0.85 * mid;
-              const cardHeight = Math.max(badgeHeight, ansTextHeight) + 1.6 * mid + 0.1 * mid; // padding 1.6 * mid + border 0.1 * mid
-              answersHeight += cardHeight;
-
-              // Check single-word constraints
-              if (ctx && !wordOverflows) {
-                ctx.font = font;
-                const ansWords = normalizedAns.split(/\s+/).filter(Boolean);
-                for (const word of ansWords) {
-                  if (ctx.measureText(word).width > answerTextMaxWidth) {
-                    wordOverflows = true;
-                    break;
-                  }
-                }
+              correctAnswerCardHeight = Math.max(badgeHeight, ansTextHeight) + 1.6 * mid + 0.1 * mid;
+              
+              if (correctAnswerCardHeight > 12 * mid) {
+                wordOverflows = true;
               }
             } catch (e) {
-              answersHeight += 50;
+              wordOverflows = true;
             }
+
+            // Now compute explanation height
+            let explanationHeight = 0;
+            const normalizedExplanation = questionData.explanation.replace(/\s+\?/g, "\u00A0?");
+            const explanationPaddingWidth = 1.6 * mid; // px-[0.8em] is 1.6 * mid total horizontal padding
+            const explanationBorderWidth = 0.1 * mid; // border-[0.05em] is 0.1 * mid total
+            const explanationTextMaxWidth = layer2MaxWidth - (explanationPaddingWidth + explanationBorderWidth);
+
+            if (explanationTextMaxWidth <= 0) {
+              wordOverflows = true;
+            }
+
+            // The explanation contains:
+            // 1. "Explanation" header (font size: 0.6 * mid)
+            const explanationHeaderFontSize = mid * 0.6;
+            const headerFont = `bold ${explanationHeaderFontSize}px ${fontFamily}`;
+            let headerHeight = 0;
+            try {
+              const preparedHeader = prepare("EXPLANATION", headerFont);
+              const { height } = layout(preparedHeader, explanationTextMaxWidth, explanationHeaderFontSize * 1.375);
+              headerHeight = height;
+            } catch (e) {
+              wordOverflows = true;
+            }
+
+            // 2. Explanation text (font size: 0.85 * mid)
+            const explanationTextFontSize = mid * 0.85;
+            const explanationFont = `medium ${explanationTextFontSize}px ${fontFamily}`;
+            let explanationTextHeight = 0;
+            try {
+              const preparedExpl = prepare(normalizedExplanation, explanationFont);
+              const { height } = layout(preparedExpl, explanationTextMaxWidth, explanationTextFontSize * 1.375);
+              explanationTextHeight = height;
+            } catch (e) {
+              wordOverflows = true;
+            }
+
+            // Total explanation box height is:
+            // header height
+            // + gap mb-[0.2em] = 0.2 * mid
+            // + explanation text height
+            // + inner vertical padding py-[0.6em] = 1.2 * mid
+            // + border = 0.1 * mid
+            // + outer top margin mt-[0.6em] = 0.6 * mid
+            explanationHeight = headerHeight + (0.2 * mid) + explanationTextHeight + (1.2 * mid) + (0.1 * mid) + (0.6 * mid);
+
+            if (explanationHeight > 24 * mid) {
+              wordOverflows = true;
+            }
+
+            // Total height in Phase 6:
+            // Correct answer card height
+            // + margin-bottom of answer card = 0.6 * mid
+            // + explanation height
+            // + outer padding of layer2Ref (3.0 * mid)
+            // + inner container padding py-[0.5em] = 1.0 * mid
+            totalHeight = correctAnswerCardHeight + (0.6 * mid) + explanationHeight + 4.0 * mid;
+
+          } else {
+            let answersHeight = 0;
+            for (let j = 0; j < 4; j++) {
+              const ans = questionData.answers[j];
+              const normalizedAns = ans.replace(/\s+\?/g, "\u00A0?");
+              const badgeAndGapWidth = (2 * 0.85 + 0.8) * mid;
+              const paddingWidth = 2.2 * mid; // py-[0.8em] pl-[1.2em] pr-[1.0em] gives 2.2 * mid total horizontal padding
+              const answerTextMaxWidth = layer2MaxWidth - (badgeAndGapWidth + paddingWidth);
+
+              if (answerTextMaxWidth <= 0) {
+                wordOverflows = true;
+              }
+
+              const font = `bold ${mid}px ${fontFamily}`;
+              try {
+                const preparedAns = prepare(normalizedAns, font);
+                const { height: ansTextHeight } = layout(preparedAns, answerTextMaxWidth, mid * 1.375);
+                const badgeHeight = 2 * 0.85 * mid;
+                const cardHeight = Math.max(badgeHeight, ansTextHeight) + 1.6 * mid + 0.1 * mid; // padding 1.6 * mid + border 0.1 * mid
+                answersHeight += cardHeight;
+
+                if (cardHeight > 12 * mid) {
+                  wordOverflows = true;
+                }
+
+                // Check single-word constraints
+                if (ctx && !wordOverflows) {
+                  ctx.font = font;
+                  const ansWords = normalizedAns.split(/\s+/).filter(Boolean);
+                  for (const word of ansWords) {
+                    if (ctx.measureText(word).width > answerTextMaxWidth) {
+                      wordOverflows = true;
+                      break;
+                    }
+                  }
+                }
+              } catch (e) {
+                wordOverflows = true;
+              }
+            }
+            // All answers total height:
+            // Answers height
+            // + 3 gaps of space-y-[0.6em] = 1.8 * mid
+            // + inner container padding py-[0.5em] = 1.0 * mid
+            // + outer padding of layer2Ref (3.0 * mid)
+            totalHeight = answersHeight + 5.8 * mid;
           }
-          // All answers total height:
-          // Answers height
-          // + 3 gaps of space-y-[0.6em] = 1.8 * mid
-          // + inner container padding py-[0.5em] = 1.0 * mid
-          // + outer padding of layer2Ref (3.0 * mid)
-          totalHeight = answersHeight + 5.8 * mid;
 
           // Spacing limits: Layer 2 content should comfortably fit within 80% height
           const maxLayer2Height = containerRect.height * 0.80;
@@ -946,14 +1038,14 @@ function QuizViewport({
 
             <div
               style={{
-                maxHeight: phase === 6 ? "12em" : "0px",
+                maxHeight: phase === 6 ? "24em" : "0px",
                 opacity: phase === 6 ? 1 : 0,
                 marginTop: phase === 6 ? "0.6em" : "0px",
                 overflow: "hidden",
                 transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
               }}
             >
-              <div className="text-center text-white px-[0.8em] py-[0.6em] bg-black/55 border-[0.05em] border-white/10 rounded-[1em] flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[10em]">
+              <div className="text-center text-white px-[0.8em] py-[0.6em] bg-black/55 border-[0.05em] border-white/10 rounded-[1em] flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[20em]">
                 <span className="text-[0.6em] font-bold text-white/40 tracking-widest block mb-[0.2em] uppercase">
                   Explanation
                 </span>

@@ -439,6 +439,10 @@ function QuizViewport({
   const layer2Ref = useRef<HTMLDivElement>(null);
   const explanationRef = useRef<HTMLDivElement>(null);
 
+  const [layer1FontSize, setLayer1FontSize] = useState<number | null>(null);
+  const [layer2FontSize, setLayer2FontSize] = useState<number | null>(null);
+  const [explanationFontSize, setExplanationFontSize] = useState<number | null>(null);
+
   const [pretext, setPretext] = useState<{
     prepare: typeof import("@chenglou/pretext").prepare;
     layout: typeof import("@chenglou/pretext").layout;
@@ -527,7 +531,7 @@ function QuizViewport({
           }
         }
 
-        el.style.fontSize = `${optimal}px`;
+        setLayer1FontSize(optimal);
       }
 
       // 2. Adjust Layer 2 (Answers & Explanation)
@@ -583,7 +587,13 @@ function QuizViewport({
                 }
               }
             } catch (e) {
-              wordOverflows = true;
+              const charWidth = mid * 0.6;
+              const estimatedWidth = normalizedAns.length * charWidth;
+              const lines = Math.ceil(estimatedWidth / Math.max(1, answerTextMaxWidth)) || 1;
+              const fallbackHeight = lines * mid * 1.375;
+              const badgeHeight = 2 * 0.85 * mid;
+              const cardHeight = Math.max(badgeHeight, fallbackHeight) + 1.7 * mid;
+              answersHeight += cardHeight;
             }
           }
           // All answers total height:
@@ -601,12 +611,11 @@ function QuizViewport({
           }
         }
 
-        el.style.fontSize = `${optimal}px`;
+        setLayer2FontSize(optimal);
 
         // If we are in Phase 6, calculate the explanation's font size independently to fit the remaining vertical space
         // without resizing the correct answer card.
         if (phase === 6 && explanationRef.current) {
-          const explEl = explanationRef.current;
           const parentWidth = containerRect.width - (3 * optimal);
           const layer2MaxWidth = parentWidth * 0.88;
           const correctIndex = questionData.correctIndex;
@@ -672,9 +681,9 @@ function QuizViewport({
             }
           }
 
-          explEl.style.fontSize = `${optimalExpl / 0.85}px`;
-        } else if (explanationRef.current) {
-          explanationRef.current.style.fontSize = "";
+          setExplanationFontSize(optimalExpl);
+        } else {
+          setExplanationFontSize(null);
         }
       }
     };
@@ -888,6 +897,7 @@ function QuizViewport({
           opacity: phase === 0 ? 1 : 0,
           pointerEvents: phase === 0 ? "auto" : "none",
           transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+          fontSize: layer1FontSize ? `${layer1FontSize}px` : undefined,
         }}
       >
         <div className="w-full max-w-[88%] bg-black/80 backdrop-blur-xl border-[0.1em] border-white/15 p-[2em] rounded-3xl shadow-2xl text-center">
@@ -906,6 +916,7 @@ function QuizViewport({
           opacity: phase !== "edit" && phase >= 1 ? 1 : 0,
           pointerEvents: phase !== "edit" && phase >= 1 ? "auto" : "none",
           transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+          fontSize: layer2FontSize ? `${layer2FontSize}px` : undefined,
         }}
       >
         <div className="flex-1 flex flex-col justify-center space-y-[0.8em] py-[0.5em] h-full overflow-hidden w-full max-w-[88%] mx-auto">
@@ -990,7 +1001,7 @@ function QuizViewport({
                   )}
 
                    <div
-                    className={`relative z-10 rounded-[0.95em] text-white font-bold text-left flex items-center gap-[0.8em] w-full h-full py-[0.8em] pl-[1.2em] pr-[1.0em] ${
+                    className={`relative z-10 rounded-[0.95em] text-white font-bold text-left flex items-center gap-[0.8em] w-full h-auto py-[0.8em] pl-[1.2em] pr-[1.0em] ${
                       isCorrectHighlighted
                         ? "bg-emerald-950/95"
                         : isHighlighted
@@ -1028,6 +1039,7 @@ function QuizViewport({
                 marginTop: phase === 6 ? "0.6em" : "0px",
                 overflow: "hidden",
                 transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                fontSize: explanationFontSize ? `${explanationFontSize / 0.85}px` : undefined,
               }}
             >
               <div className="text-center text-white px-[0.8em] py-[0.6em] bg-black/55 border-[0.05em] border-white/10 rounded-[1em] flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[35em]">

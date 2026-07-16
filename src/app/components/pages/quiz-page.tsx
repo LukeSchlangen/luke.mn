@@ -436,6 +436,17 @@ function QuizViewport({
   const layer1Ref = useRef<HTMLDivElement>(null);
   const layer2Ref = useRef<HTMLDivElement>(null);
 
+  const [pretext, setPretext] = useState<{
+    prepare: typeof import("@chenglou/pretext").prepare;
+    layout: typeof import("@chenglou/pretext").layout;
+  } | null>(null);
+
+  useEffect(() => {
+    import("@chenglou/pretext").then((mod) => {
+      setPretext({ prepare: mod.prepare, layout: mod.layout });
+    });
+  }, []);
+
   const getAmbientClass = (isActiveElement: boolean) => {
     if (ambientAnimation === "none" || !isActiveElement) return "";
     switch (ambientAnimation) {
@@ -453,11 +464,15 @@ function QuizViewport({
   useEffect(() => {
     const adjustFontSize = () => {
       const container = containerRef.current;
-      if (!container) return;
+      if (!container || !pretext) return;
+
+      const { prepare, layout } = pretext;
 
       const containerRect = container.getBoundingClientRect();
       const targetWidth = containerRect.width * 0.92;
       const targetHeight = containerRect.height * 0.92;
+
+      const fontFamily = window.getComputedStyle(container).fontFamily || "system-ui, sans-serif";
 
       // 1. Adjust Layer 1 (Question only)
       if (layer1Ref.current) {
@@ -466,33 +481,31 @@ function QuizViewport({
         let high = 120;
         let optimal = 16;
 
-        const originalHeight = el.style.height;
-        const originalMaxHeight = el.style.maxHeight;
-        const originalTransform = el.style.transform;
-        const originalOpacity = el.style.opacity;
-
-        el.style.height = "auto";
-        el.style.maxHeight = "none";
-        el.style.transform = "none";
-        el.style.opacity = "1";
-
         for (let i = 0; i < 11; i++) {
           const mid = (low + high) / 2;
-          el.style.fontSize = `${mid}px`;
-          const rect = el.getBoundingClientRect();
-          if (rect.height <= targetHeight && rect.width <= targetWidth) {
-            optimal = mid;
-            low = mid;
-          } else {
+          const textFontSize = mid * 1.8;
+          const font = `900 ${textFontSize}px ${fontFamily}`;
+
+          const innerContainerWidth = Math.min(containerRect.width * 0.90, containerRect.width - (3 * mid));
+          const questionMaxWidth = innerContainerWidth - (4 * mid);
+
+          try {
+            const prepared = prepare(questionData.question, font);
+            const { height } = layout(prepared, questionMaxWidth, textFontSize * 1.375);
+            const totalHeight = height + 4 * mid;
+
+            if (totalHeight <= targetHeight && innerContainerWidth <= targetWidth) {
+              optimal = mid;
+              low = mid;
+            } else {
+              high = mid;
+            }
+          } catch (e) {
             high = mid;
           }
         }
 
         el.style.fontSize = `${optimal}px`;
-        el.style.height = originalHeight;
-        el.style.maxHeight = originalMaxHeight;
-        el.style.transform = originalTransform;
-        el.style.opacity = originalOpacity;
       }
 
       // 2. Adjust Layer 2 (Answers & Explanation)
@@ -502,21 +515,71 @@ function QuizViewport({
         let high = 120;
         let optimal = 16;
 
-        const originalHeight = el.style.height;
-        const originalMaxHeight = el.style.maxHeight;
-        const originalTransform = el.style.transform;
-        const originalOpacity = el.style.opacity;
-
-        el.style.height = "auto";
-        el.style.maxHeight = "none";
-        el.style.transform = "none";
-        el.style.opacity = "1";
-
         for (let i = 0; i < 11; i++) {
           const mid = (low + high) / 2;
-          el.style.fontSize = `${mid}px`;
-          const rect = el.getBoundingClientRect();
-          if (rect.height <= targetHeight && rect.width <= targetWidth) {
+          const layer2MaxWidth = containerRect.width - (3 * mid);
+          let totalHeight = 0;
+
+          if (phase === 6) {
+            // Only correct answer card is shown, plus explanation
+            const correctAns = questionData.answers[questionData.correctIndex];
+            const badgeAndGapWidth = (2 * 0.85 + 0.8) * mid;
+            const paddingWidth = 2.4 * mid;
+            const answerTextMaxWidth = layer2MaxWidth - (badgeAndGapWidth + paddingWidth);
+
+            const font = `bold ${mid}px ${fontFamily}`;
+            let cardHeight = 0;
+            try {
+              const preparedAns = prepare(correctAns, font);
+              const { height: ansTextHeight } = layout(preparedAns, answerTextMaxWidth, mid * 1.375);
+              const badgeHeight = 2 * 0.85 * mid;
+              cardHeight = Math.max(badgeHeight, ansTextHeight) + 2.4 * mid + 0.5 * mid;
+            } catch (e) {
+              cardHeight = 100;
+            }
+
+            // Explanation card
+            const explanationText = questionData.explanation;
+            const expFontSize = mid * 0.85;
+            const expFont = `500 ${expFontSize}px ${fontFamily}`;
+            const expMaxWidth = layer2MaxWidth - 1.6 * mid;
+
+            let expCardHeight = 0;
+            try {
+              const preparedExp = prepare(explanationText, expFont);
+              const { height: expTextHeight } = layout(preparedExp, expMaxWidth, expFontSize * 1.625);
+              const expTitleHeight = (0.6 * 1.2 + 0.2) * mid;
+              const computedExpHeight = expTextHeight + expTitleHeight + 1.2 * mid + 0.1 * mid;
+              expCardHeight = Math.min(10 * mid, computedExpHeight);
+            } catch (e) {
+              expCardHeight = 100;
+            }
+
+            totalHeight = cardHeight + 0.6 * mid + expCardHeight;
+          } else {
+            // All 4 answer cards are shown
+            let answersHeight = 0;
+            for (let j = 0; j < 4; j++) {
+              const ans = questionData.answers[j];
+              const badgeAndGapWidth = (2 * 0.85 + 0.8) * mid;
+              const paddingWidth = 1.6 * mid;
+              const answerTextMaxWidth = layer2MaxWidth - (badgeAndGapWidth + paddingWidth);
+
+              const font = `bold ${mid}px ${fontFamily}`;
+              try {
+                const preparedAns = prepare(ans, font);
+                const { height: ansTextHeight } = layout(preparedAns, answerTextMaxWidth, mid * 1.375);
+                const badgeHeight = 2 * 0.85 * mid;
+                const cardHeight = Math.max(badgeHeight, ansTextHeight) + 1.6 * mid + 0.1 * mid;
+                answersHeight += cardHeight;
+              } catch (e) {
+                answersHeight += 50;
+              }
+            }
+            totalHeight = answersHeight + 1.8 * mid + 1.0 * mid;
+          }
+
+          if (totalHeight <= targetHeight && layer2MaxWidth <= targetWidth) {
             optimal = mid;
             low = mid;
           } else {
@@ -525,10 +588,6 @@ function QuizViewport({
         }
 
         el.style.fontSize = `${optimal}px`;
-        el.style.height = originalHeight;
-        el.style.maxHeight = originalMaxHeight;
-        el.style.transform = originalTransform;
-        el.style.opacity = originalOpacity;
       }
     };
 
@@ -545,7 +604,7 @@ function QuizViewport({
     return () => {
       observer.disconnect();
     };
-  }, [phase, questionData, ratio, colorTheme, transitionTime, ambientAnimation]);
+  }, [phase, questionData, ratio, colorTheme, transitionTime, ambientAnimation, pretext]);
 
   return (
     <div

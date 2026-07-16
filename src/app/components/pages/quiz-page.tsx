@@ -411,6 +411,56 @@ const getThemeGradientDefs = (colorTheme: "Google Cloud" | "Firebase" | "Flutter
   }
 };
 
+const getThemeColors = (colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go") => {
+  switch (colorTheme) {
+    case "Firebase":
+      return {
+        primary: "#DD2C00", // Deep Red/Orange
+        secondary: "#FF6D00", // Bright Orange
+        accent: "#FFD600", // Warm Yellow
+        extra: "#FF3D00", // Coral Red
+        glow: "rgba(255, 109, 0, 0.4)",
+        glowRgb: "255, 109, 0",
+        rgbList: ["221, 44, 0", "255, 109, 0", "255, 214, 0", "255, 61, 0"],
+        gradientStops: ["#DD2C00", "#FF6D00", "#FFD600", "#FF3D00"],
+      };
+    case "Flutter/Dart":
+      return {
+        primary: "#02569B", // Navy Blue
+        secondary: "#0175C2", // Bright Blue
+        accent: "#13B9FD", // Cyan/Sky
+        extra: "#005C9E", // Deep Indigo
+        glow: "rgba(19, 185, 253, 0.4)",
+        glowRgb: "19, 185, 253",
+        rgbList: ["2, 86, 155", "1, 117, 194", "19, 185, 253", "0, 92, 158"],
+        gradientStops: ["#02569B", "#0175C2", "#13B9FD", "#005C9E"],
+      };
+    case "Go":
+      return {
+        primary: "#00ADD8", // Light Blue/Cyan
+        secondary: "#5DC9E2", // Pale Cyan
+        accent: "#0096b7", // Deep Teal
+        extra: "#00E5FF", // Neon Cyan
+        glow: "rgba(93, 201, 226, 0.4)",
+        glowRgb: "93, 201, 226",
+        rgbList: ["0, 173, 216", "93, 201, 226", "0, 150, 183", "0, 229, 255"],
+        gradientStops: ["#00ADD8", "#5DC9E2", "#0096b7", "#00E5FF"],
+      };
+    case "Google Cloud":
+    default:
+      return {
+        primary: "#4285F4", // Google Blue
+        secondary: "#34A853", // Google Green
+        accent: "#FBBC05", // Google Yellow
+        extra: "#EA4335", // Google Red
+        glow: "rgba(66, 133, 244, 0.4)",
+        glowRgb: "66, 133, 244",
+        rgbList: ["66, 133, 244", "52, 168, 83", "251, 188, 5", "234, 67, 53"],
+        gradientStops: ["#4285F4", "#34A853", "#FBBC05", "#EA4335"],
+      };
+  }
+};
+
 interface QuizViewportProps {
   ratio: "9:16" | "16:9" | "1:1";
   phase: "edit" | 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -434,6 +484,7 @@ function QuizViewport({
   hidePanels,
   advancePhase,
 }: QuizViewportProps) {
+  const themeColors = getThemeColors(colorTheme);
   const containerRef = useRef<HTMLDivElement>(null);
   const layer1Ref = useRef<HTMLDivElement>(null);
   const layer2Ref = useRef<HTMLDivElement>(null);
@@ -745,6 +796,18 @@ function QuizViewport({
           50% { transform: translate(-30%, 30%) rotate(180deg) scale(1.4); }
           100% { transform: translate(0%, 0%) rotate(360deg) scale(1.1); }
         }
+        @keyframes plasma-d {
+          0% { transform: translate(30%, -20%) rotate(0deg) scale(0.9); }
+          40% { transform: translate(-15%, 25%) rotate(140deg) scale(1.25); }
+          70% { transform: translate(20%, 15%) rotate(280deg) scale(0.8); }
+          100% { transform: translate(30%, -20%) rotate(360deg) scale(0.9); }
+        }
+        @keyframes plasma-e {
+          0% { transform: translate(-20%, 30%) rotate(0deg) scale(1.15); }
+          35% { transform: translate(25%, -15%) rotate(-100deg) scale(0.8); }
+          65% { transform: translate(-15%, -25%) rotate(-220deg) scale(1.3); }
+          100% { transform: translate(-20%, 30%) rotate(-360deg) scale(1.15); }
+        }
 
         /* Glitch Animation */
         @keyframes glitch-shift-1 {
@@ -776,12 +839,18 @@ function QuizViewport({
         /* Wormhole Animation */
         @keyframes wormhole-ring {
           0% { transform: scale(0.1) rotate(0deg); opacity: 0.9; }
-          80% { opacity: 0.3; }
-          100% { transform: scale(2.5) rotate(90deg); opacity: 0; }
+          80% { opacity: 0.4; }
+          100% { transform: scale(2.8) rotate(120deg); opacity: 0; }
         }
         @keyframes wormhole-core-pulse {
-          0%, 100% { transform: scale(1); box-shadow: 0 0 40px rgba(139, 92, 246, 0.6), 0 0 80px rgba(139, 92, 246, 0.3); }
-          50% { transform: scale(1.15); box-shadow: 0 0 60px rgba(139, 92, 246, 0.8), 0 0 120px rgba(139, 92, 246, 0.4); }
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.25); }
+        }
+        @keyframes wormhole-star {
+          0% { transform: translate(-50%, -50%) rotate(var(--star-angle)) translateY(0) scale(0.2); opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { transform: translate(-50%, -50%) rotate(var(--star-angle)) translateY(-200px) scale(1.8); opacity: 0; }
         }
 
         /* Fireflies Animation */
@@ -871,26 +940,40 @@ function QuizViewport({
 
       {ambientAnimation === "plasma" && (
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-          <div className="absolute inset-[-50%] opacity-80 mix-blend-screen filter blur-[60px]">
+          <div className="absolute inset-[-50%] opacity-85 mix-blend-screen filter blur-[60px]">
             <div
               className="absolute w-[120%] h-[120%] rounded-full"
               style={{
-                background: 'radial-gradient(circle, rgba(255,0,128,0.8) 0%, transparent 60%)',
+                background: `radial-gradient(circle, rgba(${themeColors.rgbList[0]}, 0.8) 0%, transparent 60%)`,
                 animation: `plasma-a calc(var(--anim-duration) * 1.2) ease-in-out infinite`,
               }}
             />
             <div
               className="absolute w-[110%] h-[110%] rounded-full"
               style={{
-                background: 'radial-gradient(circle, rgba(0,200,255,0.8) 0%, transparent 55%)',
+                background: `radial-gradient(circle, rgba(${themeColors.rgbList[1]}, 0.8) 0%, transparent 55%)`,
                 animation: `plasma-b calc(var(--anim-duration) * 1.0) ease-in-out infinite`,
               }}
             />
             <div
               className="absolute w-[130%] h-[130%] rounded-full"
               style={{
-                background: 'radial-gradient(circle, rgba(128,0,255,0.7) 0%, transparent 50%)',
+                background: `radial-gradient(circle, rgba(${themeColors.rgbList[2]}, 0.75) 0%, transparent 50%)`,
                 animation: `plasma-c calc(var(--anim-duration) * 1.5) ease-in-out infinite`,
+              }}
+            />
+            <div
+              className="absolute w-[115%] h-[115%] rounded-full"
+              style={{
+                background: `radial-gradient(circle, rgba(${themeColors.rgbList[3]}, 0.75) 0%, transparent 55%)`,
+                animation: `plasma-d calc(var(--anim-duration) * 1.3) ease-in-out infinite`,
+              }}
+            />
+            <div
+              className="absolute w-[125%] h-[125%] rounded-full"
+              style={{
+                background: `radial-gradient(circle, rgba(${themeColors.rgbList[0]}, 0.6) 0%, transparent 50%)`,
+                animation: `plasma-e calc(var(--anim-duration) * 1.6) ease-in-out infinite`,
               }}
             />
           </div>
@@ -898,193 +981,275 @@ function QuizViewport({
       )}
 
       {ambientAnimation === "glitch" && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-black/80">
-          {/* RGB Split Layers */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-black/85">
+          {/* Grid Overlay */}
+          <div
+            className="absolute inset-0 opacity-[0.08] z-5"
+            style={{
+              backgroundImage: `linear-gradient(rgba(${themeColors.rgbList[0]}, 0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(${themeColors.rgbList[0]}, 0.5) 1px, transparent 1px)`,
+              backgroundSize: '24px 24px',
+            }}
+          />
+          {/* Chromatic aberration layers matching the active theme */}
           <div
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(135deg, rgba(255,0,0,0.15) 0%, transparent 40%, rgba(255,0,0,0.1) 100%)',
+              background: `linear-gradient(135deg, rgba(${themeColors.rgbList[0]}, 0.25) 0%, transparent 40%, rgba(${themeColors.rgbList[0]}, 0.1) 100%)`,
               animation: `glitch-shift-1 calc(var(--anim-duration) * 0.4) steps(4, end) infinite`,
             }}
           />
           <div
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(225deg, rgba(0,255,128,0.15) 0%, transparent 40%, rgba(0,255,128,0.1) 100%)',
+              background: `linear-gradient(225deg, rgba(${themeColors.rgbList[1]}, 0.22) 0%, transparent 40%, rgba(${themeColors.rgbList[1]}, 0.1) 100%)`,
               animation: `glitch-shift-2 calc(var(--anim-duration) * 0.35) steps(3, end) infinite`,
             }}
           />
           <div
             className="absolute inset-0"
             style={{
-              background: 'linear-gradient(315deg, rgba(0,100,255,0.15) 0%, transparent 40%, rgba(0,100,255,0.1) 100%)',
+              background: `linear-gradient(315deg, rgba(${themeColors.rgbList[2] || themeColors.rgbList[0]}, 0.25) 0%, transparent 40%, rgba(${themeColors.rgbList[2] || themeColors.rgbList[0]}, 0.1) 100%)`,
               animation: `glitch-shift-1 calc(var(--anim-duration) * 0.45) steps(5, end) infinite reverse`,
             }}
           />
           {/* Scan line */}
           <div
-            className="absolute left-0 right-0 h-[2px] bg-white/20 z-10"
+            className="absolute left-0 right-0 h-[3px] z-10"
             style={{
-              animation: `glitch-scanline calc(var(--anim-duration) * 0.3) linear infinite`,
-              boxShadow: '0 0 10px rgba(255,255,255,0.3)',
+              background: `linear-gradient(90deg, transparent, rgba(${themeColors.rgbList[1]}, 0.8), transparent)`,
+              animation: `glitch-scanline calc(var(--anim-duration) * 0.35) linear infinite`,
+              boxShadow: `0 0 15px rgba(${themeColors.rgbList[1]}, 0.8)`,
             }}
           />
           {/* Horizontal glitch bars */}
-          {[15, 35, 52, 71, 88].map((top, i) => (
-            <div
-              key={i}
-              className="absolute left-0 right-0"
-              style={{
-                top: `${top}%`,
-                height: `${2 + i}px`,
-                background: `linear-gradient(90deg, transparent ${10 + i * 8}%, rgba(${i % 2 ? '0,255,200' : '255,0,100'},0.3) ${20 + i * 5}%, transparent ${40 + i * 6}%)`,
-                animation: `glitch-flicker calc(var(--anim-duration) * ${0.2 + i * 0.08}) ease infinite`,
-                animationDelay: `${i * 0.3}s`,
-              }}
-            />
-          ))}
+          {[15, 35, 52, 71, 88].map((top, i) => {
+            const barColor = themeColors.rgbList[i % themeColors.rgbList.length];
+            return (
+              <div
+                key={i}
+                className="absolute left-0 right-0"
+                style={{
+                  top: `${top}%`,
+                  height: `${2 + i}px`,
+                  background: `linear-gradient(90deg, transparent ${10 + i * 8}%, rgba(${barColor}, 0.45) ${20 + i * 5}%, transparent ${40 + i * 6}%)`,
+                  boxShadow: `0 0 12px rgba(${barColor}, 0.5)`,
+                  animation: `glitch-flicker calc(var(--anim-duration) * ${0.2 + i * 0.08}) ease infinite`,
+                  animationDelay: `${i * 0.3}s`,
+                }}
+              />
+            );
+          })}
           {/* CRT scanlines overlay */}
           <div
-            className="absolute inset-0 opacity-[0.04] z-20"
+            className="absolute inset-0 opacity-[0.06] z-20"
             style={{
-              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.5) 2px, rgba(0,0,0,0.5) 4px)',
+              backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.6) 2px, rgba(0,0,0,0.6) 4px)',
             }}
           />
         </div>
       )}
 
       {ambientAnimation === "wormhole" && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-[#05001a]">
-          {/* Concentric expanding rings */}
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div
-              key={i}
-              className="absolute rounded-full border"
-              style={{
-                top: '50%',
-                left: '50%',
-                width: '60px',
-                height: '60px',
-                marginTop: '-30px',
-                marginLeft: '-30px',
-                borderColor: `hsla(${270 + i * 15}, 80%, ${55 + i * 3}%, 0.6)`,
-                borderWidth: `${2 - i * 0.1}px`,
-                boxShadow: `0 0 ${15 + i * 5}px hsla(${270 + i * 15}, 80%, ${55 + i * 3}%, 0.3), inset 0 0 ${10 + i * 3}px hsla(${270 + i * 15}, 80%, ${55 + i * 3}%, 0.15)`,
-                animation: `wormhole-ring calc(var(--anim-duration) * 0.35) linear infinite`,
-                animationDelay: `calc(var(--anim-duration) * 0.35 / 8 * ${i})`,
-              }}
-            />
-          ))}
-          {/* Bright core */}
+        <div
+          className="absolute inset-0 overflow-hidden pointer-events-none z-0"
+          style={{
+            background: `radial-gradient(circle at center, rgba(${themeColors.rgbList[0]}, 0.22) 0%, #03030a 100%)`,
+          }}
+        >
+          {/* Swirling space vortex overlay */}
           <div
-            className="absolute rounded-full bg-purple-400/80"
+            className="absolute w-[200%] h-[200%] top-[-50%] left-[-50%] opacity-25 pointer-events-none"
             style={{
-              width: '16px',
-              height: '16px',
-              top: '50%',
-              left: '50%',
-              marginTop: '-8px',
-              marginLeft: '-8px',
-              animation: `wormhole-core-pulse calc(var(--anim-duration) * 0.25) ease-in-out infinite`,
+              background: `conic-gradient(from 0deg, transparent, rgba(${themeColors.rgbList[0]}, 0.2), transparent, rgba(${themeColors.rgbList[1]}, 0.18), transparent)`,
+              animation: `spin-gradient calc(var(--anim-duration) * 2.0) linear infinite`,
             }}
           />
-          {/* Ambient glow */}
+
+          {/* Concentric expanding themed tunnel rings */}
+          {Array.from({ length: 10 }).map((_, i) => {
+            const ringColor = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            return (
+              <div
+                key={i}
+                className="absolute rounded-full border"
+                style={{
+                  top: '50%',
+                  left: '50%',
+                  width: '60px',
+                  height: '60px',
+                  marginTop: '-30px',
+                  marginLeft: '-30px',
+                  borderColor: ringColor,
+                  borderWidth: `${2.2 - i * 0.15}px`,
+                  opacity: 0.8,
+                  boxShadow: `0 0 ${18 + i * 6}px ${ringColor}, inset 0 0 ${12 + i * 4}px ${ringColor}`,
+                  animation: `wormhole-ring calc(var(--anim-duration) * 0.35) linear infinite`,
+                  animationDelay: `calc(var(--anim-duration) * 0.35 / 10 * ${i})`,
+                }}
+              />
+            );
+          })}
+
+          {/* Expanding star particles */}
+          {Array.from({ length: 12 }).map((_, i) => {
+            const angle = (i * 360) / 12;
+            const delay = (i * 0.12);
+            const starColor = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            return (
+              <div
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  top: '50%',
+                  left: '50%',
+                  width: '6px',
+                  height: '6px',
+                  background: starColor,
+                  boxShadow: `0 0 10px ${starColor}`,
+                  ['--star-angle' as any]: `${angle}deg`,
+                  animation: `wormhole-star calc(var(--anim-duration) * 0.45) linear infinite`,
+                  animationDelay: `${delay}s`,
+                }}
+              />
+            );
+          })}
+
+          {/* Bright themed pulsing core */}
           <div
-            className="absolute inset-0"
+            className="absolute rounded-full z-10"
             style={{
-              background: 'radial-gradient(circle at center, rgba(139,92,246,0.15) 0%, transparent 60%)',
+              width: '24px',
+              height: '24px',
+              top: '50%',
+              left: '50%',
+              marginTop: '-12px',
+              marginLeft: '-12px',
+              background: `radial-gradient(circle, #ffffff 30%, ${themeColors.primary} 100%)`,
+              boxShadow: `0 0 25px #ffffff, 0 0 50px ${themeColors.primary}, 0 0 80px ${themeColors.secondary}`,
+              animation: `wormhole-core-pulse calc(var(--anim-duration) * 0.25) ease-in-out infinite`,
             }}
           />
         </div>
       )}
 
       {ambientAnimation === "fireflies" && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-[#020810]">
-          {/* Ambient moonlight glow */}
+        <div
+          className="absolute inset-0 overflow-hidden pointer-events-none z-0"
+          style={{
+            background: `radial-gradient(ellipse at 30% 20%, rgba(${themeColors.rgbList[0]}, 0.15) 0%, transparent 60%), radial-gradient(ellipse at 70% 80%, rgba(${themeColors.rgbList[1]}, 0.15) 0%, transparent 60%), #02050a`,
+          }}
+        >
+          {/* Shifting background aurora/mist */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 opacity-40 mix-blend-screen filter blur-[40px] pointer-events-none"
             style={{
-              background: 'radial-gradient(ellipse at 30% 20%, rgba(59,130,246,0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(16,185,129,0.06) 0%, transparent 50%)',
+              background: `radial-gradient(circle at 20% 30%, rgba(${themeColors.rgbList[0]}, 0.2) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(${themeColors.rgbList[1]}, 0.2) 0%, transparent 50%)`,
+              animation: `plasma-a calc(var(--anim-duration) * 2.5) ease-in-out infinite`,
             }}
           />
-          {/* Firefly particles */}
-          {[
-            { anim: 'firefly-drift-1', color: '255,220,80', size: 6, blur: 20, pulseDur: 1.0 },
-            { anim: 'firefly-drift-2', color: '180,255,100', size: 5, blur: 18, pulseDur: 1.3 },
-            { anim: 'firefly-drift-3', color: '100,255,200', size: 7, blur: 25, pulseDur: 0.8 },
-            { anim: 'firefly-drift-4', color: '255,200,60', size: 4, blur: 15, pulseDur: 1.5 },
-            { anim: 'firefly-drift-5', color: '200,255,150', size: 5, blur: 22, pulseDur: 1.1 },
-            { anim: 'firefly-drift-1', color: '120,255,180', size: 3, blur: 12, pulseDur: 1.7 },
-            { anim: 'firefly-drift-3', color: '255,240,100', size: 4, blur: 16, pulseDur: 0.9 },
-            { anim: 'firefly-drift-2', color: '160,255,120', size: 6, blur: 20, pulseDur: 1.4 },
-          ].map((fly, i) => (
-            <div
-              key={i}
-              className="absolute rounded-full"
-              style={{
-                width: `${fly.size}px`,
-                height: `${fly.size}px`,
-                background: `rgba(${fly.color}, 0.9)`,
-                boxShadow: `0 0 ${fly.blur}px rgba(${fly.color}, 0.6), 0 0 ${fly.blur * 2}px rgba(${fly.color}, 0.3)`,
-                animation: `${fly.anim} calc(var(--anim-duration) * ${1.0 + i * 0.2}) ease-in-out infinite, firefly-pulse calc(var(--anim-duration) * ${fly.pulseDur * 0.3}) ease-in-out infinite`,
-                animationDelay: `${i * 0.5}s, ${i * 0.7}s`,
-              }}
-            />
-          ))}
+
+          {/* Dynamic theme-aligned fireflies / embers */}
+          {Array.from({ length: 15 }).map((_, i) => {
+            const size = 3 + (i % 5); // size ranges from 3px to 7px
+            const blur = 10 + (i % 4) * 5; // blur ranges from 10px to 25px
+            const pulseDur = 0.8 + (i % 3) * 0.4; // pulse period
+            const delay = i * 0.4;
+            const anim = `firefly-drift-${(i % 5) + 1}`;
+            const color = themeColors.rgbList[i % themeColors.rgbList.length];
+            return (
+              <div
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  width: `${size}px`,
+                  height: `${size}px`,
+                  background: `rgba(${color}, 0.95)`,
+                  boxShadow: `0 0 ${blur}px rgba(${color}, 0.8), 0 0 ${blur * 2}px rgba(${color}, 0.4)`,
+                  animation: `${anim} calc(var(--anim-duration) * ${1.2 + i * 0.15}) ease-in-out infinite, firefly-pulse calc(var(--anim-duration) * ${pulseDur * 0.3}) ease-in-out infinite`,
+                  animationDelay: `${delay}s, ${delay * 1.2}s`,
+                }}
+              />
+            );
+          })}
         </div>
       )}
 
       {ambientAnimation === "electric-storm" && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-[#0a0a12]">
-          {/* Roiling cloud backdrop */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-[#06060c]">
+          {/* Roiling cloud backdrop using theme colors */}
           <div
             className="absolute inset-[-20%]"
             style={{
-              background: 'radial-gradient(ellipse at 30% 30%, rgba(30,30,60,0.9) 0%, transparent 50%), radial-gradient(ellipse at 70% 60%, rgba(40,20,60,0.8) 0%, transparent 50%), radial-gradient(ellipse at 50% 80%, rgba(20,30,50,0.9) 0%, transparent 40%)',
+              background: `radial-gradient(ellipse at 30% 30%, rgba(${themeColors.rgbList[0]}, 0.35) 0%, transparent 60%), radial-gradient(ellipse at 70% 60%, rgba(${themeColors.rgbList[1]}, 0.3) 0%, transparent 60%), radial-gradient(ellipse at 50% 80%, rgba(${themeColors.rgbList[2] || themeColors.rgbList[0]}, 0.25) 0%, transparent 55%)`,
               animation: `storm-cloud-roil calc(var(--anim-duration) * 1.5) ease-in-out infinite`,
             }}
           />
-          {/* Lightning bolt SVGs */}
+
+          {/* Full-screen sheet lightning overlay flashes */}
+          <div
+            className="absolute inset-0 pointer-events-none mix-blend-screen"
+            style={{
+              background: `radial-gradient(circle at 45% 30%, rgba(${themeColors.rgbList[0]}, 0.35) 0%, transparent 80%)`,
+              animation: `storm-flash-1 calc(var(--anim-duration) * 0.5) ease-in-out infinite`,
+            }}
+          />
+          <div
+            className="absolute inset-0 pointer-events-none mix-blend-screen"
+            style={{
+              background: `radial-gradient(circle at 75% 25%, rgba(${themeColors.rgbList[1]}, 0.3) 0%, transparent 80%)`,
+              animation: `storm-flash-2 calc(var(--anim-duration) * 0.5) ease-in-out infinite`,
+            }}
+          />
+          <div
+            className="absolute inset-0 pointer-events-none mix-blend-screen"
+            style={{
+              background: `radial-gradient(circle at 20% 60%, rgba(${themeColors.rgbList[2] || themeColors.rgbList[0]}, 0.25) 0%, transparent 80%)`,
+              animation: `storm-flash-3 calc(var(--anim-duration) * 0.5) ease-in-out infinite`,
+            }}
+          />
+
+          {/* Lightning bolt SVGs matching theme colors */}
           <svg className="absolute inset-0 w-full h-full" viewBox="0 0 400 700" preserveAspectRatio="none">
             <path
               d="M180,0 L170,120 L200,125 L160,280 L195,285 L155,420"
               fill="none"
-              stroke="rgba(180,200,255,0.9)"
+              stroke={`rgba(${themeColors.rgbList[0]}, 0.95)`}
               strokeWidth="2.5"
               strokeLinecap="round"
               style={{
-                filter: 'drop-shadow(0 0 8px rgba(150,180,255,0.8)) drop-shadow(0 0 20px rgba(100,150,255,0.5))',
+                filter: `drop-shadow(0 0 10px rgba(${themeColors.rgbList[0]}, 0.9)) drop-shadow(0 0 25px rgba(${themeColors.rgbList[0]}, 0.5))`,
                 animation: `storm-flash-1 calc(var(--anim-duration) * 0.5) ease-in-out infinite`,
               }}
             />
             <path
               d="M300,0 L285,90 L310,95 L270,220 L300,225 L265,350"
               fill="none"
-              stroke="rgba(200,180,255,0.9)"
+              stroke={`rgba(${themeColors.rgbList[1]}, 0.95)`}
               strokeWidth="2"
               strokeLinecap="round"
               style={{
-                filter: 'drop-shadow(0 0 6px rgba(180,150,255,0.8)) drop-shadow(0 0 15px rgba(140,100,255,0.4))',
+                filter: `drop-shadow(0 0 8px rgba(${themeColors.rgbList[1]}, 0.9)) drop-shadow(0 0 20px rgba(${themeColors.rgbList[1]}, 0.5))`,
                 animation: `storm-flash-2 calc(var(--anim-duration) * 0.5) ease-in-out infinite`,
               }}
             />
             <path
               d="M80,50 L95,170 L70,175 L100,300 L75,305 L105,400"
               fill="none"
-              stroke="rgba(170,210,255,0.85)"
+              stroke={`rgba(${themeColors.rgbList[2] || themeColors.rgbList[0]}, 0.9)`}
               strokeWidth="1.5"
               strokeLinecap="round"
               style={{
-                filter: 'drop-shadow(0 0 5px rgba(130,190,255,0.7)) drop-shadow(0 0 12px rgba(100,160,255,0.4))',
+                filter: `drop-shadow(0 0 6px rgba(${themeColors.rgbList[2] || themeColors.rgbList[0]}, 0.8)) drop-shadow(0 0 15px rgba(${themeColors.rgbList[2] || themeColors.rgbList[0]}, 0.4))`,
                 animation: `storm-flash-3 calc(var(--anim-duration) * 0.5) ease-in-out infinite`,
               }}
             />
           </svg>
-          {/* Ambient thunder glow */}
+
+          {/* Ambient thunder glow utilizing theme colors */}
           <div
             className="absolute inset-0"
             style={{
-              background: 'radial-gradient(circle at 45% 30%, rgba(150,180,255,0.15) 0%, transparent 40%), radial-gradient(circle at 75% 25%, rgba(140,100,255,0.1) 0%, transparent 35%)',
+              background: `radial-gradient(circle at 45% 30%, rgba(${themeColors.rgbList[0]}, 0.25) 0%, transparent 45%), radial-gradient(circle at 75% 25%, rgba(${themeColors.rgbList[1]}, 0.22) 0%, transparent 40%)`,
               animation: `storm-glow calc(var(--anim-duration) * 0.5) ease-in-out infinite`,
             }}
           />

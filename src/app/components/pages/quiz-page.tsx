@@ -571,10 +571,6 @@ function QuizViewport({
               const cardHeight = Math.max(badgeHeight, ansTextHeight) + 1.6 * mid + 0.1 * mid; // padding 1.6 * mid + border 0.1 * mid
               answersHeight += cardHeight;
 
-              if (cardHeight > 12 * mid) {
-                wordOverflows = true;
-              }
-
               // Check single-word constraints
               if (ctx && !wordOverflows) {
                 ctx.font = font;
@@ -921,14 +917,14 @@ function QuizViewport({
               const isVisibleInPhase6 = isCorrect;
 
               let opacity = 1;
-              let maxHeight = "12em";
+              let maxHeight = "30em";
               let marginBot = "0px";
               let pointerEvents: "auto" | "none" = "auto";
 
               if (phase === 6) {
                 if (isVisibleInPhase6) {
                   opacity = 1;
-                  maxHeight = "12em";
+                  maxHeight = "30em";
                   marginBot = "0.6em";
                   pointerEvents = "auto";
                 } else {
@@ -1027,14 +1023,14 @@ function QuizViewport({
             <div
               ref={explanationRef}
               style={{
-                maxHeight: phase === 6 ? "24em" : "0px",
+                maxHeight: phase === 6 ? "40em" : "0px",
                 opacity: phase === 6 ? 1 : 0,
                 marginTop: phase === 6 ? "0.6em" : "0px",
                 overflow: "hidden",
                 transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
               }}
             >
-              <div className="text-center text-white px-[0.8em] py-[0.6em] bg-black/55 border-[0.05em] border-white/10 rounded-[1em] flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[20em]">
+              <div className="text-center text-white px-[0.8em] py-[0.6em] bg-black/55 border-[0.05em] border-white/10 rounded-[1em] flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[35em]">
                 <span className="text-[0.6em] font-bold text-white/40 tracking-widest block mb-[0.2em] uppercase">
                   Explanation
                 </span>

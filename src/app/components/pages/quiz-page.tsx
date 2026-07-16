@@ -460,6 +460,8 @@ function QuizViewport({
       const targetWidth = containerRect.width;
       const targetHeight = containerRect.height;
 
+      if (targetWidth === 0 || targetHeight === 0) return;
+
       const fontFamily = window.getComputedStyle(container).fontFamily || "system-ui, sans-serif";
 
       const canvas = document.createElement("canvas");
@@ -468,7 +470,7 @@ function QuizViewport({
       // 1. Adjust Layer 1 (Question only)
       if (layer1Ref.current) {
         const el = layer1Ref.current;
-        let low = 8;
+        let low = 4;
         let high = 120;
         let optimal = low;
 
@@ -486,6 +488,11 @@ function QuizViewport({
           const parentWidth = containerRect.width - (3 * mid);
           const cardWidth = parentWidth * 0.88;
           const questionMaxWidth = cardWidth - (4 * mid);
+
+          if (questionMaxWidth <= 0) {
+            high = mid;
+            continue;
+          }
 
           // Card height is text height + vertical padding (4 * mid)
           // We want the card to fit comfortably, leaving at least 12.5% margins on top and bottom (so max 75% height)
@@ -525,7 +532,7 @@ function QuizViewport({
       // 2. Adjust Layer 2 (Answers & Explanation)
       if (layer2Ref.current) {
         const el = layer2Ref.current;
-        let low = 8;
+        let low = 4;
         let high = 120;
         let optimal = low;
 
@@ -544,8 +551,12 @@ function QuizViewport({
             const ans = questionData.answers[j];
             const normalizedAns = ans.replace(/\s+\?/g, "\u00A0?");
             const badgeAndGapWidth = (2 * 0.85 + 0.8) * mid;
-            const paddingWidth = 1.6 * mid; // p-[0.8em] is 1.6 * mid total
+            const paddingWidth = 2.2 * mid; // py-[0.8em] pl-[1.2em] pr-[1.0em] gives 2.2 * mid total horizontal padding
             const answerTextMaxWidth = layer2MaxWidth - (badgeAndGapWidth + paddingWidth);
+
+            if (answerTextMaxWidth <= 0) {
+              wordOverflows = true;
+            }
 
             const font = `bold ${mid}px ${fontFamily}`;
             try {
@@ -830,14 +841,14 @@ function QuizViewport({
               const isVisibleInPhase6 = isCorrect;
 
               let opacity = 1;
-              let maxHeight = "6em";
+              let maxHeight = "12em";
               let marginBot = "0px";
               let pointerEvents: "auto" | "none" = "auto";
 
               if (phase === 6) {
                 if (isVisibleInPhase6) {
                   opacity = 1;
-                  maxHeight = "6em";
+                  maxHeight = "12em";
                   marginBot = "0.6em";
                   pointerEvents = "auto";
                 } else {
@@ -903,7 +914,7 @@ function QuizViewport({
                   )}
 
                    <div
-                    className={`relative z-10 rounded-[0.95em] text-white font-bold text-left flex items-center gap-[0.8em] w-full h-full p-[0.8em] ${
+                    className={`relative z-10 rounded-[0.95em] text-white font-bold text-left flex items-center gap-[0.8em] w-full h-full py-[0.8em] pl-[1.2em] pr-[1.0em] ${
                       isCorrectHighlighted
                         ? "bg-emerald-950/95"
                         : isHighlighted

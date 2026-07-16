@@ -544,28 +544,31 @@ function QuizViewport({
         for (let i = 0; i < 11; i++) {
           const mid = (low + high) / 2;
           // layer2Ref has p-[1.5em] (horizontal padding is 3 * mid total)
-          const layer2MaxWidth = containerRect.width - (3 * mid);
+          // cards container has max-w-[88%]
+          const parentWidth = containerRect.width - (3 * mid);
+          const layer2MaxWidth = parentWidth * 0.88;
           let totalHeight = 0;
           let wordOverflows = false;
 
-          if (phase === 6) {
-            // Only correct answer card is shown, plus explanation
-            const correctAns = questionData.answers[questionData.correctIndex];
-            const normalizedAns = correctAns.replace(/\s+\?/g, "\u00A0?");
+          // Always calculate font-size based on all 4 answer cards to ensure size stability across all phases
+          let answersHeight = 0;
+          for (let j = 0; j < 4; j++) {
+            const ans = questionData.answers[j];
+            const normalizedAns = ans.replace(/\s+\?/g, "\u00A0?");
             const badgeAndGapWidth = (2 * 0.85 + 0.8) * mid;
-            const paddingWidth = 2.4 * mid; // p-[1.2em] is 2.4 * mid total
+            const paddingWidth = 1.6 * mid; // p-[0.8em] is 1.6 * mid total
             const answerTextMaxWidth = layer2MaxWidth - (badgeAndGapWidth + paddingWidth);
 
             const font = `bold ${mid}px ${fontFamily}`;
-            let cardHeight = 0;
             try {
               const preparedAns = prepare(normalizedAns, font);
               const { height: ansTextHeight } = layout(preparedAns, answerTextMaxWidth, mid * 1.375);
               const badgeHeight = 2 * 0.85 * mid;
-              cardHeight = Math.max(badgeHeight, ansTextHeight) + 2.4 * mid + 0.1 * mid; // padding 2.4 * mid + border 0.1 * mid
+              const cardHeight = Math.max(badgeHeight, ansTextHeight) + 1.6 * mid + 0.1 * mid; // padding 1.6 * mid + border 0.1 * mid
+              answersHeight += cardHeight;
 
-              // Check single-word constraints for the correct answer
-              if (ctx) {
+              // Check single-word constraints
+              if (ctx && !wordOverflows) {
                 ctx.font = font;
                 const ansWords = normalizedAns.split(/\s+/).filter(Boolean);
                 for (const word of ansWords) {
@@ -576,91 +579,20 @@ function QuizViewport({
                 }
               }
             } catch (e) {
-              cardHeight = 100;
+              answersHeight += 50;
             }
-
-            // Explanation card
-            const explanationText = questionData.explanation.replace(/\s+\?/g, "\u00A0?");
-            const expFontSize = mid * 0.85;
-            const expFont = `500 ${expFontSize}px ${fontFamily}`;
-            const expMaxWidth = layer2MaxWidth - 1.6 * mid; // px-[0.8em] is 1.6 * mid total
-
-            let expCardHeight = 0;
-            try {
-              const preparedExp = prepare(explanationText, expFont);
-              const { height: expTextHeight } = layout(preparedExp, expMaxWidth, expFontSize * 1.625);
-              const expTitleHeight = (0.6 * 1.2 + 0.2) * mid;
-              const computedExpHeight = expTextHeight + expTitleHeight + 1.2 * mid + 0.1 * mid; // py-[0.6em] is 1.2 * mid + border 0.1 * mid
-              expCardHeight = Math.min(10 * mid, computedExpHeight);
-
-              // Check single-word constraints for explanation
-              if (ctx && !wordOverflows) {
-                ctx.font = expFont;
-                const expWords = explanationText.split(/\s+/).filter(Boolean);
-                for (const word of expWords) {
-                  if (ctx.measureText(word).width > expMaxWidth) {
-                    wordOverflows = true;
-                    break;
-                  }
-                }
-              }
-            } catch (e) {
-              expCardHeight = 100;
-            }
-
-            // Phase 6 total height calculations:
-            // Correct card height
-            // + Explanation card height
-            // + spacing: margin-bottom of correct card (0.6 * mid) + margin-top of explanation (0.6 * mid) = 1.2 * mid
-            // + outer padding of layer2Ref (3.0 * mid)
-            // + inner container padding (1.0 * mid)
-            totalHeight = cardHeight + expCardHeight + 5.2 * mid;
-          } else {
-            // All 4 answer cards are shown
-            let answersHeight = 0;
-            for (let j = 0; j < 4; j++) {
-              const ans = questionData.answers[j];
-              const normalizedAns = ans.replace(/\s+\?/g, "\u00A0?");
-              const badgeAndGapWidth = (2 * 0.85 + 0.8) * mid;
-              const paddingWidth = 1.6 * mid; // p-[0.8em] is 1.6 * mid total
-              const answerTextMaxWidth = layer2MaxWidth - (badgeAndGapWidth + paddingWidth);
-
-              const font = `bold ${mid}px ${fontFamily}`;
-              try {
-                const preparedAns = prepare(normalizedAns, font);
-                const { height: ansTextHeight } = layout(preparedAns, answerTextMaxWidth, mid * 1.375);
-                const badgeHeight = 2 * 0.85 * mid;
-                const cardHeight = Math.max(badgeHeight, ansTextHeight) + 1.6 * mid + 0.1 * mid; // padding 1.6 * mid + border 0.1 * mid
-                answersHeight += cardHeight;
-
-                // Check single-word constraints
-                if (ctx && !wordOverflows) {
-                  ctx.font = font;
-                  const ansWords = normalizedAns.split(/\s+/).filter(Boolean);
-                  for (const word of ansWords) {
-                    if (ctx.measureText(word).width > answerTextMaxWidth) {
-                      wordOverflows = true;
-                      break;
-                    }
-                  }
-                }
-              } catch (e) {
-                answersHeight += 50;
-              }
-            }
-            // All answers total height:
-            // Answers height
-            // + 3 gaps of space-y-[0.6em] = 1.8 * mid
-            // + inner container padding py-[0.5em] = 1.0 * mid
-            // + outer padding of layer2Ref (3.0 * mid)
-            totalHeight = answersHeight + 5.8 * mid;
           }
+          // All answers total height:
+          // Answers height
+          // + 3 gaps of space-y-[0.6em] = 1.8 * mid
+          // + inner container padding py-[0.5em] = 1.0 * mid
+          // + outer padding of layer2Ref (3.0 * mid)
+          totalHeight = answersHeight + 5.8 * mid;
 
-          // Spacing limits: Layer 2 content should comfortably fit within 80% height and 85% width
+          // Spacing limits: Layer 2 content should comfortably fit within 80% height
           const maxLayer2Height = containerRect.height * 0.80;
-          const maxLayer2Width = containerRect.width * 0.85;
 
-          if (!wordOverflows && totalHeight <= maxLayer2Height && layer2MaxWidth <= maxLayer2Width) {
+          if (!wordOverflows && totalHeight <= maxLayer2Height) {
             optimal = mid;
             low = mid;
           } else {
@@ -691,7 +623,7 @@ function QuizViewport({
     <div
       ref={containerRef}
       onClick={advancePhase}
-      className={`relative select-none cursor-pointer border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col justify-between p-[1.5em] ${getPlayerThemeClasses(colorTheme)} ${getAspectClasses(ratio)} ${ambientAnimation === "lava-lamp" ? "ambient-lava" : ""}`}
+      className={`relative select-none cursor-pointer border border-white/10 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between p-[1.5em] ${getPlayerThemeClasses(colorTheme)} ${getAspectClasses(ratio)} ${ambientAnimation === "lava-lamp" ? "ambient-lava" : ""}`}
       style={{
         transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
       }}
@@ -795,7 +727,7 @@ function QuizViewport({
           transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
         }}
       >
-        <div className="flex-1 flex flex-col justify-center space-y-[0.8em] py-[0.5em] h-full overflow-hidden">
+        <div className="flex-1 flex flex-col justify-center space-y-[0.8em] py-[0.5em] h-full overflow-hidden w-full max-w-[88%] mx-auto">
           <div className="flex-1 flex flex-col justify-center space-y-[0.6em] overflow-hidden">
             {questionData.answers.map((ans, i) => {
               const isHighlighted = phase !== "edit" && phase >= 1 && phase <= 4 && (phase - 1) === i;
@@ -843,7 +775,7 @@ function QuizViewport({
                     pointerEvents,
                     transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                   }}
-                  className={`overflow-hidden rounded-[1em] relative ${isCorrectHighlighted ? "border-[0.25em] border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.15)]" : `border-[0.05em] ${borderClass}`}`}
+                  className={`overflow-hidden rounded-[1em] relative border-[0.05em] ${isCorrectHighlighted ? "border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.15)]" : borderClass}`}
                 >
                   {isCorrectHighlighted && (
                     <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
@@ -856,18 +788,18 @@ function QuizViewport({
                         width="100%"
                         height="100%"
                         fill="none"
-                        rx="0.8em"
-                        ry="0.8em"
+                        rx="0.85em"
+                        ry="0.85em"
                         stroke="url(#theme-reveal-grad)"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         pathLength="100"
                         style={{
-                          x: "0.125em",
-                          y: "0.125em",
-                          width: "calc(100% - 0.25em)",
-                          height: "calc(100% - 0.25em)",
-                          strokeWidth: "0.25em",
+                          x: "0.1em",
+                          y: "0.1em",
+                          width: "calc(100% - 0.2em)",
+                          height: "calc(100% - 0.2em)",
+                          strokeWidth: "0.2em",
                           strokeDasharray: "102",
                           strokeDashoffset: "102",
                           animation: `draw-border ${transitionTime}s linear forwards`,
@@ -877,12 +809,12 @@ function QuizViewport({
                   )}
 
                   <div
-                    className={`relative z-10 rounded-[0.95em] text-white font-bold text-left flex items-center gap-[0.8em] w-full h-full ${
+                    className={`relative z-10 rounded-[0.95em] text-white font-bold text-left flex items-center gap-[0.8em] w-full h-full p-[0.8em] ${
                       isCorrectHighlighted
-                        ? `p-[1.2em] bg-emerald-950/95 scale-[1.04] ${getAmbientClass(true)}`
-                        : `p-[0.8em] ${
+                        ? `bg-emerald-950/95 ${getAmbientClass(true)}`
+                        : `${
                           isHighlighted
-                            ? "bg-black/45 scale-[1.02] shadow-[0_0_1em_rgba(255,255,255,0.25)]"
+                            ? "bg-black/45 shadow-[0_0_1em_rgba(255,255,255,0.25)]"
                             : phase === 5
                             ? "bg-black/55 opacity-100"
                             : "bg-black/65 opacity-80"
@@ -1488,7 +1420,7 @@ ${q.explanation}`;
                   {aspectRatio === "Both" ? (
                     <>
                       {/* 9:16 Preview */}
-                      <div className="flex flex-col items-center">
+                      <div className="flex flex-col items-center w-full max-w-[420px]">
                         {!hidePanels && (
                           <span className="text-xs font-bold opacity-60 mb-2 uppercase tracking-widest">9:16 Viewport</span>
                         )}
@@ -1505,7 +1437,7 @@ ${q.explanation}`;
                       </div>
 
                       {/* 16:9 Preview */}
-                      <div className="flex flex-col items-center">
+                      <div className="flex flex-col items-center w-full max-w-[850px]">
                         {!hidePanels && (
                           <span className="text-xs font-bold opacity-60 mb-2 uppercase tracking-widest">16:9 Viewport</span>
                         )}

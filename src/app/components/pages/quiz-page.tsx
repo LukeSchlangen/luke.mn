@@ -928,21 +928,28 @@ function QuizViewport({
               const isVisibleInPhase6 = isCorrect;
 
               let opacity = 1;
-              let maxHeight = "30em";
+              let maxHeight = "8em";
               let marginBot = "0.6em";
               let pointerEvents: "auto" | "none" = "auto";
+              let transform = "translateY(0)";
+              let zIndex = 1;
 
               if (phase === 6) {
                 if (isVisibleInPhase6) {
                   opacity = 1;
-                  maxHeight = "30em";
+                  maxHeight = "8em";
                   marginBot = "0.6em";
                   pointerEvents = "auto";
+                  zIndex = 10;
                 } else {
                   opacity = 0;
                   maxHeight = "0px";
                   marginBot = "0px";
                   pointerEvents = "none";
+                  zIndex = 0;
+                  // Slide toward the correct answer: answers above slide down, answers below slide up
+                  const slotsAway = questionData.correctIndex - i;
+                  transform = `translateY(${slotsAway * 4.5}em)`;
                 }
               }
 
@@ -965,6 +972,8 @@ function QuizViewport({
                     maxHeight,
                     marginBottom: marginBot,
                     pointerEvents,
+                    transform,
+                    zIndex,
                     transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                   }}
                   className={`overflow-hidden rounded-[1em] relative border-[0.05em] shrink-0 ${isCorrectHighlighted ? "border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.15)]" : borderClass}`}
@@ -1034,7 +1043,7 @@ function QuizViewport({
             <div
               ref={explanationRef}
               style={{
-                maxHeight: phase === 6 ? "40em" : "0px",
+                maxHeight: phase === 6 ? "16em" : "0px",
                 opacity: phase === 6 ? 1 : 0,
                 marginTop: phase === 6 ? "0.6em" : "0px",
                 overflow: "hidden",

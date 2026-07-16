@@ -920,7 +920,7 @@ function QuizViewport({
         }}
       >
         <div className="flex-1 flex flex-col justify-center space-y-[0.8em] py-[0.5em] h-full overflow-hidden w-full max-w-[88%] mx-auto">
-          <div className="flex-1 flex flex-col justify-center space-y-[0.6em] overflow-hidden">
+          <div className="flex-1 flex flex-col justify-center overflow-hidden">
             {questionData.answers.map((ans, i) => {
               const isHighlighted = phase !== "edit" && phase >= 1 && phase <= 4 && (phase - 1) === i;
               const isCorrect = questionData.correctIndex === i;
@@ -929,7 +929,7 @@ function QuizViewport({
 
               let opacity = 1;
               let maxHeight = "30em";
-              let marginBot = "0px";
+              let marginBot = "0.6em";
               let pointerEvents: "auto" | "none" = "auto";
 
               if (phase === 6) {
@@ -967,7 +967,7 @@ function QuizViewport({
                     pointerEvents,
                     transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                   }}
-                  className={`overflow-hidden rounded-[1em] relative border-[0.05em] ${isCorrectHighlighted ? "border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.15)]" : borderClass}`}
+                  className={`overflow-hidden rounded-[1em] relative border-[0.05em] shrink-0 ${isCorrectHighlighted ? "border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.15)]" : borderClass}`}
                 >
                   {isCorrectHighlighted && (
                     <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">

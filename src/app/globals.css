@@ -5,3 +5,18 @@
     list-style-type: ">";
     padding-inline-start: 1ch;
 }
+
+@keyframes draw-border {
+  from {
+    stroke-dashoffset: 100;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-circling-border {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: draw-border var(--circle-duration, 1s) linear forwards;
+}

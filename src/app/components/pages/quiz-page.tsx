@@ -386,6 +386,45 @@ const getSpinningGradient = (colorTheme: "Google Cloud" | "Firebase" | "Flutter/
   }
 };
 
+const getThemeGradientStops = (colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go") => {
+  switch (colorTheme) {
+    case "Firebase":
+      return (
+        <>
+          <stop offset="0%" stopColor="#DD2C00" />
+          <stop offset="50%" stopColor="#FF6D00" />
+          <stop offset="100%" stopColor="#FFD600" />
+        </>
+      );
+    case "Flutter/Dart":
+      return (
+        <>
+          <stop offset="0%" stopColor="#02569B" />
+          <stop offset="50%" stopColor="#0175C2" />
+          <stop offset="100%" stopColor="#13B9FD" />
+        </>
+      );
+    case "Go":
+      return (
+        <>
+          <stop offset="0%" stopColor="#00ADD8" />
+          <stop offset="50%" stopColor="#5DC9E2" />
+          <stop offset="100%" stopColor="#0096b7" />
+        </>
+      );
+    case "Google Cloud":
+    default:
+      return (
+        <>
+          <stop offset="0%" stopColor="#4285F4" />
+          <stop offset="33%" stopColor="#34A853" />
+          <stop offset="66%" stopColor="#FBBC05" />
+          <stop offset="100%" stopColor="#EA4335" />
+        </>
+      );
+  }
+};
+
 interface QuizViewportProps {
   ratio: "9:16" | "16:9" | "1:1";
   phase: "edit" | 0 | 1 | 2 | 3 | 4 | 5 | 6;
@@ -631,7 +670,13 @@ function QuizViewport({
                     pointerEvents,
                     transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                   }}
-                  className={`overflow-hidden rounded-none ${showSpinningBorder ? "p-[0.2em] relative" : isCorrectHighlighted ? "border-[0.25em] border-emerald-400 shadow-[0_0_1.5em_rgba(52,211,153,0.6)]" : "border-[0.05em] border-white/10"}`}
+                  className={`overflow-hidden rounded-none relative ${
+                    showSpinningBorder
+                      ? "p-[0.2em]"
+                      : isCorrectHighlighted
+                      ? "border-[0.25em] border-transparent shadow-[0_0_1.5em_rgba(52,211,153,0.6)]"
+                      : "border-[0.05em] border-white/10"
+                  }`}
                 >
                   {showSpinningBorder && (
                     <div
@@ -641,6 +686,33 @@ function QuizViewport({
                         animationDuration: `${transitionTime * 2}s`,
                       }}
                     />
+                  )}
+
+                  {isCorrectHighlighted && (
+                    <svg
+                      className="absolute inset-0 w-full h-full pointer-events-none z-20"
+                      style={{
+                        "--circle-duration": `${transitionTime}s`,
+                      } as React.CSSProperties}
+                    >
+                      <defs>
+                        <linearGradient id={`circling-gradient-${i}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                          {getThemeGradientStops(colorTheme)}
+                        </linearGradient>
+                      </defs>
+                      <rect
+                        x="0"
+                        y="0"
+                        width="100%"
+                        height="100%"
+                        fill="none"
+                        stroke={`url(#circling-gradient-${i})`}
+                        strokeWidth="0.5em"
+                        style={{ strokeWidth: "0.5em" }}
+                        pathLength="100"
+                        className="animate-circling-border"
+                      />
+                    </svg>
                   )}
 
                   <div

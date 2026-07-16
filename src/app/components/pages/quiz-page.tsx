@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { DeploymentConfiguration, Theme } from "../../types";
 import colorValues from "../../utils/color-values";
 import Footer from "../footer";
@@ -346,6 +346,362 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
   }
 ];
 
+const getAspectClasses = (ratio: "9:16" | "16:9" | "1:1") => {
+  switch (ratio) {
+    case "16:9":
+      return "aspect-[16/9] w-full max-w-[850px] h-auto";
+    case "1:1":
+      return "aspect-[1/1] w-full max-w-[550px] h-auto";
+    case "9:16":
+    default:
+      return "aspect-[9/16] w-full max-w-[420px] h-auto max-h-[82vh]";
+  }
+};
+
+const getPlayerThemeClasses = (colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go") => {
+  switch (colorTheme) {
+    case "Firebase":
+      return "bg-gradient-to-br from-[#DD2C00] via-[#FF6D00] to-[#FFD600] text-white";
+    case "Flutter/Dart":
+      return "bg-gradient-to-br from-[#02569B] via-[#0175C2] to-[#13B9FD] text-white";
+    case "Go":
+      return "bg-gradient-to-br from-[#00ADD8] via-[#5DC9E2] to-[#0096b7] text-white";
+    case "Google Cloud":
+    default:
+      return "bg-[linear-gradient(135deg,#4285F4_0%,#34A853_33%,#FBBC05_66%,#EA4335_100%)] text-white";
+  }
+};
+
+const getSpinningGradient = (colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go") => {
+  switch (colorTheme) {
+    case "Firebase":
+      return "conic-gradient(from 0deg, #DD2C00, #FF6D00, #FFD600, #DD2C00)";
+    case "Flutter/Dart":
+      return "conic-gradient(from 0deg, #02569B, #0175C2, #13B9FD, #02569B)";
+    case "Go":
+      return "conic-gradient(from 0deg, #00ADD8, #5DC9E2, #0096b7, #00ADD8)";
+    case "Google Cloud":
+    default:
+      return "conic-gradient(from 0deg, #4285F4, #34A853, #FBBC05, #EA4335, #4285F4)";
+  }
+};
+
+interface QuizViewportProps {
+  ratio: "9:16" | "16:9" | "1:1";
+  phase: "edit" | 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  questionData: QuizQuestion;
+  colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go";
+  ambientAnimation: "none" | "pulse" | "float" | "glow";
+  transitionTime: number;
+  hidePanels: boolean;
+  advancePhase: () => void;
+}
+
+function QuizViewport({
+  ratio,
+  phase,
+  questionData,
+  colorTheme,
+  ambientAnimation,
+  transitionTime,
+  hidePanels,
+  advancePhase,
+}: QuizViewportProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const layer1Ref = useRef<HTMLDivElement>(null);
+  const layer2Ref = useRef<HTMLDivElement>(null);
+
+  const getAmbientClass = (isActiveElement: boolean) => {
+    if (ambientAnimation === "none" || !isActiveElement) return "";
+    switch (ambientAnimation) {
+      case "pulse":
+        return "ambient-pulse";
+      case "float":
+        return "ambient-float";
+      case "glow":
+        return "ambient-glow";
+      default:
+        return "";
+    }
+  };
+
+  useEffect(() => {
+    const adjustFontSize = () => {
+      const container = containerRef.current;
+      if (!container) return;
+
+      const containerRect = container.getBoundingClientRect();
+      const targetWidth = containerRect.width * 0.92;
+      const targetHeight = containerRect.height * 0.92;
+
+      // 1. Adjust Layer 1 (Question only)
+      if (layer1Ref.current) {
+        const el = layer1Ref.current;
+        let low = 8;
+        let high = 120;
+        let optimal = 16;
+
+        const originalHeight = el.style.height;
+        const originalMaxHeight = el.style.maxHeight;
+        const originalTransform = el.style.transform;
+        const originalOpacity = el.style.opacity;
+
+        el.style.height = "auto";
+        el.style.maxHeight = "none";
+        el.style.transform = "none";
+        el.style.opacity = "1";
+
+        for (let i = 0; i < 11; i++) {
+          const mid = (low + high) / 2;
+          el.style.fontSize = `${mid}px`;
+          const rect = el.getBoundingClientRect();
+          if (rect.height <= targetHeight && rect.width <= targetWidth) {
+            optimal = mid;
+            low = mid;
+          } else {
+            high = mid;
+          }
+        }
+
+        el.style.fontSize = `${optimal}px`;
+        el.style.height = originalHeight;
+        el.style.maxHeight = originalMaxHeight;
+        el.style.transform = originalTransform;
+        el.style.opacity = originalOpacity;
+      }
+
+      // 2. Adjust Layer 2 (Answers & Explanation)
+      if (layer2Ref.current) {
+        const el = layer2Ref.current;
+        let low = 8;
+        let high = 120;
+        let optimal = 16;
+
+        const originalHeight = el.style.height;
+        const originalMaxHeight = el.style.maxHeight;
+        const originalTransform = el.style.transform;
+        const originalOpacity = el.style.opacity;
+
+        el.style.height = "auto";
+        el.style.maxHeight = "none";
+        el.style.transform = "none";
+        el.style.opacity = "1";
+
+        for (let i = 0; i < 11; i++) {
+          const mid = (low + high) / 2;
+          el.style.fontSize = `${mid}px`;
+          const rect = el.getBoundingClientRect();
+          if (rect.height <= targetHeight && rect.width <= targetWidth) {
+            optimal = mid;
+            low = mid;
+          } else {
+            high = mid;
+          }
+        }
+
+        el.style.fontSize = `${optimal}px`;
+        el.style.height = originalHeight;
+        el.style.maxHeight = originalMaxHeight;
+        el.style.transform = originalTransform;
+        el.style.opacity = originalOpacity;
+      }
+    };
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new ResizeObserver(() => {
+      adjustFontSize();
+    });
+    observer.observe(container);
+
+    adjustFontSize();
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [phase, questionData, ratio, colorTheme, transitionTime, ambientAnimation]);
+
+  return (
+    <div
+      ref={containerRef}
+      onClick={advancePhase}
+      className={`relative select-none cursor-pointer border border-white/10 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between p-[1.5em] ${getPlayerThemeClasses(colorTheme)} ${getAspectClasses(ratio)}`}
+      style={{
+        transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+      }}
+    >
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes spin-gradient {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        @keyframes float-anim {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-5px); }
+        }
+        @keyframes pulse-anim {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.02); }
+        }
+        @keyframes glow-anim {
+          0%, 100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.2); border-color: rgba(255,255,255,0.4); }
+          50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); border-color: rgba(255,255,255,0.9); }
+        }
+        .animate-spin-gradient {
+          animation: spin-gradient var(--spin-duration, 2s) linear infinite;
+        }
+        .ambient-float {
+          animation: float-anim 3s ease-in-out infinite;
+        }
+        .ambient-pulse {
+          animation: pulse-anim 2s ease-in-out infinite;
+        }
+        .ambient-glow {
+          animation: glow-anim 2.5s ease-in-out infinite;
+        }
+      `}} />
+
+      {/* Layer 1: Question Only Layer (Phase 0) */}
+      <div
+        ref={layer1Ref}
+        className="absolute inset-0 flex flex-col justify-center items-center p-[1.5em]"
+        style={{
+          transform: phase === 0 ? "translateY(0)" : "translateY(-150%)",
+          opacity: phase === 0 ? 1 : 0,
+          pointerEvents: phase === 0 ? "auto" : "none",
+          transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+        }}
+      >
+        <div className={`w-full max-w-[90%] bg-black/75 backdrop-blur-md border-[0.1em] border-white/20 p-[2em] rounded-none shadow-2xl text-center ${getAmbientClass(phase === 0)}`}>
+          <h2 className="text-[1.8em] font-black text-center text-white drop-shadow-[0_0.1em_0.2em_rgba(0,0,0,0.85)] leading-snug break-words">
+            {questionData.question}
+          </h2>
+        </div>
+      </div>
+
+      {/* Layer 2: Answers & Explanation Layer (Phases 1 to 6) */}
+      <div
+        ref={layer2Ref}
+        className="absolute inset-0 flex flex-col justify-center p-[1.5em]"
+        style={{
+          transform: phase !== "edit" && phase >= 1 ? "translateY(0)" : "translateY(150%)",
+          opacity: phase !== "edit" && phase >= 1 ? 1 : 0,
+          pointerEvents: phase !== "edit" && phase >= 1 ? "auto" : "none",
+          transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+        }}
+      >
+        <div className="flex-1 flex flex-col justify-center space-y-[0.8em] py-[0.5em] h-full overflow-hidden">
+          <div className="flex-1 flex flex-col justify-center space-y-[0.6em] overflow-hidden">
+            {questionData.answers.map((ans, i) => {
+              const isHighlighted = phase !== "edit" && phase >= 1 && phase <= 4 && (phase - 1) === i;
+              const isCorrect = questionData.correctIndex === i;
+
+              const isVisibleInPhase6 = isCorrect;
+
+              let opacity = 1;
+              let maxHeight = "6em";
+              let marginBot = "0px";
+              let pointerEvents: "auto" | "none" = "auto";
+
+              if (phase === 6) {
+                if (isVisibleInPhase6) {
+                  opacity = 1;
+                  maxHeight = "6em";
+                  marginBot = "0.6em";
+                  pointerEvents = "auto";
+                } else {
+                  opacity = 0;
+                  maxHeight = "0px";
+                  marginBot = "0px";
+                  pointerEvents = "none";
+                }
+              }
+
+              const isCorrectHighlighted = phase === 6 && isCorrect;
+              const showSpinningBorder = isCorrectHighlighted && ambientAnimation !== "none";
+
+              return (
+                <div
+                  key={i}
+                  style={{
+                    opacity,
+                    maxHeight,
+                    marginBottom: marginBot,
+                    pointerEvents,
+                    transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                  }}
+                  className={`overflow-hidden rounded-none ${showSpinningBorder ? "p-[0.2em] relative" : isCorrectHighlighted ? "border-[0.25em] border-emerald-400 shadow-[0_0_1.5em_rgba(52,211,153,0.6)]" : "border-[0.05em] border-white/10"}`}
+                >
+                  {showSpinningBorder && (
+                    <div
+                      className="absolute inset-[-50%] animate-spin-gradient"
+                      style={{
+                        background: getSpinningGradient(colorTheme),
+                        animationDuration: `${transitionTime * 2}s`,
+                      }}
+                    />
+                  )}
+
+                  <div
+                    className={`relative z-10 rounded-none text-white font-bold text-left flex items-center gap-[0.8em] w-full h-full p-[0.8em] ${
+                      showSpinningBorder
+                        ? "bg-black/90 border-0"
+                        : isCorrectHighlighted
+                        ? `bg-emerald-950/95 scale-[1.04] ${getAmbientClass(true)}`
+                        : isHighlighted
+                        ? `bg-white/25 border-white/80 scale-[1.02] shadow-[0_0_1em_rgba(255,255,255,0.2)] ${getAmbientClass(true)}`
+                        : phase === 5
+                        ? "bg-white/10 border-white/20 opacity-100"
+                        : "bg-white/5 border-white/10 opacity-50"
+                    }`}
+                    style={{
+                      transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                    }}
+                  >
+                    <span className={`rounded-none border flex items-center justify-center transition-colors duration-300 w-[2em] h-[2em] text-[0.85em] font-black shrink-0 ${
+                      isCorrectHighlighted
+                        ? "bg-emerald-500 text-white border-emerald-400 font-black scale-110"
+                        : isHighlighted
+                        ? "bg-white text-black border-white"
+                        : "bg-white/10 border-white/20 text-white"
+                    }`}>
+                      {String.fromCharCode(65 + i)}
+                    </span>
+                    <span className="text-[1em] leading-snug break-words">
+                      {ans}
+                    </span>
+                  </div>
+                </div>
+              );
+            })}
+
+            <div
+              style={{
+                maxHeight: phase === 6 ? "12em" : "0px",
+                opacity: phase === 6 ? 1 : 0,
+                marginTop: phase === 6 ? "0.6em" : "0px",
+                overflow: "hidden",
+                transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+              }}
+            >
+              <div className="text-center text-white px-[0.8em] py-[0.6em] bg-black/35 border-[0.05em] border-white/10 rounded-none flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[10em]">
+                <span className="text-[0.6em] font-bold text-white/40 tracking-widest block mb-[0.2em] uppercase">
+                  Explanation
+                </span>
+                <p className="text-[0.85em] leading-relaxed font-medium drop-shadow-sm">
+                  {questionData.explanation}
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function QuizPageClient({
   theme,
   deploymentConfiguration,
@@ -687,275 +1043,6 @@ ${q.explanation}`;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
 
-  // Get Custom Styled Gradients & Appearance
-  const getPlayerThemeClasses = () => {
-    switch (colorTheme) {
-      case "Firebase":
-        return "bg-gradient-to-br from-[#DD2C00] via-[#FF6D00] to-[#FFD600] text-white";
-      case "Flutter/Dart":
-        return "bg-gradient-to-br from-[#02569B] via-[#0175C2] to-[#13B9FD] text-white";
-      case "Go":
-        return "bg-gradient-to-br from-[#00ADD8] via-[#5DC9E2] to-[#0096b7] text-white";
-      case "Google Cloud":
-      default:
-        // Beautiful Google Cloud Gradient utilizing its 4 signature colors (Blue, Green, Yellow, and Red)
-        return "bg-[linear-gradient(135deg,#4285F4_0%,#34A853_33%,#FBBC05_66%,#EA4335_100%)] text-white";
-    }
-  };
-
-  const getAspectClasses = (ratio: "9:16" | "16:9" | "1:1") => {
-    switch (ratio) {
-      case "16:9":
-        return "aspect-[16/9] w-full max-w-[850px] h-auto";
-      case "1:1":
-        return "aspect-[1/1] w-full max-w-[550px] h-auto";
-      case "9:16":
-      default:
-        return "aspect-[9/16] w-full max-w-[420px] h-auto max-h-[82vh]";
-    }
-  };
-
-  const getSpinningGradient = () => {
-    switch (colorTheme) {
-      case "Firebase":
-        return "conic-gradient(from 0deg, #DD2C00, #FF6D00, #FFD600, #DD2C00)";
-      case "Flutter/Dart":
-        return "conic-gradient(from 0deg, #02569B, #0175C2, #13B9FD, #02569B)";
-      case "Go":
-        return "conic-gradient(from 0deg, #00ADD8, #5DC9E2, #0096b7, #00ADD8)";
-      case "Google Cloud":
-      default:
-        return "conic-gradient(from 0deg, #4285F4, #34A853, #FBBC05, #EA4335, #4285F4)";
-    }
-  };
-
-  const renderViewport = (ratio: "9:16" | "16:9" | "1:1") => {
-    const isWidescreen = ratio === "16:9";
-
-    // Dynamic classes based on 16:9 or others
-    const questionTextClass = isWidescreen
-      ? "text-lg md:text-xl lg:text-2xl font-black text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.85)] leading-snug"
-      : "text-2xl md:text-3xl lg:text-4xl font-black text-center text-white drop-shadow-[0_3px_6px_rgba(0,0,0,0.85)] leading-snug";
-
-    const questionTextSmallClass = isWidescreen
-      ? "text-sm md:text-base lg:text-lg font-extrabold text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-normal line-clamp-3"
-      : "text-lg md:text-xl lg:text-2xl font-extrabold text-center text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] leading-normal line-clamp-4";
-
-    const answerPaddingClass = isWidescreen
-      ? "p-2 px-3 lg:p-2.5 lg:px-4"
-      : "p-4 lg:p-5";
-
-    const answerTextClass = isWidescreen
-      ? "text-xs md:text-sm leading-tight break-words"
-      : "text-sm md:text-base lg:text-lg leading-snug break-words";
-
-    const badgeSizeClass = isWidescreen
-      ? "w-7 h-7 text-xs font-black shrink-0"
-      : "w-9 h-9 text-sm lg:text-base font-black shrink-0";
-
-    const explanationTextClass = isWidescreen
-      ? "text-xs md:text-sm leading-normal font-medium drop-shadow-sm"
-      : "text-sm md:text-base lg:text-lg leading-relaxed font-medium drop-shadow-sm";
-
-    // Ambient class helper
-    const getAmbientClass = (isActiveElement: boolean) => {
-      if (ambientAnimation === "none" || !isActiveElement) return "";
-      switch (ambientAnimation) {
-        case "pulse":
-          return "ambient-pulse";
-        case "float":
-          return "ambient-float";
-        case "glow":
-          return "ambient-glow";
-        default:
-          return "";
-      }
-    };
-
-    return (
-      <div
-        onClick={advancePhase}
-        className={`relative select-none cursor-pointer border border-white/10 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between p-6 md:p-8 ${getPlayerThemeClasses()} ${getAspectClasses(ratio)}`}
-        style={{
-          transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-        }}
-      >
-        {/* Style block for local animations */}
-        <style dangerouslySetInnerHTML={{ __html: `
-          @keyframes spin-gradient {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-          @keyframes float-anim {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-          }
-          @keyframes pulse-anim {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.02); }
-          }
-          @keyframes glow-anim {
-            0%, 100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.2); border-color: rgba(255,255,255,0.4); }
-            50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); border-color: rgba(255,255,255,0.9); }
-          }
-          .animate-spin-gradient {
-            animation: spin-gradient var(--spin-duration, 2s) linear infinite;
-          }
-          .ambient-float {
-            animation: float-anim 3s ease-in-out infinite;
-          }
-          .ambient-pulse {
-            animation: pulse-anim 2s ease-in-out infinite;
-          }
-          .ambient-glow {
-            animation: glow-anim 2.5s ease-in-out infinite;
-          }
-        `}} />
-
-        {/* Layer 1: Question Only Layer (Phase 0) */}
-        <div
-          className="absolute inset-0 flex flex-col justify-center items-center p-6 md:p-8"
-          style={{
-            transform: phase === 0 ? "translateY(0)" : "translateY(-150%)",
-            opacity: phase === 0 ? 1 : 0,
-            pointerEvents: phase === 0 ? "auto" : "none",
-            transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-          }}
-        >
-          <div className={`w-full max-w-xl bg-black/75 backdrop-blur-md border-2 border-white/20 p-8 rounded-none shadow-2xl text-center ${getAmbientClass(phase === 0)}`}>
-            <h2 className={questionTextClass}>
-              {questionData.question}
-            </h2>
-          </div>
-        </div>
-
-        {/* Layer 2: Answers & Explanation Layer (Phases 1 to 6) */}
-        <div
-          className="absolute inset-0 flex flex-col justify-center p-6 md:p-8"
-          style={{
-            transform: phase !== "edit" && phase >= 1 ? "translateY(0)" : "translateY(150%)",
-            opacity: phase !== "edit" && phase >= 1 ? 1 : 0,
-            pointerEvents: phase !== "edit" && phase >= 1 ? "auto" : "none",
-            transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-          }}
-        >
-          <div className="flex-1 flex flex-col justify-center space-y-4 md:space-y-6 py-2 h-full overflow-hidden">
-
-            {/* Answers & Explanation Stack */}
-            <div className="flex-1 flex flex-col justify-center space-y-2 md:space-y-3 overflow-hidden">
-              {questionData.answers.map((ans, i) => {
-                const isHighlighted = phase !== "edit" && phase >= 1 && phase <= 4 && (phase - 1) === i;
-                const isCorrect = questionData.correctIndex === i;
-
-                // Determine layout visibility/sizing in Phase 6
-                const isVisibleInPhase6 = isCorrect;
-
-                let opacity = 1;
-                let maxHeight = "120px";
-                let marginBot = "0px";
-                let pointerEvents: "auto" | "none" = "auto";
-
-                if (phase === 6) {
-                  if (isVisibleInPhase6) {
-                    opacity = 1;
-                    maxHeight = "120px";
-                    marginBot = "12px";
-                    pointerEvents = "auto";
-                  } else {
-                    opacity = 0;
-                    maxHeight = "0px";
-                    marginBot = "0px";
-                    pointerEvents = "none";
-                  }
-                }
-
-                // Correct answer is highlighted in Phase 6
-                const isCorrectHighlighted = phase === 6 && isCorrect;
-                const showSpinningBorder = isCorrectHighlighted && ambientAnimation !== "none";
-
-                return (
-                  <div
-                    key={i}
-                    style={{
-                      opacity,
-                      maxHeight,
-                      marginBottom: marginBot,
-                      pointerEvents,
-                      transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-                    }}
-                    className={`overflow-hidden rounded-none ${showSpinningBorder ? "p-[4px] relative" : isCorrectHighlighted ? "border-[5px] border-emerald-400 shadow-[0_0_25px_rgba(52,211,153,0.6)] animate-fade-in" : "border border-white/10"}`}
-                  >
-                    {showSpinningBorder && (
-                      <div
-                        className="absolute inset-[-50%] animate-spin-gradient"
-                        style={{
-                          background: getSpinningGradient(),
-                          animationDuration: `${transitionTime * 2}s`,
-                        }}
-                      />
-                    )}
-
-                    <div
-                      className={`relative z-10 rounded-none text-white font-bold text-left flex items-center gap-4 w-full h-full ${answerPaddingClass} ${
-                        showSpinningBorder
-                          ? "bg-black/90 border-0"
-                          : isCorrectHighlighted
-                          ? `bg-emerald-950/95 scale-[1.04] ${getAmbientClass(true)}`
-                          : isHighlighted
-                          ? `bg-white/25 border-white/80 scale-[1.02] shadow-[0_0_15px_rgba(255,255,255,0.2)] ${getAmbientClass(true)}`
-                          : phase === 5
-                          ? "bg-white/10 border-white/20 opacity-100" // All shown uniformly during pause
-                          : "bg-white/5 border-white/10 opacity-50" // Dimmed during other's highlight
-                      }`}
-                      style={{
-                        transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-                      }}
-                    >
-                      <span className={`rounded-none border flex items-center justify-center transition-colors duration-300 ${badgeSizeClass} ${
-                        isCorrectHighlighted
-                          ? "bg-emerald-500 text-white border-emerald-400 font-black scale-110"
-                          : isHighlighted
-                          ? "bg-white text-black border-white"
-                          : "bg-white/10 border-white/20 text-white"
-                      }`}>
-                        {String.fromCharCode(65 + i)}
-                      </span>
-                      <span className={answerTextClass}>
-                        {ans}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-
-              {/* Explanation Container (Slides Up in Phase 6) */}
-              <div
-                style={{
-                  maxHeight: phase === 6 ? (isWidescreen ? "150px" : "320px") : "0px",
-                  opacity: phase === 6 ? 1 : 0,
-                  marginTop: phase === 6 ? "12px" : "0px",
-                  overflow: "hidden",
-                  transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-                }}
-              >
-                <div className="text-center text-white px-4 py-3 md:py-4 bg-black/35 border border-white/10 rounded-none flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[140px] md:max-h-[300px]">
-                  <span className="text-[10px] md:text-xs font-bold text-white/40 tracking-widest block mb-1 uppercase">
-                    Explanation
-                  </span>
-                  <p className={explanationTextClass}>
-                    {questionData.explanation}
-                  </p>
-                </div>
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   // Input styling based on theme
   const inputThemeClass = theme.color === "dark"
     ? "bg-gray-950 text-white border-gray-800 focus:ring-amber-500 placeholder-gray-500"
@@ -1172,7 +1259,16 @@ ${q.explanation}`;
                         {!hidePanels && (
                           <span className="text-xs font-bold opacity-60 mb-2 uppercase tracking-widest">9:16 Viewport</span>
                         )}
-                        {renderViewport("9:16")}
+                        <QuizViewport
+                          ratio="9:16"
+                          phase={phase}
+                          questionData={questionData}
+                          colorTheme={colorTheme}
+                          ambientAnimation={ambientAnimation}
+                          transitionTime={transitionTime}
+                          hidePanels={hidePanels}
+                          advancePhase={advancePhase}
+                        />
                       </div>
 
                       {/* 16:9 Preview */}
@@ -1180,11 +1276,29 @@ ${q.explanation}`;
                         {!hidePanels && (
                           <span className="text-xs font-bold opacity-60 mb-2 uppercase tracking-widest">16:9 Viewport</span>
                         )}
-                        {renderViewport("16:9")}
+                        <QuizViewport
+                          ratio="16:9"
+                          phase={phase}
+                          questionData={questionData}
+                          colorTheme={colorTheme}
+                          ambientAnimation={ambientAnimation}
+                          transitionTime={transitionTime}
+                          hidePanels={hidePanels}
+                          advancePhase={advancePhase}
+                        />
                       </div>
                     </>
                   ) : (
-                    renderViewport(aspectRatio as any)
+                    <QuizViewport
+                      ratio={aspectRatio as any}
+                      phase={phase}
+                      questionData={questionData}
+                      colorTheme={colorTheme}
+                      ambientAnimation={ambientAnimation}
+                      transitionTime={transitionTime}
+                      hidePanels={hidePanels}
+                      advancePhase={advancePhase}
+                    />
                   )}
                 </div>
 

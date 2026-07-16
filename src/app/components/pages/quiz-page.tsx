@@ -372,17 +372,42 @@ const getPlayerThemeClasses = (colorTheme: "Google Cloud" | "Firebase" | "Flutte
   }
 };
 
-const getSpinningGradient = (colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go") => {
+const getThemeGradientDefs = (colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go") => {
   switch (colorTheme) {
     case "Firebase":
-      return "conic-gradient(from 0deg, #DD2C00, #FF6D00, #FFD600, #DD2C00)";
+      return (
+        <linearGradient id="theme-reveal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#DD2C00" />
+          <stop offset="50%" stopColor="#FF6D00" />
+          <stop offset="100%" stopColor="#FFD600" />
+        </linearGradient>
+      );
     case "Flutter/Dart":
-      return "conic-gradient(from 0deg, #02569B, #0175C2, #13B9FD, #02569B)";
+      return (
+        <linearGradient id="theme-reveal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#02569B" />
+          <stop offset="50%" stopColor="#0175C2" />
+          <stop offset="100%" stopColor="#13B9FD" />
+        </linearGradient>
+      );
     case "Go":
-      return "conic-gradient(from 0deg, #00ADD8, #5DC9E2, #0096b7, #00ADD8)";
+      return (
+        <linearGradient id="theme-reveal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#00ADD8" />
+          <stop offset="50%" stopColor="#5DC9E2" />
+          <stop offset="100%" stopColor="#0096b7" />
+        </linearGradient>
+      );
     case "Google Cloud":
     default:
-      return "conic-gradient(from 0deg, #4285F4, #34A853, #FBBC05, #EA4335, #4285F4)";
+      return (
+        <linearGradient id="theme-reveal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#4285F4" />
+          <stop offset="33%" stopColor="#34A853" />
+          <stop offset="66%" stopColor="#FBBC05" />
+          <stop offset="100%" stopColor="#EA4335" />
+        </linearGradient>
+      );
   }
 };
 
@@ -548,6 +573,14 @@ function QuizViewport({
           0%, 100% { box-shadow: 0 0 5px rgba(255, 255, 255, 0.2); border-color: rgba(255,255,255,0.4); }
           50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.6); border-color: rgba(255,255,255,0.9); }
         }
+        @keyframes draw-border {
+          from {
+            stroke-dashoffset: 100;
+          }
+          to {
+            stroke-dashoffset: 0;
+          }
+        }
         .animate-spin-gradient {
           animation: spin-gradient var(--spin-duration, 2s) linear infinite;
         }
@@ -619,7 +652,6 @@ function QuizViewport({
               }
 
               const isCorrectHighlighted = phase === 6 && isCorrect;
-              const showSpinningBorder = isCorrectHighlighted && ambientAnimation !== "none";
 
               return (
                 <div
@@ -631,23 +663,38 @@ function QuizViewport({
                     pointerEvents,
                     transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                   }}
-                  className={`overflow-hidden rounded-none ${showSpinningBorder ? "p-[0.2em] relative" : isCorrectHighlighted ? "border-[0.25em] border-emerald-400 shadow-[0_0_1.5em_rgba(52,211,153,0.6)]" : "border-[0.05em] border-white/10"}`}
+                  className={`overflow-hidden rounded-none relative ${isCorrectHighlighted ? "border-[0.25em] border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.1)]" : "border-[0.05em] border-white/10"}`}
                 >
-                  {showSpinningBorder && (
-                    <div
-                      className="absolute inset-[-50%] animate-spin-gradient"
-                      style={{
-                        background: getSpinningGradient(colorTheme),
-                        animationDuration: `${transitionTime * 2}s`,
-                      }}
-                    />
+                  {isCorrectHighlighted && (
+                    <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
+                      <defs>
+                        {getThemeGradientDefs(colorTheme)}
+                      </defs>
+                      <rect
+                        x="0"
+                        y="0"
+                        width="100%"
+                        height="100%"
+                        fill="none"
+                        stroke="url(#theme-reveal-grad)"
+                        pathLength="100"
+                        style={{
+                          x: "0.125em",
+                          y: "0.125em",
+                          width: "calc(100% - 0.25em)",
+                          height: "calc(100% - 0.25em)",
+                          strokeWidth: "0.25em",
+                          strokeDasharray: "100",
+                          strokeDashoffset: "100",
+                          animation: `draw-border ${transitionTime}s linear forwards`,
+                        }}
+                      />
+                    </svg>
                   )}
 
                   <div
                     className={`relative z-10 rounded-none text-white font-bold text-left flex items-center gap-[0.8em] w-full h-full p-[0.8em] ${
-                      showSpinningBorder
-                        ? "bg-black/90 border-0"
-                        : isCorrectHighlighted
+                      isCorrectHighlighted
                         ? `bg-emerald-950/95 scale-[1.04] ${getAmbientClass(true)}`
                         : isHighlighted
                         ? `bg-white/25 border-white/80 scale-[1.02] shadow-[0_0_1em_rgba(255,255,255,0.2)] ${getAmbientClass(true)}`

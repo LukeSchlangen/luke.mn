@@ -775,8 +775,9 @@ function QuizViewport({
                 overflow: "hidden",
                 transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
               }}
+              className="no-scrollbar"
             >
-              <div className="text-center text-white px-[0.8em] py-[0.6em] bg-black/55 border-[0.05em] border-white/10 rounded-none flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[10em]">
+              <div className="text-center text-white px-[0.8em] py-[0.6em] bg-black/55 border-[0.05em] border-white/10 rounded-none flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[10em] no-scrollbar">
                 <span className="text-[0.6em] font-bold text-white/40 tracking-widest block mb-[0.2em] uppercase">
                   Explanation
                 </span>

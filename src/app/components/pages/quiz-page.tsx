@@ -653,6 +653,15 @@ function QuizViewport({
 
               const isCorrectHighlighted = phase === 6 && isCorrect;
 
+              let borderClass = "border-white/10";
+              if (isHighlighted) {
+                borderClass = "border-white/80";
+              } else if (phase === 5) {
+                borderClass = "border-white/25";
+              } else if (phase !== "edit" && phase >= 1) {
+                borderClass = "border-white/15";
+              }
+
               return (
                 <div
                   key={i}
@@ -663,7 +672,7 @@ function QuizViewport({
                     pointerEvents,
                     transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                   }}
-                  className={`overflow-hidden rounded-none relative ${isCorrectHighlighted ? "border-[0.25em] border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.1)]" : "border-[0.05em] border-white/10"}`}
+                  className={`overflow-hidden rounded-none relative ${isCorrectHighlighted ? "border-[0.25em] border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.1)]" : `border-[0.05em] ${borderClass}`}`}
                 >
                   {isCorrectHighlighted && (
                     <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
@@ -700,10 +709,10 @@ function QuizViewport({
                         ? `p-[1.2em] bg-emerald-950/95 scale-[1.04] ${getAmbientClass(true)}`
                         : `p-[0.8em] ${
                           isHighlighted
-                            ? "bg-white/25 border-white/80 scale-[1.02] shadow-[0_0_1em_rgba(255,255,255,0.2)]"
+                            ? "bg-black/45 scale-[1.02] shadow-[0_0_1em_rgba(255,255,255,0.25)]"
                             : phase === 5
-                            ? "bg-white/10 border-white/20 opacity-100"
-                            : "bg-white/5 border-white/10 opacity-50"
+                            ? "bg-black/55 opacity-100"
+                            : "bg-black/65 opacity-80"
                         } ${getAmbientClass(isHighlighted)}`
                     }`}
                     style={{
@@ -736,7 +745,7 @@ function QuizViewport({
                 transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
               }}
             >
-              <div className="text-center text-white px-[0.8em] py-[0.6em] bg-black/35 border-[0.05em] border-white/10 rounded-none flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[10em]">
+              <div className="text-center text-white px-[0.8em] py-[0.6em] bg-black/55 border-[0.05em] border-white/10 rounded-none flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[10em]">
                 <span className="text-[0.6em] font-bold text-white/40 tracking-widest block mb-[0.2em] uppercase">
                   Explanation
                 </span>

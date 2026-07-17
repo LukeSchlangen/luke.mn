@@ -466,7 +466,7 @@ interface QuizViewportProps {
   phase: "edit" | 0 | 1 | 2 | 3 | 4 | 5 | 6;
   questionData: QuizQuestion;
   colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go";
-  ambientAnimation: "none" | "shimmer" | "aurora" | "mesh-liquid" | "radial-flow" | "cosmic-glow";
+  ambientAnimation: "none" | "shimmer" | "aurora" | "mesh-liquid" | "radial-flow" | "cosmic-glow" | "fireflies" | "warp-speed" | "laser-beams" | "color-vortex" | "matrix-rain";
   animationSpeed: number;
   transitionTime: number;
   hidePanels: boolean;
@@ -780,69 +780,119 @@ function QuizViewport({
 
         /* Shimmer Animation CSS */
         @keyframes shimmer-move {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
+          0% { background-position: 0% 0%; }
+          50% { background-position: 100% 100%; }
+          100% { background-position: 0% 0%; }
         }
 
         /* Aurora Animation CSS */
         @keyframes aurora-wave-1 {
-          0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.35; }
-          50% { transform: translateY(-12%) scale(1.1) rotate(4deg); opacity: 0.6; }
-          100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.35; }
-        }
-        @keyframes aurora-wave-2 {
           0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.4; }
-          50% { transform: translateY(14%) scale(1.15) rotate(-5deg); opacity: 0.7; }
+          50% { transform: translateY(-18%) scale(1.25) rotate(12deg); opacity: 0.85; }
           100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.4; }
         }
+        @keyframes aurora-wave-2 {
+          0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.45; }
+          50% { transform: translateY(22%) scale(1.35) rotate(-15deg); opacity: 0.95; }
+          100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 0.45; }
+        }
         @keyframes aurora-wave-3 {
-          0% { transform: translateY(0) scale(1.05) rotate(0deg); opacity: 0.3; }
-          50% { transform: translateY(-10%) scale(0.95) rotate(3deg); opacity: 0.55; }
-          100% { transform: translateY(0) scale(1.05) rotate(0deg); opacity: 0.3; }
+          0% { transform: translateY(0) scale(1.1) rotate(0deg); opacity: 0.35; }
+          50% { transform: translateY(-16%) scale(0.9) rotate(14deg); opacity: 0.75; }
+          100% { transform: translateY(0) scale(1.1) rotate(0deg); opacity: 0.35; }
         }
 
         /* Mesh Liquid Blobs CSS */
         @keyframes blob-bounce-1 {
           0% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
-          33% { transform: translate(30px, -45px) scale(1.25) rotate(45deg); }
-          66% { transform: translate(-25px, 25px) scale(0.75) rotate(-45deg); }
+          33% { transform: translate(120px, -150px) scale(1.4) rotate(60deg); }
+          66% { transform: translate(-80px, 90px) scale(0.6) rotate(-60deg); }
           100% { transform: translate(0px, 0px) scale(1) rotate(0deg); }
         }
         @keyframes blob-bounce-2 {
-          0% { transform: translate(0px, 0px) scale(1.15) rotate(0deg); }
-          33% { transform: translate(-45px, 35px) scale(0.85) rotate(-30deg); }
-          66% { transform: translate(30px, -25px) scale(1.25) rotate(60deg); }
-          100% { transform: translate(0px, 0px) scale(1.15) rotate(0deg); }
+          0% { transform: translate(0px, 0px) scale(1.2) rotate(0deg); }
+          33% { transform: translate(-140px, 110px) scale(0.7) rotate(-45deg); }
+          66% { transform: translate(110px, -80px) scale(1.5) rotate(90deg); }
+          100% { transform: translate(0px, 0px) scale(1.2) rotate(0deg); }
         }
         @keyframes blob-bounce-3 {
           0% { transform: translate(0px, 0px) scale(0.9) rotate(0deg); }
-          50% { transform: translate(40px, 40px) scale(1.2) rotate(90deg); }
+          50% { transform: translate(130px, 130px) scale(1.3) rotate(120deg); }
           100% { transform: translate(0px, 0px) scale(0.9) rotate(0deg); }
         }
 
         /* Radial Flow CSS */
         @keyframes radial-pulse-1 {
-          0% { transform: scale(1) translate(0%, 0%); opacity: 0.35; }
-          50% { transform: scale(1.35) translate(6%, -6%); opacity: 0.65; }
-          100% { transform: scale(1) translate(0%, 0%); opacity: 0.35; }
+          0% { transform: scale(0.8) translate(0%, 0%); opacity: 0.4; }
+          50% { transform: scale(1.55) translate(12%, -10%); opacity: 0.85; }
+          100% { transform: scale(0.8) translate(0%, 0%); opacity: 0.4; }
         }
         @keyframes radial-pulse-2 {
-          0% { transform: scale(1.15) translate(0%, 0%); opacity: 0.4; }
-          50% { transform: scale(0.85) translate(-7%, 7%); opacity: 0.7; }
-          100% { transform: scale(1.15) translate(0%, 0%); opacity: 0.4; }
+          0% { transform: scale(1.25) translate(0%, 0%); opacity: 0.45; }
+          50% { transform: scale(0.7) translate(-15%, 12%); opacity: 0.95; }
+          100% { transform: scale(1.25) translate(0%, 0%); opacity: 0.45; }
         }
 
         /* Cosmic Glow CSS */
         @keyframes cosmic-spin {
           0% { transform: rotate(0deg) scale(1); }
-          50% { transform: rotate(180deg) scale(1.15); }
+          50% { transform: rotate(180deg) scale(1.3); }
           100% { transform: rotate(360deg) scale(1); }
         }
         @keyframes star-twinkle {
-          0%, 100% { opacity: 0.25; transform: scale(0.85); }
-          50% { opacity: 1; transform: scale(1.25); }
+          0%, 100% { opacity: 0.3; transform: scale(0.65); }
+          50% { opacity: 1; transform: scale(1.65); }
         }
+
+        /* Fireflies Animation CSS */
+        @keyframes firefly-drift {
+          0% { transform: translateY(110%) translateX(var(--start-x, 0px)); opacity: 0; }
+          15% { opacity: 0.95; }
+          85% { opacity: 0.95; }
+          100% { transform: translateY(-10%) translateX(calc(var(--start-x, 0px) + var(--drift-x, 40px))); opacity: 0; }
+        }
+
+        /* Warp Speed CSS */
+        @keyframes warp-travel {
+          0% { transform: translate(-50%, -50%) scale(0.05) rotate(var(--angle, 0deg)); opacity: 0; }
+          15% { opacity: 1; }
+          100% { transform: translate(-50%, -50%) scale(2.8) translate(0px, 200px) rotate(var(--angle, 0deg)); opacity: 0; }
+        }
+
+        /* Laser Beams CSS */
+        @keyframes laser-sweep-1 {
+          0% { transform: translate(-100%, -100%) rotate(-45deg); opacity: 0; }
+          15% { opacity: 0.95; }
+          85% { opacity: 0.95; }
+          100% { transform: translate(200%, 200%) rotate(-45deg); opacity: 0; }
+        }
+        @keyframes laser-sweep-2 {
+          0% { transform: translate(200%, -100%) rotate(45deg); opacity: 0; }
+          15% { opacity: 0.95; }
+          85% { opacity: 0.95; }
+          100% { transform: translate(-100%, 200%) rotate(45deg); opacity: 0; }
+        }
+
+        /* Color Vortex CSS */
+        @keyframes vortex-spin-primary {
+          0% { transform: rotate(0deg) scale(0.9); }
+          50% { transform: rotate(180deg) scale(1.4); }
+          100% { transform: rotate(360deg) scale(0.9); }
+        }
+        @keyframes vortex-spin-secondary {
+          0% { transform: rotate(360deg) scale(1.25); }
+          50% { transform: rotate(180deg) scale(0.75); }
+          100% { transform: rotate(0deg) scale(1.25); }
+        }
+
+        /* Matrix Rain CSS */
+        @keyframes matrix-fall {
+          0% { transform: translateY(-110%); opacity: 0; }
+          10% { opacity: 0.85; }
+          90% { opacity: 0.85; }
+          100% { transform: translateY(110%); opacity: 0; }
+        }
+
         .animate-spin-gradient {
           animation: spin-gradient var(--spin-duration, 2s) linear infinite;
         }
@@ -862,7 +912,7 @@ function QuizViewport({
 
       {/* Aurora (Dancing Lights) background */}
       {ambientAnimation === "aurora" && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-[#020208]">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent">
           <div className="absolute inset-[-20%] opacity-80 mix-blend-screen filter blur-[50px]">
             {/* Wave 1 */}
             <div
@@ -894,7 +944,7 @@ function QuizViewport({
 
       {/* Mesh Liquid (Floating Blobs) background */}
       {ambientAnimation === "mesh-liquid" && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-[#050510]">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent">
           <div className="absolute inset-[-30%] opacity-85 filter blur-[65px]">
             {/* Blob 1 */}
             <div
@@ -938,7 +988,7 @@ function QuizViewport({
 
       {/* Radial Flow (Concentric Waves) background */}
       {ambientAnimation === "radial-flow" && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-[#02040b]">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent">
           <div className="absolute inset-[-10%] opacity-85 filter blur-[45px]">
             {/* Radial Center 1 */}
             <div
@@ -962,7 +1012,7 @@ function QuizViewport({
 
       {/* Cosmic Glow (Nebula / Deep Space) background */}
       {ambientAnimation === "cosmic-glow" && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-[#010103]">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent">
           {/* Shifting space nebula core */}
           <div
             className="absolute w-[180%] h-[180%] top-[-40%] left-[-40%] opacity-65 filter blur-[70px]"
@@ -994,6 +1044,152 @@ function QuizViewport({
                   animationDelay: `${delay}s`,
                 }}
               />
+            );
+          })}
+        </div>
+      )}
+
+      {/* Fireflies background */}
+      {ambientAnimation === "fireflies" && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent">
+          {Array.from({ length: 18 }).map((_, i) => {
+            const size = 3 + (i % 4) * 2; // size between 3px and 11px
+            const startX = (i * 7) % 95; // randomized start percentages
+            const driftX = -60 + ((i * 19) % 120); // drift X offset
+            const delay = (i * 0.43) % 4; // delays
+            const duration = 2.5 + (i % 3) * 1.2; // base duration between 2.5s and 4.9s
+            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            return (
+              <div
+                key={i}
+                className="absolute rounded-full"
+                style={{
+                  left: `${startX}%`,
+                  width: `${size}px`,
+                  height: `${size}px`,
+                  background: color,
+                  boxShadow: `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}`,
+                  ['--start-x' as any]: `${startX}px`,
+                  ['--drift-x' as any]: `${driftX}px`,
+                  animation: `firefly-drift calc(var(--anim-duration) * ${duration / 3}) ease-in-out infinite`,
+                  animationDelay: `${delay}s`,
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
+
+      {/* Warp Speed (Hyperdrive) background */}
+      {ambientAnimation === "warp-speed" && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent">
+          {Array.from({ length: 24 }).map((_, i) => {
+            const angle = (i * 15) % 360; // distributed angles
+            const width = 1.5 + (i % 3) * 0.8; // line widths
+            const height = 40 + (i % 4) * 25; // line lengths
+            const delay = (i * 0.23) % 2.5; // delays
+            const duration = 1.2 + (i % 3) * 0.6; // duration between 1.2s and 2.4s
+            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            return (
+              <div
+                key={i}
+                className="absolute top-1/2 left-1/2 origin-[0%_0%]"
+                style={{
+                  width: `${width}px`,
+                  height: `${height}px`,
+                  background: `linear-gradient(to top, ${color}, transparent)`,
+                  boxShadow: `0 0 ${width * 3}px ${color}`,
+                  ['--angle' as any]: `${angle}deg`,
+                  animation: `warp-travel calc(var(--anim-duration) * ${duration / 3}) cubic-bezier(0.1, 0.8, 0.1, 1) infinite`,
+                  animationDelay: `${delay}s`,
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
+
+      {/* Laser Beams background */}
+      {ambientAnimation === "laser-beams" && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent">
+          {Array.from({ length: 6 }).map((_, i) => {
+            const isType1 = i % 2 === 0;
+            const delay = i * 1.1;
+            const duration = 2.8 + (i % 3) * 0.9;
+            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            return (
+              <div
+                key={i}
+                className="absolute w-[200%] h-[4px]"
+                style={{
+                  background: `linear-gradient(90deg, transparent, ${color}, ${color}, transparent)`,
+                  boxShadow: `0 0 15px ${color}, 0 0 30px ${color}`,
+                  top: isType1 ? '0%' : '50%',
+                  left: isType1 ? '0%' : '-50%',
+                  animation: `${isType1 ? 'laser-sweep-1' : 'laser-sweep-2'} calc(var(--anim-duration) * ${duration / 3}) linear infinite`,
+                  animationDelay: `${delay}s`,
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
+
+      {/* Color Vortex background */}
+      {ambientAnimation === "color-vortex" && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent">
+          <div className="absolute inset-[-40%] opacity-80 mix-blend-screen filter blur-[35px] flex items-center justify-center">
+            {/* Ring 1 - Clockwise */}
+            <div
+              className="absolute w-[120%] h-[120%] rounded-full opacity-90"
+              style={{
+                background: `conic-gradient(from 0deg, ${themeColors.primary}, ${themeColors.secondary}, ${themeColors.accent}, ${themeColors.extra || themeColors.primary}, ${themeColors.primary})`,
+                animation: `vortex-spin-primary calc(var(--anim-duration) * 2.5) linear infinite`,
+              }}
+            />
+            {/* Ring 2 - Counterclockwise */}
+            <div
+              className="absolute w-[100%] h-[100%] rounded-full opacity-80"
+              style={{
+                background: `conic-gradient(from 180deg, ${themeColors.extra || themeColors.primary}, ${themeColors.accent}, ${themeColors.secondary}, ${themeColors.primary}, ${themeColors.extra || themeColors.primary})`,
+                animation: `vortex-spin-secondary calc(var(--anim-duration) * 1.8) linear infinite`,
+              }}
+            />
+            {/* Center glow overlay */}
+            <div
+              className="absolute w-[50%] h-[50%] rounded-full filter blur-[20px]"
+              style={{
+                background: `radial-gradient(circle, #ffffff 0%, rgba(${themeColors.glowRgb}, 0.8) 50%, transparent 100%)`,
+              }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Matrix Rain background */}
+      {ambientAnimation === "matrix-rain" && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent flex justify-between px-2">
+          {Array.from({ length: 14 }).map((_, i) => {
+            const delay = (i * 0.35) % 3.0;
+            const duration = 1.8 + (i % 4) * 0.7; // fall time
+            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            const size = 9 + (i % 3) * 3; // font size 9px - 15px
+            const characters = ["0", "1", "X", "Y", "A", "B", "C", "D", "G", "C", "P", "<", ">", "/", "+", "="];
+            const textStream = Array.from({ length: 15 }).map(() => characters[(i + Math.floor(Math.random() * 16)) % characters.length]).join("\n");
+            return (
+              <div
+                key={i}
+                className="font-mono font-black text-center select-none leading-none opacity-0 whitespace-pre"
+                style={{
+                  fontSize: `${size}px`,
+                  color: color,
+                  textShadow: `0 0 4px ${color}, 0 0 10px ${color}`,
+                  animation: `matrix-fall calc(var(--anim-duration) * ${duration / 3}) linear infinite`,
+                  animationDelay: `${delay}s`,
+                }}
+              >
+                {textStream}
+              </div>
             );
           })}
         </div>
@@ -1211,7 +1407,7 @@ Infrastructure as a Service (IaaS) provides virtualized computing resources, giv
   // Style customization state
   const [aspectRatio, setAspectRatio] = useState<"9:16" | "16:9" | "1:1" | "Both">("9:16");
   const [colorTheme, setColorTheme] = useState<"Google Cloud" | "Firebase" | "Flutter/Dart" | "Go">("Google Cloud");
-  const [ambientAnimation, setAmbientAnimation] = useState<"none" | "shimmer" | "aurora" | "mesh-liquid" | "radial-flow" | "cosmic-glow">("none");
+  const [ambientAnimation, setAmbientAnimation] = useState<"none" | "shimmer" | "aurora" | "mesh-liquid" | "radial-flow" | "cosmic-glow" | "fireflies" | "warp-speed" | "laser-beams" | "color-vortex" | "matrix-rain">("none");
   const [animationSpeed, setAnimationSpeed] = useState<number>(1.0);
   const [transitionTime, setTransitionTime] = useState<number>(1.0);
   const [hidePanels, setHidePanels] = useState<boolean>(false);
@@ -1852,7 +2048,19 @@ ${q.explanation}`;
                       Background Animation
                     </label>
                     <div className="grid grid-cols-3 gap-1.5">
-                      {(["none", "shimmer", "aurora", "mesh-liquid", "radial-flow", "cosmic-glow"] as const).map((anim) => (
+                      {([
+                        "none",
+                        "shimmer",
+                        "aurora",
+                        "mesh-liquid",
+                        "radial-flow",
+                        "cosmic-glow",
+                        "fireflies",
+                        "warp-speed",
+                        "laser-beams",
+                        "color-vortex",
+                        "matrix-rain"
+                      ] as const).map((anim) => (
                         <button
                           key={anim}
                           onClick={() => setAmbientAnimation(anim)}
@@ -1867,7 +2075,12 @@ ${q.explanation}`;
                            anim === "aurora" ? "Aurora" :
                            anim === "mesh-liquid" ? "Liquid" :
                            anim === "radial-flow" ? "Radial" :
-                           anim === "cosmic-glow" ? "Cosmic" : anim}
+                           anim === "cosmic-glow" ? "Cosmic" :
+                           anim === "fireflies" ? "Fireflies" :
+                           anim === "warp-speed" ? "Warp" :
+                           anim === "laser-beams" ? "Laser" :
+                           anim === "color-vortex" ? "Vortex" :
+                           anim === "matrix-rain" ? "Matrix" : anim}
                         </button>
                       ))}
                     </div>
@@ -1883,7 +2096,7 @@ ${q.explanation}`;
                       <input
                         type="range"
                         min="0.1"
-                        max="3.0"
+                        max="10.0"
                         step="0.1"
                         value={animationSpeed}
                         onChange={(e) => setAnimationSpeed(parseFloat(e.target.value))}

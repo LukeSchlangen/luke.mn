@@ -466,7 +466,7 @@ interface QuizViewportProps {
   phase: "edit" | 0 | 1 | 2 | 3 | 4 | 5 | 6;
   questionData: QuizQuestion;
   colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go";
-  ambientAnimation: "none" | "shimmer" | "aurora" | "mesh-liquid" | "radial-flow" | "cosmic-glow" | "fireflies" | "warp-speed" | "laser-beams" | "color-vortex" | "matrix-rain";
+  ambientAnimation: "none" | "shimmer" | "aurora" | "mesh-liquid" | "radial-flow" | "cosmic-glow" | "fireflies" | "warp-speed" | "laser-beams" | "color-vortex" | "matrix-rain" | "spinning-logos" | "lava-lamp" | "random-shapes" | "psychedelic-swirl";
   animationSpeed: number;
   transitionTime: number;
   hidePanels: boolean;
@@ -893,6 +893,93 @@ function QuizViewport({
           100% { transform: translateY(110%); opacity: 0; }
         }
 
+        /* Spinning Logos CSS */
+        @keyframes logo-float-1 {
+          0% { transform: translate(0px, 0px) rotate(0deg) scale(0.8); }
+          33% { transform: translate(100px, -120px) rotate(120deg) scale(1.1); }
+          66% { transform: translate(-50px, -240px) rotate(240deg) scale(0.7); }
+          100% { transform: translate(0px, 0px) rotate(360deg) scale(0.8); }
+        }
+        @keyframes logo-float-2 {
+          0% { transform: translate(0px, 0px) rotate(0deg) scale(1.1); }
+          50% { transform: translate(-120px, -180px) rotate(-180deg) scale(0.7); }
+          100% { transform: translate(0px, 0px) rotate(-360deg) scale(1.1); }
+        }
+        @keyframes logo-float-3 {
+          0% { transform: translate(0px, 0px) rotate(0deg) scale(0.9); }
+          33% { transform: translate(-80px, 150px) rotate(180deg) scale(1.2); }
+          66% { transform: translate(90px, -80px) rotate(90deg) scale(0.6); }
+          100% { transform: translate(0px, 0px) rotate(360deg) scale(0.9); }
+        }
+        @keyframes logo-float-4 {
+          0% { transform: translate(0px, 0px) rotate(360deg) scale(0.7); }
+          50% { transform: translate(110px, 140px) rotate(180deg) scale(1.1); }
+          100% { transform: translate(0px, 0px) rotate(0deg) scale(0.7); }
+        }
+
+        /* Lava Lamp Bubbles CSS */
+        @keyframes lava-goo-1 {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-320px) scale(1.3); }
+        }
+        @keyframes lava-goo-2 {
+          0%, 100% { transform: translateY(0) scale(1.2); }
+          50% { transform: translateY(-180px) scale(0.8); }
+        }
+        @keyframes lava-goo-3 {
+          0%, 100% { transform: translateY(0) scale(0.9); }
+          50% { transform: translateY(-260px) scale(1.4); }
+        }
+        @keyframes lava-goo-4 {
+          0%, 100% { transform: translateY(0) scale(1.1); }
+          50% { transform: translateY(-120px) scale(0.7); }
+        }
+        @keyframes lava-goo-5 {
+          0%, 100% { transform: translateY(0) scale(0.8); }
+          50% { transform: translateY(-220px) scale(1.2); }
+        }
+
+        /* Random Shapes CSS */
+        @keyframes shape-drift-1 {
+          0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+          33% { transform: translate(120px, -100px) rotate(120deg) scale(1.4); }
+          66% { transform: translate(-80px, -200px) rotate(240deg) scale(0.8); }
+          100% { transform: translate(0, 0) rotate(360deg) scale(1); }
+        }
+        @keyframes shape-drift-2 {
+          0% { transform: translate(0, 0) rotate(360deg) scale(0.9); }
+          50% { transform: translate(-140px, -150px) rotate(180deg) scale(1.3); }
+          100% { transform: translate(0, 0) rotate(0deg) scale(0.9); }
+        }
+        @keyframes shape-drift-3 {
+          0% { transform: translate(0, 0) rotate(0deg) scale(1.2); }
+          33% { transform: translate(-90px, 120px) rotate(-120deg) scale(0.7); }
+          66% { transform: translate(100px, -80px) rotate(-240deg) scale(1.5); }
+          100% { transform: translate(0, 0) rotate(-360deg) scale(1.2); }
+        }
+        @keyframes shape-drift-4 {
+          0% { transform: translate(0, 0) rotate(180deg) scale(0.8); }
+          50% { transform: translate(130px, 160px) rotate(360deg) scale(1.2); }
+          100% { transform: translate(0, 0) rotate(180deg) scale(0.8); }
+        }
+
+        /* Psychedelic Swirl CSS */
+        @keyframes psych-spin {
+          0% { transform: rotate(0deg) scale(0.9); filter: hue-rotate(0deg); }
+          50% { transform: rotate(180deg) scale(1.5); filter: hue-rotate(180deg); }
+          100% { transform: rotate(360deg) scale(0.9); filter: hue-rotate(360deg); }
+        }
+        @keyframes psych-pulse {
+          0%, 100% { transform: scale(1); opacity: 0.5; }
+          50% { transform: scale(1.4); opacity: 0.9; }
+        }
+        @keyframes psych-warp {
+          0% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+          34% { border-radius: 70% 30% 50% 50% / 30% 60% 40% 70%; }
+          67% { border-radius: 50% 60% 30% 70% / 60% 40% 70% 30%; }
+          100% { border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; }
+        }
+
         .animate-spin-gradient {
           animation: spin-gradient var(--spin-duration, 2s) linear infinite;
         }
@@ -1195,6 +1282,231 @@ function QuizViewport({
         </div>
       )}
 
+      {/* Spinning Logos background */}
+      {ambientAnimation === "spinning-logos" && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent">
+          {Array.from({ length: 4 }).map((_, i) => {
+            const delay = i * 0.95;
+            const size = 50 + (i % 3) * 20; // 50px to 90px
+            const floatAnim = `logo-float-${i + 1}`;
+            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+
+            // Render theme-based distinct SVG elements
+            const getThemeLogoSVG = () => {
+              if (colorTheme === "Firebase") {
+                return (
+                  <svg className="w-full h-full" viewBox="0 0 32 32" fill="none">
+                    <path d="M5.6 23.4l8.3-15.3c.4-.7 1.4-.7 1.8 0l2.3 4.3 2.1-4c.4-.7 1.4-.7 1.8 0l5.5 15c.4.9-.3 1.9-1.2 1.8l-15.2-1.2-4.5-1c-.8-.1-1.3-.8-.9-1.6z" fill={color} />
+                    <path d="M14.6 3.7c-.4-.7-1.4-.7-1.8 0L3.3 21.2c-.4.8.1 1.7.9 1.6l10.4-1c.4 0 .7-.3.7-.7V3.7z" fill="#FFF" opacity="0.15" />
+                  </svg>
+                );
+              } else if (colorTheme === "Flutter/Dart") {
+                return (
+                  <svg className="w-full h-full" viewBox="0 0 32 32" fill="none">
+                    <path d="M16 2l-14 14 6 6 20-20H16z" fill={color} />
+                    <path d="M16 30L32 14h-8L8 30h8z" fill={color} opacity="0.8" />
+                  </svg>
+                );
+              } else if (colorTheme === "Go") {
+                return (
+                  <svg className="w-full h-full" viewBox="0 0 32 32" fill="none">
+                    <ellipse cx="16" cy="16" rx="12" ry="7" fill={color} />
+                    <circle cx="12" cy="14" r="2.5" fill="#FFF" />
+                    <circle cx="12" cy="14" r="1" fill="#000" />
+                    <circle cx="20" cy="14" r="2.5" fill="#FFF" />
+                    <circle cx="20" cy="14" r="1" fill="#000" />
+                  </svg>
+                );
+              } else {
+                // Google Cloud G
+                return (
+                  <svg className="w-full h-full" viewBox="0 0 32 32" fill="none">
+                    <path d="M16 4C9.37 4 4 9.37 4 16s5.37 12 12 12c5.96 0 10.44-4.22 11.66-9.6H16v-4.8h16.4C32.6 14.3 32.8 15.1 32.8 16c0 9.28-6.32 16-16.8 16C7.08 32 0 24.92 0 16S7.08 0 16 0c4.88 0 8.96 1.8 12.08 4.72L24.64 8.16C22.44 6.08 19.56 4.8 16 4z" fill={color} />
+                  </svg>
+                );
+              }
+            };
+
+            const positions = [
+              { top: '15%', left: '15%' },
+              { top: '25%', right: '15%' },
+              { bottom: '20%', left: '20%' },
+              { bottom: '30%', right: '20%' }
+            ];
+
+            const pos = positions[i];
+
+            return (
+              <div
+                key={i}
+                className="absolute opacity-40 hover:opacity-80 transition duration-300"
+                style={{
+                  ...pos,
+                  width: `${size}px`,
+                  height: `${size}px`,
+                  filter: `drop-shadow(0 0 12px ${color})`,
+                  animation: `${floatAnim} calc(var(--anim-duration) * 1.8) ease-in-out infinite`,
+                  animationDelay: `${delay}s`,
+                }}
+              >
+                {getThemeLogoSVG()}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Lava Lamp Bubbles background */}
+      {ambientAnimation === "lava-lamp" && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent" style={{ filter: "blur(20px) contrast(20)" }}>
+          {/* Black solid contrast layer to blend behind but transparent background lets gradients in */}
+          <div className="absolute inset-0 bg-black/35" />
+
+          {/* Bottom container / liquid reservoir */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-[80px]"
+            style={{
+              background: `linear-gradient(to top, ${themeColors.primary}, ${themeColors.secondary})`
+            }}
+          />
+
+          {/* Floating rising/sinking goo blobs */}
+          {Array.from({ length: 5 }).map((_, i) => {
+            const delay = i * 1.5;
+            const size = 60 + (i % 3) * 35; // 60px to 130px
+            const duration = 7 + (i % 3) * 3; // 7s to 13s
+            const left = 10 + i * 18; // spread out horizontally
+            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            const gooAnim = `lava-goo-${i + 1}`;
+
+            return (
+              <div
+                key={i}
+                className="absolute bottom-[-50px] rounded-full"
+                style={{
+                  left: `${left}%`,
+                  width: `${size}px`,
+                  height: `${size}px`,
+                  background: `radial-gradient(circle, ${color} 0%, ${themeColors.secondary} 70%, transparent 100%)`,
+                  animation: `${gooAnim} calc(var(--anim-duration) * ${duration / 4}) ease-in-out infinite`,
+                  animationDelay: `${delay}s`,
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
+
+      {/* Random Shapes background */}
+      {ambientAnimation === "random-shapes" && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent opacity-30">
+          {Array.from({ length: 8 }).map((_, i) => {
+            const delay = i * 0.65;
+            const size = 30 + (i % 4) * 20; // 30px to 90px
+            const driftAnim = `shape-drift-${(i % 4) + 1}`;
+            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+
+            const shapes = [
+              // Triangle
+              <svg key="triangle" viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke={color} strokeWidth="6">
+                <polygon points="50,15 90,85 10,85" />
+              </svg>,
+              // Perfect Circle
+              <svg key="circle" viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke={color} strokeWidth="6">
+                <circle cx="50" cy="50" r="38" />
+              </svg>,
+              // Square
+              <svg key="square" viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke={color} strokeWidth="6">
+                <rect x="15" y="15" width="70" height="70" />
+              </svg>,
+              // Hexagon
+              <svg key="hexagon" viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke={color} strokeWidth="6">
+                <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" />
+              </svg>,
+              // Star
+              <svg key="star" viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke={color} strokeWidth="6">
+                <polygon points="50,10 63,38 93,38 70,57 78,87 50,70 22,87 30,57 7,38 37,38" />
+              </svg>,
+              // Cross / Plus
+              <svg key="cross" viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke={color} strokeWidth="6">
+                <path d="M50,10 L50,90 M10,50 L90,50" />
+              </svg>
+            ];
+
+            const selectedShape = shapes[i % shapes.length];
+
+            const positions = [
+              { top: '10%', left: '20%' },
+              { top: '30%', right: '15%' },
+              { top: '50%', left: '10%' },
+              { bottom: '25%', right: '25%' },
+              { bottom: '15%', left: '30%' },
+              { top: '70%', left: '75%' },
+              { top: '20%', right: '45%' },
+              { bottom: '45%', left: '40%' }
+            ];
+
+            return (
+              <div
+                key={i}
+                className="absolute"
+                style={{
+                  ...positions[i],
+                  width: `${size}px`,
+                  height: `${size}px`,
+                  filter: `drop-shadow(0 0 8px ${color})`,
+                  animation: `${driftAnim} calc(var(--anim-duration) * 2.2) ease-in-out infinite`,
+                  animationDelay: `${delay}s`,
+                }}
+              >
+                {selectedShape}
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Psychedelic Swirl background */}
+      {ambientAnimation === "psychedelic-swirl" && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent flex items-center justify-center">
+          {/* Multiple concentric pulsating and twisting gooey neon shapes */}
+          {Array.from({ length: 4 }).map((_, i) => {
+            const delay = i * 0.85;
+            const sizePercent = 160 - i * 35; // concentric circles starting from 160% down to 55%
+            const speedMultiplier = 1.0 + (i * 0.4);
+            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            const extraColor = themeColors.gradientStops[(i + 1) % themeColors.gradientStops.length];
+
+            return (
+              <div
+                key={i}
+                className="absolute mix-blend-screen filter blur-[20px] opacity-60"
+                style={{
+                  width: `${sizePercent}%`,
+                  height: `${sizePercent}%`,
+                  background: `conic-gradient(from 0deg, ${color}, ${extraColor}, transparent, ${color})`,
+                  animation: `
+                    psych-spin calc(var(--anim-duration) * ${2.8 / speedMultiplier}) linear infinite,
+                    psych-pulse calc(var(--anim-duration) * 1.5) ease-in-out infinite alternate,
+                    psych-warp calc(var(--anim-duration) * 2.2) ease-in-out infinite alternate
+                  `,
+                  animationDelay: `${delay}s`,
+                }}
+              />
+            );
+          })}
+
+          {/* Trippy strobe centerpiece */}
+          <div
+            className="absolute w-[35%] h-[35%] rounded-full filter blur-[25px] opacity-80 mix-blend-overlay"
+            style={{
+              background: `radial-gradient(circle, #ffffff 0%, ${themeColors.primary} 40%, transparent 100%)`,
+              animation: 'psych-pulse calc(var(--anim-duration) * 0.8) ease-in-out infinite alternate'
+            }}
+          />
+        </div>
+      )}
+
       {/* Layer 1: Question Only Layer (Phase 0) */}
       <div
         ref={layer1Ref}
@@ -1407,7 +1719,7 @@ Infrastructure as a Service (IaaS) provides virtualized computing resources, giv
   // Style customization state
   const [aspectRatio, setAspectRatio] = useState<"9:16" | "16:9" | "1:1" | "Both">("9:16");
   const [colorTheme, setColorTheme] = useState<"Google Cloud" | "Firebase" | "Flutter/Dart" | "Go">("Google Cloud");
-  const [ambientAnimation, setAmbientAnimation] = useState<"none" | "shimmer" | "aurora" | "mesh-liquid" | "radial-flow" | "cosmic-glow" | "fireflies" | "warp-speed" | "laser-beams" | "color-vortex" | "matrix-rain">("none");
+  const [ambientAnimation, setAmbientAnimation] = useState<"none" | "shimmer" | "aurora" | "mesh-liquid" | "radial-flow" | "cosmic-glow" | "fireflies" | "warp-speed" | "laser-beams" | "color-vortex" | "matrix-rain" | "spinning-logos" | "lava-lamp" | "random-shapes" | "psychedelic-swirl">("none");
   const [animationSpeed, setAnimationSpeed] = useState<number>(1.0);
   const [transitionTime, setTransitionTime] = useState<number>(1.0);
   const [hidePanels, setHidePanels] = useState<boolean>(false);
@@ -2059,7 +2371,11 @@ ${q.explanation}`;
                         "warp-speed",
                         "laser-beams",
                         "color-vortex",
-                        "matrix-rain"
+                        "matrix-rain",
+                        "spinning-logos",
+                        "lava-lamp",
+                        "random-shapes",
+                        "psychedelic-swirl"
                       ] as const).map((anim) => (
                         <button
                           key={anim}
@@ -2080,7 +2396,11 @@ ${q.explanation}`;
                            anim === "warp-speed" ? "Warp" :
                            anim === "laser-beams" ? "Laser" :
                            anim === "color-vortex" ? "Vortex" :
-                           anim === "matrix-rain" ? "Matrix" : anim}
+                           anim === "matrix-rain" ? "Matrix" :
+                           anim === "spinning-logos" ? "Logos 🌀" :
+                           anim === "lava-lamp" ? "Lava 🔮" :
+                           anim === "random-shapes" ? "Shapes 🔺" :
+                           anim === "psychedelic-swirl" ? "Trippy 💫" : anim}
                         </button>
                       ))}
                     </div>

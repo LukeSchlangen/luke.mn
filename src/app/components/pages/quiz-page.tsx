@@ -1595,7 +1595,7 @@ function QuizViewport({
                     zIndex,
                     transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                   }}
-                  className={`overflow-hidden rounded-[1em] relative ${isHighlighted ? "border-[0.12em]" : "border-[0.05em]"} shrink-0 ${isCorrectHighlighted ? "border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.15)]" : borderClass}`}
+                  className={`overflow-hidden rounded-[1em] relative border-[0.12em] shrink-0 ${isCorrectHighlighted ? "border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.15)]" : borderClass}`}
                 >
                   {isCorrectHighlighted && (
                     <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">

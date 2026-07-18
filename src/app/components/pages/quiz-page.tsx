@@ -1539,7 +1539,7 @@ function QuizViewport({
         }}
       >
         <div className="flex-1 flex flex-col justify-center space-y-[0.8em] py-[0.5em] h-full overflow-hidden w-full max-w-[88%] mx-auto">
-          <div className="flex-1 flex flex-col justify-center overflow-hidden">
+          <div className="flex-1 flex flex-col justify-center overflow-visible">
             {questionData.answers.map((ans, i) => {
               const isHighlighted = phase !== "edit" && phase >= 1 && phase <= 4 && (phase - 1) === i;
               const isCorrect = questionData.correctIndex === i;

@@ -471,6 +471,7 @@ interface QuizViewportProps {
   transitionTime: number;
   hidePanels: boolean;
   advancePhase: () => void;
+  isBothMode?: boolean;
 }
 
 function QuizViewport({
@@ -483,6 +484,7 @@ function QuizViewport({
   transitionTime,
   hidePanels,
   advancePhase,
+  isBothMode = false,
 }: QuizViewportProps) {
   const themeColors = getThemeColors(colorTheme);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -754,15 +756,44 @@ function QuizViewport({
     };
   }, [phase, questionData, ratio, colorTheme, transitionTime, ambientAnimation, pretext]);
 
+  const isExpanded = hidePanels;
+
+  const viewportStyle: React.CSSProperties = {
+    transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+    ['--anim-duration' as any]: `${10 / animationSpeed}s`,
+  };
+
+  if (isExpanded) {
+    viewportStyle.maxWidth = "none";
+    viewportStyle.maxHeight = "none";
+    if (isBothMode) {
+      if (ratio === "16:9") {
+        viewportStyle.width = "min(60vw, 106.67vh)";
+        viewportStyle.height = "auto";
+      } else { // 9:16
+        viewportStyle.width = "min(33vw, 53.44vh)";
+        viewportStyle.height = "auto";
+      }
+    } else {
+      if (ratio === "16:9") {
+        viewportStyle.width = "min(95vw, 168.89vh)";
+        viewportStyle.height = "auto";
+      } else if (ratio === "1:1") {
+        viewportStyle.width = "min(95vw, 95vh)";
+        viewportStyle.height = "auto";
+      } else { // 9:16
+        viewportStyle.width = "min(95vw, 53.44vh)";
+        viewportStyle.height = "auto";
+      }
+    }
+  }
+
   return (
     <div
       ref={containerRef}
       onClick={advancePhase}
       className={`relative select-none cursor-pointer border border-white/10 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between p-[1.5em] ${getPlayerThemeClasses(colorTheme)} ${getAspectClasses(ratio)}`}
-      style={{
-        transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-        ['--anim-duration' as any]: `${10 / animationSpeed}s`,
-      }}
+      style={viewportStyle}
     >
       <style dangerouslySetInnerHTML={{ __html: `
         @keyframes spin-gradient {
@@ -2035,7 +2066,7 @@ ${q.explanation}`;
     : "bg-white text-black border-gray-200 focus:ring-orange-500 placeholder-gray-400";
 
   return (
-    <div className={`w-full min-h-screen ${textColorClass} pb-12`}>
+    <div className={`w-full ${hidePanels ? "h-screen overflow-hidden flex flex-col justify-center items-center" : "min-h-screen pb-12"} ${textColorClass}`}>
       <style>
         {`body { background-color: ${bodyBackgroundColor} }`}
       </style>
@@ -2057,8 +2088,8 @@ ${q.explanation}`;
       )}
 
       {/* Main Container Layout */}
-      <div className="mx-auto w-full max-w-[1700px] px-4 mt-6">
-        <div className={`grid grid-cols-1 ${hidePanels ? "" : "xl:grid-cols-12"} gap-6 items-start`}>
+      <div className={hidePanels ? "w-full h-full flex items-center justify-center overflow-hidden" : "mx-auto w-full max-w-[1700px] px-4 mt-6"}>
+        <div className={hidePanels ? "w-full h-full flex items-center justify-center" : `grid grid-cols-1 ${hidePanels ? "" : "xl:grid-cols-12"} gap-6 items-start`}>
 
           {/* LEFT PANEL: Nested GCP Presets (Static List, No Accordion) */}
           {!hidePanels && (
@@ -2100,7 +2131,7 @@ ${q.explanation}`;
           )}
 
           {/* MAIN CENTER PANEL: Editor OR Presentation Screen */}
-          <div className={hidePanels ? "w-full" : "xl:col-span-9"}>
+          <div className={hidePanels ? "w-full h-full flex items-center justify-center" : "xl:col-span-9"}>
             {phase === "edit" ? (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
@@ -2234,14 +2265,14 @@ ${q.explanation}`;
               </div>
             ) : (
               /* Presentation / Interactive Player Mode with Side Controls */
-              <div className="flex flex-col lg:flex-row gap-8 items-stretch justify-center">
+              <div className={hidePanels ? "w-full h-full flex items-center justify-center" : "flex flex-col lg:flex-row gap-8 items-stretch justify-center"}>
 
                 {/* 1. Large Centered Interactive Quiz Viewport */}
-                <div className="flex-1 flex flex-wrap gap-8 justify-center items-center">
+                <div className={hidePanels ? "w-full h-full flex flex-row gap-8 justify-center items-center" : "flex-1 flex flex-wrap gap-8 justify-center items-center"}>
                   {aspectRatio === "Both" ? (
                     <>
                       {/* 9:16 Preview */}
-                      <div className="flex flex-col items-center w-full max-w-[420px]">
+                      <div className={hidePanels ? "flex flex-col items-center" : "flex flex-col items-center w-full max-w-[420px]"}>
                         {!hidePanels && (
                           <span className="text-xs font-bold opacity-60 mb-2 uppercase tracking-widest">9:16 Viewport</span>
                         )}
@@ -2255,11 +2286,12 @@ ${q.explanation}`;
                           transitionTime={transitionTime}
                           hidePanels={hidePanels}
                           advancePhase={advancePhase}
+                          isBothMode={true}
                         />
                       </div>
 
                       {/* 16:9 Preview */}
-                      <div className="flex flex-col items-center w-full max-w-[850px]">
+                      <div className={hidePanels ? "flex flex-col items-center" : "flex flex-col items-center w-full max-w-[850px]"}>
                         {!hidePanels && (
                           <span className="text-xs font-bold opacity-60 mb-2 uppercase tracking-widest">16:9 Viewport</span>
                         )}
@@ -2273,6 +2305,7 @@ ${q.explanation}`;
                           transitionTime={transitionTime}
                           hidePanels={hidePanels}
                           advancePhase={advancePhase}
+                          isBothMode={true}
                         />
                       </div>
                     </>

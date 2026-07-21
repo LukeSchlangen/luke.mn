@@ -14,7 +14,6 @@ export default function QRPageClient({
   theme: Theme;
   deploymentConfiguration: DeploymentConfiguration;
 }) {
-
   // Color values for current website theme
   const { textColorClass, bodyBackgroundColor, textBackgroundColorClass } =
     colorValues(theme);
@@ -22,7 +21,9 @@ export default function QRPageClient({
   // QR Code generator state
   const [text, setText] = useState("https://lukeschlangen.com");
   const [version, setVersion] = useState<number | "auto">("auto");
-  const [errorCorrectionLevel, setErrorCorrectionLevel] = useState<"L" | "M" | "Q" | "H">("M");
+  const [errorCorrectionLevel, setErrorCorrectionLevel] = useState<
+    "L" | "M" | "Q" | "H"
+  >("M");
   const [maskPattern, setMaskPattern] = useState<number | "auto">("auto");
   const [margin, setMargin] = useState(4);
   const [scale, setScale] = useState(4);
@@ -35,7 +36,9 @@ export default function QRPageClient({
   const [lightOpacity, setLightOpacity] = useState(100);
 
   // Output format & generated results
-  const [outputFormat, setOutputFormat] = useState<"png" | "jpeg" | "webp" | "svg">("png");
+  const [outputFormat, setOutputFormat] = useState<
+    "png" | "jpeg" | "webp" | "svg"
+  >("png");
   const [qrDataUrl, setQrDataUrl] = useState("");
   const [qrSvgString, setQrSvgString] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -92,7 +95,10 @@ export default function QRPageClient({
         };
 
         // Standard toDataURL
-        const url = await (QRCode.toDataURL(text, dataUrlOpts) as unknown as Promise<string>);
+        const url = await (QRCode.toDataURL(
+          text,
+          dataUrlOpts,
+        ) as unknown as Promise<string>);
         setQrDataUrl(url);
 
         // 2. Generate SVG String
@@ -108,7 +114,10 @@ export default function QRPageClient({
         }
       } catch (err: any) {
         console.error("QR Code Generation Error:", err);
-        setError(err?.message || "Failed to generate QR Code. Please check your options.");
+        setError(
+          err?.message ||
+            "Failed to generate QR Code. Please check your options.",
+        );
       }
     };
 
@@ -155,29 +164,39 @@ export default function QRPageClient({
   };
 
   // Helper classes to dynamically style inputs for perfect accessibility on dark/light themes
-  const inputThemeClass = theme.color === "dark"
-    ? "bg-gray-900 text-white border-gray-700 focus:ring-blue-400 placeholder-gray-500"
-    : "bg-white text-black border-gray-300 focus:ring-blue-500 placeholder-gray-400";
+  const inputThemeClass =
+    theme.color === "dark"
+      ? "bg-gray-900 text-white border-gray-700 focus:ring-blue-400 placeholder-gray-500"
+      : "bg-white text-black border-gray-300 focus:ring-blue-500 placeholder-gray-400";
 
   return (
-    <div className={`w-full min-h-screen ${textColorClass} transition-colors duration-300 pb-12`}>
-      <style>
-        {`body { background-color: ${bodyBackgroundColor} }`}
-      </style>
+    <div
+      className={`w-full min-h-screen ${textColorClass} transition-colors duration-300 pb-12`}
+    >
+      <style>{`body { background-color: ${bodyBackgroundColor} }`}</style>
 
       <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
 
       <div className="m-auto max-w-5xl px-4 mt-8">
         <header className="mb-8 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-2">QR Code Generator</h1>
-          <p className="text-lg opacity-75">Generate a highly customizable QR Code entirely client-side.</p>
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-2">
+            QR Code Generator
+          </h1>
+          <p className="text-lg opacity-75">
+            Generate a highly customizable QR Code entirely client-side.
+          </p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Options Panel (Left) */}
-          <div className={`lg:col-span-7 rounded-2xl p-6 drop-shadow-xl ${textBackgroundColorClass} space-y-6 border border-gray-200/10`}>
+          <div
+            className={`lg:col-span-7 rounded-2xl p-6 drop-shadow-xl ${textBackgroundColorClass} space-y-6 border border-gray-200/10`}
+          >
             <div>
-              <label className="block text-sm font-semibold mb-2" htmlFor="qr-text">
+              <label
+                className="block text-sm font-semibold mb-2"
+                htmlFor="qr-text"
+              >
                 Content / URL
               </label>
               <textarea
@@ -193,13 +212,22 @@ export default function QRPageClient({
             {/* Config options grid */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-semibold mb-1" htmlFor="qr-version">
+                <label
+                  className="block text-sm font-semibold mb-1"
+                  htmlFor="qr-version"
+                >
                   Version (Size)
                 </label>
                 <select
                   id="qr-version"
                   value={version}
-                  onChange={(e) => setVersion(e.target.value === "auto" ? "auto" : Number(e.target.value))}
+                  onChange={(e) =>
+                    setVersion(
+                      e.target.value === "auto"
+                        ? "auto"
+                        : Number(e.target.value),
+                    )
+                  }
                   className={`w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 ${inputThemeClass}`}
                 >
                   <option value="auto">Auto (Calculated)</option>
@@ -212,13 +240,18 @@ export default function QRPageClient({
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-1" htmlFor="qr-ecl">
+                <label
+                  className="block text-sm font-semibold mb-1"
+                  htmlFor="qr-ecl"
+                >
                   Error Correction Level
                 </label>
                 <select
                   id="qr-ecl"
                   value={errorCorrectionLevel}
-                  onChange={(e) => setErrorCorrectionLevel(e.target.value as any)}
+                  onChange={(e) =>
+                    setErrorCorrectionLevel(e.target.value as any)
+                  }
                   className={`w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 ${inputThemeClass}`}
                 >
                   <option value="L">L (Low ~7% recovery)</option>
@@ -229,13 +262,22 @@ export default function QRPageClient({
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-1" htmlFor="qr-mask">
+                <label
+                  className="block text-sm font-semibold mb-1"
+                  htmlFor="qr-mask"
+                >
                   Mask Pattern
                 </label>
                 <select
                   id="qr-mask"
                   value={maskPattern}
-                  onChange={(e) => setMaskPattern(e.target.value === "auto" ? "auto" : Number(e.target.value))}
+                  onChange={(e) =>
+                    setMaskPattern(
+                      e.target.value === "auto"
+                        ? "auto"
+                        : Number(e.target.value),
+                    )
+                  }
                   className={`w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 ${inputThemeClass}`}
                 >
                   <option value="auto">Auto (Calculated)</option>
@@ -248,7 +290,10 @@ export default function QRPageClient({
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-1" htmlFor="qr-margin">
+                <label
+                  className="block text-sm font-semibold mb-1"
+                  htmlFor="qr-margin"
+                >
                   Margin (Quiet Zone)
                 </label>
                 <input
@@ -256,13 +301,18 @@ export default function QRPageClient({
                   type="number"
                   min={0}
                   value={margin}
-                  onChange={(e) => setMargin(Math.max(0, Number(e.target.value)))}
+                  onChange={(e) =>
+                    setMargin(Math.max(0, Number(e.target.value)))
+                  }
                   className={`w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 ${inputThemeClass}`}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-1" htmlFor="qr-scale">
+                <label
+                  className="block text-sm font-semibold mb-1"
+                  htmlFor="qr-scale"
+                >
                   Scale Factor
                 </label>
                 <input
@@ -270,13 +320,18 @@ export default function QRPageClient({
                   type="number"
                   min={1}
                   value={scale}
-                  onChange={(e) => setScale(Math.max(1, Number(e.target.value)))}
+                  onChange={(e) =>
+                    setScale(Math.max(1, Number(e.target.value)))
+                  }
                   className={`w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 ${inputThemeClass}`}
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-semibold mb-1" htmlFor="qr-width">
+                <label
+                  className="block text-sm font-semibold mb-1"
+                  htmlFor="qr-width"
+                >
                   Width (Forced, px)
                 </label>
                 <input
@@ -285,7 +340,13 @@ export default function QRPageClient({
                   min={1}
                   placeholder="Auto (Scale based)"
                   value={width}
-                  onChange={(e) => setWidth(e.target.value === "" ? "" : Math.max(1, Number(e.target.value)))}
+                  onChange={(e) =>
+                    setWidth(
+                      e.target.value === ""
+                        ? ""
+                        : Math.max(1, Number(e.target.value)),
+                    )
+                  }
                   className={`w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 ${inputThemeClass}`}
                 />
               </div>
@@ -298,8 +359,12 @@ export default function QRPageClient({
                 {/* Dark color selector */}
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs font-semibold">Dark Modules (Foreground)</span>
-                    <span className="text-xs font-mono opacity-60">{darkColor} ({darkOpacity}%)</span>
+                    <span className="text-xs font-semibold">
+                      Dark Modules (Foreground)
+                    </span>
+                    <span className="text-xs font-mono opacity-60">
+                      {darkColor} ({darkOpacity}%)
+                    </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <input
@@ -309,7 +374,9 @@ export default function QRPageClient({
                       className="w-12 h-10 rounded cursor-pointer border-0 p-0"
                     />
                     <div className="flex-1">
-                      <label className="block text-[10px] uppercase tracking-wider opacity-60 mb-1">Opacity</label>
+                      <label className="block text-[10px] uppercase tracking-wider opacity-60 mb-1">
+                        Opacity
+                      </label>
                       <input
                         type="range"
                         min={0}
@@ -325,8 +392,12 @@ export default function QRPageClient({
                 {/* Light color selector */}
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs font-semibold">Light Modules (Background)</span>
-                    <span className="text-xs font-mono opacity-60">{lightColor} ({lightOpacity}%)</span>
+                    <span className="text-xs font-semibold">
+                      Light Modules (Background)
+                    </span>
+                    <span className="text-xs font-mono opacity-60">
+                      {lightColor} ({lightOpacity}%)
+                    </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <input
@@ -336,13 +407,17 @@ export default function QRPageClient({
                       className="w-12 h-10 rounded cursor-pointer border-0 p-0"
                     />
                     <div className="flex-1">
-                      <label className="block text-[10px] uppercase tracking-wider opacity-60 mb-1">Opacity</label>
+                      <label className="block text-[10px] uppercase tracking-wider opacity-60 mb-1">
+                        Opacity
+                      </label>
                       <input
                         type="range"
                         min={0}
                         max={100}
                         value={lightOpacity}
-                        onChange={(e) => setLightOpacity(Number(e.target.value))}
+                        onChange={(e) =>
+                          setLightOpacity(Number(e.target.value))
+                        }
                         className="w-full h-1.5 bg-gray-200 dark:bg-gray-800 rounded-lg appearance-none cursor-pointer"
                       />
                     </div>
@@ -354,8 +429,12 @@ export default function QRPageClient({
 
           {/* Interactive Preview & Download (Right) */}
           <div className="lg:col-span-5 flex flex-col gap-6">
-            <div className={`rounded-2xl p-6 drop-shadow-xl ${textBackgroundColorClass} border border-gray-200/10 text-center flex flex-col items-center justify-center min-h-[350px] relative`}>
-              <h2 className="text-lg font-bold mb-4 self-start">Interactive Preview</h2>
+            <div
+              className={`rounded-2xl p-6 drop-shadow-xl ${textBackgroundColorClass} border border-gray-200/10 text-center flex flex-col items-center justify-center min-h-[350px] relative`}
+            >
+              <h2 className="text-lg font-bold mb-4 self-start">
+                Interactive Preview
+              </h2>
 
               {error ? (
                 <div className="bg-red-500/10 text-red-500 border border-red-500/20 rounded-xl p-4 text-sm font-medium my-auto max-w-xs">
@@ -383,7 +462,8 @@ export default function QRPageClient({
                   )}
 
                   <span className="text-xs opacity-60">
-                    Format: {outputFormat.toUpperCase()} ({version === "auto" ? "Auto" : `Version ${version}`})
+                    Format: {outputFormat.toUpperCase()} (
+                    {version === "auto" ? "Auto" : `Version ${version}`})
                   </span>
                 </div>
               )}
@@ -394,19 +474,25 @@ export default function QRPageClient({
 
             {/* Download and Share Options */}
             {!error && (
-              <div className={`rounded-2xl p-6 drop-shadow-xl ${textBackgroundColorClass} border border-gray-200/10 space-y-4`}>
+              <div
+                className={`rounded-2xl p-6 drop-shadow-xl ${textBackgroundColorClass} border border-gray-200/10 space-y-4`}
+              >
                 <h2 className="text-lg font-bold">Actions & Output</h2>
 
                 <div>
-                  <label className="block text-xs font-semibold opacity-75 mb-2">Export Format</label>
+                  <label className="block text-xs font-semibold opacity-75 mb-2">
+                    Export Format
+                  </label>
                   <div className="grid grid-cols-4 gap-2">
                     {(["png", "jpeg", "webp", "svg"] as const).map((fmt) => {
                       const isSelected = outputFormat === fmt;
-                      const baseBtnClass = "py-1.5 px-3 rounded-lg text-xs font-bold transition";
+                      const baseBtnClass =
+                        "py-1.5 px-3 rounded-lg text-xs font-bold transition";
                       const activeClass = "bg-blue-600 text-white";
-                      const inactiveClass = theme.color === "dark"
-                        ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
-                        : "bg-gray-100 text-gray-700 hover:bg-gray-200";
+                      const inactiveClass =
+                        theme.color === "dark"
+                          ? "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-200";
 
                       return (
                         <button

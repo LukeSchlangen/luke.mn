@@ -370,46 +370,33 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
         explanation: "Multiple compounding variables—including system prompt overhead, retrieved RAG context, model selection, reasoning traces, and multi-agent tool retries—cause token usage to expand non-linearly."
       },
       {
-        question: "How does AI tokenomics differ from its historical usage in distributed-ledger/cryptocurrency systems?",
-        answers: ["Unit of computation, not a crypto asset", "Strictly used for blockchain contracts", "Fixed assets stored in distributed ledgers", "Energy metered per inference call"],
-        correctIndex: 0,
-        explanation: "Unlike blockchain tokenomics which deals with digital asset supply and ownership, AI tokenomics treats tokens as units of computational work (character clusters, sub-words, or discretized media segments)."
-      },
-      {
         question: "What major shift is occurring in enterprise AI procurement models as the initial subsidy phase ends?",
         answers: ["Unlimited flat-rate seat subscriptions", "Seat fees plus pre-committed metered tokens", "Mandatory shift to self-hosted GPUs", "Eliminating pay-as-you-go API billing"],
         correctIndex: 1,
         explanation: "As enterprise usage outpaces unit-cost reductions, providers are moving away from unmetered subscription bundles toward seat fees paired with pre-committed token usage, mirroring cloud capacity forecasting."
       },
       {
-        question: "Which architectural pattern enables AI agents to write code to invoke tools instead of loading full JSON tool schemas on every turn, drastically reducing token usage?",
-        answers: ["Zero-shot prompting", "FrugalGPT cascading", "Code Mode / Code execution tool-use", "Fine-tuning on raw JSON"],
-        correctIndex: 2,
-        explanation: "Code Mode enables agents to generate code to interact with tool APIs rather than loading huge enumerated function schemas into context on every interaction, cutting token overhead by up to 99%+."
-      },
-      {
-        question: "What is the 'AI Factory' concept popularized by NVIDIA's Jensen Huang?",
-        answers: ["Physical assembly line making GPU chips", "Data centers as plants producing tokens", "Automated pipeline for generating synthetic datasets", "Software for auto-training open LLMs"],
-        correctIndex: 1,
-        explanation: "The AI Factory framing treats data centers as production facilities where power and infrastructure inputs generate tokens as output, enabling unit-economic analysis like yield, throughput per megawatt, and cost per unit."
-      },
-      {
-        question: "Which open-source specification standardizes cost and usage data across cloud and AI providers for FinOps practitioners?",
-        answers: ["OpenTelemetry", "FOCUS (FinOps Open Cost & Usage Spec)", "CUDA Benchmark Suite", "POSIX Standard"],
+        question: "Which open-source specification standardizes cost and usage data across cloud and AI providers?",
+        answers: ["OpenTelemetry", "FinOps Open Cost & Usage Spec (FOCUS)", "CUDA Benchmark Suite", "Hardware Performance Monitor Specification (HPM)"],
         correctIndex: 1,
         explanation: "The open-source FOCUS specification normalizes cost and consumption metrics across different providers, enabling multi-cloud reconciliation of token spend against underlying infrastructure."
       },
       {
-        question: "How does model routing (or LLM cascading) optimize AI token economics?",
+        question: "How does model routing optimize token usage?",
         answers: ["Routing all queries to the largest model", "Translating text queries into vector embeddings", "Routing simple tasks to smaller models first", "Compressing prompts into binary formats"],
         correctIndex: 2,
-        explanation: "Cascading and routing frameworks (such as FrugalGPT or RouteLLM) evaluate query complexity to send simpler tasks to cost-effective models, reserving expensive frontier models for difficult queries and saving up to 85%+ on token costs."
+        explanation: "Cascading and routing frameworks evaluate query complexity to send simpler tasks to cost-effective models, reserving expensive frontier models for difficult queries and saving up to 85%+ on token costs."
       },
       {
-        question: "What metric measures the percentage of generated tokens that actually contribute to a downstream business action after removing retries and failed outputs?",
-        answers: ["Power Usage Effectiveness (PUE)", "Time to First Token (TTFT)", "Token Yield Rate", "Goodput Ratio"],
-        correctIndex: 2,
-        explanation: "Token Yield Rate is a key value metric that tracks the proportion of generated tokens resulting in successful business outcomes, filtering out wasted tokens from retries, abandoned chats, or invalid outputs."
+        question: "Where can you go if you would like to get more information about Tokenomics without answering trivia questions?",
+        answers: [
+          "The latest Agent Factory Podcast episode",
+          "Asking a wise carrier pigeon",
+          "Reading tea leaves in your coffee",
+          "Sending a fax directly to the cloud"
+        ],
+        correctIndex: 0,
+        explanation: "Check out the latest Agent Factory Podcast for a deep dive into AI Tokenomics with J.R. Storment, the lead of the Tokenomics Foundation!"
       }
     ]
   }

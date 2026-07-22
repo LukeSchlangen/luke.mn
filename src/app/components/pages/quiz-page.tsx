@@ -343,6 +343,71 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
         explanation: "Access Transparency provides near real-time logs of actions taken by Google administrators when accessing your content."
       }
     ]
+  },
+  {
+    examName: "AI Token Economics (FinOps)",
+    questions: [
+      {
+        question: "What is the atomic accounting unit of AI consumption?",
+        answers: ["GPU compute hour", "API seat license", "Token", "Vector database record"],
+        correctIndex: 2,
+        explanation: "In AI token economics, a token is the fundamental atomic unit of computation and data over which models read, write, and reason, forming the basis of AI metering and cost attribution."
+      },
+      {
+        question: "What term describes token output that successfully meets a defined service-level objective (such as latency thresholds and speed rates)?",
+        answers: ["Goodput", "Throughput", "Maxput", "Yieldput"],
+        correctIndex: 0,
+        explanation: "Goodput measures token production that satisfies specified latency and speed criteria (time-to-first-token and sustained tokens-per-second), distinguishing usable economic output from raw volume."
+      },
+      {
+        question: "According to FinOps for AI, why is token consumption non-linear with respect to user-facing activity?",
+        answers: ["Token prices are fixed across all model sizes", "Variables like context memory, reasoning chains, tool calls, and retries compound per request", "Output tokens are always cheaper than input tokens", "User prompts are automatically truncated by API gateways"],
+        correctIndex: 1,
+        explanation: "Multiple compounding variables—including system prompt overhead, retrieved RAG context, model selection, reasoning traces, and multi-agent tool retries—cause token usage to expand non-linearly."
+      },
+      {
+        question: "How does AI tokenomics differ from its historical usage in distributed-ledger/cryptocurrency systems?",
+        answers: ["In AI, a token represents a unit of computation rather than a cryptographic asset or unit of ownership", "AI tokenomics is strictly used for blockchain smart contracts", "In AI, tokens are fixed assets stored in distributed ledgers", "Crypto tokenomics meters energy per inference call"],
+        correctIndex: 0,
+        explanation: "Unlike blockchain tokenomics which deals with digital asset supply and ownership, AI tokenomics treats tokens as units of computational work (character clusters, sub-words, or discretized media segments)."
+      },
+      {
+        question: "What major shift is occurring in enterprise AI procurement models as the initial subsidy phase ends?",
+        answers: ["Transition to unlimited flat-rate seat subscriptions for high-volume agents", "Shift to seat fees plus pre-committed metered token consumption structures", "Mandatory conversion of all workloads to self-hosted on-premises GPUs", "Elimination of pay-as-you-go API billing across all frontier model vendors"],
+        correctIndex: 1,
+        explanation: "As enterprise usage outpaces unit-cost reductions, providers are moving away from unmetered subscription bundles toward seat fees paired with pre-committed token usage, mirroring cloud capacity forecasting."
+      },
+      {
+        question: "Which architectural pattern enables AI agents to write code to invoke tools instead of loading full JSON tool schemas on every turn, drastically reducing token usage?",
+        answers: ["Zero-shot prompting", "FrugalGPT cascading", "Code Mode / Code execution tool-use", "Fine-tuning on raw JSON"],
+        correctIndex: 2,
+        explanation: "Code Mode enables agents to generate code to interact with tool APIs rather than loading huge enumerated function schemas into context on every interaction, cutting token overhead by up to 99%+."
+      },
+      {
+        question: "What is the 'AI Factory' concept popularized by NVIDIA's Jensen Huang?",
+        answers: ["A physical assembly line that manufactures GPU microchips", "Data centers operating as manufacturing plants where electricity and compute enter and tokens emerge as the product", "An automated pipeline for generating synthetic datasets", "A software tool that automatically trains open-source LLMs"],
+        correctIndex: 1,
+        explanation: "The AI Factory framing treats data centers as production facilities where power and infrastructure inputs generate tokens as output, enabling unit-economic analysis like yield, throughput per megawatt, and cost per unit."
+      },
+      {
+        question: "Which open-source specification standardizes cost and usage data across cloud and AI providers for FinOps practitioners?",
+        answers: ["OpenTelemetry", "FOCUS (FinOps Open Cost and Usage Specification)", "CUDA Benchmark Suite", "POSIX Standard"],
+        correctIndex: 1,
+        explanation: "The open-source FOCUS specification normalizes cost and consumption metrics across different providers, enabling multi-cloud reconciliation of token spend against underlying infrastructure."
+      },
+      {
+        question: "How does model routing (or LLM cascading) optimize AI token economics?",
+        answers: ["It forces all queries to run on the largest frontier reasoning model available", "It translates text queries into vector embeddings without language models", "It directs queries to smaller, cheaper models first and escalates to larger models only when necessary", "It converts all input prompts into compressed binary representations"],
+        correctIndex: 2,
+        explanation: "Cascading and routing frameworks (such as FrugalGPT or RouteLLM) evaluate query complexity to send simpler tasks to cost-effective models, reserving expensive frontier models for difficult queries and saving up to 85%+ on token costs."
+      },
+      {
+        question: "What metric measures the percentage of generated tokens that actually contribute to a downstream business action after removing retries and failed outputs?",
+        answers: ["Power Usage Effectiveness (PUE)", "Time to First Token (TTFT)", "Token Yield Rate", "Goodput Ratio"],
+        correctIndex: 2,
+        explanation: "Token Yield Rate is a key value metric that tracks the proportion of generated tokens resulting in successful business outcomes, filtering out wasted tokens from retries, abandoned chats, or invalid outputs."
+      }
+    ]
   }
 ];
 
@@ -2125,8 +2190,10 @@ ${q.explanation}`;
           {!hidePanels && (
             <div className={`xl:col-span-3 rounded-2xl p-4 shadow-xl ${textBackgroundColorClass} border border-gray-200/10 max-h-[85vh] overflow-y-auto`}>
               <h2 className="text-lg font-extrabold mb-4 pb-2 border-b border-gray-200/10 flex items-center justify-between">
-                <span>GCP Certifications</span>
-                <span className="text-xs font-normal opacity-60">50 Questions</span>
+                <span>Quiz Collections</span>
+                <span className="text-xs font-normal opacity-60">
+                  {GCP_EXAMS_PRESETS.reduce((acc, e) => acc + e.questions.length, 0)} Questions
+                </span>
               </h2>
               <div className="space-y-6">
                 {GCP_EXAMS_PRESETS.map((exam, examIdx) => (

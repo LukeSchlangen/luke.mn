@@ -1666,7 +1666,8 @@ function QuizViewport({
                 opacity: phase === 6 ? 1 : 0,
                 marginTop: phase === 6 ? "0.6em" : "0px",
                 overflow: "hidden",
-                transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                transform: phase === 6 ? "translateY(0)" : "translateY(100%)",
+                transition: `transform ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1), opacity ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                 fontSize: explanationFontSize ? `${explanationFontSize / 0.85}px` : undefined,
               }}
             >

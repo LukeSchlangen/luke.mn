@@ -491,10 +491,14 @@ function QuizViewport({
   const layer1Ref = useRef<HTMLDivElement>(null);
   const layer2Ref = useRef<HTMLDivElement>(null);
   const explanationRef = useRef<HTMLDivElement>(null);
+  const answersContainerRef = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   const [layer1FontSize, setLayer1FontSize] = useState<number | null>(null);
   const [layer2FontSize, setLayer2FontSize] = useState<number | null>(null);
   const [explanationFontSize, setExplanationFontSize] = useState<number | null>(null);
+  const [cardOffsets, setCardOffsets] = useState<number[]>([0, 0, 0, 0]);
+  const [correctCardHeight, setCorrectCardHeight] = useState<number | null>(null);
 
   const [pretext, setPretext] = useState<{
     prepare: typeof import("@chenglou/pretext").prepare;
@@ -755,6 +759,32 @@ function QuizViewport({
       observer.disconnect();
     };
   }, [phase, questionData, ratio, colorTheme, transitionTime, ambientAnimation, pretext]);
+
+  useEffect(() => {
+    const updateMeasurements = () => {
+      if (cardRefs.current[0]) {
+        const baseTop = cardRefs.current[0].offsetTop;
+        const offsets = cardRefs.current.map((card) =>
+          card ? card.offsetTop - baseTop : 0
+        );
+        setCardOffsets(offsets);
+
+        const targetIndex = questionData.correctIndex;
+        const targetCard = cardRefs.current[targetIndex] || cardRefs.current[0];
+        if (targetCard) {
+          setCorrectCardHeight(targetCard.offsetHeight);
+        }
+      }
+    };
+
+    updateMeasurements();
+    const timer = setTimeout(updateMeasurements, 50);
+    window.addEventListener("resize", updateMeasurements);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("resize", updateMeasurements);
+    };
+  }, [questionData, layer2FontSize, ratio, phase]);
 
   const isExpanded = hidePanels;
 
@@ -1569,126 +1599,134 @@ function QuizViewport({
           fontSize: layer2FontSize ? `${layer2FontSize}px` : undefined,
         }}
       >
-        <div className="flex-1 flex flex-col justify-center space-y-[0.8em] py-[0.5em] h-full overflow-hidden w-full max-w-[88%] mx-auto">
+        <div className="flex-1 flex flex-col justify-center py-[0.5em] h-full overflow-hidden w-full max-w-[88%] mx-auto">
           <div className="flex-1 flex flex-col justify-center overflow-visible">
-            {questionData.answers.map((ans, i) => {
-              const isHighlighted = phase !== "edit" && phase >= 1 && phase <= 4 && (phase - 1) === i;
-              const isCorrect = questionData.correctIndex === i;
+            <div
+              ref={answersContainerRef}
+              className="relative flex flex-col space-y-[0.6em] transition-all overflow-hidden"
+              style={{
+                maxHeight: phase === 6 ? (correctCardHeight ? `${correctCardHeight}px` : "6em") : "40em",
+                transition: `max-height ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+              }}
+            >
+              {questionData.answers.map((ans, i) => {
+                const isHighlighted = phase !== "edit" && phase >= 1 && phase <= 4 && (phase - 1) === i;
+                const isCorrect = questionData.correctIndex === i;
 
-              const isVisibleInPhase6 = isCorrect;
+                let opacity = 1;
+                let pointerEvents: "auto" | "none" = "auto";
+                let transform = "translateY(0)";
+                let zIndex = 1;
 
-              let opacity = 1;
-              let maxHeight = "8em";
-              let marginBot = "0.6em";
-              let pointerEvents: "auto" | "none" = "auto";
-              let transform = "translateY(0)";
-              let zIndex = 1;
+                if (phase === 6) {
+                  const offsetPx = cardOffsets[i];
+                  transform = offsetPx !== undefined && offsetPx !== 0
+                    ? `translateY(-${offsetPx}px)`
+                    : i > 0
+                    ? `translateY(calc(-${i * 100}% - ${i * 0.6}em))`
+                    : "translateY(0)";
 
-              if (phase === 6) {
-                if (isVisibleInPhase6) {
-                  opacity = 1;
-                  maxHeight = "8em";
-                  marginBot = "0.6em";
-                  pointerEvents = "auto";
-                  zIndex = 10;
-                } else {
-                  opacity = 0;
-                  maxHeight = "0px";
-                  marginBot = "0px";
-                  pointerEvents = "none";
-                  zIndex = 0;
-                  // Slide toward the correct answer: answers above slide down, answers below slide up
-                  const slotsAway = questionData.correctIndex - i;
-                  transform = `translateY(${slotsAway * 4.5}em)`;
+                  if (isCorrect) {
+                    opacity = 1;
+                    pointerEvents = "auto";
+                    zIndex = 10;
+                  } else {
+                    opacity = 0;
+                    pointerEvents = "none";
+                    zIndex = 1;
+                  }
                 }
-              }
 
-              const isCorrectHighlighted = phase === 6 && isCorrect;
+                const isCorrectHighlighted = phase === 6 && isCorrect;
 
-              let borderClass = "border-white/10";
-              if (isHighlighted) {
-                borderClass = "border-white/95";
-              } else if (phase === 5) {
-                borderClass = "border-white/25";
-              } else if (phase !== "edit" && phase >= 1) {
-                borderClass = "border-white/15";
-              }
+                let borderClass = "border-white/10";
+                if (isHighlighted) {
+                  borderClass = "border-white/95";
+                } else if (phase === 5) {
+                  borderClass = "border-white/25";
+                } else if (phase !== "edit" && phase >= 1) {
+                  borderClass = "border-white/15";
+                }
 
-              return (
-                <div
-                  key={i}
-                  style={{
-                    opacity,
-                    maxHeight,
-                    marginBottom: marginBot,
-                    pointerEvents,
-                    transform,
-                    zIndex,
-                    transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-                  }}
-                  className={`overflow-hidden rounded-[1em] relative border-[0.12em] shrink-0 ${isCorrectHighlighted ? "border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.15)]" : borderClass}`}
-                >
-                  {isCorrectHighlighted && (
-                    <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
-                      <defs>
-                        {getThemeGradientDefs(colorTheme)}
-                      </defs>
-                      <rect
-                        x="0"
-                        y="0"
-                        width="100%"
-                        height="100%"
-                        fill="none"
-                        rx="0.85em"
-                        ry="0.85em"
-                        stroke="url(#theme-reveal-grad)"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        pathLength="100"
-                        style={{
-                          x: "0.1em",
-                          y: "0.1em",
-                          width: "calc(100% - 0.2em)",
-                          height: "calc(100% - 0.2em)",
-                          strokeWidth: "0.2em",
-                          strokeDasharray: "102",
-                          strokeDashoffset: "102",
-                          animation: `draw-border ${transitionTime}s linear forwards`,
-                        }}
-                      />
-                    </svg>
-                  )}
-
-                   <div
-                    className={`relative z-10 rounded-[0.95em] text-white font-bold text-left flex items-center gap-[0.8em] w-full h-auto py-[0.8em] pl-[1.2em] pr-[1.0em] ${
-                      isCorrectHighlighted
-                        ? "bg-emerald-950/95"
-                        : isHighlighted
-                        ? "bg-black/45 shadow-[0_0_1em_rgba(255,255,255,0.25)]"
-                        : phase === 5
-                        ? "bg-black/55 opacity-100"
-                        : "bg-black/65 opacity-80"
-                    }`}
-                    style={{
-                      transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                return (
+                  <div
+                    key={i}
+                    ref={(el) => {
+                      cardRefs.current[i] = el;
                     }}
+                    style={{
+                      opacity,
+                      maxHeight: "8em",
+                      marginBottom: "0px",
+                      pointerEvents,
+                      transform,
+                      zIndex,
+                      transition: `transform ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1), opacity ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                    }}
+                    className={`overflow-hidden rounded-[1em] relative border-[0.12em] shrink-0 ${isCorrectHighlighted ? "border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.15)]" : borderClass}`}
                   >
-                    <span className={`rounded-full border flex items-center justify-center transition-colors duration-300 w-[2em] h-[2em] text-[0.85em] font-black shrink-0 ${
-                      isCorrectHighlighted
-                        ? "bg-emerald-500 text-white border-emerald-400 font-black scale-110"
-                        : isHighlighted
-                        ? "bg-white text-black border-white"
-                        : "bg-white/10 border-white/20 text-white"
-                    }`}>
-                      {String.fromCharCode(65 + i)}
-                    </span>
-                    <span className="text-[1em] leading-snug whitespace-normal">
-                      {ans.replace(/\s+\?/g, "\u00A0?")}
-                    </span>
+                    {isCorrectHighlighted && (
+                      <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
+                        <defs>
+                          {getThemeGradientDefs(colorTheme)}
+                        </defs>
+                        <rect
+                          x="0"
+                          y="0"
+                          width="100%"
+                          height="100%"
+                          fill="none"
+                          rx="0.85em"
+                          ry="0.85em"
+                          stroke="url(#theme-reveal-grad)"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          pathLength="100"
+                          style={{
+                            x: "0.1em",
+                            y: "0.1em",
+                            width: "calc(100% - 0.2em)",
+                            height: "calc(100% - 0.2em)",
+                            strokeWidth: "0.2em",
+                            strokeDasharray: "102",
+                            strokeDashoffset: "102",
+                            animation: `draw-border ${transitionTime}s linear forwards`,
+                          }}
+                        />
+                      </svg>
+                    )}
+
+                    <div
+                      className={`relative z-10 rounded-[0.95em] text-white font-bold text-left flex items-center gap-[0.8em] w-full h-auto py-[0.8em] pl-[1.2em] pr-[1.0em] ${
+                        isCorrectHighlighted
+                          ? "bg-emerald-950/95"
+                          : isHighlighted
+                          ? "bg-black/45 shadow-[0_0_1em_rgba(255,255,255,0.25)]"
+                          : phase === 5
+                          ? "bg-black/55 opacity-100"
+                          : "bg-black/65 opacity-80"
+                      }`}
+                      style={{
+                        transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                      }}
+                    >
+                      <span className={`rounded-full border flex items-center justify-center transition-colors duration-300 w-[2em] h-[2em] text-[0.85em] font-black shrink-0 ${
+                        isCorrectHighlighted
+                          ? "bg-emerald-500 text-white border-emerald-400 font-black scale-110"
+                          : isHighlighted
+                          ? "bg-white text-black border-white"
+                          : "bg-white/10 border-white/20 text-white"
+                      }`}>
+                        {String.fromCharCode(65 + i)}
+                      </span>
+                      <span className="text-[1em] leading-snug whitespace-normal">
+                        {ans.replace(/\s+\?/g, "\u00A0?")}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
 
             <div
               ref={explanationRef}
@@ -1698,7 +1736,7 @@ function QuizViewport({
                 marginTop: phase === 6 ? "0.6em" : "0px",
                 overflow: "hidden",
                 transform: phase === 6 ? "translateY(0)" : "translateY(100%)",
-                transition: `transform ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1), opacity ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
                 fontSize: explanationFontSize ? `${explanationFontSize / 0.85}px` : undefined,
               }}
             >

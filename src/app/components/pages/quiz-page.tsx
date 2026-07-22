@@ -6,9 +6,13 @@ import colorValues from "../../utils/color-values";
 import Footer from "../footer";
 import Navbar from "../navbar";
 
+// NOTE FOR FUTURE AI GENERATING QUESTIONS:
+// Maximum length for any answer option is ~45 characters (roughly half of 90 chars).
+// Long answers (e.g., "Variables like context memory, reasoning chains, tool calls, and retries compound per request")
+// cause UI overflow and layout distortion. Ensure all generated answer choices remain short and concise.
 interface QuizQuestion {
   question: string;
-  answers: string[];
+  answers: string[]; // Max length: ~45 characters per answer option
   correctIndex: number;
   explanation: string;
 }
@@ -66,7 +70,7 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
       },
       {
         question: "What does 'Elasticity' in cloud computing refer to?",
-        answers: ["The speed of network data transfers", "The ability to scale resources up or down on demand", "The security level of virtual networks", "The recovery of deleted cloud resources"],
+        answers: ["The speed of network data transfers", "Scaling resources up or down on demand", "The security level of virtual networks", "The recovery of deleted cloud resources"],
         correctIndex: 1,
         explanation: "Elasticity is the ability of cloud systems to dynamically scale resources to match real-time workload demands."
       },
@@ -332,7 +336,7 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
       },
       {
         question: "You want to dynamically mask sensitive data like credit card numbers or Social Security numbers from a dataset. Which service is designed for this?",
-        answers: ["Cloud KMS", "Sensitive Data Protection (formerly Cloud DLP)", "Secret Manager", "BigQuery Masking"],
+        answers: ["Cloud KMS", "Sensitive Data Protection (Cloud DLP)", "Secret Manager", "BigQuery Masking"],
         correctIndex: 1,
         explanation: "Google's Sensitive Data Protection service scans, classifies, and de-identifies/masks sensitive information automatically."
       },
@@ -354,26 +358,26 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
         explanation: "In AI token economics, a token is the fundamental atomic unit of computation and data over which models read, write, and reason, forming the basis of AI metering and cost attribution."
       },
       {
-        question: "What term describes token output that successfully meets a defined service-level objective (such as latency thresholds and speed rates)?",
+        question: "What do we call token output that successfully meets a defined service-level objective, such as latency thresholds and speed rates?",
         answers: ["Goodput", "Throughput", "Maxput", "Yieldput"],
         correctIndex: 0,
         explanation: "Goodput measures token production that satisfies specified latency and speed criteria (time-to-first-token and sustained tokens-per-second), distinguishing usable economic output from raw volume."
       },
       {
-        question: "According to FinOps for AI, why is token consumption non-linear with respect to user-facing activity?",
-        answers: ["Token prices are fixed across all model sizes", "Variables like context memory, reasoning chains, tool calls, and retries compound per request", "Output tokens are always cheaper than input tokens", "User prompts are automatically truncated by API gateways"],
+        question: "Why is token consumption non-linear with respect to user-facing activity?",
+        answers: ["Token prices are fixed across all model sizes", "Context, reasoning, tools & retries compound", "Output tokens cheaper than input tokens", "Prompts are truncated by API gateways"],
         correctIndex: 1,
         explanation: "Multiple compounding variables—including system prompt overhead, retrieved RAG context, model selection, reasoning traces, and multi-agent tool retries—cause token usage to expand non-linearly."
       },
       {
         question: "How does AI tokenomics differ from its historical usage in distributed-ledger/cryptocurrency systems?",
-        answers: ["In AI, a token represents a unit of computation rather than a cryptographic asset or unit of ownership", "AI tokenomics is strictly used for blockchain smart contracts", "In AI, tokens are fixed assets stored in distributed ledgers", "Crypto tokenomics meters energy per inference call"],
+        answers: ["Unit of computation, not a crypto asset", "Strictly used for blockchain contracts", "Fixed assets stored in distributed ledgers", "Energy metered per inference call"],
         correctIndex: 0,
         explanation: "Unlike blockchain tokenomics which deals with digital asset supply and ownership, AI tokenomics treats tokens as units of computational work (character clusters, sub-words, or discretized media segments)."
       },
       {
         question: "What major shift is occurring in enterprise AI procurement models as the initial subsidy phase ends?",
-        answers: ["Transition to unlimited flat-rate seat subscriptions for high-volume agents", "Shift to seat fees plus pre-committed metered token consumption structures", "Mandatory conversion of all workloads to self-hosted on-premises GPUs", "Elimination of pay-as-you-go API billing across all frontier model vendors"],
+        answers: ["Unlimited flat-rate seat subscriptions", "Seat fees plus pre-committed metered tokens", "Mandatory shift to self-hosted GPUs", "Eliminating pay-as-you-go API billing"],
         correctIndex: 1,
         explanation: "As enterprise usage outpaces unit-cost reductions, providers are moving away from unmetered subscription bundles toward seat fees paired with pre-committed token usage, mirroring cloud capacity forecasting."
       },
@@ -385,19 +389,19 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
       },
       {
         question: "What is the 'AI Factory' concept popularized by NVIDIA's Jensen Huang?",
-        answers: ["A physical assembly line that manufactures GPU microchips", "Data centers operating as manufacturing plants where electricity and compute enter and tokens emerge as the product", "An automated pipeline for generating synthetic datasets", "A software tool that automatically trains open-source LLMs"],
+        answers: ["Physical assembly line making GPU chips", "Data centers as plants producing tokens", "Automated pipeline for generating synthetic datasets", "Software for auto-training open LLMs"],
         correctIndex: 1,
         explanation: "The AI Factory framing treats data centers as production facilities where power and infrastructure inputs generate tokens as output, enabling unit-economic analysis like yield, throughput per megawatt, and cost per unit."
       },
       {
         question: "Which open-source specification standardizes cost and usage data across cloud and AI providers for FinOps practitioners?",
-        answers: ["OpenTelemetry", "FOCUS (FinOps Open Cost and Usage Specification)", "CUDA Benchmark Suite", "POSIX Standard"],
+        answers: ["OpenTelemetry", "FOCUS (FinOps Open Cost & Usage Spec)", "CUDA Benchmark Suite", "POSIX Standard"],
         correctIndex: 1,
         explanation: "The open-source FOCUS specification normalizes cost and consumption metrics across different providers, enabling multi-cloud reconciliation of token spend against underlying infrastructure."
       },
       {
         question: "How does model routing (or LLM cascading) optimize AI token economics?",
-        answers: ["It forces all queries to run on the largest frontier reasoning model available", "It translates text queries into vector embeddings without language models", "It directs queries to smaller, cheaper models first and escalates to larger models only when necessary", "It converts all input prompts into compressed binary representations"],
+        answers: ["Routing all queries to the largest model", "Translating text queries into vector embeddings", "Routing simple tasks to smaller models first", "Compressing prompts into binary formats"],
         correctIndex: 2,
         explanation: "Cascading and routing frameworks (such as FrugalGPT or RouteLLM) evaluate query complexity to send simpler tasks to cost-effective models, reserving expensive frontier models for difficult queries and saving up to 85%+ on token costs."
       },
@@ -735,9 +739,8 @@ function QuizViewport({
 
         setLayer2FontSize(optimal);
 
-        // If we are in Phase 6, calculate the explanation's font size independently to fit the remaining vertical space
-        // without resizing the correct answer card.
-        if (phase === 6 && explanationRef.current) {
+        // Calculate explanation font size independently to fit vertical space without resizing answer cards
+        if (explanationRef.current) {
           const parentWidth = containerRect.width - (3 * optimal);
           const layer2MaxWidth = parentWidth * 0.88;
           const correctIndex = questionData.correctIndex;
@@ -804,8 +807,6 @@ function QuizViewport({
           }
 
           setExplanationFontSize(optimalExpl);
-        } else {
-          setExplanationFontSize(null);
         }
       }
     };
@@ -1787,16 +1788,22 @@ function QuizViewport({
             <div
               ref={explanationRef}
               style={{
-                maxHeight: phase === 6 ? "16em" : "0px",
+                maxHeight: phase === 6 ? "35em" : "0px",
                 opacity: phase === 6 ? 1 : 0,
                 marginTop: phase === 6 ? "0.6em" : "0px",
-                overflow: "hidden",
-                transform: phase === 6 ? "translateY(0)" : "translateY(100%)",
-                transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}`,
+                pointerEvents: phase === 6 ? "auto" : "none",
+                transition: `max-height ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}, margin-top ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}, opacity ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}`,
                 fontSize: explanationFontSize ? `${explanationFontSize / 0.85}px` : undefined,
               }}
             >
-              <div className="text-center text-white px-[0.8em] py-[0.6em] bg-black/55 border-[0.05em] border-white/10 rounded-[1em] flex flex-col justify-center h-full shadow-inner overflow-y-auto max-h-[35em]">
+              <div
+                style={{
+                  transform: phase === 6 ? "translateY(0)" : "translateY(100vh)",
+                  opacity: phase === 6 ? 1 : 0,
+                  transition: `transform ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}, opacity ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}`,
+                }}
+                className="text-center text-white px-[0.8em] py-[0.6em] bg-black/55 border-[0.05em] border-white/10 rounded-[1em] flex flex-col justify-center h-auto shadow-inner overflow-hidden"
+              >
                 <span className="text-[0.6em] font-bold text-white/40 tracking-widest block mb-[0.2em] uppercase">
                   Explanation
                 </span>

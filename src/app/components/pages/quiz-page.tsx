@@ -2143,8 +2143,12 @@ ${q.explanation}`;
                               onClick={() => loadQuestionPreset(q)}
                               className={`w-full text-left text-xs py-1 px-2 rounded-lg transition-all duration-150 ${
                                 isSelected
-                                  ? "bg-amber-500/20 text-amber-400 font-bold border-l-2 border-amber-500 pl-1.5"
-                                  : "text-gray-400 hover:text-white hover:bg-white/5"
+                                  ? theme.color === "dark"
+                                    ? "bg-amber-500/20 text-amber-400 font-bold border-l-2 border-amber-500 pl-1.5"
+                                    : "bg-amber-500/15 text-amber-700 font-bold border-l-2 border-amber-500 pl-1.5"
+                                  : theme.color === "dark"
+                                  ? "text-gray-400 hover:text-white hover:bg-white/5"
+                                  : "text-gray-600 hover:text-gray-900 hover:bg-black/5"
                               }`}
                             >
                               <span className="opacity-50 mr-1">Q{qIdx + 1}:</span>
@@ -2281,7 +2285,11 @@ ${q.explanation}`;
                     />
                     <button
                       onClick={handleCopy}
-                      className="absolute top-3 right-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white p-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow cursor-pointer"
+                      className={`absolute top-3 right-3 p-1.5 rounded-lg text-xs font-bold flex items-center gap-1 transition shadow cursor-pointer ${
+                        theme.color === "dark"
+                          ? "bg-white/10 hover:bg-white/20 border border-white/20 text-white"
+                          : "bg-black/10 hover:bg-black/20 border border-black/20 text-gray-800"
+                      }`}
                       title="Copy to Clipboard"
                     >
                       {copied ? "✅ Copied!" : "📋 Copy"}
@@ -2372,13 +2380,21 @@ ${q.explanation}`;
                     <div className="grid grid-cols-2 gap-2">
                       <button
                         onClick={retreatPhase}
-                        className="py-2 px-3 bg-white/5 hover:bg-white/15 border border-white/10 text-xs font-bold rounded-lg transition text-center"
+                        className={`py-2 px-3 border text-xs font-bold rounded-lg transition text-center ${
+                          theme.color === "dark"
+                            ? "bg-white/5 hover:bg-white/15 border-white/10 text-white"
+                            : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-900"
+                        }`}
                       >
                         ◀ Previous
                       </button>
                       <button
                         onClick={advancePhase}
-                        className="py-2 px-3 bg-white/5 hover:bg-white/15 border border-white/10 text-xs font-bold rounded-lg transition text-center"
+                        className={`py-2 px-3 border text-xs font-bold rounded-lg transition text-center ${
+                          theme.color === "dark"
+                            ? "bg-white/5 hover:bg-white/15 border-white/10 text-white"
+                            : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-900"
+                        }`}
                       >
                         Next ▶
                       </button>
@@ -2391,7 +2407,9 @@ ${q.explanation}`;
                           className={`py-1 text-xs font-black rounded transition ${
                             phase === num
                               ? "bg-amber-500 text-white"
-                              : "bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400"
+                              : theme.color === "dark"
+                              ? "bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white"
+                              : "bg-black/5 hover:bg-black/10 border border-black/10 text-gray-600 hover:text-gray-900"
                           }`}
                         >
                           {num + 1}
@@ -2446,7 +2464,9 @@ ${q.explanation}`;
                           className={`py-1 px-1 rounded-lg font-bold border transition text-center text-[10px] ${
                             ambientAnimation === anim
                               ? "bg-amber-500 text-white border-amber-600"
-                              : "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400"
+                              : theme.color === "dark"
+                              ? "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400 hover:text-white"
+                              : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-600 hover:text-gray-900"
                           }`}
                         >
                           {anim === "none" ? "None" :
@@ -2501,7 +2521,9 @@ ${q.explanation}`;
                           className={`py-1.5 px-1 rounded-lg text-[10px] font-bold border transition text-center ${
                             aspectRatio === ratio
                               ? "bg-amber-500 text-white border-amber-600"
-                              : "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400"
+                              : theme.color === "dark"
+                              ? "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400 hover:text-white"
+                              : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-600 hover:text-gray-900"
                           }`}
                         >
                           {ratio}
@@ -2523,7 +2545,9 @@ ${q.explanation}`;
                           className={`py-2 px-2.5 rounded-lg text-xs font-bold border transition text-left flex flex-col justify-between ${
                             colorTheme === style
                               ? "bg-amber-500 text-white border-amber-600"
-                              : "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400"
+                              : theme.color === "dark"
+                              ? "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400 hover:text-white"
+                              : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-600 hover:text-gray-900"
                           }`}
                         >
                           <span>{style}</span>
@@ -2550,7 +2574,11 @@ ${q.explanation}`;
                       onClick={() => {
                         setPhase(0);
                       }}
-                      className="w-full py-2 px-4 bg-white/5 hover:bg-white/10 rounded-xl text-xs font-semibold border border-white/10 transition text-center"
+                      className={`w-full py-2 px-4 rounded-xl text-xs font-semibold border transition text-center ${
+                        theme.color === "dark"
+                          ? "bg-white/5 hover:bg-white/10 border-white/10 text-white"
+                          : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-900"
+                      }`}
                     >
                       🔄 Reset presentation
                     </button>

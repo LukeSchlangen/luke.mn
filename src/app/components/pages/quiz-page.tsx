@@ -1665,13 +1665,13 @@ function QuizViewport({
           fontSize: layer2FontSize ? `${layer2FontSize}px` : undefined,
         }}
       >
-        <div className="flex-1 flex flex-col justify-center py-[0.5em] h-full overflow-hidden w-full max-w-[88%] mx-auto">
+        <div className="flex-1 flex flex-col justify-center py-[0.5em] h-full overflow-visible w-full max-w-[88%] mx-auto">
           <div className="flex-1 flex flex-col justify-center overflow-visible">
             <div
               ref={answersContainerRef}
-              className="relative flex flex-col space-y-[0.6em] transition-all overflow-hidden"
+              className="relative flex flex-col space-y-[0.6em] transition-all overflow-hidden p-[0.5em] -m-[0.5em]"
               style={{
-                maxHeight: phase === 6 ? (correctCardHeight ? `${correctCardHeight}px` : "6em") : "40em",
+                maxHeight: phase === 6 ? (correctCardHeight ? `${correctCardHeight + (1.0 * (layer2FontSize || 16))}px` : "7em") : "40em",
                 transition: `max-height ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}`,
               }}
             >
@@ -1742,15 +1742,15 @@ function QuizViewport({
                     }`}
                   >
                     {isCorrectHighlighted && (
-                      <svg className="absolute inset-0 w-full h-full pointer-events-none z-20 overflow-hidden">
+                      <svg className="absolute inset-0 w-full h-full pointer-events-none z-20 overflow-visible">
                         <defs>
                           {getThemeGradientDefs(colorTheme)}
                         </defs>
                         <rect
-                          x="0.06em"
-                          y="0.06em"
-                          width="calc(100% - 0.12em)"
-                          height="calc(100% - 0.12em)"
+                          x="0.08em"
+                          y="0.08em"
+                          width="calc(100% - 0.16em)"
+                          height="calc(100% - 0.16em)"
                           fill="none"
                           rx="0.92em"
                           ry="0.92em"

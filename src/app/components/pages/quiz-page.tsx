@@ -1665,31 +1665,35 @@ function QuizViewport({
                       zIndex,
                       transition: `transform ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${revealDelay}, opacity ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${revealDelay}`,
                     }}
-                    className={`overflow-hidden rounded-[1em] relative border-[0.12em] shrink-0 ${isCorrectHighlighted ? "border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.15)]" : borderClass}`}
+                    className={`overflow-hidden rounded-[1em] relative border-[0.12em] shrink-0 text-white font-bold text-left flex items-center gap-[0.8em] w-full h-auto py-[0.8em] pl-[1.2em] pr-[1.0em] ${
+                      isCorrectHighlighted
+                        ? "border-transparent bg-emerald-950/95 shadow-[0_0_1.5em_rgba(16,185,129,0.25)]"
+                        : isHighlighted
+                        ? "bg-black/45 border-white/95 shadow-[0_0_1em_rgba(255,255,255,0.25)]"
+                        : phase === 5
+                        ? "bg-black/55 border-white/25"
+                        : "bg-black/65 border-white/15"
+                    }`}
                   >
                     {isCorrectHighlighted && (
-                      <svg className="absolute inset-0 w-full h-full pointer-events-none z-20">
+                      <svg className="absolute inset-0 w-full h-full pointer-events-none z-20 overflow-hidden">
                         <defs>
                           {getThemeGradientDefs(colorTheme)}
                         </defs>
                         <rect
-                          x="0"
-                          y="0"
-                          width="100%"
-                          height="100%"
+                          x="0.06em"
+                          y="0.06em"
+                          width="calc(100% - 0.12em)"
+                          height="calc(100% - 0.12em)"
                           fill="none"
-                          rx="0.85em"
-                          ry="0.85em"
+                          rx="0.92em"
+                          ry="0.92em"
                           stroke="url(#theme-reveal-grad)"
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           pathLength="100"
                           style={{
-                            x: "0.1em",
-                            y: "0.1em",
-                            width: "calc(100% - 0.2em)",
-                            height: "calc(100% - 0.2em)",
-                            strokeWidth: "0.2em",
+                            strokeWidth: "0.15em",
                             strokeDasharray: "102",
                             strokeDashoffset: "102",
                             animation: `draw-border ${transitionTime}s linear forwards`,
@@ -1698,33 +1702,18 @@ function QuizViewport({
                       </svg>
                     )}
 
-                    <div
-                      className={`relative z-10 rounded-[0.95em] text-white font-bold text-left flex items-center gap-[0.8em] w-full h-auto py-[0.8em] pl-[1.2em] pr-[1.0em] ${
-                        isCorrectHighlighted
-                          ? "bg-emerald-950/95"
-                          : isHighlighted
-                          ? "bg-black/45 shadow-[0_0_1em_rgba(255,255,255,0.25)]"
-                          : phase === 5
-                          ? "bg-black/55 opacity-100"
-                          : "bg-black/65 opacity-80"
-                      }`}
-                      style={{
-                        transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-                      }}
-                    >
-                      <span className={`rounded-full border flex items-center justify-center transition-colors duration-300 w-[2em] h-[2em] text-[0.85em] font-black shrink-0 ${
-                        isCorrectHighlighted
-                          ? "bg-emerald-500 text-white border-emerald-400 font-black scale-110"
-                          : isHighlighted
-                          ? "bg-white text-black border-white"
-                          : "bg-white/10 border-white/20 text-white"
-                      }`}>
-                        {String.fromCharCode(65 + i)}
-                      </span>
-                      <span className="text-[1em] leading-snug whitespace-normal">
-                        {ans.replace(/\s+\?/g, "\u00A0?")}
-                      </span>
-                    </div>
+                    <span className={`relative z-10 rounded-full border flex items-center justify-center transition-colors duration-300 w-[2em] h-[2em] text-[0.85em] font-black shrink-0 ${
+                      isCorrectHighlighted
+                        ? "bg-emerald-500 text-white border-emerald-400 font-black scale-110"
+                        : isHighlighted
+                        ? "bg-white text-black border-white"
+                        : "bg-white/10 border-white/20 text-white"
+                    }`}>
+                      {String.fromCharCode(65 + i)}
+                    </span>
+                    <span className="relative z-10 text-[1em] leading-snug whitespace-normal">
+                      {ans.replace(/\s+\?/g, "\u00A0?")}
+                    </span>
                   </div>
                 );
               })}

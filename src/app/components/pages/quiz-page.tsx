@@ -1606,7 +1606,7 @@ function QuizViewport({
               className="relative flex flex-col space-y-[0.6em] transition-all overflow-hidden"
               style={{
                 maxHeight: phase === 6 ? (correctCardHeight ? `${correctCardHeight}px` : "6em") : "40em",
-                transition: `max-height ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                transition: `max-height ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}`,
               }}
             >
               {questionData.answers.map((ans, i) => {
@@ -1648,6 +1648,8 @@ function QuizViewport({
                   borderClass = "border-white/15";
                 }
 
+                const revealDelay = phase === 6 ? `${transitionTime}s` : "0s";
+
                 return (
                   <div
                     key={i}
@@ -1661,7 +1663,7 @@ function QuizViewport({
                       pointerEvents,
                       transform,
                       zIndex,
-                      transition: `transform ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1), opacity ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                      transition: `transform ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${revealDelay}, opacity ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${revealDelay}`,
                     }}
                     className={`overflow-hidden rounded-[1em] relative border-[0.12em] shrink-0 ${isCorrectHighlighted ? "border-transparent shadow-[0_0_1.5em_rgba(255,255,255,0.15)]" : borderClass}`}
                   >
@@ -1736,7 +1738,7 @@ function QuizViewport({
                 marginTop: phase === 6 ? "0.6em" : "0px",
                 overflow: "hidden",
                 transform: phase === 6 ? "translateY(0)" : "translateY(100%)",
-                transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
+                transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}`,
                 fontSize: explanationFontSize ? `${explanationFontSize / 0.85}px` : undefined,
               }}
             >

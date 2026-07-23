@@ -2,8 +2,6 @@ $ next dev
 ▲ Next.js 16.2.10 (Turbopack)
 - Local:         http://localhost:3000
 - Network:       http://192.168.0.2:3000
-✓ Ready in 539ms
+✓ Ready in 467ms
 
-○ Compiling /quiz/[[...slug]] ...
- HEAD /quiz 200 in 4.3s (next.js: 3.9s, application-code: 346ms)
- GET /quiz 200 in 235ms (next.js: 54ms, application-code: 180ms)
+ GET /quiz 200 in 3.9s (next.js: 3.5s, application-code: 362ms)

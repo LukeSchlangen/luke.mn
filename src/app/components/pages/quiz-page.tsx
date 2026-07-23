@@ -358,16 +358,27 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
         explanation: "In AI token economics, a token is the fundamental atomic unit of computation and data over which models read, write, and reason, forming the basis of AI metering and cost attribution."
       },
       {
-        question: "What do we call token output that successfully meets a defined service-level objective, such as latency thresholds and speed rates?",
-        answers: ["Goodput", "Throughput", "Maxput", "Yieldput"],
-        correctIndex: 0,
-        explanation: "Goodput measures token production that satisfies specified latency and speed criteria (time-to-first-token and sustained tokens-per-second), distinguishing usable economic output from raw volume."
+        question: "What is a token in the context of Large Language Models?",
+        answers: [
+          "A cryptographic key used for API security",
+          "A physical component within GPU hardware",
+          "A text segment (word or subword) read by AI",
+          "A fixed 1MB block of storage in a database"
+        ],
+        correctIndex: 2,
+        explanation: "A token is a segment of text (such as a word, character, or subword fragment) that language models read and generate during processing."
       },
       {
         question: "Why is token consumption non-linear with respect to user-facing activity?",
         answers: ["Token prices are fixed across all model sizes", "Context, reasoning, tools & retries compound", "Output tokens cheaper than input tokens", "Prompts are truncated by API gateways"],
         correctIndex: 1,
         explanation: "Multiple compounding variables—including system prompt overhead, retrieved RAG context, model selection, reasoning traces, and multi-agent tool retries—cause token usage to expand non-linearly."
+      },
+      {
+        question: "What do we call token output that successfully meets a defined service-level objective, such as latency thresholds and speed rates?",
+        answers: ["Goodput", "Throughput", "Maxput", "Yieldput"],
+        correctIndex: 0,
+        explanation: "Goodput measures token production that satisfies specified latency and speed criteria (time-to-first-token and sustained tokens-per-second), distinguishing usable economic output from raw volume."
       },
       {
         question: "What major shift is occurring in enterprise AI procurement models as the initial subsidy phase ends?",
@@ -377,7 +388,7 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
       },
       {
         question: "Which open-source specification standardizes cost and usage data across cloud and AI providers?",
-        answers: ["OpenTelemetry", "FinOps Open Cost & Usage Spec (FOCUS)", "CUDA Benchmark Suite", "Hardware Performance Monitor Specification (HPM)"],
+        answers: ["OpenTelemetry", "FinOps Open Cost & Usage Spec (FOCUS)", "CUDA Benchmark Suite", "Hardware Performance Monitor Specification (HPMS)"],
         correctIndex: 1,
         explanation: "The open-source FOCUS specification normalizes cost and consumption metrics across different providers, enabling multi-cloud reconciliation of token spend against underlying infrastructure."
       },

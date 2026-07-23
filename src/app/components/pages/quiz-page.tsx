@@ -2139,6 +2139,28 @@ ${q.explanation}`;
     }
   };
 
+  const goToNextQuestion = () => {
+    const allQuestions = GCP_EXAMS_PRESETS.flatMap((exam) => exam.questions);
+    let currentIndex = allQuestions.findIndex((q) => q.question === questionData.question);
+    if (currentIndex === -1) {
+      currentIndex = 0;
+    }
+    const nextIndex = (currentIndex + 1) % allQuestions.length;
+    loadQuestionPreset(allQuestions[nextIndex]);
+    setPhase(0);
+  };
+
+  const goToPreviousQuestion = () => {
+    const allQuestions = GCP_EXAMS_PRESETS.flatMap((exam) => exam.questions);
+    let currentIndex = allQuestions.findIndex((q) => q.question === questionData.question);
+    if (currentIndex === -1) {
+      currentIndex = 0;
+    }
+    const prevIndex = (currentIndex - 1 + allQuestions.length) % allQuestions.length;
+    loadQuestionPreset(allQuestions[prevIndex]);
+    setPhase(0);
+  };
+
   // Keyboard navigation for presentation mode
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -2146,10 +2168,19 @@ ${q.explanation}`;
         setHidePanels(false);
       }
       if (phase === "edit") return;
-      if (e.key === "ArrowRight") {
+
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
         advancePhase();
-      } else if (e.key === "ArrowLeft") {
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
         retreatPhase();
+      } else if (e.key === "ArrowRight") {
+        e.preventDefault();
+        goToNextQuestion();
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        goToPreviousQuestion();
       }
     };
 
@@ -2158,7 +2189,7 @@ ${q.explanation}`;
       window.removeEventListener("keydown", handleKeyDown);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase]);
+  }, [phase, questionData]);
 
   // Input styling based on theme
   const inputThemeClass = theme.color === "dark"

@@ -27,335 +27,645 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
     examName: "Cloud Digital Leader",
     questions: [
       {
-        question: "Which cloud computing service model offers the highest level of customization and control over the underlying infrastructure?",
-        answers: ["SaaS (Software as a Service)", "PaaS (Platform as a Service)", "IaaS (Infrastructure as a Service)", "FaaS (Function as a Service)"],
+        question:
+          "Which cloud computing service model offers the highest level of customization and control over the underlying infrastructure?",
+        answers: [
+          "SaaS (Software as a Service)",
+          "PaaS (Platform as a Service)",
+          "IaaS (Infrastructure as a Service)",
+          "FaaS (Function as a Service)",
+        ],
         correctIndex: 2,
-        explanation: "Infrastructure as a Service (IaaS) provides virtualized computing resources, giving users maximum control over operating systems, storage, and networking."
+        explanation:
+          "Infrastructure as a Service (IaaS) provides virtualized computing resources, giving users maximum control over operating systems, storage, and networking.",
       },
       {
-        question: "Which Google Cloud service is a fully managed, serverless database designed for document store workloads?",
+        question:
+          "Which Google Cloud service is a fully managed, serverless database designed for document store workloads?",
         answers: ["Cloud SQL", "Firestore", "Cloud Spanner", "Cloud Bigtable"],
         correctIndex: 1,
-        explanation: "Firestore is a flexible, scalable, serverless NoSQL document database for mobile, web, and server development."
+        explanation:
+          "Firestore is a flexible, scalable, serverless NoSQL document database for mobile, web, and server development.",
       },
       {
-        question: "What is the primary benefit of deploying applications across multiple Google Cloud zones in a region?",
-        answers: ["High availability", "Reduced latency", "Lower cost", "Global distribution"],
+        question:
+          "What is the primary benefit of deploying applications across multiple Google Cloud zones in a region?",
+        answers: [
+          "High availability",
+          "Reduced latency",
+          "Lower cost",
+          "Global distribution",
+        ],
         correctIndex: 0,
-        explanation: "Deploying across multiple zones provides fault tolerance and high availability if a single zone experiences an outage."
+        explanation:
+          "Deploying across multiple zones provides fault tolerance and high availability if a single zone experiences an outage.",
       },
       {
-        question: "Which pricing model provides discounts on virtual machine instances in exchange for a commitment to use a minimum level of resources for 1 or 3 years?",
-        answers: ["Spot VMs", "Committed Use Discounts (CUDs)", "Sustained Use Discounts (SUDs)", "On-demand pricing"],
+        question:
+          "Which pricing model provides discounts on virtual machine instances in exchange for a commitment to use a minimum level of resources for 1 or 3 years?",
+        answers: [
+          "Spot VMs",
+          "Committed Use Discounts (CUDs)",
+          "Sustained Use Discounts (SUDs)",
+          "On-demand pricing",
+        ],
         correctIndex: 1,
-        explanation: "Committed Use Discounts (CUDs) offer significant savings when you commit to a contract of 1 or 3 years."
+        explanation:
+          "Committed Use Discounts (CUDs) offer significant savings when you commit to a contract of 1 or 3 years.",
       },
       {
-        question: "What Google Cloud service allows users to manage and enforce access control policies across all resources?",
-        answers: ["Cloud Identity", "Identity and Access Management (IAM)", "Cloud Armor", "VPC Service Controls"],
+        question:
+          "What Google Cloud service allows users to manage and enforce access control policies across all resources?",
+        answers: [
+          "Cloud Identity",
+          "Identity and Access Management (IAM)",
+          "Cloud Armor",
+          "VPC Service Controls",
+        ],
         correctIndex: 1,
-        explanation: "IAM lets administrators authorize who can take action on specific resources, giving full control and visibility."
+        explanation:
+          "IAM lets administrators authorize who can take action on specific resources, giving full control and visibility.",
       },
       {
-        question: "Which of the following is a key advantage of utilizing serverless computing on Google Cloud?",
-        answers: ["No code required", "Zero infrastructure management", "Fixed monthly cost", "Complete control over CPU hardware"],
+        question:
+          "Which of the following is a key advantage of utilizing serverless computing on Google Cloud?",
+        answers: [
+          "No code required",
+          "Zero infrastructure management",
+          "Fixed monthly cost",
+          "Complete control over CPU hardware",
+        ],
         correctIndex: 1,
-        explanation: "Serverless computing abstracts away all infrastructure management, allowing developers to focus on writing code while the platform automatically scales."
+        explanation:
+          "Serverless computing abstracts away all infrastructure management, allowing developers to focus on writing code while the platform automatically scales.",
       },
       {
-        question: "Which service provides a central repository for viewing and managing security posture, vulnerabilities, and threats?",
-        answers: ["Cloud Logging", "Cloud Monitoring", "Security Command Center (SCC)", "Artifact Registry"],
+        question:
+          "Which service provides a central repository for viewing and managing security posture, vulnerabilities, and threats?",
+        answers: [
+          "Cloud Logging",
+          "Cloud Monitoring",
+          "Security Command Center (SCC)",
+          "Artifact Registry",
+        ],
         correctIndex: 2,
-        explanation: "Security Command Center (SCC) is Google Cloud's security and risk management platform for identifying vulnerabilities and threats."
+        explanation:
+          "Security Command Center (SCC) is Google Cloud's security and risk management platform for identifying vulnerabilities and threats.",
       },
       {
         question: "What does 'Elasticity' in cloud computing refer to?",
-        answers: ["The speed of network data transfers", "Scaling resources up or down on demand", "The security level of virtual networks", "The recovery of deleted cloud resources"],
+        answers: [
+          "The speed of network data transfers",
+          "Scaling resources up or down on demand",
+          "The security level of virtual networks",
+          "The recovery of deleted cloud resources",
+        ],
         correctIndex: 1,
-        explanation: "Elasticity is the ability of cloud systems to dynamically scale resources to match real-time workload demands."
+        explanation:
+          "Elasticity is the ability of cloud systems to dynamically scale resources to match real-time workload demands.",
       },
       {
-        question: "Which Google Cloud migration tool helps plan, track, and execute physical migrations of workloads to the cloud?",
-        answers: ["Database Migration Service", "BigQuery Omni", "Google Cloud Migration Center", "Storage Transfer Service"],
+        question:
+          "Which Google Cloud migration tool helps plan, track, and execute physical migrations of workloads to the cloud?",
+        answers: [
+          "Database Migration Service",
+          "BigQuery Omni",
+          "Google Cloud Migration Center",
+          "Storage Transfer Service",
+        ],
         correctIndex: 2,
-        explanation: "Migration Center is a unified platform that helps assess, plan, and optimize your cloud migration journey."
+        explanation:
+          "Migration Center is a unified platform that helps assess, plan, and optimize your cloud migration journey.",
       },
       {
-        question: "What is Google Cloud's globally distributed, horizontal-scaling SQL database with up to 99.999% availability?",
+        question:
+          "What is Google Cloud's globally distributed, horizontal-scaling SQL database with up to 99.999% availability?",
         answers: ["Cloud SQL", "Cloud Spanner", "Firestore", "BigQuery"],
         correctIndex: 1,
-        explanation: "Cloud Spanner is a fully managed relational database with unlimited scale, strong consistency, and high availability."
-      }
-    ]
+        explanation:
+          "Cloud Spanner is a fully managed relational database with unlimited scale, strong consistency, and high availability.",
+      },
+    ],
   },
   {
     examName: "Associate Cloud Engineer",
     questions: [
       {
-        question: "Which gcloud command-line component is used to view configuration properties for the active account?",
-        answers: ["gcloud config list", "gcloud info config", "gcloud config show", "gcloud account list"],
+        question:
+          "Which gcloud command-line component is used to view configuration properties for the active account?",
+        answers: [
+          "gcloud config list",
+          "gcloud info config",
+          "gcloud config show",
+          "gcloud account list",
+        ],
         correctIndex: 0,
-        explanation: "Running 'gcloud config list' displays the properties of your active configuration, including active account and project."
+        explanation:
+          "Running 'gcloud config list' displays the properties of your active configuration, including active account and project.",
       },
       {
-        question: "Which service is best suited for hosting a containerized application with automatic scaling to zero when there is no traffic?",
-        answers: ["Compute Engine", "Google Kubernetes Engine (GKE)", "Cloud Run", "App Engine Flexible"],
+        question:
+          "Which service is best suited for hosting a containerized application with automatic scaling to zero when there is no traffic?",
+        answers: [
+          "Compute Engine",
+          "Google Kubernetes Engine (GKE)",
+          "Cloud Run",
+          "App Engine Flexible",
+        ],
         correctIndex: 2,
-        explanation: "Cloud Run is a fully managed compute platform that automatically scales containerized applications up and down to zero."
+        explanation:
+          "Cloud Run is a fully managed compute platform that automatically scales containerized applications up and down to zero.",
       },
       {
-        question: "What IAM role should you assign to a developer who needs to view but not modify any resources within a project?",
-        answers: ["roles/viewer", "roles/browser", "roles/editor", "roles/owner"],
+        question:
+          "What IAM role should you assign to a developer who needs to view but not modify any resources within a project?",
+        answers: [
+          "roles/viewer",
+          "roles/browser",
+          "roles/editor",
+          "roles/owner",
+        ],
         correctIndex: 0,
-        explanation: "The Viewer role (roles/viewer) provides read-only permissions to see resources but not alter their configurations."
+        explanation:
+          "The Viewer role (roles/viewer) provides read-only permissions to see resources but not alter their configurations.",
       },
       {
-        question: "You want to run a batch processing job on Compute Engine that can be terminated at any time. Which type of VM should you use to minimize cost?",
-        answers: ["Sole-tenant Node", "Spot VM", "Shielded VM", "Confidential VM"],
+        question:
+          "You want to run a batch processing job on Compute Engine that can be terminated at any time. Which type of VM should you use to minimize cost?",
+        answers: [
+          "Sole-tenant Node",
+          "Spot VM",
+          "Shielded VM",
+          "Confidential VM",
+        ],
         correctIndex: 1,
-        explanation: "Spot VMs offer steep discounts (60-91%) compared to standard VMs, but Google can reclaim them with a 30-second notice."
+        explanation:
+          "Spot VMs offer steep discounts (60-91%) compared to standard VMs, but Google can reclaim them with a 30-second notice.",
       },
       {
-        question: "Which Cloud Storage class is most cost-effective for storing backups that are accessed less than once a year?",
+        question:
+          "Which Cloud Storage class is most cost-effective for storing backups that are accessed less than once a year?",
         answers: ["Standard", "Nearline", "Coldline", "Archive"],
         correctIndex: 3,
-        explanation: "Archive Storage is designed for data archiving, online backup, and disaster recovery, accessed less than once a year."
+        explanation:
+          "Archive Storage is designed for data archiving, online backup, and disaster recovery, accessed less than once a year.",
       },
       {
-        question: "What tool allows you to establish a secure, private, high-performance connection between your on-premises network and VPC without traversing the public internet?",
-        answers: ["Cloud VPN", "Cloud Interconnect", "VPC Network Peering", "Cloud Router"],
+        question:
+          "What tool allows you to establish a secure, private, high-performance connection between your on-premises network and VPC without traversing the public internet?",
+        answers: [
+          "Cloud VPN",
+          "Cloud Interconnect",
+          "VPC Network Peering",
+          "Cloud Router",
+        ],
         correctIndex: 1,
-        explanation: "Cloud Interconnect provides direct, low-latency, physical connections between your on-premises and Google Cloud networks."
+        explanation:
+          "Cloud Interconnect provides direct, low-latency, physical connections between your on-premises and Google Cloud networks.",
       },
       {
-        question: "How can you ensure that a set of Compute Engine instances can communicate with each other using internal IP addresses across different VPC networks?",
-        answers: ["Use VPC Network Peering", "Configure Cloud NAT", "Assign public IP addresses", "Use a Shared VPC"],
+        question:
+          "How can you ensure that a set of Compute Engine instances can communicate with each other using internal IP addresses across different VPC networks?",
+        answers: [
+          "Use VPC Network Peering",
+          "Configure Cloud NAT",
+          "Assign public IP addresses",
+          "Use a Shared VPC",
+        ],
         correctIndex: 0,
-        explanation: "VPC Network Peering allows secure connection of two Virtual Private Cloud (VPC) networks so that resources can communicate privately."
+        explanation:
+          "VPC Network Peering allows secure connection of two Virtual Private Cloud (VPC) networks so that resources can communicate privately.",
       },
       {
-        question: "Which service allows you to capture and analyze real-time streaming data from IoT devices at scale?",
+        question:
+          "Which service allows you to capture and analyze real-time streaming data from IoT devices at scale?",
         answers: ["Pub/Sub", "BigQuery", "Cloud Storage", "Cloud Memorystore"],
         correctIndex: 0,
-        explanation: "Pub/Sub is an asynchronous, scalable messaging service that ingests event streams and distributes them to processing pipelines."
+        explanation:
+          "Pub/Sub is an asynchronous, scalable messaging service that ingests event streams and distributes them to processing pipelines.",
       },
       {
-        question: "You need to automate the creation of a group of identical VM instances with load balancing. What should you configure?",
-        answers: ["Managed Instance Group (MIG)", "Unmanaged Instance Group", "Sole-tenant node group", "Compute Engine cluster"],
+        question:
+          "You need to automate the creation of a group of identical VM instances with load balancing. What should you configure?",
+        answers: [
+          "Managed Instance Group (MIG)",
+          "Unmanaged Instance Group",
+          "Sole-tenant node group",
+          "Compute Engine cluster",
+        ],
         correctIndex: 0,
-        explanation: "A Managed Instance Group uses an instance template to automatically deploy, scale, and manage a group of identical VM instances."
+        explanation:
+          "A Managed Instance Group uses an instance template to automatically deploy, scale, and manage a group of identical VM instances.",
       },
       {
-        question: "Which Google Cloud service acts as a distributed, scalable caching layer for application database queries?",
+        question:
+          "Which Google Cloud service acts as a distributed, scalable caching layer for application database queries?",
         answers: ["Cloud SQL", "Cloud Memorystore", "Firestore", "BigQuery"],
         correctIndex: 1,
-        explanation: "Cloud Memorystore is a fully managed in-memory data store service for Redis and Memcached, ideal for low-latency caching."
-      }
-    ]
+        explanation:
+          "Cloud Memorystore is a fully managed in-memory data store service for Redis and Memcached, ideal for low-latency caching.",
+      },
+    ],
   },
   {
     examName: "Professional Cloud Architect",
     questions: [
       {
-        question: "Your organization requires high-volume database transactions with sub-millisecond response times globally. Which database should you choose?",
+        question:
+          "Your organization requires high-volume database transactions with sub-millisecond response times globally. Which database should you choose?",
         answers: ["BigQuery", "Cloud Spanner", "Cloud SQL", "Cloud Bigtable"],
         correctIndex: 1,
-        explanation: "Cloud Spanner provides high-throughput transactional database access with strict consistency and global replication."
+        explanation:
+          "Cloud Spanner provides high-throughput transactional database access with strict consistency and global replication.",
       },
       {
-        question: "You are designing a disaster recovery strategy with a recovery time objective (RTO) of several hours and low cost. Which pattern should you select?",
-        answers: ["Active-Active Warm Standby", "Cold Standby (Backup & Restore)", "Multi-Region Live Sync", "Active-Passive Pilot Light"],
+        question:
+          "You are designing a disaster recovery strategy with a recovery time objective (RTO) of several hours and low cost. Which pattern should you select?",
+        answers: [
+          "Active-Active Warm Standby",
+          "Cold Standby (Backup & Restore)",
+          "Multi-Region Live Sync",
+          "Active-Passive Pilot Light",
+        ],
         correctIndex: 1,
-        explanation: "A Cold Standby (Backup and Restore) approach has the lowest cost, but requires rebuilding resources, which takes hours (high RTO)."
+        explanation:
+          "A Cold Standby (Backup and Restore) approach has the lowest cost, but requires rebuilding resources, which takes hours (high RTO).",
       },
       {
-        question: "Which network load balancer should you use for external, non-HTTP(S) traffic on TCP ports 80 and 443 where client IP preservation is required?",
-        answers: ["Global External Application Load Balancer", "Regional External Network Load Balancer", "Global External Proxy Load Balancer", "Internal TCP/UDP Load Balancer"],
+        question:
+          "Which network load balancer should you use for external, non-HTTP(S) traffic on TCP ports 80 and 443 where client IP preservation is required?",
+        answers: [
+          "Global External Application Load Balancer",
+          "Regional External Network Load Balancer",
+          "Global External Proxy Load Balancer",
+          "Internal TCP/UDP Load Balancer",
+        ],
         correctIndex: 1,
-        explanation: "The Regional External Network Load Balancer is a pass-through layer-4 balancer that preserves client source IP addresses."
+        explanation:
+          "The Regional External Network Load Balancer is a pass-through layer-4 balancer that preserves client source IP addresses.",
       },
       {
-        question: "To comply with regulatory standards, you must encrypt storage buckets using keys managed entirely outside of Google Cloud. Which option should you use?",
-        answers: ["Google-owned default keys", "Customer-Managed Encryption Keys (CMEK)", "Customer-Supplied Encryption Keys (CSEK)", "External Key Manager (EKM) via Cloud KMS"],
+        question:
+          "To comply with regulatory standards, you must encrypt storage buckets using keys managed entirely outside of Google Cloud. Which option should you use?",
+        answers: [
+          "Google-owned default keys",
+          "Customer-Managed Encryption Keys (CMEK)",
+          "Customer-Supplied Encryption Keys (CSEK)",
+          "External Key Manager (EKM) via Cloud KMS",
+        ],
         correctIndex: 3,
-        explanation: "External Key Manager (EKM) allows you to use keys stored in an external third-party key management partner to encrypt GCP data."
+        explanation:
+          "External Key Manager (EKM) allows you to use keys stored in an external third-party key management partner to encrypt GCP data.",
       },
       {
-        question: "Which design principle helps minimize operational overhead when managing microservices running on Google Kubernetes Engine?",
-        answers: ["Deploying everything to a single node", "Using Autopilot cluster mode", "Manually managing GKE node versions", "Hardcoding network configurations"],
+        question:
+          "Which design principle helps minimize operational overhead when managing microservices running on Google Kubernetes Engine?",
+        answers: [
+          "Deploying everything to a single node",
+          "Using Autopilot cluster mode",
+          "Manually managing GKE node versions",
+          "Hardcoding network configurations",
+        ],
         correctIndex: 1,
-        explanation: "GKE Autopilot manages the entire underlying cluster infrastructure, including node provisioning, scaling, and security."
+        explanation:
+          "GKE Autopilot manages the entire underlying cluster infrastructure, including node provisioning, scaling, and security.",
       },
       {
-        question: "You need to migrate a monolithic application to microservices with minimum downtime. What migration strategy is recommended?",
-        answers: ["Big Bang migration", "Strangler Fig pattern", "Lift and Shift", "Rehosting"],
+        question:
+          "You need to migrate a monolithic application to microservices with minimum downtime. What migration strategy is recommended?",
+        answers: [
+          "Big Bang migration",
+          "Strangler Fig pattern",
+          "Lift and Shift",
+          "Rehosting",
+        ],
         correctIndex: 1,
-        explanation: "The Strangler Fig pattern migrates parts of a monolith incrementally to microservices until the monolith can be decommissioned."
+        explanation:
+          "The Strangler Fig pattern migrates parts of a monolith incrementally to microservices until the monolith can be decommissioned.",
       },
       {
-        question: "How should you design a secure, high-bandwidth hybrid network connection that requires encryption over the public internet?",
-        answers: ["Dedicated Interconnect", "Partner Interconnect", "HA VPN over Cloud Interconnect", "Direct Peering"],
+        question:
+          "How should you design a secure, high-bandwidth hybrid network connection that requires encryption over the public internet?",
+        answers: [
+          "Dedicated Interconnect",
+          "Partner Interconnect",
+          "HA VPN over Cloud Interconnect",
+          "Direct Peering",
+        ],
         correctIndex: 2,
-        explanation: "IPsec HA VPN over Cloud Interconnect provides both the high bandwidth of Interconnect and the security of IPsec encryption."
+        explanation:
+          "IPsec HA VPN over Cloud Interconnect provides both the high bandwidth of Interconnect and the security of IPsec encryption.",
       },
       {
-        question: "To enforce fine-grained organizational policies across all folders and projects in your hierarchy, which tool is best suited?",
-        answers: ["IAM Roles", "Resource Manager Org Policies", "VPC Service Controls", "Cloud Asset Inventory"],
+        question:
+          "To enforce fine-grained organizational policies across all folders and projects in your hierarchy, which tool is best suited?",
+        answers: [
+          "IAM Roles",
+          "Resource Manager Org Policies",
+          "VPC Service Controls",
+          "Cloud Asset Inventory",
+        ],
         correctIndex: 1,
-        explanation: "Organization Policies provide centralized, programmatic control over your organization's cloud resources."
+        explanation:
+          "Organization Policies provide centralized, programmatic control over your organization's cloud resources.",
       },
       {
-        question: "Your API needs to distribute load globally across instances in multiple regions, while using a single external IP address. Which load balancer is required?",
-        answers: ["Global External Application Load Balancer", "Regional External Network Load Balancer", "Internal Application Load Balancer", "Regional External Proxy Load Balancer"],
+        question:
+          "Your API needs to distribute load globally across instances in multiple regions, while using a single external IP address. Which load balancer is required?",
+        answers: [
+          "Global External Application Load Balancer",
+          "Regional External Network Load Balancer",
+          "Internal Application Load Balancer",
+          "Regional External Proxy Load Balancer",
+        ],
         correctIndex: 0,
-        explanation: "The Global External Application Load Balancer routes HTTP/S traffic globally using a single, global Anycast IP address."
+        explanation:
+          "The Global External Application Load Balancer routes HTTP/S traffic globally using a single, global Anycast IP address.",
       },
       {
-        question: "Which Google Cloud service provides isolated execution environments for running highly sensitive, confidential workloads with runtime encryption?",
-        answers: ["Shielded VMs", "Confidential Computing VMs", "Cloud HSM", "Binary Authorization"],
+        question:
+          "Which Google Cloud service provides isolated execution environments for running highly sensitive, confidential workloads with runtime encryption?",
+        answers: [
+          "Shielded VMs",
+          "Confidential Computing VMs",
+          "Cloud HSM",
+          "Binary Authorization",
+        ],
         correctIndex: 1,
-        explanation: "Confidential VMs leverage hardware-based memory encryption to protect data in use/at runtime."
-      }
-    ]
+        explanation:
+          "Confidential VMs leverage hardware-based memory encryption to protect data in use/at runtime.",
+      },
+    ],
   },
   {
     examName: "Professional Data Engineer",
     questions: [
       {
-        question: "You need to analyze petabytes of structured and semi-structured data with SQL queries at high speeds. Which service is best?",
+        question:
+          "You need to analyze petabytes of structured and semi-structured data with SQL queries at high speeds. Which service is best?",
         answers: ["BigQuery", "Cloud Bigtable", "Cloud Spanner", "Datastore"],
         correctIndex: 0,
-        explanation: "BigQuery is a serverless, highly-scalable cloud data warehouse designed for fast analytics over petabytes of data."
+        explanation:
+          "BigQuery is a serverless, highly-scalable cloud data warehouse designed for fast analytics over petabytes of data.",
       },
       {
-        question: "Which Apache Beam runner is utilized by Cloud Dataflow to run unified batch and streaming data processing pipelines?",
-        answers: ["Direct Runner", "Flink Runner", "Spark Runner", "Dataflow Runner"],
+        question:
+          "Which Apache Beam runner is utilized by Cloud Dataflow to run unified batch and streaming data processing pipelines?",
+        answers: [
+          "Direct Runner",
+          "Flink Runner",
+          "Spark Runner",
+          "Dataflow Runner",
+        ],
         correctIndex: 3,
-        explanation: "Cloud Dataflow executes Apache Beam pipelines using the specialized, serverless Dataflow Runner."
+        explanation:
+          "Cloud Dataflow executes Apache Beam pipelines using the specialized, serverless Dataflow Runner.",
       },
       {
-        question: "What database service is optimized for high-throughput, low-latency analytical and operational workloads on non-relational wide-column data?",
+        question:
+          "What database service is optimized for high-throughput, low-latency analytical and operational workloads on non-relational wide-column data?",
         answers: ["Cloud SQL", "Firestore", "Cloud Bigtable", "Cloud Spanner"],
         correctIndex: 2,
-        explanation: "Cloud Bigtable is Google's NoSQL wide-column database, designed for large analytical and operational workloads."
+        explanation:
+          "Cloud Bigtable is Google's NoSQL wide-column database, designed for large analytical and operational workloads.",
       },
       {
-        question: "You want to automate the ingestion of continuous real-time data from Pub/Sub, transform it, and write to BigQuery. Which managed service is recommended?",
-        answers: ["Cloud Composer", "Cloud Dataflow", "Cloud Dataproc", "Cloud Data Fusion"],
+        question:
+          "You want to automate the ingestion of continuous real-time data from Pub/Sub, transform it, and write to BigQuery. Which managed service is recommended?",
+        answers: [
+          "Cloud Composer",
+          "Cloud Dataflow",
+          "Cloud Dataproc",
+          "Cloud Data Fusion",
+        ],
         correctIndex: 1,
-        explanation: "Cloud Dataflow is a serverless data processing engine ideal for building real-time stream processing pipelines."
+        explanation:
+          "Cloud Dataflow is a serverless data processing engine ideal for building real-time stream processing pipelines.",
       },
       {
-        question: "Which service should you use to migrate existing Apache Hadoop and Apache Spark clusters directly to Google Cloud without major code changes?",
-        answers: ["Cloud Dataflow", "Cloud Dataproc", "Cloud Composer", "BigQuery Omni"],
+        question:
+          "Which service should you use to migrate existing Apache Hadoop and Apache Spark clusters directly to Google Cloud without major code changes?",
+        answers: [
+          "Cloud Dataflow",
+          "Cloud Dataproc",
+          "Cloud Composer",
+          "BigQuery Omni",
+        ],
         correctIndex: 1,
-        explanation: "Cloud Dataproc is a fully managed service for running Apache Spark and Apache Hadoop clusters on Google Cloud."
+        explanation:
+          "Cloud Dataproc is a fully managed service for running Apache Spark and Apache Hadoop clusters on Google Cloud.",
       },
       {
-        question: "What feature of BigQuery should you implement to reduce query costs and improve performance for queries filtering on a specific date column?",
-        answers: ["Materialized Views", "Partitioning", "Search Indexes", "Row-level Security"],
+        question:
+          "What feature of BigQuery should you implement to reduce query costs and improve performance for queries filtering on a specific date column?",
+        answers: [
+          "Materialized Views",
+          "Partitioning",
+          "Search Indexes",
+          "Row-level Security",
+        ],
         correctIndex: 1,
-        explanation: "Partitioning divides a large table into smaller segments based on a date or integer column, reducing scanned bytes and costs."
+        explanation:
+          "Partitioning divides a large table into smaller segments based on a date or integer column, reducing scanned bytes and costs.",
       },
       {
-        question: "Which service manages workflow orchestration, letting you build and schedule complex data pipelines with Apache Airflow?",
-        answers: ["Cloud Composer", "Cloud Workflows", "Cloud Scheduler", "Cloud Functions"],
+        question:
+          "Which service manages workflow orchestration, letting you build and schedule complex data pipelines with Apache Airflow?",
+        answers: [
+          "Cloud Composer",
+          "Cloud Workflows",
+          "Cloud Scheduler",
+          "Cloud Functions",
+        ],
         correctIndex: 0,
-        explanation: "Cloud Composer is a managed workflow orchestration service built on Apache Airflow to coordinate multi-step pipelines."
+        explanation:
+          "Cloud Composer is a managed workflow orchestration service built on Apache Airflow to coordinate multi-step pipelines.",
       },
       {
-        question: "What ML tool is best for developers with limited machine learning expertise to build custom high-quality models using Google's transfer learning?",
-        answers: ["Vertex AI Custom Training", "Vertex AI AutoML", "TensorFlow Enterprise", "BigQuery ML"],
+        question:
+          "What ML tool is best for developers with limited machine learning expertise to build custom high-quality models using Google's transfer learning?",
+        answers: [
+          "Vertex AI Custom Training",
+          "Vertex AI AutoML",
+          "TensorFlow Enterprise",
+          "BigQuery ML",
+        ],
         correctIndex: 1,
-        explanation: "Vertex AI AutoML enables users to train state-of-the-art models on image, tabular, text, or video data without writing ML code."
+        explanation:
+          "Vertex AI AutoML enables users to train state-of-the-art models on image, tabular, text, or video data without writing ML code.",
       },
       {
-        question: "How can you query data stored in external Google Cloud Storage buckets directly inside BigQuery without loading the data first?",
-        answers: ["Use an External Table", "Use BigQuery Storage Write API", "Create a BigQuery View", "Use federated queries via Cloud SQL"],
+        question:
+          "How can you query data stored in external Google Cloud Storage buckets directly inside BigQuery without loading the data first?",
+        answers: [
+          "Use an External Table",
+          "Use BigQuery Storage Write API",
+          "Create a BigQuery View",
+          "Use federated queries via Cloud SQL",
+        ],
         correctIndex: 0,
-        explanation: "External tables allow BigQuery to query data stored in GCS, Google Drive, or Bigtable directly using federated queries."
+        explanation:
+          "External tables allow BigQuery to query data stored in GCS, Google Drive, or Bigtable directly using federated queries.",
       },
       {
-        question: "What is the most effective way to continuously stream high-velocity event data into a BigQuery table with immediate query availability?",
-        answers: ["Use BigQuery Load Jobs", "Use the Storage Write API", "Export GCS logs to BigQuery", "Use Datastream"],
+        question:
+          "What is the most effective way to continuously stream high-velocity event data into a BigQuery table with immediate query availability?",
+        answers: [
+          "Use BigQuery Load Jobs",
+          "Use the Storage Write API",
+          "Export GCS logs to BigQuery",
+          "Use Datastream",
+        ],
         correctIndex: 1,
-        explanation: "The BigQuery Storage Write API supports high-performance streaming ingestion with immediate query accessibility."
-      }
-    ]
+        explanation:
+          "The BigQuery Storage Write API supports high-performance streaming ingestion with immediate query accessibility.",
+      },
+    ],
   },
   {
     examName: "Professional Cloud Security Engineer",
     questions: [
       {
-        question: "Which tool provides defense-in-depth security by defining a secure perimeter around VPC resources and preventing exfiltration?",
-        answers: ["Cloud Armor", "VPC Service Controls", "Cloud Firewalls", "Cloud Identity-Aware Proxy"],
+        question:
+          "Which tool provides defense-in-depth security by defining a secure perimeter around VPC resources and preventing exfiltration?",
+        answers: [
+          "Cloud Armor",
+          "VPC Service Controls",
+          "Cloud Firewalls",
+          "Cloud Identity-Aware Proxy",
+        ],
         correctIndex: 1,
-        explanation: "VPC Service Controls allows you to set up security perimeters to protect sensitive data and prevent unauthorized exfiltration."
+        explanation:
+          "VPC Service Controls allows you to set up security perimeters to protect sensitive data and prevent unauthorized exfiltration.",
       },
       {
-        question: "You need to secure a web application by restricting access only to users who meet specific device-security and identity criteria. What should you use?",
-        answers: ["Cloud VPN", "VPC Network Peering", "Identity-Aware Proxy (IAP) with BeyondCorp", "Cloud Firewalls"],
+        question:
+          "You need to secure a web application by restricting access only to users who meet specific device-security and identity criteria. What should you use?",
+        answers: [
+          "Cloud VPN",
+          "VPC Network Peering",
+          "Identity-Aware Proxy (IAP) with BeyondCorp",
+          "Cloud Firewalls",
+        ],
         correctIndex: 2,
-        explanation: "IAP enables context-aware access control to applications, verifying user identity and device posture before granting access."
+        explanation:
+          "IAP enables context-aware access control to applications, verifying user identity and device posture before granting access.",
       },
       {
-        question: "Which service is a distributed denial-of-service (DDoS) defense and Web Application Firewall (WAF) for HTTP(S) load balanced workloads?",
-        answers: ["Cloud IDS", "Cloud Armor", "Security Command Center", "VPC Service Controls"],
+        question:
+          "Which service is a distributed denial-of-service (DDoS) defense and Web Application Firewall (WAF) for HTTP(S) load balanced workloads?",
+        answers: [
+          "Cloud IDS",
+          "Cloud Armor",
+          "Security Command Center",
+          "VPC Service Controls",
+        ],
         correctIndex: 1,
-        explanation: "Cloud Armor provides enterprise-grade DDoS protection and WAF features to block web attacks like SQLi and XSS."
+        explanation:
+          "Cloud Armor provides enterprise-grade DDoS protection and WAF features to block web attacks like SQLi and XSS.",
       },
       {
-        question: "To securely store and rotate application API keys, database credentials, and certificates, which service is recommended?",
+        question:
+          "To securely store and rotate application API keys, database credentials, and certificates, which service is recommended?",
         answers: ["Cloud KMS", "Secret Manager", "Cloud Storage", "Cloud HSM"],
         correctIndex: 1,
-        explanation: "Secret Manager is a secure and convenient storage system for API keys, passwords, certificates, and other sensitive data."
+        explanation:
+          "Secret Manager is a secure and convenient storage system for API keys, passwords, certificates, and other sensitive data.",
       },
       {
-        question: "What Google Cloud feature allows you to audit all read and write operations performed on your cloud resources by administrators and users?",
-        answers: ["Cloud Auditing", "Cloud Audit Logs", "Cloud Logging", "Cloud Access Transparency"],
+        question:
+          "What Google Cloud feature allows you to audit all read and write operations performed on your cloud resources by administrators and users?",
+        answers: [
+          "Cloud Auditing",
+          "Cloud Audit Logs",
+          "Cloud Logging",
+          "Cloud Access Transparency",
+        ],
         correctIndex: 1,
-        explanation: "Cloud Audit Logs record administrative actions, system events, and data access, providing critical trails for security audits."
+        explanation:
+          "Cloud Audit Logs record administrative actions, system events, and data access, providing critical trails for security audits.",
       },
       {
-        question: "How can you ensure that only container images verified by a continuous integration (CI) pipeline can be deployed to GKE?",
-        answers: ["Binary Authorization", "VPC Service Controls", "Artifact Registry Policies", "Container Analysis"],
+        question:
+          "How can you ensure that only container images verified by a continuous integration (CI) pipeline can be deployed to GKE?",
+        answers: [
+          "Binary Authorization",
+          "VPC Service Controls",
+          "Artifact Registry Policies",
+          "Container Analysis",
+        ],
         correctIndex: 0,
-        explanation: "Binary Authorization is a deploy-time security control that ensures only trusted, signed container images are deployed to GKE."
+        explanation:
+          "Binary Authorization is a deploy-time security control that ensures only trusted, signed container images are deployed to GKE.",
       },
       {
-        question: "Which IAM role type should be avoided for general user accounts to follow the principle of least privilege?",
-        answers: ["Predefined Roles", "Custom Roles", "Primitive Roles (Owner, Editor, Viewer)", "Service Account Roles"],
+        question:
+          "Which IAM role type should be avoided for general user accounts to follow the principle of least privilege?",
+        answers: [
+          "Predefined Roles",
+          "Custom Roles",
+          "Primitive Roles (Owner, Editor, Viewer)",
+          "Service Account Roles",
+        ],
         correctIndex: 2,
-        explanation: "Primitive roles are extremely broad and grant sweeping permissions across all services. Predefined or custom roles are preferred."
+        explanation:
+          "Primitive roles are extremely broad and grant sweeping permissions across all services. Predefined or custom roles are preferred.",
       },
       {
-        question: "What service provides managed intrusion detection system (IDS) capabilities, inspecting network traffic for malicious signatures?",
-        answers: ["Cloud Firewalls", "Cloud IDS", "Cloud Armor", "Packet Mirroring"],
+        question:
+          "What service provides managed intrusion detection system (IDS) capabilities, inspecting network traffic for malicious signatures?",
+        answers: [
+          "Cloud Firewalls",
+          "Cloud IDS",
+          "Cloud Armor",
+          "Packet Mirroring",
+        ],
         correctIndex: 1,
-        explanation: "Cloud IDS delivers industry-leading threat detection, inspecting cloud network traffic for malware, spyware, and exploits."
+        explanation:
+          "Cloud IDS delivers industry-leading threat detection, inspecting cloud network traffic for malware, spyware, and exploits.",
       },
       {
-        question: "You want to dynamically mask sensitive data like credit card numbers or Social Security numbers from a dataset. Which service is designed for this?",
-        answers: ["Cloud KMS", "Sensitive Data Protection (Cloud DLP)", "Secret Manager", "BigQuery Masking"],
+        question:
+          "You want to dynamically mask sensitive data like credit card numbers or Social Security numbers from a dataset. Which service is designed for this?",
+        answers: [
+          "Cloud KMS",
+          "Sensitive Data Protection (Cloud DLP)",
+          "Secret Manager",
+          "BigQuery Masking",
+        ],
         correctIndex: 1,
-        explanation: "Google's Sensitive Data Protection service scans, classifies, and de-identifies/masks sensitive information automatically."
+        explanation:
+          "Google's Sensitive Data Protection service scans, classifies, and de-identifies/masks sensitive information automatically.",
       },
       {
-        question: "To verify that Google employees access your resources only for valid business reasons (like support), which service should you enable?",
-        answers: ["Access Approval", "Access Transparency", "Cloud Audit Logs", "IAM Policy Troubleshooter"],
+        question:
+          "To verify that Google employees access your resources only for valid business reasons (like support), which service should you enable?",
+        answers: [
+          "Access Approval",
+          "Access Transparency",
+          "Cloud Audit Logs",
+          "IAM Policy Troubleshooter",
+        ],
         correctIndex: 1,
-        explanation: "Access Transparency provides near real-time logs of actions taken by Google administrators when accessing your content."
-      }
-    ]
+        explanation:
+          "Access Transparency provides near real-time logs of actions taken by Google administrators when accessing your content.",
+      },
+    ],
   },
   {
     examName: "AI Token Economics (FinOps)",
     questions: [
       {
         question: "What is the atomic accounting unit of AI consumption?",
-        answers: ["GPU compute hour", "API seat license", "Token", "Vector database record"],
+        answers: [
+          "GPU compute hour",
+          "API seat license",
+          "Token",
+          "Vector database record",
+        ],
         correctIndex: 2,
-        explanation: "In AI token economics, a token is the fundamental atomic unit of computation and data over which models read, write, and reason, forming the basis of AI metering and cost attribution."
+        explanation:
+          "In AI token economics, a token is the fundamental atomic unit of computation and data over which models read, write, and reason, forming the basis of AI metering and cost attribution.",
       },
       {
         question: "What is a token in the context of Large Language Models?",
@@ -363,54 +673,86 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
           "A cryptographic key used for API security",
           "A physical component within GPU hardware",
           "A text segment (word or subword) read by AI",
-          "A fixed 1MB block of storage in a database"
+          "A fixed 1MB block of storage in a database",
         ],
         correctIndex: 2,
-        explanation: "A token is a segment of text (such as a word, character, or subword fragment) that language models read and generate during processing."
+        explanation:
+          "A token is a segment of text (such as a word, character, or subword fragment) that language models read and generate during processing.",
       },
       {
-        question: "Why is token consumption non-linear with respect to user-facing activity?",
-        answers: ["Token prices are fixed across all model sizes", "Context, reasoning, tools & retries compound", "Output tokens cheaper than input tokens", "Prompts are truncated by API gateways"],
+        question:
+          "Why is token consumption non-linear with respect to user-facing activity?",
+        answers: [
+          "Token prices are fixed across all model sizes",
+          "Context, reasoning, tools & retries compound",
+          "Output tokens cheaper than input tokens",
+          "Prompts are truncated by API gateways",
+        ],
         correctIndex: 1,
-        explanation: "Multiple compounding variables—including system prompt overhead, retrieved RAG context, model selection, reasoning traces, and multi-agent tool retries—cause token usage to expand non-linearly."
+        explanation:
+          "Multiple compounding variables—including system prompt overhead, retrieved RAG context, model selection, reasoning traces, and multi-agent tool retries—cause token usage to expand non-linearly.",
       },
       {
-        question: "What do we call token output that successfully meets a defined service-level objective, such as latency thresholds and speed rates?",
+        question:
+          "What do we call token output that successfully meets a defined service-level objective, such as latency thresholds and speed rates?",
         answers: ["Goodput", "Throughput", "Maxput", "Yieldput"],
         correctIndex: 0,
-        explanation: "Goodput measures token production that satisfies specified latency and speed criteria (time-to-first-token and sustained tokens-per-second), distinguishing usable economic output from raw volume."
+        explanation:
+          "Goodput measures token production that satisfies specified latency and speed criteria (time-to-first-token and sustained tokens-per-second), distinguishing usable economic output from raw volume.",
       },
       {
-        question: "What major shift is occurring in enterprise AI procurement models as the initial subsidy phase ends?",
-        answers: ["Unlimited flat-rate seat subscriptions", "Seat fees plus pre-committed metered tokens", "Mandatory shift to self-hosted GPUs", "Eliminating pay-as-you-go API billing"],
+        question:
+          "What major shift is occurring in enterprise AI procurement models as the initial subsidy phase ends?",
+        answers: [
+          "Unlimited flat-rate seat subscriptions",
+          "Seat fees plus pre-committed metered tokens",
+          "Mandatory shift to self-hosted GPUs",
+          "Eliminating pay-as-you-go API billing",
+        ],
         correctIndex: 1,
-        explanation: "As enterprise usage outpaces unit-cost reductions, providers are moving away from unmetered subscription bundles toward seat fees paired with pre-committed token usage, mirroring cloud capacity forecasting."
+        explanation:
+          "As enterprise usage outpaces unit-cost reductions, providers are moving away from unmetered subscription bundles toward seat fees paired with pre-committed token usage, mirroring cloud capacity forecasting.",
       },
       {
-        question: "Which open-source specification standardizes cost and usage data across cloud and AI providers?",
-        answers: ["OpenTelemetry", "FinOps Open Cost & Usage Spec (FOCUS)", "CUDA Benchmark Suite", "Hardware Performance Monitor Specification (HPMS)"],
+        question:
+          "Which open-source specification standardizes cost and usage data across cloud and AI providers?",
+        answers: [
+          "OpenTelemetry",
+          "FinOps Open Cost & Usage Spec (FOCUS)",
+          "CUDA Benchmark Suite",
+          "Hardware Performance Monitor Specification (HPMS)",
+        ],
         correctIndex: 1,
-        explanation: "The open-source FOCUS specification normalizes cost and consumption metrics across different providers, enabling multi-cloud reconciliation of token spend against underlying infrastructure."
+        explanation:
+          "The open-source FOCUS specification normalizes cost and consumption metrics across different providers, enabling multi-cloud reconciliation of token spend against underlying infrastructure.",
       },
       {
         question: "How does model routing optimize token usage?",
-        answers: ["Routing all queries to the largest model", "Translating text queries into vector embeddings", "Routing simple tasks to smaller models first", "Compressing prompts into binary formats"],
+        answers: [
+          "Routing all queries to the largest model",
+          "Translating text queries into vector embeddings",
+          "Routing simple tasks to smaller models first",
+          "Compressing prompts into binary formats",
+        ],
         correctIndex: 2,
-        explanation: "Cascading and routing frameworks evaluate query complexity to send simpler tasks to cost-effective models, reserving expensive frontier models for difficult queries and saving up to 85%+ on token costs."
+        explanation:
+          "Cascading and routing frameworks evaluate query complexity to send simpler tasks to cost-effective models, reserving expensive frontier models for difficult queries and saving up to 85%+ on token costs.",
       },
       {
-        question: "Where can you go if you would like to get more information about Tokenomics without answering trivia questions?",
+        question:
+          "Where can you go if you would like to get more information about Tokenomics without answering trivia questions?",
         answers: [
           "The latest Agent Factory Podcast episode",
           "Asking a wise carrier pigeon",
           "Reading tea leaves in your coffee",
-          "Sending a fax directly to the cloud"
+          "Sending a fax directly to the cloud",
         ],
         correctIndex: 0,
-        explanation: "Check out the latest Agent Factory Podcast for a deep dive into AI Tokenomics with J.R. Storment, the lead of the Tokenomics Foundation!"
-      }
-    ]
-  }
+        explanation:
+          "Check out the latest Agent Factory Podcast for a deep dive into AI Tokenomics with J.R. Storment, the lead of the Tokenomics Foundation!",
+      },
+    ],
+  },
 ];
 
 const getAspectClasses = (ratio: "9:16" | "16:9" | "1:1") => {
@@ -425,7 +767,9 @@ const getAspectClasses = (ratio: "9:16" | "16:9" | "1:1") => {
   }
 };
 
-const getPlayerThemeClasses = (colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go") => {
+const getPlayerThemeClasses = (
+  colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go",
+) => {
   switch (colorTheme) {
     case "Firebase":
       return "bg-gradient-to-br from-[#DD2C00] via-[#FF6D00] to-[#FFD600] text-white";
@@ -439,11 +783,19 @@ const getPlayerThemeClasses = (colorTheme: "Google Cloud" | "Firebase" | "Flutte
   }
 };
 
-const getThemeGradientDefs = (colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go") => {
+const getThemeGradientDefs = (
+  colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go",
+) => {
   switch (colorTheme) {
     case "Firebase":
       return (
-        <linearGradient id="theme-reveal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient
+          id="theme-reveal-grad"
+          x1="0%"
+          y1="0%"
+          x2="100%"
+          y2="100%"
+        >
           <stop offset="0%" stopColor="#DD2C00" />
           <stop offset="50%" stopColor="#FF6D00" />
           <stop offset="100%" stopColor="#FFD600" />
@@ -451,7 +803,13 @@ const getThemeGradientDefs = (colorTheme: "Google Cloud" | "Firebase" | "Flutter
       );
     case "Flutter/Dart":
       return (
-        <linearGradient id="theme-reveal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient
+          id="theme-reveal-grad"
+          x1="0%"
+          y1="0%"
+          x2="100%"
+          y2="100%"
+        >
           <stop offset="0%" stopColor="#02569B" />
           <stop offset="50%" stopColor="#0175C2" />
           <stop offset="100%" stopColor="#13B9FD" />
@@ -459,7 +817,13 @@ const getThemeGradientDefs = (colorTheme: "Google Cloud" | "Firebase" | "Flutter
       );
     case "Go":
       return (
-        <linearGradient id="theme-reveal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient
+          id="theme-reveal-grad"
+          x1="0%"
+          y1="0%"
+          x2="100%"
+          y2="100%"
+        >
           <stop offset="0%" stopColor="#00ADD8" />
           <stop offset="50%" stopColor="#5DC9E2" />
           <stop offset="100%" stopColor="#0096b7" />
@@ -468,7 +832,13 @@ const getThemeGradientDefs = (colorTheme: "Google Cloud" | "Firebase" | "Flutter
     case "Google Cloud":
     default:
       return (
-        <linearGradient id="theme-reveal-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient
+          id="theme-reveal-grad"
+          x1="0%"
+          y1="0%"
+          x2="100%"
+          y2="100%"
+        >
           <stop offset="0%" stopColor="#4285F4" />
           <stop offset="33%" stopColor="#34A853" />
           <stop offset="66%" stopColor="#FBBC05" />
@@ -478,7 +848,9 @@ const getThemeGradientDefs = (colorTheme: "Google Cloud" | "Firebase" | "Flutter
   }
 };
 
-const getThemeColors = (colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go") => {
+const getThemeColors = (
+  colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go",
+) => {
   switch (colorTheme) {
     case "Firebase":
       return {
@@ -533,7 +905,22 @@ interface QuizViewportProps {
   phase: "edit" | 0 | 1 | 2 | 3 | 4 | 5 | 6;
   questionData: QuizQuestion;
   colorTheme: "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go";
-  ambientAnimation: "none" | "shimmer" | "aurora" | "mesh-liquid" | "radial-flow" | "cosmic-glow" | "fireflies" | "warp-speed" | "laser-beams" | "color-vortex" | "matrix-rain" | "spinning-logos" | "lava-lamp" | "random-shapes" | "psychedelic-swirl";
+  ambientAnimation:
+    | "none"
+    | "shimmer"
+    | "aurora"
+    | "mesh-liquid"
+    | "radial-flow"
+    | "cosmic-glow"
+    | "fireflies"
+    | "warp-speed"
+    | "laser-beams"
+    | "color-vortex"
+    | "matrix-rain"
+    | "spinning-logos"
+    | "lava-lamp"
+    | "random-shapes"
+    | "psychedelic-swirl";
   animationSpeed: number;
   transitionTime: number;
   hidePanels: boolean;
@@ -563,9 +950,13 @@ function QuizViewport({
 
   const [layer1FontSize, setLayer1FontSize] = useState<number | null>(null);
   const [layer2FontSize, setLayer2FontSize] = useState<number | null>(null);
-  const [explanationFontSize, setExplanationFontSize] = useState<number | null>(null);
+  const [explanationFontSize, setExplanationFontSize] = useState<number | null>(
+    null,
+  );
   const [cardOffsets, setCardOffsets] = useState<number[]>([0, 0, 0, 0]);
-  const [correctCardHeight, setCorrectCardHeight] = useState<number | null>(null);
+  const [correctCardHeight, setCorrectCardHeight] = useState<number | null>(
+    null,
+  );
 
   const [pretext, setPretext] = useState<{
     prepare: typeof import("@chenglou/pretext").prepare;
@@ -591,7 +982,9 @@ function QuizViewport({
 
       if (targetWidth === 0 || targetHeight === 0) return;
 
-      const fontFamily = window.getComputedStyle(container).fontFamily || "system-ui, sans-serif";
+      const fontFamily =
+        window.getComputedStyle(container).fontFamily ||
+        "system-ui, sans-serif";
 
       const canvas = document.createElement("canvas");
       const ctx = canvas.getContext("2d");
@@ -603,7 +996,10 @@ function QuizViewport({
         let high = 120;
         let optimal = low;
 
-        const normalizedQuestion = questionData.question.replace(/\s+\?/g, "\u00A0?");
+        const normalizedQuestion = questionData.question.replace(
+          /\s+\?/g,
+          "\u00A0?",
+        );
         const words = normalizedQuestion.split(/\s+/).filter(Boolean);
 
         for (let i = 0; i < 11; i++) {
@@ -614,9 +1010,9 @@ function QuizViewport({
           // Precise card measurements:
           // layer1Ref has p-[1.5em] (horizontal padding is 3 * mid total)
           // card has max-w-[88%] (0.88 multiplier) and p-[2em] (horizontal padding is 4 * mid total)
-          const parentWidth = containerRect.width - (3 * mid);
+          const parentWidth = containerRect.width - 3 * mid;
           const cardWidth = parentWidth * 0.88;
-          const questionMaxWidth = cardWidth - (4 * mid);
+          const questionMaxWidth = cardWidth - 4 * mid;
 
           if (questionMaxWidth <= 0) {
             high = mid;
@@ -629,7 +1025,11 @@ function QuizViewport({
 
           try {
             const prepared = prepare(normalizedQuestion, font);
-            const { height } = layout(prepared, questionMaxWidth, textFontSize * 1.375);
+            const { height } = layout(
+              prepared,
+              questionMaxWidth,
+              textFontSize * 1.375,
+            );
             const totalHeight = height + 4 * mid;
 
             // Check single-word constraints
@@ -644,7 +1044,11 @@ function QuizViewport({
               }
             }
 
-            if (!wordOverflows && totalHeight <= maxCardHeight && cardWidth <= containerRect.width) {
+            if (
+              !wordOverflows &&
+              totalHeight <= maxCardHeight &&
+              cardWidth <= containerRect.width
+            ) {
               optimal = mid;
               low = mid;
             } else {
@@ -666,13 +1070,13 @@ function QuizViewport({
         let optimal = low;
 
         // Spacing limits: Layer 2 content should comfortably fit within 90% height
-        const maxLayer2Height = containerRect.height * 0.90;
+        const maxLayer2Height = containerRect.height * 0.9;
 
         for (let i = 0; i < 11; i++) {
           const mid = (low + high) / 2;
           // layer2Ref has p-[1.5em] (horizontal padding is 3 * mid total)
           // cards container has max-w-[88%]
-          const parentWidth = containerRect.width - (3 * mid);
+          const parentWidth = containerRect.width - 3 * mid;
           const layer2MaxWidth = parentWidth * 0.88;
           let totalHeight = 0;
           let wordOverflows = false;
@@ -685,7 +1089,8 @@ function QuizViewport({
             const normalizedAns = ans.replace(/\s+\?/g, "\u00A0?");
             const badgeAndGapWidth = (2 * 0.85 + 0.8) * mid;
             const paddingWidth = 2.2 * mid; // py-[0.8em] pl-[1.2em] pr-[1.0em] gives 2.2 * mid total horizontal padding
-            const answerTextMaxWidth = layer2MaxWidth - (badgeAndGapWidth + paddingWidth);
+            const answerTextMaxWidth =
+              layer2MaxWidth - (badgeAndGapWidth + paddingWidth);
 
             if (answerTextMaxWidth <= 0) {
               wordOverflows = true;
@@ -694,9 +1099,14 @@ function QuizViewport({
             const font = `bold ${mid}px ${fontFamily}`;
             try {
               const preparedAns = prepare(normalizedAns, font);
-              const { height: ansTextHeight } = layout(preparedAns, answerTextMaxWidth, mid * 1.375);
+              const { height: ansTextHeight } = layout(
+                preparedAns,
+                answerTextMaxWidth,
+                mid * 1.375,
+              );
               const badgeHeight = 2 * 0.85 * mid;
-              const cardHeight = Math.max(badgeHeight, ansTextHeight) + 1.6 * mid + 0.1 * mid; // padding 1.6 * mid + border 0.1 * mid
+              const cardHeight =
+                Math.max(badgeHeight, ansTextHeight) + 1.6 * mid + 0.1 * mid; // padding 1.6 * mid + border 0.1 * mid
               answersHeight += cardHeight;
 
               // Check single-word constraints
@@ -713,10 +1123,13 @@ function QuizViewport({
             } catch (e) {
               const charWidth = mid * 0.6;
               const estimatedWidth = normalizedAns.length * charWidth;
-              const lines = Math.ceil(estimatedWidth / Math.max(1, answerTextMaxWidth)) || 1;
+              const lines =
+                Math.ceil(estimatedWidth / Math.max(1, answerTextMaxWidth)) ||
+                1;
               const fallbackHeight = lines * mid * 1.375;
               const badgeHeight = 2 * 0.85 * mid;
-              const cardHeight = Math.max(badgeHeight, fallbackHeight) + 1.7 * mid;
+              const cardHeight =
+                Math.max(badgeHeight, fallbackHeight) + 1.7 * mid;
               answersHeight += cardHeight;
             }
           }
@@ -739,36 +1152,49 @@ function QuizViewport({
 
         // Calculate explanation font size independently to fit vertical space without resizing answer cards
         if (explanationRef.current) {
-          const parentWidth = containerRect.width - (3 * optimal);
+          const parentWidth = containerRect.width - 3 * optimal;
           const layer2MaxWidth = parentWidth * 0.88;
           const correctIndex = questionData.correctIndex;
           const ans = questionData.answers[correctIndex];
           const normalizedAns = ans.replace(/\s+\?/g, "\u00A0?");
           const badgeAndGapWidth = (2 * 0.85 + 0.8) * optimal;
           const paddingWidth = 2.2 * optimal;
-          const answerTextMaxWidth = layer2MaxWidth - (badgeAndGapWidth + paddingWidth);
+          const answerTextMaxWidth =
+            layer2MaxWidth - (badgeAndGapWidth + paddingWidth);
 
           let correctAnswerCardHeight = 0;
           const font = `bold ${optimal}px ${fontFamily}`;
           try {
             const preparedAns = prepare(normalizedAns, font);
-            const { height: ansTextHeight } = layout(preparedAns, answerTextMaxWidth, optimal * 1.375);
+            const { height: ansTextHeight } = layout(
+              preparedAns,
+              answerTextMaxWidth,
+              optimal * 1.375,
+            );
             const badgeHeight = 2 * 0.85 * optimal;
-            correctAnswerCardHeight = Math.max(badgeHeight, ansTextHeight) + 1.6 * optimal + 0.1 * optimal;
+            correctAnswerCardHeight =
+              Math.max(badgeHeight, ansTextHeight) +
+              1.6 * optimal +
+              0.1 * optimal;
           } catch (e) {
             correctAnswerCardHeight = 50;
           }
 
-          const remainingHeight = maxLayer2Height - correctAnswerCardHeight - 4.6 * optimal; // 4.6 * optimal is padding/margins/gaps
+          const remainingHeight =
+            maxLayer2Height - correctAnswerCardHeight - 4.6 * optimal; // 4.6 * optimal is padding/margins/gaps
 
           let lowExpl = 4;
           let highExpl = optimal * 0.85; // Default explanation body size is 0.85 * optimal
           let optimalExpl = lowExpl;
 
-          const normalizedExplanation = questionData.explanation.replace(/\s+\?/g, "\u00A0?");
+          const normalizedExplanation = questionData.explanation.replace(
+            /\s+\?/g,
+            "\u00A0?",
+          );
           const explanationPaddingWidth = 1.6 * optimal;
           const explanationBorderWidth = 0.1 * optimal;
-          const explanationTextMaxWidth = layer2MaxWidth - (explanationPaddingWidth + explanationBorderWidth);
+          const explanationTextMaxWidth =
+            layer2MaxWidth - (explanationPaddingWidth + explanationBorderWidth);
 
           for (let k = 0; k < 11; k++) {
             const midExpl = (lowExpl + highExpl) / 2;
@@ -779,7 +1205,11 @@ function QuizViewport({
             let headerHeight = 0;
             try {
               const preparedHeader = prepare("EXPLANATION", headerFont);
-              const { height } = layout(preparedHeader, explanationTextMaxWidth, explanationHeaderFontSize * 1.375);
+              const { height } = layout(
+                preparedHeader,
+                explanationTextMaxWidth,
+                explanationHeaderFontSize * 1.375,
+              );
               headerHeight = height;
             } catch (e) {
               headerHeight = 15;
@@ -787,16 +1217,32 @@ function QuizViewport({
 
             let textHeight = 0;
             try {
-              const preparedExpl = prepare(normalizedExplanation, explanationFont);
-              const { height } = layout(preparedExpl, explanationTextMaxWidth, midExpl * 1.375);
+              const preparedExpl = prepare(
+                normalizedExplanation,
+                explanationFont,
+              );
+              const { height } = layout(
+                preparedExpl,
+                explanationTextMaxWidth,
+                midExpl * 1.375,
+              );
               textHeight = height;
             } catch (e) {
               textHeight = 40;
             }
 
-            const totalExplHeight = headerHeight + (0.2 * optimal) + textHeight + (1.2 * optimal) + (0.1 * optimal) + (0.6 * optimal);
+            const totalExplHeight =
+              headerHeight +
+              0.2 * optimal +
+              textHeight +
+              1.2 * optimal +
+              0.1 * optimal +
+              0.6 * optimal;
 
-            if (totalExplHeight <= remainingHeight && midExpl <= optimal * 0.85) {
+            if (
+              totalExplHeight <= remainingHeight &&
+              midExpl <= optimal * 0.85
+            ) {
               optimalExpl = midExpl;
               lowExpl = midExpl;
             } else {
@@ -822,14 +1268,22 @@ function QuizViewport({
     return () => {
       observer.disconnect();
     };
-  }, [phase, questionData, ratio, colorTheme, transitionTime, ambientAnimation, pretext]);
+  }, [
+    phase,
+    questionData,
+    ratio,
+    colorTheme,
+    transitionTime,
+    ambientAnimation,
+    pretext,
+  ]);
 
   useEffect(() => {
     const updateMeasurements = () => {
       if (cardRefs.current[0]) {
         const baseTop = cardRefs.current[0].offsetTop;
         const offsets = cardRefs.current.map((card) =>
-          card ? card.offsetTop - baseTop : 0
+          card ? card.offsetTop - baseTop : 0,
         );
         setCardOffsets(offsets);
 
@@ -854,7 +1308,7 @@ function QuizViewport({
 
   const viewportStyle: React.CSSProperties = {
     transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-    ['--anim-duration' as any]: `${10 / animationSpeed}s`,
+    ["--anim-duration" as any]: `${10 / animationSpeed}s`,
   };
 
   if (isExpanded) {
@@ -864,7 +1318,8 @@ function QuizViewport({
       if (ratio === "16:9") {
         viewportStyle.width = "min(60vw, 106.67vh)";
         viewportStyle.height = "auto";
-      } else { // 9:16
+      } else {
+        // 9:16
         viewportStyle.width = "min(33vw, 53.44vh)";
         viewportStyle.height = "auto";
       }
@@ -875,7 +1330,8 @@ function QuizViewport({
       } else if (ratio === "1:1") {
         viewportStyle.width = "min(95vw, 95vh)";
         viewportStyle.height = "auto";
-      } else { // 9:16
+      } else {
+        // 9:16
         viewportStyle.width = "min(95vw, 53.44vh)";
         viewportStyle.height = "auto";
       }
@@ -889,7 +1345,9 @@ function QuizViewport({
       className={`relative select-none cursor-pointer border border-white/10 rounded-none overflow-hidden shadow-2xl flex flex-col justify-between p-[1.5em] ${getPlayerThemeClasses(colorTheme)} ${getAspectClasses(ratio)}`}
       style={viewportStyle}
     >
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         @keyframes spin-gradient {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
@@ -1108,7 +1566,9 @@ function QuizViewport({
         .animate-spin-gradient {
           animation: spin-gradient var(--spin-duration, 2s) linear infinite;
         }
-      `}} />
+      `,
+        }}
+      />
 
       {/* Shimmer (Flowing Gradient) background */}
       {ambientAnimation === "shimmer" && (
@@ -1116,7 +1576,7 @@ function QuizViewport({
           className="absolute inset-0 overflow-hidden pointer-events-none z-0"
           style={{
             background: `linear-gradient(-45deg, ${themeColors.primary}, ${themeColors.secondary}, ${themeColors.accent}, ${themeColors.extra || themeColors.primary})`,
-            backgroundSize: '400% 400%',
+            backgroundSize: "400% 400%",
             animation: `shimmer-move calc(var(--anim-duration) * 1.5) ease-in-out infinite`,
           }}
         />
@@ -1162,10 +1622,10 @@ function QuizViewport({
             <div
               className="absolute rounded-full"
               style={{
-                width: '60%',
-                height: '50%',
-                top: '15%',
-                left: '10%',
+                width: "60%",
+                height: "50%",
+                top: "15%",
+                left: "10%",
                 background: `radial-gradient(circle, rgba(${themeColors.rgbList[0]}, 0.85) 0%, transparent 75%)`,
                 animation: `blob-bounce-1 calc(var(--anim-duration) * 1.4) ease-in-out infinite`,
               }}
@@ -1174,10 +1634,10 @@ function QuizViewport({
             <div
               className="absolute rounded-full"
               style={{
-                width: '55%',
-                height: '55%',
-                bottom: '15%',
-                right: '10%',
+                width: "55%",
+                height: "55%",
+                bottom: "15%",
+                right: "10%",
                 background: `radial-gradient(circle, rgba(${themeColors.rgbList[1]}, 0.8) 0%, transparent 75%)`,
                 animation: `blob-bounce-2 calc(var(--anim-duration) * 1.8) ease-in-out infinite`,
               }}
@@ -1186,10 +1646,10 @@ function QuizViewport({
             <div
               className="absolute rounded-full"
               style={{
-                width: '50%',
-                height: '45%',
-                top: '40%',
-                left: '35%',
+                width: "50%",
+                height: "45%",
+                top: "40%",
+                left: "35%",
                 background: `radial-gradient(circle, rgba(${themeColors.rgbList[2] || themeColors.rgbList[0]}, 0.75) 0%, transparent 70%)`,
                 animation: `blob-bounce-3 calc(var(--anim-duration) * 2.2) ease-in-out infinite`,
               }}
@@ -1238,9 +1698,10 @@ function QuizViewport({
           {Array.from({ length: 8 }).map((_, i) => {
             const size = 1.5 + (i % 3) * 0.75;
             const delay = i * 0.45;
-            const top = (15 + (i * 11)) % 90;
-            const left = (10 + (i * 17)) % 90;
-            const starColor = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            const top = (15 + i * 11) % 90;
+            const left = (10 + i * 17) % 90;
+            const starColor =
+              themeColors.gradientStops[i % themeColors.gradientStops.length];
             return (
               <div
                 key={i}
@@ -1250,7 +1711,7 @@ function QuizViewport({
                   left: `${left}%`,
                   width: `${size}px`,
                   height: `${size}px`,
-                  background: '#ffffff',
+                  background: "#ffffff",
                   boxShadow: `0 0 ${size * 3}px ${starColor}, 0 0 ${size * 6}px ${starColor}`,
                   animation: `star-twinkle calc(var(--anim-duration) * 0.35) ease-in-out infinite`,
                   animationDelay: `${delay}s`,
@@ -1270,7 +1731,8 @@ function QuizViewport({
             const driftX = -60 + ((i * 19) % 120); // drift X offset
             const delay = (i * 0.43) % 4; // delays
             const duration = 2.5 + (i % 3) * 1.2; // base duration between 2.5s and 4.9s
-            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            const color =
+              themeColors.gradientStops[i % themeColors.gradientStops.length];
             return (
               <div
                 key={i}
@@ -1281,8 +1743,8 @@ function QuizViewport({
                   height: `${size}px`,
                   background: color,
                   boxShadow: `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}`,
-                  ['--start-x' as any]: `${startX}px`,
-                  ['--drift-x' as any]: `${driftX}px`,
+                  ["--start-x" as any]: `${startX}px`,
+                  ["--drift-x" as any]: `${driftX}px`,
                   animation: `firefly-drift calc(var(--anim-duration) * ${duration / 3}) ease-in-out infinite`,
                   animationDelay: `${delay}s`,
                 }}
@@ -1301,7 +1763,8 @@ function QuizViewport({
             const height = 40 + (i % 4) * 25; // line lengths
             const delay = (i * 0.23) % 2.5; // delays
             const duration = 1.2 + (i % 3) * 0.6; // duration between 1.2s and 2.4s
-            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            const color =
+              themeColors.gradientStops[i % themeColors.gradientStops.length];
             return (
               <div
                 key={i}
@@ -1311,7 +1774,7 @@ function QuizViewport({
                   height: `${height}px`,
                   background: `linear-gradient(to top, ${color}, transparent)`,
                   boxShadow: `0 0 ${width * 3}px ${color}`,
-                  ['--angle' as any]: `${angle}deg`,
+                  ["--angle" as any]: `${angle}deg`,
                   animation: `warp-travel calc(var(--anim-duration) * ${duration / 3}) cubic-bezier(0.1, 0.8, 0.1, 1) infinite`,
                   animationDelay: `${delay}s`,
                 }}
@@ -1328,7 +1791,8 @@ function QuizViewport({
             const isType1 = i % 2 === 0;
             const delay = i * 1.1;
             const duration = 2.8 + (i % 3) * 0.9;
-            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            const color =
+              themeColors.gradientStops[i % themeColors.gradientStops.length];
             return (
               <div
                 key={i}
@@ -1336,9 +1800,9 @@ function QuizViewport({
                 style={{
                   background: `linear-gradient(90deg, transparent, ${color}, ${color}, transparent)`,
                   boxShadow: `0 0 15px ${color}, 0 0 30px ${color}`,
-                  top: isType1 ? '0%' : '50%',
-                  left: isType1 ? '0%' : '-50%',
-                  animation: `${isType1 ? 'laser-sweep-1' : 'laser-sweep-2'} calc(var(--anim-duration) * ${duration / 3}) linear infinite`,
+                  top: isType1 ? "0%" : "50%",
+                  left: isType1 ? "0%" : "-50%",
+                  animation: `${isType1 ? "laser-sweep-1" : "laser-sweep-2"} calc(var(--anim-duration) * ${duration / 3}) linear infinite`,
                   animationDelay: `${delay}s`,
                 }}
               />
@@ -1384,10 +1848,35 @@ function QuizViewport({
           {Array.from({ length: 14 }).map((_, i) => {
             const delay = (i * 0.35) % 3.0;
             const duration = 1.8 + (i % 4) * 0.7; // fall time
-            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            const color =
+              themeColors.gradientStops[i % themeColors.gradientStops.length];
             const size = 9 + (i % 3) * 3; // font size 9px - 15px
-            const characters = ["0", "1", "X", "Y", "A", "B", "C", "D", "G", "C", "P", "<", ">", "/", "+", "="];
-            const textStream = Array.from({ length: 15 }).map(() => characters[(i + Math.floor(Math.random() * 16)) % characters.length]).join("\n");
+            const characters = [
+              "0",
+              "1",
+              "X",
+              "Y",
+              "A",
+              "B",
+              "C",
+              "D",
+              "G",
+              "C",
+              "P",
+              "<",
+              ">",
+              "/",
+              "+",
+              "=",
+            ];
+            const textStream = Array.from({ length: 15 })
+              .map(
+                () =>
+                  characters[
+                    (i + Math.floor(Math.random() * 16)) % characters.length
+                  ],
+              )
+              .join("\n");
             return (
               <div
                 key={i}
@@ -1414,27 +1903,51 @@ function QuizViewport({
             const delay = i * 0.95;
             const size = 50 + (i % 3) * 20; // 50px to 90px
             const floatAnim = `logo-float-${i + 1}`;
-            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            const color =
+              themeColors.gradientStops[i % themeColors.gradientStops.length];
 
             // Render theme-based distinct SVG elements
             const getThemeLogoSVG = () => {
               if (colorTheme === "Firebase") {
                 return (
-                  <svg className="w-full h-full" viewBox="0 0 32 32" fill="none">
-                    <path d="M5.6 23.4l8.3-15.3c.4-.7 1.4-.7 1.8 0l2.3 4.3 2.1-4c.4-.7 1.4-.7 1.8 0l5.5 15c.4.9-.3 1.9-1.2 1.8l-15.2-1.2-4.5-1c-.8-.1-1.3-.8-.9-1.6z" fill={color} />
-                    <path d="M14.6 3.7c-.4-.7-1.4-.7-1.8 0L3.3 21.2c-.4.8.1 1.7.9 1.6l10.4-1c.4 0 .7-.3.7-.7V3.7z" fill="#FFF" opacity="0.15" />
+                  <svg
+                    className="w-full h-full"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                  >
+                    <path
+                      d="M5.6 23.4l8.3-15.3c.4-.7 1.4-.7 1.8 0l2.3 4.3 2.1-4c.4-.7 1.4-.7 1.8 0l5.5 15c.4.9-.3 1.9-1.2 1.8l-15.2-1.2-4.5-1c-.8-.1-1.3-.8-.9-1.6z"
+                      fill={color}
+                    />
+                    <path
+                      d="M14.6 3.7c-.4-.7-1.4-.7-1.8 0L3.3 21.2c-.4.8.1 1.7.9 1.6l10.4-1c.4 0 .7-.3.7-.7V3.7z"
+                      fill="#FFF"
+                      opacity="0.15"
+                    />
                   </svg>
                 );
               } else if (colorTheme === "Flutter/Dart") {
                 return (
-                  <svg className="w-full h-full" viewBox="0 0 32 32" fill="none">
+                  <svg
+                    className="w-full h-full"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                  >
                     <path d="M16 2l-14 14 6 6 20-20H16z" fill={color} />
-                    <path d="M16 30L32 14h-8L8 30h8z" fill={color} opacity="0.8" />
+                    <path
+                      d="M16 30L32 14h-8L8 30h8z"
+                      fill={color}
+                      opacity="0.8"
+                    />
                   </svg>
                 );
               } else if (colorTheme === "Go") {
                 return (
-                  <svg className="w-full h-full" viewBox="0 0 32 32" fill="none">
+                  <svg
+                    className="w-full h-full"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                  >
                     <ellipse cx="16" cy="16" rx="12" ry="7" fill={color} />
                     <circle cx="12" cy="14" r="2.5" fill="#FFF" />
                     <circle cx="12" cy="14" r="1" fill="#000" />
@@ -1445,18 +1958,25 @@ function QuizViewport({
               } else {
                 // Google Cloud G
                 return (
-                  <svg className="w-full h-full" viewBox="0 0 32 32" fill="none">
-                    <path d="M16 4C9.37 4 4 9.37 4 16s5.37 12 12 12c5.96 0 10.44-4.22 11.66-9.6H16v-4.8h16.4C32.6 14.3 32.8 15.1 32.8 16c0 9.28-6.32 16-16.8 16C7.08 32 0 24.92 0 16S7.08 0 16 0c4.88 0 8.96 1.8 12.08 4.72L24.64 8.16C22.44 6.08 19.56 4.8 16 4z" fill={color} />
+                  <svg
+                    className="w-full h-full"
+                    viewBox="0 0 32 32"
+                    fill="none"
+                  >
+                    <path
+                      d="M16 4C9.37 4 4 9.37 4 16s5.37 12 12 12c5.96 0 10.44-4.22 11.66-9.6H16v-4.8h16.4C32.6 14.3 32.8 15.1 32.8 16c0 9.28-6.32 16-16.8 16C7.08 32 0 24.92 0 16S7.08 0 16 0c4.88 0 8.96 1.8 12.08 4.72L24.64 8.16C22.44 6.08 19.56 4.8 16 4z"
+                      fill={color}
+                    />
                   </svg>
                 );
               }
             };
 
             const positions = [
-              { top: '15%', left: '15%' },
-              { top: '25%', right: '15%' },
-              { bottom: '20%', left: '20%' },
-              { bottom: '30%', right: '20%' }
+              { top: "15%", left: "15%" },
+              { top: "25%", right: "15%" },
+              { bottom: "20%", left: "20%" },
+              { bottom: "30%", right: "20%" },
             ];
 
             const pos = positions[i];
@@ -1483,7 +2003,10 @@ function QuizViewport({
 
       {/* Lava Lamp Bubbles background */}
       {ambientAnimation === "lava-lamp" && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent" style={{ filter: "blur(20px) contrast(20)" }}>
+        <div
+          className="absolute inset-0 overflow-hidden pointer-events-none z-0 bg-transparent"
+          style={{ filter: "blur(20px) contrast(20)" }}
+        >
           {/* Black solid contrast layer to blend behind but transparent background lets gradients in */}
           <div className="absolute inset-0 bg-black/35" />
 
@@ -1491,7 +2014,7 @@ function QuizViewport({
           <div
             className="absolute bottom-0 left-0 right-0 h-[80px]"
             style={{
-              background: `linear-gradient(to top, ${themeColors.primary}, ${themeColors.secondary})`
+              background: `linear-gradient(to top, ${themeColors.primary}, ${themeColors.secondary})`,
             }}
           />
 
@@ -1501,7 +2024,8 @@ function QuizViewport({
             const size = 60 + (i % 3) * 35; // 60px to 130px
             const duration = 7 + (i % 3) * 3; // 7s to 13s
             const left = 10 + i * 18; // spread out horizontally
-            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            const color =
+              themeColors.gradientStops[i % themeColors.gradientStops.length];
             const gooAnim = `lava-goo-${i + 1}`;
 
             return (
@@ -1529,46 +2053,89 @@ function QuizViewport({
             const delay = i * 0.65;
             const size = 30 + (i % 4) * 20; // 30px to 90px
             const driftAnim = `shape-drift-${(i % 4) + 1}`;
-            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
+            const color =
+              themeColors.gradientStops[i % themeColors.gradientStops.length];
 
             const shapes = [
               // Triangle
-              <svg key="triangle" viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke={color} strokeWidth="6">
+              <svg
+                key="triangle"
+                viewBox="0 0 100 100"
+                className="w-full h-full"
+                fill="none"
+                stroke={color}
+                strokeWidth="6"
+              >
                 <polygon points="50,15 90,85 10,85" />
               </svg>,
               // Perfect Circle
-              <svg key="circle" viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke={color} strokeWidth="6">
+              <svg
+                key="circle"
+                viewBox="0 0 100 100"
+                className="w-full h-full"
+                fill="none"
+                stroke={color}
+                strokeWidth="6"
+              >
                 <circle cx="50" cy="50" r="38" />
               </svg>,
               // Square
-              <svg key="square" viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke={color} strokeWidth="6">
+              <svg
+                key="square"
+                viewBox="0 0 100 100"
+                className="w-full h-full"
+                fill="none"
+                stroke={color}
+                strokeWidth="6"
+              >
                 <rect x="15" y="15" width="70" height="70" />
               </svg>,
               // Hexagon
-              <svg key="hexagon" viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke={color} strokeWidth="6">
+              <svg
+                key="hexagon"
+                viewBox="0 0 100 100"
+                className="w-full h-full"
+                fill="none"
+                stroke={color}
+                strokeWidth="6"
+              >
                 <polygon points="50,10 90,30 90,70 50,90 10,70 10,30" />
               </svg>,
               // Star
-              <svg key="star" viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke={color} strokeWidth="6">
+              <svg
+                key="star"
+                viewBox="0 0 100 100"
+                className="w-full h-full"
+                fill="none"
+                stroke={color}
+                strokeWidth="6"
+              >
                 <polygon points="50,10 63,38 93,38 70,57 78,87 50,70 22,87 30,57 7,38 37,38" />
               </svg>,
               // Cross / Plus
-              <svg key="cross" viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke={color} strokeWidth="6">
+              <svg
+                key="cross"
+                viewBox="0 0 100 100"
+                className="w-full h-full"
+                fill="none"
+                stroke={color}
+                strokeWidth="6"
+              >
                 <path d="M50,10 L50,90 M10,50 L90,50" />
-              </svg>
+              </svg>,
             ];
 
             const selectedShape = shapes[i % shapes.length];
 
             const positions = [
-              { top: '10%', left: '20%' },
-              { top: '30%', right: '15%' },
-              { top: '50%', left: '10%' },
-              { bottom: '25%', right: '25%' },
-              { bottom: '15%', left: '30%' },
-              { top: '70%', left: '75%' },
-              { top: '20%', right: '45%' },
-              { bottom: '45%', left: '40%' }
+              { top: "10%", left: "20%" },
+              { top: "30%", right: "15%" },
+              { top: "50%", left: "10%" },
+              { bottom: "25%", right: "25%" },
+              { bottom: "15%", left: "30%" },
+              { top: "70%", left: "75%" },
+              { top: "20%", right: "45%" },
+              { bottom: "45%", left: "40%" },
             ];
 
             return (
@@ -1598,9 +2165,13 @@ function QuizViewport({
           {Array.from({ length: 4 }).map((_, i) => {
             const delay = i * 0.85;
             const sizePercent = 160 - i * 35; // concentric circles starting from 160% down to 55%
-            const speedMultiplier = 1.0 + (i * 0.4);
-            const color = themeColors.gradientStops[i % themeColors.gradientStops.length];
-            const extraColor = themeColors.gradientStops[(i + 1) % themeColors.gradientStops.length];
+            const speedMultiplier = 1.0 + i * 0.4;
+            const color =
+              themeColors.gradientStops[i % themeColors.gradientStops.length];
+            const extraColor =
+              themeColors.gradientStops[
+                (i + 1) % themeColors.gradientStops.length
+              ];
 
             return (
               <div
@@ -1626,7 +2197,8 @@ function QuizViewport({
             className="absolute w-[35%] h-[35%] rounded-full filter blur-[25px] opacity-80 mix-blend-overlay"
             style={{
               background: `radial-gradient(circle, #ffffff 0%, ${themeColors.primary} 40%, transparent 100%)`,
-              animation: 'psych-pulse calc(var(--anim-duration) * 0.8) ease-in-out infinite alternate'
+              animation:
+                "psych-pulse calc(var(--anim-duration) * 0.8) ease-in-out infinite alternate",
             }}
           />
         </div>
@@ -1656,7 +2228,10 @@ function QuizViewport({
         ref={layer2Ref}
         className="absolute inset-0 flex flex-col justify-center p-[1.5em]"
         style={{
-          transform: phase !== "edit" && phase >= 1 ? "translateY(0)" : "translateY(150%)",
+          transform:
+            phase !== "edit" && phase >= 1
+              ? "translateY(0)"
+              : "translateY(150%)",
           opacity: phase !== "edit" && phase >= 1 ? 1 : 0,
           pointerEvents: phase !== "edit" && phase >= 1 ? "auto" : "none",
           transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
@@ -1669,12 +2244,21 @@ function QuizViewport({
               ref={answersContainerRef}
               className="relative flex flex-col space-y-[0.6em] transition-all overflow-hidden p-[0.5em] -m-[0.5em]"
               style={{
-                maxHeight: phase === 6 ? (correctCardHeight ? `${correctCardHeight + (1.0 * (layer2FontSize || 16))}px` : "7em") : "40em",
+                maxHeight:
+                  phase === 6
+                    ? correctCardHeight
+                      ? `${correctCardHeight + 1.0 * (layer2FontSize || 16)}px`
+                      : "7em"
+                    : "40em",
                 transition: `max-height ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}`,
               }}
             >
               {questionData.answers.map((ans, i) => {
-                const isHighlighted = phase !== "edit" && phase >= 1 && phase <= 4 && (phase - 1) === i;
+                const isHighlighted =
+                  phase !== "edit" &&
+                  phase >= 1 &&
+                  phase <= 4 &&
+                  phase - 1 === i;
                 const isCorrect = questionData.correctIndex === i;
 
                 let opacity = 1;
@@ -1684,11 +2268,12 @@ function QuizViewport({
 
                 if (phase === 6) {
                   const offsetPx = cardOffsets[i];
-                  transform = offsetPx !== undefined && offsetPx !== 0
-                    ? `translateY(-${offsetPx}px)`
-                    : i > 0
-                    ? `translateY(calc(-${i * 100}% - ${i * 0.6}em))`
-                    : "translateY(0)";
+                  transform =
+                    offsetPx !== undefined && offsetPx !== 0
+                      ? `translateY(-${offsetPx}px)`
+                      : i > 0
+                        ? `translateY(calc(-${i * 100}% - ${i * 0.6}em))`
+                        : "translateY(0)";
 
                   if (isCorrect) {
                     opacity = 1;
@@ -1733,17 +2318,15 @@ function QuizViewport({
                       isCorrectHighlighted
                         ? "border-transparent bg-emerald-950/95 shadow-[0_0_1.5em_rgba(16,185,129,0.25)]"
                         : isHighlighted
-                        ? "bg-black/45 border-white/95 shadow-[0_0_1em_rgba(255,255,255,0.25)]"
-                        : phase === 5
-                        ? "bg-black/55 border-white/25"
-                        : "bg-black/65 border-white/15"
+                          ? "bg-black/45 border-white/95 shadow-[0_0_1em_rgba(255,255,255,0.25)]"
+                          : phase === 5
+                            ? "bg-black/55 border-white/25"
+                            : "bg-black/65 border-white/15"
                     }`}
                   >
                     {isCorrectHighlighted && (
                       <svg className="absolute inset-0 w-full h-full pointer-events-none z-20 overflow-visible">
-                        <defs>
-                          {getThemeGradientDefs(colorTheme)}
-                        </defs>
+                        <defs>{getThemeGradientDefs(colorTheme)}</defs>
                         <rect
                           x="0.08em"
                           y="0.08em"
@@ -1766,13 +2349,15 @@ function QuizViewport({
                       </svg>
                     )}
 
-                    <span className={`relative z-10 rounded-full border flex items-center justify-center transition-colors duration-300 w-[2em] h-[2em] text-[0.85em] font-black shrink-0 ${
-                      isCorrectHighlighted
-                        ? "bg-emerald-500 text-white border-emerald-400 font-black scale-110"
-                        : isHighlighted
-                        ? "bg-white text-black border-white"
-                        : "bg-white/10 border-white/20 text-white"
-                    }`}>
+                    <span
+                      className={`relative z-10 rounded-full border flex items-center justify-center transition-colors duration-300 w-[2em] h-[2em] text-[0.85em] font-black shrink-0 ${
+                        isCorrectHighlighted
+                          ? "bg-emerald-500 text-white border-emerald-400 font-black scale-110"
+                          : isHighlighted
+                            ? "bg-white text-black border-white"
+                            : "bg-white/10 border-white/20 text-white"
+                      }`}
+                    >
                       {String.fromCharCode(65 + i)}
                     </span>
                     <span className="relative z-10 text-[1em] leading-snug whitespace-normal">
@@ -1791,12 +2376,15 @@ function QuizViewport({
                 marginTop: phase === 6 ? "0.6em" : "0px",
                 pointerEvents: phase === 6 ? "auto" : "none",
                 transition: `max-height ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}, margin-top ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}, opacity ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}`,
-                fontSize: explanationFontSize ? `${explanationFontSize / 0.85}px` : undefined,
+                fontSize: explanationFontSize
+                  ? `${explanationFontSize / 0.85}px`
+                  : undefined,
               }}
             >
               <div
                 style={{
-                  transform: phase === 6 ? "translateY(0)" : "translateY(100vh)",
+                  transform:
+                    phase === 6 ? "translateY(0)" : "translateY(100vh)",
                   opacity: phase === 6 ? 1 : 0,
                   transition: `transform ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}, opacity ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1) ${phase === 6 ? `${transitionTime}s` : "0s"}`,
                 }}
@@ -1810,7 +2398,6 @@ function QuizViewport({
                 </p>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -1829,8 +2416,12 @@ export default function QuizPageClient({
     colorValues(theme);
 
   // Core quiz state
-  const [format, setFormat] = useState<"markdown" | "json" | "yaml">("markdown");
-  const [questionData, setQuestionData] = useState<QuizQuestion>(GCP_EXAMS_PRESETS[0].questions[0]);
+  const [format, setFormat] = useState<"markdown" | "json" | "yaml">(
+    "markdown",
+  );
+  const [questionData, setQuestionData] = useState<QuizQuestion>(
+    GCP_EXAMS_PRESETS[0].questions[0],
+  );
   const [rawText, setRawText] = useState(() => {
     return `# Question
 Which cloud computing service model offers the highest level of customization and control over the underlying infrastructure?
@@ -1848,25 +2439,47 @@ Infrastructure as a Service (IaaS) provides virtualized computing resources, giv
   const [copied, setCopied] = useState(false);
 
   // Style customization state
-  const [aspectRatio, setAspectRatio] = useState<"9:16" | "16:9" | "1:1" | "Both">("9:16");
-  const [colorTheme, setColorTheme] = useState<"Google Cloud" | "Firebase" | "Flutter/Dart" | "Go">("Google Cloud");
-  const [ambientAnimation, setAmbientAnimation] = useState<"none" | "shimmer" | "aurora" | "mesh-liquid" | "radial-flow" | "cosmic-glow" | "fireflies" | "warp-speed" | "laser-beams" | "color-vortex" | "matrix-rain" | "spinning-logos" | "lava-lamp" | "random-shapes" | "psychedelic-swirl">("none");
+  const [aspectRatio, setAspectRatio] = useState<
+    "9:16" | "16:9" | "1:1" | "Both"
+  >("9:16");
+  const [colorTheme, setColorTheme] = useState<
+    "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go"
+  >("Google Cloud");
+  const [ambientAnimation, setAmbientAnimation] = useState<
+    | "none"
+    | "shimmer"
+    | "aurora"
+    | "mesh-liquid"
+    | "radial-flow"
+    | "cosmic-glow"
+    | "fireflies"
+    | "warp-speed"
+    | "laser-beams"
+    | "color-vortex"
+    | "matrix-rain"
+    | "spinning-logos"
+    | "lava-lamp"
+    | "random-shapes"
+    | "psychedelic-swirl"
+  >("none");
   const [animationSpeed, setAnimationSpeed] = useState<number>(1.0);
   const [transitionTime, setTransitionTime] = useState<number>(1.0);
   const [hidePanels, setHidePanels] = useState<boolean>(false);
 
   // Player phase state:
   // "edit" | 0 (Question) | 1 (A highlight) | 2 (B highlight) | 3 (C highlight) | 4 (D highlight) | 5 (All answers, pause) | 6 (Explanation & correct answer highlighted)
-  const [phase, setPhase] = useState<"edit" | 0 | 1 | 2 | 3 | 4 | 5 | 6>("edit");
+  const [phase, setPhase] = useState<"edit" | 0 | 1 | 2 | 3 | 4 | 5 | 6>(
+    "edit",
+  );
 
   // Format Helper Functions
   const formatYaml = (q: QuizQuestion) => {
     return `question: "${q.question.replace(/"/g, '\\"')}"
 answers:
-  - "${q.answers[0]?.replace(/"/g, '\\"') || ''}"
-  - "${q.answers[1]?.replace(/"/g, '\\"') || ''}"
-  - "${q.answers[2]?.replace(/"/g, '\\"') || ''}"
-  - "${q.answers[3]?.replace(/"/g, '\\"') || ''}"
+  - "${q.answers[0]?.replace(/"/g, '\\"') || ""}"
+  - "${q.answers[1]?.replace(/"/g, '\\"') || ""}"
+  - "${q.answers[2]?.replace(/"/g, '\\"') || ""}"
+  - "${q.answers[3]?.replace(/"/g, '\\"') || ""}"
 correctIndex: ${q.correctIndex}
 explanation: "${q.explanation.replace(/"/g, '\\"')}"`;
   };
@@ -1876,10 +2489,10 @@ explanation: "${q.explanation.replace(/"/g, '\\"')}"`;
 ${q.question}
 
 ## Answers
-- [${q.correctIndex === 0 ? 'x' : ' '}] ${q.answers[0] || ''}
-- [${q.correctIndex === 1 ? 'x' : ' '}] ${q.answers[1] || ''}
-- [${q.correctIndex === 2 ? 'x' : ' '}] ${q.answers[2] || ''}
-- [${q.correctIndex === 3 ? 'x' : ' '}] ${q.answers[3] || ''}
+- [${q.correctIndex === 0 ? "x" : " "}] ${q.answers[0] || ""}
+- [${q.correctIndex === 1 ? "x" : " "}] ${q.answers[1] || ""}
+- [${q.correctIndex === 2 ? "x" : " "}] ${q.answers[2] || ""}
+- [${q.correctIndex === 3 ? "x" : " "}] ${q.answers[3] || ""}
 
 ## Explanation
 ${q.explanation}`;
@@ -1892,7 +2505,9 @@ ${q.explanation}`;
       errs.push("Question text is required.");
     }
     if (!q.answers || q.answers.length !== 4) {
-      errs.push(`Exactly 4 answers are required (currently ${q.answers?.length || 0}).`);
+      errs.push(
+        `Exactly 4 answers are required (currently ${q.answers?.length || 0}).`,
+      );
     } else {
       q.answers.forEach((ans, i) => {
         if (!ans.trim()) {
@@ -1909,7 +2524,13 @@ ${q.explanation}`;
     return errs;
   };
 
-  const parseText = (text: string): { data: QuizQuestion | null; errors: string[]; format: "json" | "yaml" | "markdown" } => {
+  const parseText = (
+    text: string,
+  ): {
+    data: QuizQuestion | null;
+    errors: string[];
+    format: "json" | "yaml" | "markdown";
+  } => {
     const trimmedText = text.trim();
 
     // 1. JSON Detection
@@ -1917,11 +2538,16 @@ ${q.explanation}`;
       try {
         const obj = JSON.parse(trimmedText) as any;
         const question = (obj.question || "").toString();
-        const answers = Array.isArray(obj.answers) ? obj.answers.map((a: any) => (a || "").toString()) : [];
+        const answers = Array.isArray(obj.answers)
+          ? obj.answers.map((a: any) => (a || "").toString())
+          : [];
         let correctIndex = -1;
         if (typeof obj.correctIndex === "number") {
           correctIndex = obj.correctIndex;
-        } else if (typeof obj.correctAnswer === "string" && answers.length > 0) {
+        } else if (
+          typeof obj.correctAnswer === "string" &&
+          answers.length > 0
+        ) {
           correctIndex = answers.indexOf(obj.correctAnswer);
         }
         const explanation = (obj.explanation || "").toString();
@@ -1956,18 +2582,30 @@ ${q.explanation}`;
           if (!trimmed || trimmed.startsWith("#")) continue;
 
           if (trimmed.startsWith("question:")) {
-            question = trimmed.substring("question:".length).trim().replace(/^['"]|['"]$/g, "");
+            question = trimmed
+              .substring("question:".length)
+              .trim()
+              .replace(/^['"]|['"]$/g, "");
             currentSection = "question";
           } else if (trimmed.startsWith("answers:")) {
             currentSection = "answers";
           } else if (trimmed.startsWith("correctIndex:")) {
-            correctIndex = parseInt(trimmed.substring("correctIndex:".length).trim(), 10);
+            correctIndex = parseInt(
+              trimmed.substring("correctIndex:".length).trim(),
+              10,
+            );
             currentSection = "correctIndex";
           } else if (trimmed.startsWith("explanation:")) {
-            explanation = trimmed.substring("explanation:".length).trim().replace(/^['"]|['"]$/g, "");
+            explanation = trimmed
+              .substring("explanation:".length)
+              .trim()
+              .replace(/^['"]|['"]$/g, "");
             currentSection = "explanation";
           } else if (trimmed.startsWith("-") && currentSection === "answers") {
-            const ans = trimmed.substring(1).trim().replace(/^['"]|['"]$/g, "");
+            const ans = trimmed
+              .substring(1)
+              .trim()
+              .replace(/^['"]|['"]$/g, "");
             answers.push(ans);
           } else {
             if (currentSection === "question") {
@@ -2007,10 +2645,16 @@ ${q.explanation}`;
         if (trimmed.toLowerCase().startsWith("# question")) {
           currentSec = "question";
           continue;
-        } else if (trimmed.toLowerCase().startsWith("## answers") || trimmed.toLowerCase().startsWith("# answers")) {
+        } else if (
+          trimmed.toLowerCase().startsWith("## answers") ||
+          trimmed.toLowerCase().startsWith("# answers")
+        ) {
           currentSec = "answers";
           continue;
-        } else if (trimmed.toLowerCase().startsWith("## explanation") || trimmed.toLowerCase().startsWith("# explanation")) {
+        } else if (
+          trimmed.toLowerCase().startsWith("## explanation") ||
+          trimmed.toLowerCase().startsWith("# explanation")
+        ) {
           currentSec = "explanation";
           continue;
         }
@@ -2126,7 +2770,7 @@ ${q.explanation}`;
     if (phase === 6) {
       setPhase(0);
     } else {
-      setPhase((prev) => (prev as number) + 1 as any);
+      setPhase((prev) => ((prev as number) + 1) as any);
     }
   };
 
@@ -2135,7 +2779,7 @@ ${q.explanation}`;
     if (phase === 0) {
       setPhase(6);
     } else {
-      setPhase((prev) => (prev as number) - 1 as any);
+      setPhase((prev) => ((prev as number) - 1) as any);
     }
   };
 
@@ -2192,18 +2836,22 @@ ${q.explanation}`;
   }, [phase, questionData]);
 
   // Input styling based on theme
-  const inputThemeClass = theme.color === "dark"
-    ? "bg-gray-950 text-white border-gray-800 focus:ring-amber-500 placeholder-gray-500"
-    : "bg-white text-black border-gray-200 focus:ring-orange-500 placeholder-gray-400";
+  const inputThemeClass =
+    theme.color === "dark"
+      ? "bg-gray-950 text-white border-gray-800 focus:ring-amber-500 placeholder-gray-500"
+      : "bg-white text-black border-gray-200 focus:ring-orange-500 placeholder-gray-400";
 
   return (
-    <div className={`w-full ${hidePanels ? "h-screen overflow-hidden flex flex-col justify-center items-center" : "min-h-screen pb-12"} ${textColorClass}`}>
-      <style>
-        {`body { background-color: ${bodyBackgroundColor} }`}
-      </style>
+    <div
+      className={`w-full ${hidePanels ? "h-screen overflow-hidden flex flex-col justify-center items-center" : "min-h-screen pb-12"} ${textColorClass}`}
+    >
+      <style>{`body { background-color: ${bodyBackgroundColor} }`}</style>
 
       {!hidePanels && (
-        <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
+        <Navbar
+          theme={theme}
+          deploymentConfiguration={deploymentConfiguration}
+        />
       )}
 
       {/* Floating Panel Restorer Button for Recording Mode */}
@@ -2214,21 +2862,40 @@ ${q.explanation}`;
           title="Press ESC or click to restore control panel layout"
         >
           <span>👁️ Show Control Panels</span>
-          <span className="opacity-60 text-[9px] bg-black/20 px-1 py-0.5 rounded">ESC</span>
+          <span className="opacity-60 text-[9px] bg-black/20 px-1 py-0.5 rounded">
+            ESC
+          </span>
         </button>
       )}
 
       {/* Main Container Layout */}
-      <div className={hidePanels ? "w-full h-full flex items-center justify-center overflow-hidden" : "mx-auto w-full max-w-[1700px] px-4 mt-6"}>
-        <div className={hidePanels ? "w-full h-full flex items-center justify-center" : `grid grid-cols-1 ${hidePanels ? "" : "xl:grid-cols-12"} gap-6 items-start`}>
-
+      <div
+        className={
+          hidePanels
+            ? "w-full h-full flex items-center justify-center overflow-hidden"
+            : "mx-auto w-full max-w-[1700px] px-4 mt-6"
+        }
+      >
+        <div
+          className={
+            hidePanels
+              ? "w-full h-full flex items-center justify-center"
+              : `grid grid-cols-1 ${hidePanels ? "" : "xl:grid-cols-12"} gap-6 items-start`
+          }
+        >
           {/* LEFT PANEL: Nested GCP Presets (Static List, No Accordion) */}
           {!hidePanels && (
-            <div className={`xl:col-span-3 rounded-2xl p-4 shadow-xl ${textBackgroundColorClass} border border-gray-200/10 max-h-[85vh] overflow-y-auto`}>
+            <div
+              className={`xl:col-span-3 rounded-2xl p-4 shadow-xl ${textBackgroundColorClass} border border-gray-200/10 max-h-[85vh] overflow-y-auto`}
+            >
               <h2 className="text-lg font-extrabold mb-4 pb-2 border-b border-gray-200/10 flex items-center justify-between">
                 <span>Quiz Collections</span>
                 <span className="text-xs font-normal opacity-60">
-                  {GCP_EXAMS_PRESETS.reduce((acc, e) => acc + e.questions.length, 0)} Questions
+                  {GCP_EXAMS_PRESETS.reduce(
+                    (acc, e) => acc + e.questions.length,
+                    0,
+                  )}{" "}
+                  Questions
                 </span>
               </h2>
               <div className="space-y-6">
@@ -2250,12 +2917,16 @@ ${q.explanation}`;
                                     ? "bg-amber-500/20 text-amber-400 font-bold border-l-2 border-amber-500 pl-1.5"
                                     : "bg-amber-500/15 text-amber-700 font-bold border-l-2 border-amber-500 pl-1.5"
                                   : theme.color === "dark"
-                                  ? "text-gray-400 hover:text-white hover:bg-white/5"
-                                  : "text-gray-600 hover:text-gray-900 hover:bg-black/5"
+                                    ? "text-gray-400 hover:text-white hover:bg-white/5"
+                                    : "text-gray-600 hover:text-gray-900 hover:bg-black/5"
                               }`}
                             >
-                              <span className="opacity-50 mr-1">Q{qIdx + 1}:</span>
-                              <span className="line-clamp-2 inline align-middle">{q.question}</span>
+                              <span className="opacity-50 mr-1">
+                                Q{qIdx + 1}:
+                              </span>
+                              <span className="line-clamp-2 inline align-middle">
+                                {q.question}
+                              </span>
                             </button>
                           </li>
                         );
@@ -2268,12 +2939,19 @@ ${q.explanation}`;
           )}
 
           {/* MAIN CENTER PANEL: Editor OR Presentation Screen */}
-          <div className={hidePanels ? "w-full h-full flex items-center justify-center" : "xl:col-span-9"}>
+          <div
+            className={
+              hidePanels
+                ? "w-full h-full flex items-center justify-center"
+                : "xl:col-span-9"
+            }
+          >
             {phase === "edit" ? (
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-
                 {/* Form Editor */}
-                <div className={`lg:col-span-7 rounded-2xl p-6 shadow-xl ${textBackgroundColorClass} space-y-6 border border-gray-200/10`}>
+                <div
+                  className={`lg:col-span-7 rounded-2xl p-6 shadow-xl ${textBackgroundColorClass} space-y-6 border border-gray-200/10`}
+                >
                   <div className="flex justify-between items-center border-b border-gray-200/10 pb-3">
                     <h2 className="text-xl font-bold">Interactive Form</h2>
                   </div>
@@ -2281,21 +2959,31 @@ ${q.explanation}`;
                   {/* Form fields */}
                   <div className="space-y-4">
                     <div>
-                      <label className="block text-sm font-semibold mb-1" htmlFor="quiz-question">
+                      <label
+                        className="block text-sm font-semibold mb-1"
+                        htmlFor="quiz-question"
+                      >
                         Question Text
                       </label>
                       <textarea
                         id="quiz-question"
                         rows={3}
                         value={questionData.question}
-                        onChange={(e) => handleFormChange({ ...questionData, question: e.target.value })}
+                        onChange={(e) =>
+                          handleFormChange({
+                            ...questionData,
+                            question: e.target.value,
+                          })
+                        }
                         placeholder="Enter the question text..."
                         className={`w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 resize-none ${inputThemeClass}`}
                       />
                     </div>
 
                     <div className="space-y-2">
-                      <label className="block text-sm font-semibold">Answers (Check the correct one)</label>
+                      <label className="block text-sm font-semibold">
+                        Answers (Check the correct one)
+                      </label>
                       {questionData.answers.map((ans, i) => (
                         <div key={i} className="flex items-center gap-3">
                           <input
@@ -2303,7 +2991,12 @@ ${q.explanation}`;
                             id={`correct-ans-${i}`}
                             name="correctAnswerSelection"
                             checked={questionData.correctIndex === i}
-                            onChange={() => handleFormChange({ ...questionData, correctIndex: i })}
+                            onChange={() =>
+                              handleFormChange({
+                                ...questionData,
+                                correctIndex: i,
+                              })
+                            }
                             className="w-5 h-5 accent-orange-500 cursor-pointer"
                           />
                           <input
@@ -2312,7 +3005,10 @@ ${q.explanation}`;
                             onChange={(e) => {
                               const nextAnswers = [...questionData.answers];
                               nextAnswers[i] = e.target.value;
-                              handleFormChange({ ...questionData, answers: nextAnswers });
+                              handleFormChange({
+                                ...questionData,
+                                answers: nextAnswers,
+                              });
                             }}
                             placeholder={`Option ${String.fromCharCode(65 + i)}`}
                             className={`flex-1 px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 ${inputThemeClass}`}
@@ -2322,14 +3018,22 @@ ${q.explanation}`;
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold mb-1" htmlFor="quiz-explanation">
+                      <label
+                        className="block text-sm font-semibold mb-1"
+                        htmlFor="quiz-explanation"
+                      >
                         Explanation
                       </label>
                       <textarea
                         id="quiz-explanation"
                         rows={3}
                         value={questionData.explanation}
-                        onChange={(e) => handleFormChange({ ...questionData, explanation: e.target.value })}
+                        onChange={(e) =>
+                          handleFormChange({
+                            ...questionData,
+                            explanation: e.target.value,
+                          })
+                        }
                         placeholder="Explain why the answer is correct..."
                         className={`w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 resize-none ${inputThemeClass}`}
                       />
@@ -2339,7 +3043,9 @@ ${q.explanation}`;
                   {/* Errors Panel */}
                   {errors.length > 0 && (
                     <div className="bg-red-500/10 border border-red-500/20 text-red-500 rounded-xl p-4 text-sm font-medium space-y-1">
-                      <p className="font-bold">⚠️ Correct the following issues:</p>
+                      <p className="font-bold">
+                        ⚠️ Correct the following issues:
+                      </p>
                       <ul className="list-disc list-inside space-y-0.5 opacity-90 pl-1">
                         {errors.map((err, i) => (
                           <li key={i}>{err}</li>
@@ -2363,12 +3069,16 @@ ${q.explanation}`;
                 </div>
 
                 {/* Raw Copy/Paste Box */}
-                <div className={`lg:col-span-5 rounded-2xl p-6 shadow-xl ${textBackgroundColorClass} space-y-4 border border-gray-200/10`}>
+                <div
+                  className={`lg:col-span-5 rounded-2xl p-6 shadow-xl ${textBackgroundColorClass} space-y-4 border border-gray-200/10`}
+                >
                   <div className="flex justify-between items-center">
                     <h2 className="text-xl font-bold">Raw Copy / Paste</h2>
                     <select
                       value={format}
-                      onChange={(e) => handleFormatChange(e.target.value as any)}
+                      onChange={(e) =>
+                        handleFormatChange(e.target.value as any)
+                      }
                       className={`px-3 py-1 rounded-lg border text-xs font-bold focus:outline-none ${inputThemeClass}`}
                     >
                       <option value="markdown">Markdown</option>
@@ -2400,22 +3110,45 @@ ${q.explanation}`;
                   </div>
 
                   <div className="text-xs opacity-60 space-y-1">
-                    <p>💡 <b>Quick Tip:</b> You can paste raw questions in JSON, YAML, or Markdown. The site detects the format, parses the content, and updates the form in real-time!</p>
+                    <p>
+                      💡 <b>Quick Tip:</b> You can paste raw questions in JSON,
+                      YAML, or Markdown. The site detects the format, parses the
+                      content, and updates the form in real-time!
+                    </p>
                   </div>
                 </div>
               </div>
             ) : (
               /* Presentation / Interactive Player Mode with Side Controls */
-              <div className={hidePanels ? "w-full h-full flex items-center justify-center" : "flex flex-col lg:flex-row gap-8 items-stretch justify-center"}>
-
+              <div
+                className={
+                  hidePanels
+                    ? "w-full h-full flex items-center justify-center"
+                    : "flex flex-col lg:flex-row gap-8 items-stretch justify-center"
+                }
+              >
                 {/* 1. Large Centered Interactive Quiz Viewport */}
-                <div className={hidePanels ? "w-full h-full flex flex-row gap-8 justify-center items-center" : "flex-1 flex flex-wrap gap-8 justify-center items-center"}>
+                <div
+                  className={
+                    hidePanels
+                      ? "w-full h-full flex flex-row gap-8 justify-center items-center"
+                      : "flex-1 flex flex-wrap gap-8 justify-center items-center"
+                  }
+                >
                   {aspectRatio === "Both" ? (
                     <>
                       {/* 9:16 Preview */}
-                      <div className={hidePanels ? "flex flex-col items-center" : "flex flex-col items-center w-full max-w-[420px]"}>
+                      <div
+                        className={
+                          hidePanels
+                            ? "flex flex-col items-center"
+                            : "flex flex-col items-center w-full max-w-[420px]"
+                        }
+                      >
                         {!hidePanels && (
-                          <span className="text-xs font-bold opacity-60 mb-2 uppercase tracking-widest">9:16 Viewport</span>
+                          <span className="text-xs font-bold opacity-60 mb-2 uppercase tracking-widest">
+                            9:16 Viewport
+                          </span>
                         )}
                         <QuizViewport
                           ratio="9:16"
@@ -2432,9 +3165,17 @@ ${q.explanation}`;
                       </div>
 
                       {/* 16:9 Preview */}
-                      <div className={hidePanels ? "flex flex-col items-center" : "flex flex-col items-center w-full max-w-[850px]"}>
+                      <div
+                        className={
+                          hidePanels
+                            ? "flex flex-col items-center"
+                            : "flex flex-col items-center w-full max-w-[850px]"
+                        }
+                      >
                         {!hidePanels && (
-                          <span className="text-xs font-bold opacity-60 mb-2 uppercase tracking-widest">16:9 Viewport</span>
+                          <span className="text-xs font-bold opacity-60 mb-2 uppercase tracking-widest">
+                            16:9 Viewport
+                          </span>
                         )}
                         <QuizViewport
                           ratio="16:9"
@@ -2467,233 +3208,271 @@ ${q.explanation}`;
 
                 {/* 2. Side Control Column */}
                 {!hidePanels && (
-                  <div className={`w-full lg:w-[320px] rounded-2xl p-6 shadow-xl ${textBackgroundColorClass} border border-gray-200/10 flex flex-col justify-between space-y-6 self-start`}>
-
-                  {/* Top: Header Info */}
-                  <div>
-                    <h3 className="text-base font-extrabold mb-1">Presenter Panel</h3>
-                    <p className="text-xs text-gray-400">Customization & control options. Out of camera frame.</p>
-                  </div>
-
-                  {/* Playback step selector */}
-                  <div className="space-y-2">
-                    <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
-                      Step Navigation ({phase + 1}/7)
-                    </label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={retreatPhase}
-                        className={`py-2 px-3 border text-xs font-bold rounded-lg transition text-center ${
-                          theme.color === "dark"
-                            ? "bg-white/5 hover:bg-white/15 border-white/10 text-white"
-                            : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-900"
-                        }`}
-                      >
-                        ◀ Previous
-                      </button>
-                      <button
-                        onClick={advancePhase}
-                        className={`py-2 px-3 border text-xs font-bold rounded-lg transition text-center ${
-                          theme.color === "dark"
-                            ? "bg-white/5 hover:bg-white/15 border-white/10 text-white"
-                            : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-900"
-                        }`}
-                      >
-                        Next ▶
-                      </button>
+                  <div
+                    className={`w-full lg:w-[320px] rounded-2xl p-6 shadow-xl ${textBackgroundColorClass} border border-gray-200/10 flex flex-col justify-between space-y-6 self-start`}
+                  >
+                    {/* Top: Header Info */}
+                    <div>
+                      <h3 className="text-base font-extrabold mb-1">
+                        Presenter Panel
+                      </h3>
+                      <p className="text-xs text-gray-400">
+                        Customization & control options. Out of camera frame.
+                      </p>
                     </div>
-                    <div className="grid grid-cols-7 gap-1 mt-1">
-                      {[0, 1, 2, 3, 4, 5, 6].map((num) => (
+
+                    {/* Playback step selector */}
+                    <div className="space-y-2">
+                      <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
+                        Step Navigation ({phase + 1}/7)
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
                         <button
-                          key={num}
-                          onClick={() => setPhase(num as any)}
-                          className={`py-1 text-xs font-black rounded transition ${
-                            phase === num
-                              ? "bg-amber-500 text-white"
-                              : theme.color === "dark"
-                              ? "bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white"
-                              : "bg-black/5 hover:bg-black/10 border border-black/10 text-gray-600 hover:text-gray-900"
+                          onClick={retreatPhase}
+                          className={`py-2 px-3 border text-xs font-bold rounded-lg transition text-center ${
+                            theme.color === "dark"
+                              ? "bg-white/5 hover:bg-white/15 border-white/10 text-white"
+                              : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-900"
                           }`}
                         >
-                          {num + 1}
+                          ◀ Previous
                         </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Transition Speed control */}
-                  <div className="space-y-2">
-                    <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider opacity-60">
-                      <span>Transition Duration</span>
-                      <span className="text-amber-500">{transitionTime.toFixed(1)}s</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="0.1"
-                      max="3.0"
-                      step="0.1"
-                      value={transitionTime}
-                      onChange={(e) => setTransitionTime(parseFloat(e.target.value))}
-                      className="w-full accent-amber-500 bg-white/10"
-                    />
-                  </div>
-
-                  {/* Ambient Animation controls */}
-                  <div className="space-y-2">
-                    <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
-                      Background Animation
-                    </label>
-                    <div className="grid grid-cols-3 gap-1.5">
-                      {([
-                        "none",
-                        "shimmer",
-                        "aurora",
-                        "mesh-liquid",
-                        "radial-flow",
-                        "cosmic-glow",
-                        "fireflies",
-                        "warp-speed",
-                        "laser-beams",
-                        "color-vortex",
-                        "matrix-rain",
-                        "spinning-logos",
-                        "lava-lamp",
-                        "random-shapes",
-                        "psychedelic-swirl"
-                      ] as const).map((anim) => (
                         <button
-                          key={anim}
-                          onClick={() => setAmbientAnimation(anim)}
-                          className={`py-1 px-1 rounded-lg font-bold border transition text-center text-[10px] ${
-                            ambientAnimation === anim
-                              ? "bg-amber-500 text-white border-amber-600"
-                              : theme.color === "dark"
-                              ? "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400 hover:text-white"
-                              : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-600 hover:text-gray-900"
+                          onClick={advancePhase}
+                          className={`py-2 px-3 border text-xs font-bold rounded-lg transition text-center ${
+                            theme.color === "dark"
+                              ? "bg-white/5 hover:bg-white/15 border-white/10 text-white"
+                              : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-900"
                           }`}
                         >
-                          {anim === "none" ? "None" :
-                           anim === "shimmer" ? "Shimmer" :
-                           anim === "aurora" ? "Aurora" :
-                           anim === "mesh-liquid" ? "Liquid" :
-                           anim === "radial-flow" ? "Radial" :
-                           anim === "cosmic-glow" ? "Cosmic" :
-                           anim === "fireflies" ? "Fireflies" :
-                           anim === "warp-speed" ? "Warp" :
-                           anim === "laser-beams" ? "Laser" :
-                           anim === "color-vortex" ? "Vortex" :
-                           anim === "matrix-rain" ? "Matrix" :
-                           anim === "spinning-logos" ? "Logos 🌀" :
-                           anim === "lava-lamp" ? "Lava 🔮" :
-                           anim === "random-shapes" ? "Shapes 🔺" :
-                           anim === "psychedelic-swirl" ? "Trippy 💫" : anim}
+                          Next ▶
                         </button>
-                      ))}
+                      </div>
+                      <div className="grid grid-cols-7 gap-1 mt-1">
+                        {[0, 1, 2, 3, 4, 5, 6].map((num) => (
+                          <button
+                            key={num}
+                            onClick={() => setPhase(num as any)}
+                            className={`py-1 text-xs font-black rounded transition ${
+                              phase === num
+                                ? "bg-amber-500 text-white"
+                                : theme.color === "dark"
+                                  ? "bg-white/5 hover:bg-white/15 border border-white/10 text-gray-400 hover:text-white"
+                                  : "bg-black/5 hover:bg-black/10 border border-black/10 text-gray-600 hover:text-gray-900"
+                            }`}
+                          >
+                            {num + 1}
+                          </button>
+                        ))}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* Animation Speed Control */}
-                  {ambientAnimation !== "none" && (
-                    <div className="space-y-2 pt-1 transition-all duration-300">
+                    {/* Transition Speed control */}
+                    <div className="space-y-2">
                       <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider opacity-60">
-                        <span>Animation Speed</span>
-                        <span className="text-amber-500">{animationSpeed.toFixed(1)}x</span>
+                        <span>Transition Duration</span>
+                        <span className="text-amber-500">
+                          {transitionTime.toFixed(1)}s
+                        </span>
                       </div>
                       <input
                         type="range"
                         min="0.1"
-                        max="10.0"
+                        max="3.0"
                         step="0.1"
-                        value={animationSpeed}
-                        onChange={(e) => setAnimationSpeed(parseFloat(e.target.value))}
+                        value={transitionTime}
+                        onChange={(e) =>
+                          setTransitionTime(parseFloat(e.target.value))
+                        }
                         className="w-full accent-amber-500 bg-white/10"
                       />
                     </div>
-                  )}
 
-                  {/* Aspect Ratio controls */}
-                  <div className="space-y-2">
-                    <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
-                      Aspect Ratio
-                    </label>
-                    <div className="grid grid-cols-4 gap-1">
-                      {(["9:16", "16:9", "1:1", "Both"] as const).map((ratio) => (
-                        <button
-                          key={ratio}
-                          onClick={() => setAspectRatio(ratio)}
-                          className={`py-1.5 px-1 rounded-lg text-[10px] font-bold border transition text-center ${
-                            aspectRatio === ratio
-                              ? "bg-amber-500 text-white border-amber-600"
-                              : theme.color === "dark"
-                              ? "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400 hover:text-white"
-                              : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-600 hover:text-gray-900"
-                          }`}
-                        >
-                          {ratio}
-                        </button>
-                      ))}
+                    {/* Ambient Animation controls */}
+                    <div className="space-y-2">
+                      <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
+                        Background Animation
+                      </label>
+                      <div className="grid grid-cols-3 gap-1.5">
+                        {(
+                          [
+                            "none",
+                            "shimmer",
+                            "aurora",
+                            "mesh-liquid",
+                            "radial-flow",
+                            "cosmic-glow",
+                            "fireflies",
+                            "warp-speed",
+                            "laser-beams",
+                            "color-vortex",
+                            "matrix-rain",
+                            "spinning-logos",
+                            "lava-lamp",
+                            "random-shapes",
+                            "psychedelic-swirl",
+                          ] as const
+                        ).map((anim) => (
+                          <button
+                            key={anim}
+                            onClick={() => setAmbientAnimation(anim)}
+                            className={`py-1 px-1 rounded-lg font-bold border transition text-center text-[10px] ${
+                              ambientAnimation === anim
+                                ? "bg-amber-500 text-white border-amber-600"
+                                : theme.color === "dark"
+                                  ? "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400 hover:text-white"
+                                  : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-600 hover:text-gray-900"
+                            }`}
+                          >
+                            {anim === "none"
+                              ? "None"
+                              : anim === "shimmer"
+                                ? "Shimmer"
+                                : anim === "aurora"
+                                  ? "Aurora"
+                                  : anim === "mesh-liquid"
+                                    ? "Liquid"
+                                    : anim === "radial-flow"
+                                      ? "Radial"
+                                      : anim === "cosmic-glow"
+                                        ? "Cosmic"
+                                        : anim === "fireflies"
+                                          ? "Fireflies"
+                                          : anim === "warp-speed"
+                                            ? "Warp"
+                                            : anim === "laser-beams"
+                                              ? "Laser"
+                                              : anim === "color-vortex"
+                                                ? "Vortex"
+                                                : anim === "matrix-rain"
+                                                  ? "Matrix"
+                                                  : anim === "spinning-logos"
+                                                    ? "Logos 🌀"
+                                                    : anim === "lava-lamp"
+                                                      ? "Lava 🔮"
+                                                      : anim === "random-shapes"
+                                                        ? "Shapes 🔺"
+                                                        : anim ===
+                                                            "psychedelic-swirl"
+                                                          ? "Trippy 💫"
+                                                          : anim}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Animation Speed Control */}
+                    {ambientAnimation !== "none" && (
+                      <div className="space-y-2 pt-1 transition-all duration-300">
+                        <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider opacity-60">
+                          <span>Animation Speed</span>
+                          <span className="text-amber-500">
+                            {animationSpeed.toFixed(1)}x
+                          </span>
+                        </div>
+                        <input
+                          type="range"
+                          min="0.1"
+                          max="10.0"
+                          step="0.1"
+                          value={animationSpeed}
+                          onChange={(e) =>
+                            setAnimationSpeed(parseFloat(e.target.value))
+                          }
+                          className="w-full accent-amber-500 bg-white/10"
+                        />
+                      </div>
+                    )}
+
+                    {/* Aspect Ratio controls */}
+                    <div className="space-y-2">
+                      <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
+                        Aspect Ratio
+                      </label>
+                      <div className="grid grid-cols-4 gap-1">
+                        {(["9:16", "16:9", "1:1", "Both"] as const).map(
+                          (ratio) => (
+                            <button
+                              key={ratio}
+                              onClick={() => setAspectRatio(ratio)}
+                              className={`py-1.5 px-1 rounded-lg text-[10px] font-bold border transition text-center ${
+                                aspectRatio === ratio
+                                  ? "bg-amber-500 text-white border-amber-600"
+                                  : theme.color === "dark"
+                                    ? "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400 hover:text-white"
+                                    : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-600 hover:text-gray-900"
+                              }`}
+                            >
+                              {ratio}
+                            </button>
+                          ),
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Color Theme controls */}
+                    <div className="space-y-2">
+                      <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
+                        Color Theme
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
+                        {(
+                          [
+                            "Google Cloud",
+                            "Firebase",
+                            "Flutter/Dart",
+                            "Go",
+                          ] as const
+                        ).map((style) => (
+                          <button
+                            key={style}
+                            onClick={() => setColorTheme(style)}
+                            className={`py-2 px-2.5 rounded-lg text-xs font-bold border transition text-left flex flex-col justify-between ${
+                              colorTheme === style
+                                ? "bg-amber-500 text-white border-amber-600"
+                                : theme.color === "dark"
+                                  ? "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400 hover:text-white"
+                                  : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-600 hover:text-gray-900"
+                            }`}
+                          >
+                            <span>{style}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Bottom: Exit Controls */}
+                    <div className="pt-4 border-t border-gray-200/10 space-y-2">
+                      <button
+                        onClick={() => setHidePanels(true)}
+                        className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold shadow transition text-center"
+                      >
+                        📷 Hide Panels (Recording Mode)
+                      </button>
+                      <button
+                        onClick={() => setPhase("edit")}
+                        className="w-full py-2.5 px-4 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-sm font-bold shadow transition text-center"
+                      >
+                        ✏️ Edit Question / Form
+                      </button>
+                      <button
+                        onClick={() => {
+                          setPhase(0);
+                        }}
+                        className={`w-full py-2 px-4 rounded-xl text-xs font-semibold border transition text-center ${
+                          theme.color === "dark"
+                            ? "bg-white/5 hover:bg-white/10 border-white/10 text-white"
+                            : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-900"
+                        }`}
+                      >
+                        🔄 Reset presentation
+                      </button>
                     </div>
                   </div>
-
-                  {/* Color Theme controls */}
-                  <div className="space-y-2">
-                    <label className="block text-xs font-bold uppercase tracking-wider opacity-60">
-                      Color Theme
-                    </label>
-                    <div className="grid grid-cols-2 gap-2">
-                      {(["Google Cloud", "Firebase", "Flutter/Dart", "Go"] as const).map((style) => (
-                        <button
-                          key={style}
-                          onClick={() => setColorTheme(style)}
-                          className={`py-2 px-2.5 rounded-lg text-xs font-bold border transition text-left flex flex-col justify-between ${
-                            colorTheme === style
-                              ? "bg-amber-500 text-white border-amber-600"
-                              : theme.color === "dark"
-                              ? "bg-white/5 hover:bg-white/10 border-white/10 text-gray-400 hover:text-white"
-                              : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-600 hover:text-gray-900"
-                          }`}
-                        >
-                          <span>{style}</span>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Bottom: Exit Controls */}
-                  <div className="pt-4 border-t border-gray-200/10 space-y-2">
-                    <button
-                      onClick={() => setHidePanels(true)}
-                      className="w-full py-2.5 px-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-bold shadow transition text-center"
-                    >
-                      📷 Hide Panels (Recording Mode)
-                    </button>
-                    <button
-                      onClick={() => setPhase("edit")}
-                      className="w-full py-2.5 px-4 bg-orange-600 hover:bg-orange-700 text-white rounded-xl text-sm font-bold shadow transition text-center"
-                    >
-                      ✏️ Edit Question / Form
-                    </button>
-                    <button
-                      onClick={() => {
-                        setPhase(0);
-                      }}
-                      className={`w-full py-2 px-4 rounded-xl text-xs font-semibold border transition text-center ${
-                        theme.color === "dark"
-                          ? "bg-white/5 hover:bg-white/10 border-white/10 text-white"
-                          : "bg-black/5 hover:bg-black/10 border-black/10 text-gray-900"
-                      }`}
-                    >
-                      🔄 Reset presentation
-                    </button>
-                  </div>
-
-                </div>
                 )}
-
               </div>
             )}
           </div>
-
         </div>
       </div>
 

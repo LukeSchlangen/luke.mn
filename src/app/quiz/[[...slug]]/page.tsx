@@ -20,7 +20,8 @@ export async function generateMetadata({
 
   return {
     title: "Interactive Quiz Creator | Luke Schlangen",
-    description: "Create, format, and present interactive 9:16 quizzes designed for YouTube Shorts.",
+    description:
+      "Create, format, and present interactive 9:16 quizzes designed for YouTube Shorts.",
     icons: {
       icon: icon,
     },

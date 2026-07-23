@@ -20,9 +20,7 @@ export default function ShortPage({
 
   return (
     <div className={`w-full min-h-screen ${textColorClass}`}>
-      <style>
-        {`body { background-color: ${bodyBackgroundColor} }`}
-      </style>
+      <style>{`body { background-color: ${bodyBackgroundColor} }`}</style>
       <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
       <div className="m-auto max-w-prose">
         <header className="my-16">
@@ -37,7 +35,10 @@ export default function ShortPage({
           <ProseContainer theme={theme}>
             <ul className="space-y-4">
               {Object.entries(SHORT_LINKS).map(([shortId, url]) => (
-                <li key={shortId} className="flex flex-col sm:flex-row sm:items-center gap-2">
+                <li
+                  key={shortId}
+                  className="flex flex-col sm:flex-row sm:items-center gap-2"
+                >
                   <span className="font-bold">/{shortId}</span>
                   <span className="hidden sm:inline">→</span>
                   <Link href={url} className="underline break-all">

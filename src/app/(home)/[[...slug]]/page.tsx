@@ -41,7 +41,10 @@ export default async function Page({
     params.slug,
   );
 
-  if (remainingSlug.length === 1 && Object.hasOwn(SHORT_LINKS, remainingSlug[0])) {
+  if (
+    remainingSlug.length === 1 &&
+    Object.hasOwn(SHORT_LINKS, remainingSlug[0])
+  ) {
     redirect(SHORT_LINKS[remainingSlug[0]]);
   }
 

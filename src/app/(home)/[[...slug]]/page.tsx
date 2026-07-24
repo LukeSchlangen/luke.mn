@@ -1,4 +1,3 @@
-import { Theme } from "../../types";
 import HomePage from "../../components/pages/home-page";
 import pathParser from "../../utils/path-parser";
 import NotFoundPage from "../../components/pages/not-found-page";

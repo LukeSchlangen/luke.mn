@@ -991,7 +991,6 @@ function QuizViewport({
 
       // 1. Adjust Layer 1 (Question only)
       if (layer1Ref.current) {
-        const el = layer1Ref.current;
         let low = 4;
         let high = 120;
         let optimal = low;
@@ -1064,7 +1063,6 @@ function QuizViewport({
 
       // 2. Adjust Layer 2 (Answers & Explanation)
       if (layer2Ref.current) {
-        const el = layer2Ref.current;
         let low = 4;
         let high = 120;
         let optimal = low;
@@ -2288,15 +2286,6 @@ function QuizViewport({
 
                 const isCorrectHighlighted = phase === 6 && isCorrect;
 
-                let borderClass = "border-white/10";
-                if (isHighlighted) {
-                  borderClass = "border-white/95";
-                } else if (phase === 5) {
-                  borderClass = "border-white/25";
-                } else if (phase !== "edit" && phase >= 1) {
-                  borderClass = "border-white/15";
-                }
-
                 const revealDelay = phase === 6 ? `${transitionTime}s` : "0s";
 
                 return (
@@ -2785,7 +2774,9 @@ ${q.explanation}`;
 
   const goToNextQuestion = () => {
     const allQuestions = GCP_EXAMS_PRESETS.flatMap((exam) => exam.questions);
-    let currentIndex = allQuestions.findIndex((q) => q.question === questionData.question);
+    let currentIndex = allQuestions.findIndex(
+      (q) => q.question === questionData.question,
+    );
     if (currentIndex === -1) {
       currentIndex = 0;
     }
@@ -2796,11 +2787,14 @@ ${q.explanation}`;
 
   const goToPreviousQuestion = () => {
     const allQuestions = GCP_EXAMS_PRESETS.flatMap((exam) => exam.questions);
-    let currentIndex = allQuestions.findIndex((q) => q.question === questionData.question);
+    let currentIndex = allQuestions.findIndex(
+      (q) => q.question === questionData.question,
+    );
     if (currentIndex === -1) {
       currentIndex = 0;
     }
-    const prevIndex = (currentIndex - 1 + allQuestions.length) % allQuestions.length;
+    const prevIndex =
+      (currentIndex - 1 + allQuestions.length) % allQuestions.length;
     loadQuestionPreset(allQuestions[prevIndex]);
     setPhase(0);
   };

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import DeveloperAdvocateAtGoogle from "./phrases/developer-advocate-at-google";
 import CoFounderOfCodeChampionship from "./phrases/co-founder-of-code-championship";
 import { TenseOption } from "../../types";

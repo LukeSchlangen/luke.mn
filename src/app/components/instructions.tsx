@@ -1,4 +1,4 @@
-import { DeploymentConfiguration, Theme } from "../types";
+import { Theme } from "../types";
 import LongInstructions from "./instructions-text/long-instructions";
 import MediumInstructions from "./instructions-text/medium-instructions";
 import ShortInstructions from "./instructions-text/short-instructions";

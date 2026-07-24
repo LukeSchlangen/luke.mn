@@ -4,8 +4,6 @@ import {
   DeploymentConfiguration,
   FRAMEWORK_DETAILS,
   FRAMEWORK_OPTIONS,
-  SOURCE_DETAILS,
-  SOURCE_OPTIONS,
   Theme,
   TARGET_DETAILS,
   TARGET_OPTIONS,

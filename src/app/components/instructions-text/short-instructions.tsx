@@ -1,5 +1,4 @@
 import CommandList from "../command-list";
-import CopyLinkIcon from "../copy-link-icon";
 
 export default function ShortInstructions({
   prerequisites,

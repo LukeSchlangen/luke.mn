@@ -2,7 +2,6 @@ import { DeploymentConfiguration, Theme } from "../types";
 import LongBio from "./bio-text/long-bio";
 import MediumBio from "./bio-text/medium-bio";
 import ShortBio from "./bio-text/short-bio";
-import ProseContainer from "./prose-container";
 import TenseToggle from "./toggles/tense-toggle";
 import VerbosityToggle from "./toggles/verbosity-toggle";
 

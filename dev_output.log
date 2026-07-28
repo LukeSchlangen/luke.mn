@@ -1,7 +1,12 @@
 $ next dev
-▲ Next.js 16.2.10 (Turbopack)
+▲ Next.js 16.2.12 (Turbopack)
 - Local:         http://localhost:3000
 - Network:       http://192.168.0.2:3000
-✓ Ready in 467ms
+✓ Ready in 569ms
 
- GET /quiz 200 in 3.9s (next.js: 3.5s, application-code: 362ms)
+○ Compiling /[[...slug]] ...
+ GET / 200 in 12.9s (next.js: 11.5s, application-code: 1368ms)
+[browser] Image with src "/_next/static/media/luke-schlangen-headshot-black-suit-no-background.29-mr0gu6a5jo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[browser] Image with src "/_next/static/media/luke-schlangen-headshot-grey-sweater-no-background.2g2v9zl07nb_p.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[browser] Image with src "/_next/static/media/luke-schlangen-headshot-yellow-sweater-no-background.3uu9bmdtpmv-t.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+✓ Compiled in 229ms

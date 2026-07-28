@@ -5,7 +5,10 @@ import ShortBio from "./bio-text/short-bio";
 import TenseToggle from "./toggles/tense-toggle";
 import VerbosityToggle from "./toggles/verbosity-toggle";
 
-const bioTextLookup = {
+const bioTextLookup: Record<
+  Theme["verbosity"],
+  React.ComponentType<{ tense: Theme["tense"] }>
+> = {
   long: LongBio,
   medium: MediumBio,
   short: ShortBio,

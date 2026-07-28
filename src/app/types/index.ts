@@ -1,3 +1,16 @@
+import { Schema } from "effect";
+
+export const PageOptionSchema = Schema.Union(
+  Schema.Literal("home"),
+  Schema.Literal("faq"),
+  Schema.Literal("deploy"),
+  Schema.Literal("short"),
+  Schema.Literal("not-found"),
+  Schema.Literal("qr"),
+  Schema.Literal("quiz"),
+);
+export type PageOption = Schema.Schema.Type<typeof PageOptionSchema>;
+
 export const PAGE_OPTIONS = [
   "home",
   "faq",
@@ -7,27 +20,49 @@ export const PAGE_OPTIONS = [
   "qr",
   "quiz",
 ] as const;
-export type PageOption = (typeof PAGE_OPTIONS)[number];
+
+export const VibeOptionSchema = Schema.Union(
+  Schema.Literal("standard"),
+  Schema.Literal("professional"),
+  Schema.Literal("fun"),
+);
+export type VibeOption = Schema.Schema.Type<typeof VibeOptionSchema>;
 
 export const VIBE_OPTIONS = ["standard", "professional", "fun"] as const;
-export type VibeOption = (typeof VIBE_OPTIONS)[number];
+
+export const ColorOptionSchema = Schema.Union(
+  Schema.Literal("light"),
+  Schema.Literal("dark"),
+);
+export type ColorOption = Schema.Schema.Type<typeof ColorOptionSchema>;
 
 export const COLOR_OPTIONS = ["light", "dark"] as const;
-export type ColorOption = (typeof COLOR_OPTIONS)[number];
+
+export const TenseOptionSchema = Schema.Union(
+  Schema.Literal("first-person"),
+  Schema.Literal("third-person"),
+);
+export type TenseOption = Schema.Schema.Type<typeof TenseOptionSchema>;
 
 export const TENSE_OPTIONS = ["first-person", "third-person"] as const;
-export type TenseOption = (typeof TENSE_OPTIONS)[number];
+
+export const VerbosityOptionSchema = Schema.Union(
+  Schema.Literal("short"),
+  Schema.Literal("medium"),
+  Schema.Literal("long"),
+);
+export type VerbosityOption = Schema.Schema.Type<typeof VerbosityOptionSchema>;
 
 export const VERBOSITY_OPTIONS = ["short", "medium", "long"] as const;
-export type VerbosityOption = (typeof VERBOSITY_OPTIONS)[number];
 
-export type Theme = {
-  page: PageOption;
-  vibe: VibeOption;
-  color: ColorOption;
-  tense: TenseOption;
-  verbosity: VerbosityOption;
-};
+export const ThemeSchema = Schema.Struct({
+  page: PageOptionSchema,
+  vibe: VibeOptionSchema,
+  color: ColorOptionSchema,
+  tense: TenseOptionSchema,
+  verbosity: VerbosityOptionSchema,
+});
+export type Theme = Schema.Schema.Type<typeof ThemeSchema>;
 
 export type StepsFunction = ({ appName }: { appName: string }) => string[];
 
@@ -71,8 +106,13 @@ export type FrameworkDetails = {
   >;
 };
 
+export const SourceOptionSchema = Schema.Union(
+  Schema.Literal("local"),
+  Schema.Literal("github"),
+);
+export type SourceOption = Schema.Schema.Type<typeof SourceOptionSchema>;
+
 export const SOURCE_OPTIONS = ["local", "github"] as const;
-export type SourceOption = (typeof SOURCE_OPTIONS)[number];
 
 export const SOURCE_DETAILS: Record<SourceOption, { name: string }> = {
   local: {
@@ -83,8 +123,13 @@ export const SOURCE_DETAILS: Record<SourceOption, { name: string }> = {
   },
 };
 
+export const TargetOptionSchema = Schema.Union(
+  Schema.Literal("cloud-run"),
+  Schema.Literal("vercel"),
+);
+export type TargetOption = Schema.Schema.Type<typeof TargetOptionSchema>;
+
 export const TARGET_OPTIONS = ["cloud-run", "vercel"] as const;
-export type TargetOption = (typeof TARGET_OPTIONS)[number];
 
 export const TARGET_DETAILS = {
   "cloud-run": {
@@ -155,6 +200,17 @@ export const TARGET_DETAILS = {
   },
 };
 
+export const FrameworkOptionSchema = Schema.Union(
+  Schema.Literal("angular-ssr"),
+  Schema.Literal("nextjs"),
+  Schema.Literal("nuxtjs"),
+  Schema.Literal("remix"),
+  Schema.Literal("sveltekit"),
+  Schema.Literal("solidstart"),
+  Schema.Literal("marko"),
+);
+export type FrameworkOption = Schema.Schema.Type<typeof FrameworkOptionSchema>;
+
 export const FRAMEWORK_OPTIONS = [
   "angular-ssr",
   "nextjs",
@@ -164,7 +220,6 @@ export const FRAMEWORK_OPTIONS = [
   "solidstart",
   "marko",
 ] as const;
-export type FrameworkOption = (typeof FRAMEWORK_OPTIONS)[number];
 
 export const FRAMEWORK_DETAILS: Record<FrameworkOption, FrameworkDetails> = {
   "angular-ssr": {
@@ -253,8 +308,11 @@ export const FRAMEWORK_DETAILS: Record<FrameworkOption, FrameworkDetails> = {
   },
 } as const;
 
-export type DeploymentConfiguration = {
-  framework: FrameworkOption;
-  target: TargetOption;
-  source: SourceOption;
-};
+export const DeploymentConfigurationSchema = Schema.Struct({
+  framework: FrameworkOptionSchema,
+  target: TargetOptionSchema,
+  source: SourceOptionSchema,
+});
+export type DeploymentConfiguration = Schema.Schema.Type<
+  typeof DeploymentConfigurationSchema
+>;

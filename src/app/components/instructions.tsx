@@ -3,7 +3,15 @@ import LongInstructions from "./instructions-text/long-instructions";
 import MediumInstructions from "./instructions-text/medium-instructions";
 import ShortInstructions from "./instructions-text/short-instructions";
 
-const instructionsTextLookup = {
+const instructionsTextLookup: Record<
+  Theme["verbosity"],
+  React.ComponentType<{
+    prerequisites: string[];
+    createApplication: string[];
+    runLocally: string[];
+    deployApplication: string[];
+  }>
+> = {
   long: LongInstructions,
   medium: MediumInstructions,
   short: ShortInstructions,

@@ -1,80 +1,137 @@
+import { Schema } from "effect";
+import { Effect, Option } from "effect";
 import {
-  COLOR_OPTIONS,
-  ColorOption,
-  DeploymentConfiguration,
-  FRAMEWORK_OPTIONS,
-  FrameworkOption,
-  PAGE_OPTIONS,
-  PageOption,
-  SOURCE_OPTIONS,
-  SourceOption,
-  TARGET_OPTIONS,
-  TENSE_OPTIONS,
-  TargetOption,
-  TenseOption,
+  PageOptionSchema,
+  VibeOptionSchema,
+  ColorOptionSchema,
+  TenseOptionSchema,
+  VerbosityOptionSchema,
+  FrameworkOptionSchema,
+  TargetOptionSchema,
+  SourceOptionSchema,
   Theme,
-  VERBOSITY_OPTIONS,
-  VIBE_OPTIONS,
-  VerbosityOption,
+  DeploymentConfiguration,
+  PageOption,
   VibeOption,
+  ColorOption,
+  TenseOption,
+  VerbosityOption,
+  FrameworkOption,
+  TargetOption,
+  SourceOption,
 } from "../types";
 
+export interface PathParserResult {
+  theme: Theme;
+  deploymentConfiguration: DeploymentConfiguration;
+  remainingSlug: string[];
+}
+
+// Helper to safely parse and advance a slug array
+export const consumeOption = <A>(
+  slugs: string[],
+  schema: Schema.Schema<A, any, never>,
+): { result: Option.Option<A>; remaining: string[] } => {
+  if (slugs.length === 0) {
+    return { result: Option.none(), remaining: slugs };
+  }
+
+  const current = slugs[0];
+  const decodeResult = Schema.decodeUnknownOption(schema)(current);
+
+  if (Option.isSome(decodeResult)) {
+    return { result: decodeResult, remaining: slugs.slice(1) };
+  }
+
+  return { result: Option.none(), remaining: slugs };
+};
+
+export const parseSlugEffect = (
+  slug?: string[],
+): Effect.Effect<PathParserResult, never, never> => {
+  return Effect.gen(function* () {
+    const remaining = slug ? [...slug] : [];
+
+    const theme = {
+      page: "not-found" as PageOption,
+      vibe: "standard" as VibeOption,
+      color: "light" as ColorOption,
+      tense: "first-person" as TenseOption,
+      verbosity: "medium" as VerbosityOption,
+    };
+
+    const deploymentConfiguration = {
+      framework: "angular-ssr" as FrameworkOption,
+      target: "cloud-run" as TargetOption,
+      source: "local" as SourceOption,
+    };
+
+    let workingSlugs = remaining;
+
+    // Handle 'index' root route slug
+    if (workingSlugs[0] === "index") {
+      theme.page = "home";
+      workingSlugs = workingSlugs.slice(1);
+    }
+
+    // Sequentially decode each option
+    const pageCons = consumeOption(workingSlugs, PageOptionSchema);
+    if (Option.isSome(pageCons.result)) {
+      theme.page = pageCons.result.value as PageOption;
+      workingSlugs = pageCons.remaining;
+    }
+
+    const vibeCons = consumeOption(workingSlugs, VibeOptionSchema);
+    if (Option.isSome(vibeCons.result)) {
+      theme.vibe = vibeCons.result.value as VibeOption;
+      workingSlugs = vibeCons.remaining;
+    }
+
+    const colorCons = consumeOption(workingSlugs, ColorOptionSchema);
+    if (Option.isSome(colorCons.result)) {
+      theme.color = colorCons.result.value as ColorOption;
+      workingSlugs = colorCons.remaining;
+    }
+
+    const tenseCons = consumeOption(workingSlugs, TenseOptionSchema);
+    if (Option.isSome(tenseCons.result)) {
+      theme.tense = tenseCons.result.value as TenseOption;
+      workingSlugs = tenseCons.remaining;
+    }
+
+    const verbosityCons = consumeOption(workingSlugs, VerbosityOptionSchema);
+    if (Option.isSome(verbosityCons.result)) {
+      theme.verbosity = verbosityCons.result.value as VerbosityOption;
+      workingSlugs = verbosityCons.remaining;
+    }
+
+    const frameworkCons = consumeOption(workingSlugs, FrameworkOptionSchema);
+    if (Option.isSome(frameworkCons.result)) {
+      deploymentConfiguration.framework = frameworkCons.result
+        .value as FrameworkOption;
+      workingSlugs = frameworkCons.remaining;
+    }
+
+    const targetCons = consumeOption(workingSlugs, TargetOptionSchema);
+    if (Option.isSome(targetCons.result)) {
+      deploymentConfiguration.target = targetCons.result.value as TargetOption;
+      workingSlugs = targetCons.remaining;
+    }
+
+    const sourceCons = consumeOption(workingSlugs, SourceOptionSchema);
+    if (Option.isSome(sourceCons.result)) {
+      deploymentConfiguration.source = sourceCons.result.value as SourceOption;
+      workingSlugs = sourceCons.remaining;
+    }
+
+    return {
+      theme,
+      deploymentConfiguration,
+      remainingSlug: workingSlugs,
+    };
+  });
+};
+
 export default function pathParser(slug?: string[]) {
-  let theme: Theme = {
-    page: "not-found",
-    vibe: "standard",
-    color: "light",
-    tense: "first-person",
-    verbosity: "medium",
-  };
-
-  let deploymentConfiguration: DeploymentConfiguration = {
-    framework: "angular-ssr",
-    target: "cloud-run",
-    source: "local",
-  };
-
-  if (!slug) return { theme, deploymentConfiguration, remainingSlug: [] };
-
-  let remainingSlug = [...slug];
-
-  // index seems like a default path added by Next.js for the home route
-  if (remainingSlug[0] === "index") {
-    theme.page = "home";
-    remainingSlug.shift();
-  }
-  if (PAGE_OPTIONS.includes(remainingSlug[0])) {
-    theme.page = remainingSlug[0] as PageOption;
-    remainingSlug.shift();
-  }
-  if (VIBE_OPTIONS.includes(remainingSlug[0])) {
-    theme.vibe = remainingSlug[0] as VibeOption;
-    remainingSlug.shift();
-  }
-  if (COLOR_OPTIONS.includes(remainingSlug[0])) {
-    theme.color = remainingSlug[0] as ColorOption;
-    remainingSlug.shift();
-  }
-  if (TENSE_OPTIONS.includes(remainingSlug[0])) {
-    theme.tense = remainingSlug[0] as TenseOption;
-    remainingSlug.shift();
-  }
-  if (VERBOSITY_OPTIONS.includes(remainingSlug[0])) {
-    theme.verbosity = remainingSlug[0] as VerbosityOption;
-    remainingSlug.shift();
-  }
-  if (FRAMEWORK_OPTIONS.includes(remainingSlug[0])) {
-    deploymentConfiguration.framework = remainingSlug[0] as FrameworkOption;
-    remainingSlug.shift();
-  }
-  if (TARGET_OPTIONS.includes(remainingSlug[0])) {
-    deploymentConfiguration.target = remainingSlug[0] as TargetOption;
-    remainingSlug.shift();
-  }
-  if (SOURCE_OPTIONS.includes(remainingSlug[0])) {
-    deploymentConfiguration.source = remainingSlug[0] as SourceOption;
-    remainingSlug.shift();
-  }
-
-  return { theme, deploymentConfiguration, remainingSlug };
+  return Effect.runSync(parseSlugEffect(slug));
 }

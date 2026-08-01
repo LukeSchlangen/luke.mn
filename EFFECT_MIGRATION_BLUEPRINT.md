@@ -10,12 +10,12 @@ While TypeScript provides static compilation safety, web applications inevitably
 
 Integrating **Effect** and **Effect Schema** into this Next.js codebase delivers several key advantages:
 
-| Feature | Legacy / Manual TS Approach | Zod Approach | Effect + Effect Schema Approach |
-| :--- | :--- | :--- | :--- |
-| **Parsing & Validation** | Hand-written type guards and `Array.includes` checks. | Robust runtime schemas; returns throwing errors or unsafe result objects. | Highly performant runtime schemas; integrates natively with Effect pipelines. |
-| **Error Handling** | Untracked exceptions, try/catch blocks, implicit `any` errors. | Throwing or `safeParse` result branches. | Fully type-safe errors mapped explicitly in the function signature `Effect<Success, Error, Requirements>`. |
-| **Dependency Injection** | Manual prop-drilling or React Context. | Class-based or manual module-level singletons. | Native, composable `Layer` and `Context` mechanisms for clean separation of concerns. |
-| **Asynchronous Flow** | Promises, async/await with fragile concurrency control. | Promises with manual race-conditions or abort controllers. | High-performance fibers, native timeout/retry policies, and declarative concurrency. |
+| Feature                  | Legacy / Manual TS Approach                                    | Zod Approach                                                              | Effect + Effect Schema Approach                                                                            |
+| :----------------------- | :------------------------------------------------------------- | :------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------- |
+| **Parsing & Validation** | Hand-written type guards and `Array.includes` checks.          | Robust runtime schemas; returns throwing errors or unsafe result objects. | Highly performant runtime schemas; integrates natively with Effect pipelines.                              |
+| **Error Handling**       | Untracked exceptions, try/catch blocks, implicit `any` errors. | Throwing or `safeParse` result branches.                                  | Fully type-safe errors mapped explicitly in the function signature `Effect<Success, Error, Requirements>`. |
+| **Dependency Injection** | Manual prop-drilling or React Context.                         | Class-based or manual module-level singletons.                            | Native, composable `Layer` and `Context` mechanisms for clean separation of concerns.                      |
+| **Asynchronous Flow**    | Promises, async/await with fragile concurrency control.        | Promises with manual race-conditions or abort controllers.                | High-performance fibers, native timeout/retry policies, and declarative concurrency.                       |
 
 This blueprint guides the team in transitioning manual slug parsing (`path-parser.ts`), structural static definitions (`types/index.ts`), and route configurations into a cohesive, type-safe functional architecture.
 
@@ -26,6 +26,7 @@ This blueprint guides the team in transitioning manual slug parsing (`path-parse
 To support Effect and `@effect/schema` in this project, add the necessary packages and adjust the compiler settings.
 
 ### 2.1 Dependencies Installation
+
 Run the following commands to add the packages to your monorepo/workspace:
 
 ```bash
@@ -33,6 +34,7 @@ pnpm add effect @effect/schema
 ```
 
 ### 2.2 Compiler & TS Config Alignment
+
 Ensure that `tsconfig.json` supports modern module resolution and strict checks required for Effect:
 
 ```json
@@ -61,8 +63,17 @@ Let's convert our custom types and options in `src/app/types/index.ts` into nati
 ### 3.1 Constants and Option Litmus Schemas
 
 #### Before (TypeScript manual declarations):
+
 ```typescript
-export const PAGE_OPTIONS = ["home", "faq", "deploy", "short", "not-found", "qr", "quiz"] as const;
+export const PAGE_OPTIONS = [
+  "home",
+  "faq",
+  "deploy",
+  "short",
+  "not-found",
+  "qr",
+  "quiz",
+] as const;
 export type PageOption = (typeof PAGE_OPTIONS)[number];
 
 export const VIBE_OPTIONS = ["standard", "professional", "fun"] as const;
@@ -72,6 +83,7 @@ export type VibeOption = (typeof VIBE_OPTIONS)[number];
 ```
 
 #### After (Effect Schema):
+
 ```typescript
 import { Schema } from "@effect/schema";
 
@@ -82,33 +94,33 @@ export const PageOption = Schema.Union(
   Schema.Literal("short"),
   Schema.Literal("not-found"),
   Schema.Literal("qr"),
-  Schema.Literal("quiz")
+  Schema.Literal("quiz"),
 );
 export type PageOption = Schema.Schema.Type<typeof PageOption>;
 
 export const VibeOption = Schema.Union(
   Schema.Literal("standard"),
   Schema.Literal("professional"),
-  Schema.Literal("fun")
+  Schema.Literal("fun"),
 );
 export type VibeOption = Schema.Schema.Type<typeof VibeOption>;
 
 export const ColorOption = Schema.Union(
   Schema.Literal("light"),
-  Schema.Literal("dark")
+  Schema.Literal("dark"),
 );
 export type ColorOption = Schema.Schema.Type<typeof ColorOption>;
 
 export const TenseOption = Schema.Union(
   Schema.Literal("first-person"),
-  Schema.Literal("third-person")
+  Schema.Literal("third-person"),
 );
 export type TenseOption = Schema.Schema.Type<typeof TenseOption>;
 
 export const VerbosityOption = Schema.Union(
   Schema.Literal("short"),
   Schema.Literal("medium"),
-  Schema.Literal("long")
+  Schema.Literal("long"),
 );
 export type VerbosityOption = Schema.Schema.Type<typeof VerbosityOption>;
 ```
@@ -118,6 +130,7 @@ export type VerbosityOption = Schema.Schema.Type<typeof VerbosityOption>;
 We can aggregate individual schemas into a consolidated object schema (`Schema.Struct`).
 
 #### Before:
+
 ```typescript
 export type Theme = {
   page: PageOption;
@@ -129,6 +142,7 @@ export type Theme = {
 ```
 
 #### After:
+
 ```typescript
 export const ThemeSchema = Schema.Struct({
   page: PageOption,
@@ -159,7 +173,7 @@ import { Effect, Option } from "effect";
 // Helper to safely parse and advance a slug array
 export const consumeOption = <A>(
   slugs: string[],
-  schema: Schema.Schema<A, string>
+  schema: Schema.Schema<A, string>,
 ): { result: Option.Option<A>; remaining: string[] } => {
   if (slugs.length === 0) {
     return { result: Option.none(), remaining: slugs };
@@ -190,7 +204,7 @@ import {
   TenseOption,
   VerbosityOption,
   ThemeSchema,
-  Theme
+  Theme,
 } from "../types";
 
 export interface PathParserResult {
@@ -198,7 +212,9 @@ export interface PathParserResult {
   remainingSlug: string[];
 }
 
-export const parseSlugEffect = (slug?: string[]): Effect.Effect<PathParserResult, never, never> => {
+export const parseSlugEffect = (
+  slug?: string[],
+): Effect.Effect<PathParserResult, never, never> => {
   return Effect.gen(function* () {
     const remaining = slug ? [...slug] : [];
 
@@ -289,15 +305,10 @@ export default async function Page({ params }: PageProps) {
 
   // Execute Effect to resolve Theme configuration
   const { theme, remainingSlug } = await Effect.runPromise(
-    parseSlugEffect(slug)
+    parseSlugEffect(slug),
   );
 
-  return (
-    <QuizPageClient
-      initialTheme={theme}
-      remainingSlug={remainingSlug}
-    />
-  );
+  return <QuizPageClient initialTheme={theme} remainingSlug={remainingSlug} />;
 }
 ```
 
@@ -325,9 +336,9 @@ export const FaqServiceLive = Layer.succeed(
       Effect.succeed([
         "What is Google Cloud Run?",
         "How do I deploy this layout?",
-        "Is WebMCP supported site-wide?"
-      ])
-  })
+        "Is WebMCP supported site-wide?",
+      ]),
+  }),
 );
 ```
 
@@ -343,15 +354,16 @@ export async function GET() {
   const program = Effect.gen(function* () {
     const faqService = yield* FaqService;
     return yield* faqService.getFaqs();
-  }).pipe(
-    Effect.provide(FaqServiceLive)
-  );
+  }).pipe(Effect.provide(FaqServiceLive));
 
   try {
     const faqs = await Effect.runPromise(program);
     return NextResponse.json({ faqs });
   } catch (error) {
-    return NextResponse.json({ error: "Failed to resolve FAQs" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Failed to resolve FAQs" },
+      { status: 500 },
+    );
   }
 }
 ```
@@ -363,15 +375,18 @@ export async function GET() {
 A full rewrite can introduce regressions. We recommend a phased approach:
 
 ### Phase 1: Dual Types & Schema Coexistence
+
 - Install `@effect/schema` and `effect`.
 - Port simple domain configurations (`PageOption`, `VibeOption`, etc.) to `@effect/schema` and export their TypeScript types.
 - Ensure existing files use these new types without changes to their logical loops.
 
 ### Phase 2: Schema Parsing in Utility Functions
+
 - Migrate `pathParser` to use `@effect/schema` decoding under the hood, wrapping it with `Effect.runSync`.
 - This ensures zero change is needed to consumer files while strengthening path validation.
 
 ### Phase 3: Layer-based Service Extraction
+
 - Extract static data providers (such as lists of frameworks or deployment options) into Effect `Layer`s.
 - This allows dynamic testing and mocking of responses.
 

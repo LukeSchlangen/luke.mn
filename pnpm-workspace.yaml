@@ -5,3 +5,7 @@ allowBuilds:
   "@tsparticles/engine": true
   sharp: true
   unrs-resolver: true
+
+overrides:
+  postcss: "^8.5.25"
+  sharp: "^0.35.3"

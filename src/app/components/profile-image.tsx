@@ -19,6 +19,7 @@ export default function ProfileImage({ theme }: { theme: Theme }) {
         src={blackSuit}
         alt="Luke Schlangen in a Black Suit"
         height={400}
+        style={{ width: "auto" }}
         priority={theme.vibe === "professional"}
       />
 
@@ -27,6 +28,7 @@ export default function ProfileImage({ theme }: { theme: Theme }) {
         src={greySweater}
         alt="Luke Schlangen in a Grey Sweater"
         height={400}
+        style={{ width: "auto" }}
         priority={theme.vibe === "standard"}
       />
 
@@ -35,6 +37,7 @@ export default function ProfileImage({ theme }: { theme: Theme }) {
         src={yellowSweater}
         alt="Luke Schlangen in a Yellow Sweater"
         height={400}
+        style={{ width: "auto" }}
         priority={theme.vibe === "fun"}
       />
     </div>

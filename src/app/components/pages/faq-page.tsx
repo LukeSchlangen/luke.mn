@@ -136,130 +136,58 @@ export default function FaqPage({
                   the process.
                 </p>
               </details>
+              <details open className="space-y-4 border p-2 pl-4">
+                <summary className="-ml-2 text-xl">
+                  Will you refer me for a role at Google?
+                  <CopyLinkIcon id="google-referral" />
+                </summary>
+                <p>
+                  If we worked together previously and I can confidently
+                  recommend you based on that experience, I would be happy to
+                  refer you. If we&apos;ve never worked together, I am not
+                  comfortable doing that.
+                </p>
+              </details>
             </section>
           </ProseContainer>
-          {/* <ProseContainer theme={theme}>
+          <ProseContainer theme={theme}>
             <section className="space-y-4">
               <h3 className="text-3xl">
-                Tech Talent Shortage
-                <CopyLinkIcon id="talent-shortage" />
+                Communication Preferences
+                <CopyLinkIcon id="communication-preferences" />
               </h3>
               <details open className="space-y-4 border p-2 pl-4">
                 <summary className="-ml-2 text-xl">
-                  Is the tech talent shortage real?
-                  <CopyLinkIcon id="shortage-real" />
-                </summary>
-                <p>It depends on what you mean. I have opinions...</p>
-              </details>
-              <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  Should we be teaching computer science to students?
-                  <CopyLinkIcon id="teaching-students" />
+                  Can I reach out to you cold?
+                  <CopyLinkIcon id="cold-outreach" />
                 </summary>
                 <p>
-                  Yes! I believe that all students should learn a little bit
-                  about code. Even if they are not professional software
-                  developers, - and I do not think everyone has to be - code is
-                  going to be such an important part of their lives, that they
-                  should know at least a little bit about it.
-                </p>
-                <p>
-                  This is why I am a <CoFounderOfCodeChampionship />
+                  Sure! But please have something to say
+                  (<Link href={"https://nohello.net"}>nohello.net</Link>).
+                  I&apos;ve had people reach out to correct bugs in my labs,
+                  ask for career advice (some I ended up putting on this website),
+                  or to tell me they thought a joke in a talk was funny. I love that.
+                  Please don&apos;t reach out to sell me something.
                 </p>
               </details>
               <details open className="space-y-4 border p-2 pl-4">
                 <summary className="-ml-2 text-xl">
-                  Why can&apos;t my company find any qualified candidates?
-                  <CopyLinkIcon id="qualified-candidates" />
+                  Can we schedule a quick chat?
+                  <CopyLinkIcon id="quick-chat" />
                 </summary>
                 <p>
-                  I know this might sound harsh, but I want to be direct. When
-                  companies say this, they are typically saying one of these two
-                  things:
-                </p>
-                <ul className="list-inside list-disc">
-                  <li>
-                    &quot;We are not willing to pay the market rate for
-                    talent.&quot;
-                  </li>
-                  <li>
-                    &quot;We are not great at onboarding entry-level
-                    talent.&quot;
-                  </li>
-                </ul>
-              </details>
-              <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  How can I find entry-level talent?
-                  <CopyLinkIcon id="entry-level" />
-                </summary>
-                <p>
-                  If you are looking for entry-level talent, there is so much of
-                  that available right now. When we opened a posting for an
-                  entry-level role in my prior job, we had 600 applicants for 10
-                  spots. The quality of the candidate pool was incredibly
-                  strong.
+                  Probably not. I have two young kids and a job I really enjoy.
+                  My capacity for &quot;just checking in&quot; chats is
+                  basically zero.
                 </p>
                 <p>
-                  There are so many great places to find this talent, but if you
-                  genuinely do not know where to start, I spent three years
-                  teaching at&nbsp;
-                  <Link
-                    className="underline"
-                    href="https://www.primeacademy.io/"
-                  >
-                    Prime Digital Academy
-                  </Link>
-                  &nbsp; and that is where I would start my search if I was
-                  looking for strong entry-level talent.
-                </p>
-              </details>
-              <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  How can I find senior talent?
-                  <CopyLinkIcon id="senior-talent" />
-                </summary>
-                <p>
-                  Post the salary in the job description and they will come.
-                </p>
-                <p>
-                  If you are looking for senior talent, then you will need to
-                  pay more for it. If you are looking for senior talent and you
-                  are not willing to pay more for it, that is the answer to why
-                  your company can&apos;t find any qualified candidates.
-                </p>
-                <p>
-                  If you are looking for senior talent at a less expensive rate,
-                  the most effective strategy I have seen is to hire entry-level
-                  talent and be very intentional about onboarding them.
-                </p>
-              </details>
-              <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  How can we onboard new talent?
-                  <CopyLinkIcon id="onboard-talent" />
-                </summary>
-                <p>
-                  Onboarding is something a lot of places <i>think</i> they do
-                  well, but very few do. While internal onboarding programs are
-                  fantastic, I know they are a lot of work and require approval
-                  from upper-level management to fund. Even then, they are hard
-                  to get right.
-                </p>
-                <p>
-                  The easiest way to improve your ramp-up process for new
-                  developers is to set aside 30 minutes every day for each
-                  junior to meet one-on-one with a senior engineer. These
-                  meetings might take 5 minutes or the full 30 minutes, but
-                  creating these &quot;unstuck sessions&quot; shows junior
-                  engineers that it is ok &lpar;and even&nbsp;
-                  <i>expected</i>
-                  &rpar; for them to need help. These are easy to implement at a
-                  team level and do not require permission from the higher-ups.
+                  If you see me at a conference or other event, I&apos;m happy
+                  to chat! I love meeting new people, I&apos;m just protective
+                  of my time.
                 </p>
               </details>
             </section>
-          </ProseContainer> */}
+          </ProseContainer>
         </main>
       </div>
       <Footer />

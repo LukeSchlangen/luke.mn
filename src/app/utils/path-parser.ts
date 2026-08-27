@@ -21,10 +21,22 @@ import {
   SourceOption,
 } from "../types";
 
+export const QUIZ_TOPIC_SLUGS = [
+  "agentic-harness",
+  "cloud-digital-leader",
+  "associate-cloud-engineer",
+  "professional-cloud-architect",
+  "professional-data-engineer",
+  "professional-cloud-security-engineer",
+  "ai-token-economics",
+  "ai-token-economics-finops",
+] as const;
+
 export interface PathParserResult {
   theme: Theme;
   deploymentConfiguration: DeploymentConfiguration;
   remainingSlug: string[];
+  topic?: string;
 }
 
 // Helper to safely parse and advance a slug array
@@ -81,6 +93,19 @@ export const parseSlugEffect = (
       workingSlugs = pageCons.remaining;
     }
 
+    // Extract topic if present among remaining slugs
+    let extractedTopic: string | undefined = undefined;
+    const topicIdx = workingSlugs.findIndex((s) =>
+      QUIZ_TOPIC_SLUGS.includes(s as any),
+    );
+    if (topicIdx !== -1) {
+      extractedTopic = workingSlugs[topicIdx];
+      workingSlugs = [
+        ...workingSlugs.slice(0, topicIdx),
+        ...workingSlugs.slice(topicIdx + 1),
+      ];
+    }
+
     const vibeCons = consumeOption(workingSlugs, VibeOptionSchema);
     if (Option.isSome(vibeCons.result)) {
       theme.vibe = vibeCons.result.value as VibeOption;
@@ -128,6 +153,7 @@ export const parseSlugEffect = (
       theme,
       deploymentConfiguration,
       remainingSlug: workingSlugs,
+      topic: extractedTopic,
     };
   });
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { DeploymentConfiguration, Theme } from "../../types";
 import colorValues from "../../utils/color-values";
 import Footer from "../footer";
@@ -23,6 +23,115 @@ interface ExamPreset {
 }
 
 const GCP_EXAMS_PRESETS: ExamPreset[] = [
+  {
+    examName: "Agentic Harness",
+    questions: [
+      {
+        question:
+          "What is the primary role of an agentic harness in AI systems?",
+        answers: [
+          "Fine-tuning base LLM model weights",
+          "Managing execution loops, context & tools",
+          "Serving raw REST API endpoints",
+          "Replacing vector database indexes",
+        ],
+        correctIndex: 1,
+        explanation:
+          "An agentic harness provides the outer control loop, managing state, tool calls, context windows, and execution environments for AI agents.",
+      },
+      {
+        question:
+          "In agentic evaluation (e.g. SWE-bench), what does the test harness provide?",
+        answers: [
+          "A sandbox to run code and verify tests",
+          "A custom GPU cluster for faster inference",
+          "Automated prompt translation into SQL",
+          "A graphical user interface for prompts",
+        ],
+        correctIndex: 0,
+        explanation:
+          "An evaluation harness isolates the agent's environment, executes generated patches or code, and verifies outcomes against test suites.",
+      },
+      {
+        question:
+          "What is a core benefit of incorporating sandboxing into an agentic harness?",
+        answers: [
+          "Eliminating the need for API keys",
+          "Preventing harmful system side-effects",
+          "Doubling the context window size",
+          "Bypassing model rate limits",
+        ],
+        correctIndex: 1,
+        explanation:
+          "Sandboxing isolates agent tool execution (such as shell commands or code scripts) to protect host environments from unintended actions.",
+      },
+      {
+        question:
+          "How does an agentic harness handle multi-step reasoning failures or tool errors?",
+        answers: [
+          "Immediately crashing the application",
+          "Feeding error feedback back into context",
+          "Deleting the model's system prompt",
+          "Ignoring errors and returning blank output",
+        ],
+        correctIndex: 1,
+        explanation:
+          "A robust harness captures tool execution errors or stack traces and feeds them back into the context window for model self-correction.",
+      },
+      {
+        question:
+          "Which component of an agentic harness prevents endless execution loops?",
+        answers: [
+          "Vector embeddings",
+          "Step limits & timeout safety rails",
+          "Temperature sampling",
+          "Token tokenization",
+        ],
+        correctIndex: 1,
+        explanation:
+          "Safety guardrails such as maximum iteration caps, execution timeouts, and budget limits prevent agents from looping indefinitely.",
+      },
+      {
+        question:
+          "In multi-agent architectures, what function does the harness orchestrator serve?",
+        answers: [
+          "Formatting markdown text into HTML",
+          "Routing tasks and managing agent hand-offs",
+          "Training underlying neural networks",
+          "Storing static media files on CDN",
+        ],
+        correctIndex: 1,
+        explanation:
+          "The orchestrator routes sub-tasks to specialized agents, maintains shared state, and coordinates hand-offs between agent roles.",
+      },
+      {
+        question:
+          "What is trajectory logging in an agentic harness?",
+        answers: [
+          "Recording every prompt, tool call, and state",
+          "Measuring network latency of DNS queries",
+          "Compressing image assets before upload",
+          "Tracking user mouse movements in UI",
+        ],
+        correctIndex: 0,
+        explanation:
+          "Trajectory logging records step-by-step audit trails of agent thoughts, tool invocations, and environment responses for evaluation.",
+      },
+      {
+        question:
+          "What is 'human-in-the-loop' (HITL) approval in an agent harness?",
+        answers: [
+          "Replacing all AI logic with human reviewers",
+          "Pausing execution for human permission",
+          "Crowdsourcing model fine-tuning data",
+          "Manual entry of prompt embeddings",
+        ],
+        correctIndex: 1,
+        explanation:
+          "HITL safety guardrails pause execution before high-risk actions (such as database writes or shell commands) to obtain human confirmation.",
+      },
+    ],
+  },
   {
     examName: "Cloud Digital Leader",
     questions: [
@@ -2394,36 +2503,62 @@ function QuizViewport({
   );
 }
 
+export const getTopicSlug = (examName: string): string => {
+  if (examName === "AI Token Economics (FinOps)") return "ai-token-economics";
+  return examName
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+};
+
+export const findExamPresetBySlug = (
+  slug?: string,
+): ExamPreset | undefined => {
+  if (!slug) return undefined;
+  return GCP_EXAMS_PRESETS.find(
+    (exam) =>
+      getTopicSlug(exam.examName) === slug ||
+      (slug === "ai-token-economics-finops" &&
+        exam.examName === "AI Token Economics (FinOps)"),
+  );
+};
+
 export default function QuizPageClient({
   theme,
   deploymentConfiguration,
+  initialTopic,
 }: {
   theme: Theme;
   deploymentConfiguration: DeploymentConfiguration;
+  initialTopic?: string;
 }) {
   const { textColorClass, bodyBackgroundColor, textBackgroundColorClass } =
     colorValues(theme);
+
+  const initialPreset =
+    findExamPresetBySlug(initialTopic) || GCP_EXAMS_PRESETS[0];
 
   // Core quiz state
   const [format, setFormat] = useState<"markdown" | "json" | "yaml">(
     "markdown",
   );
   const [questionData, setQuestionData] = useState<QuizQuestion>(
-    GCP_EXAMS_PRESETS[0].questions[0],
+    initialPreset.questions[0],
   );
   const [rawText, setRawText] = useState(() => {
     return `# Question
-Which cloud computing service model offers the highest level of customization and control over the underlying infrastructure?
+${initialPreset.questions[0].question}
 
 ## Answers
-- [ ] SaaS (Software as a Service)
-- [ ] PaaS (Platform as a Service)
-- [x] IaaS (Infrastructure as a Service)
-- [ ] FaaS (Function as a Service)
+- [${initialPreset.questions[0].correctIndex === 0 ? "x" : " "}] ${initialPreset.questions[0].answers[0] || ""}
+- [${initialPreset.questions[0].correctIndex === 1 ? "x" : " "}] ${initialPreset.questions[0].answers[1] || ""}
+- [${initialPreset.questions[0].correctIndex === 2 ? "x" : " "}] ${initialPreset.questions[0].answers[2] || ""}
+- [${initialPreset.questions[0].correctIndex === 3 ? "x" : " "}] ${initialPreset.questions[0].answers[3] || ""}
 
 ## Explanation
-Infrastructure as a Service (IaaS) provides virtualized computing resources, giving users maximum control over operating systems, storage, and networking.`;
+${initialPreset.questions[0].explanation}`;
   });
+  const [copiedTopicSlug, setCopiedTopicSlug] = useState<string | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
 
@@ -2799,6 +2934,52 @@ ${q.explanation}`;
     setPhase(0);
   };
 
+  const getTopicUrl = useCallback(
+    (topicSlug: string) => {
+      let path = `/quiz/${topicSlug}`;
+      const themeParts: string[] = [];
+      if (theme.vibe && theme.vibe !== "standard") themeParts.push(theme.vibe);
+      if (theme.color && theme.color !== "light") themeParts.push(theme.color);
+      if (theme.tense && theme.tense !== "first-person")
+        themeParts.push(theme.tense);
+      if (theme.verbosity && theme.verbosity !== "medium")
+        themeParts.push(theme.verbosity);
+      if (themeParts.length > 0) {
+        path += `/${themeParts.join("/")}`;
+      }
+      return path;
+    },
+    [theme],
+  );
+
+  const copyTopicLink = async (topicSlug: string) => {
+    try {
+      const url = `${window.location.origin}${getTopicUrl(topicSlug)}`;
+      await navigator.clipboard.writeText(url);
+      setCopiedTopicSlug(topicSlug);
+      setTimeout(() => setCopiedTopicSlug(null), 2000);
+    } catch (err) {
+      alert("Failed to copy link.");
+    }
+  };
+
+  // Sync URL state to current question's topic
+  useEffect(() => {
+    const parentExam = GCP_EXAMS_PRESETS.find((exam) =>
+      exam.questions.some((item) => item.question === questionData.question),
+    );
+    if (parentExam) {
+      const slug = getTopicSlug(parentExam.examName);
+      const targetUrl = getTopicUrl(slug);
+      if (
+        typeof window !== "undefined" &&
+        window.location.pathname !== targetUrl
+      ) {
+        window.history.replaceState(null, "", targetUrl);
+      }
+    }
+  }, [questionData, getTopicUrl]);
+
   // Keyboard navigation for presentation mode
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -2893,41 +3074,55 @@ ${q.explanation}`;
                 </span>
               </h2>
               <div className="space-y-6">
-                {GCP_EXAMS_PRESETS.map((exam, examIdx) => (
-                  <div key={examIdx} className="space-y-2">
-                    <h3 className="text-sm font-black text-amber-500 uppercase tracking-wide">
-                      {exam.examName}
-                    </h3>
-                    <ul className="space-y-1.5 ml-2 border-l border-gray-200/10 pl-2">
-                      {exam.questions.map((q, qIdx) => {
-                        const isSelected = questionData.question === q.question;
-                        return (
-                          <li key={qIdx}>
-                            <button
-                              onClick={() => loadQuestionPreset(q)}
-                              className={`w-full text-left text-xs py-1 px-2 rounded-lg transition-all duration-150 ${
-                                isSelected
-                                  ? theme.color === "dark"
-                                    ? "bg-amber-500/20 text-amber-400 font-bold border-l-2 border-amber-500 pl-1.5"
-                                    : "bg-amber-500/15 text-amber-700 font-bold border-l-2 border-amber-500 pl-1.5"
-                                  : theme.color === "dark"
-                                    ? "text-gray-400 hover:text-white hover:bg-white/5"
-                                    : "text-gray-600 hover:text-gray-900 hover:bg-black/5"
-                              }`}
-                            >
-                              <span className="opacity-50 mr-1">
-                                Q{qIdx + 1}:
-                              </span>
-                              <span className="line-clamp-2 inline align-middle">
-                                {q.question}
-                              </span>
-                            </button>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                ))}
+                {GCP_EXAMS_PRESETS.map((exam, examIdx) => {
+                  const topicSlug = getTopicSlug(exam.examName);
+                  const isTopicCopied = copiedTopicSlug === topicSlug;
+                  return (
+                    <div key={examIdx} className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <h3 className="text-sm font-black text-amber-500 uppercase tracking-wide">
+                          {exam.examName}
+                        </h3>
+                        <button
+                          onClick={() => copyTopicLink(topicSlug)}
+                          className="text-[10px] px-1.5 py-0.5 rounded opacity-60 hover:opacity-100 transition-all border border-amber-500/20 hover:border-amber-500 text-amber-500 flex items-center gap-1 cursor-pointer"
+                          title={`Copy direct link to ${exam.examName}`}
+                        >
+                          {isTopicCopied ? "✓ Copied" : "🔗 Copy Link"}
+                        </button>
+                      </div>
+                      <ul className="space-y-1.5 ml-2 border-l border-gray-200/10 pl-2">
+                        {exam.questions.map((q, qIdx) => {
+                          const isSelected =
+                            questionData.question === q.question;
+                          return (
+                            <li key={qIdx}>
+                              <button
+                                onClick={() => loadQuestionPreset(q)}
+                                className={`w-full text-left text-xs py-1 px-2 rounded-lg transition-all duration-150 cursor-pointer ${
+                                  isSelected
+                                    ? theme.color === "dark"
+                                      ? "bg-amber-500/20 text-amber-400 font-bold border-l-2 border-amber-500 pl-1.5"
+                                      : "bg-amber-500/15 text-amber-700 font-bold border-l-2 border-amber-500 pl-1.5"
+                                    : theme.color === "dark"
+                                      ? "text-gray-400 hover:text-white hover:bg-white/5"
+                                      : "text-gray-600 hover:text-gray-900 hover:bg-black/5"
+                                }`}
+                              >
+                                <span className="opacity-50 mr-1">
+                                  Q{qIdx + 1}:
+                                </span>
+                                <span className="line-clamp-2 inline align-middle">
+                                  {q.question}
+                                </span>
+                              </button>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}

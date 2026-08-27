@@ -2523,14 +2523,171 @@ export const findExamPresetBySlug = (
   );
 };
 
+const ANIMATION_OPTIONS = [
+  "none",
+  "shimmer",
+  "aurora",
+  "mesh-liquid",
+  "radial-flow",
+  "cosmic-glow",
+  "fireflies",
+  "warp-speed",
+  "laser-beams",
+  "color-vortex",
+  "matrix-rain",
+  "spinning-logos",
+  "lava-lamp",
+  "random-shapes",
+  "psychedelic-swirl",
+] as const;
+
+type AmbientAnimationType = (typeof ANIMATION_OPTIONS)[number];
+type PhaseType = "edit" | 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
+const getSearchParam = (
+  searchParams: Record<string, string | string[] | undefined> | undefined,
+  key: string,
+  aliasKeys: string[] = [],
+): string | undefined => {
+  if (!searchParams) return undefined;
+  const keys = [key, ...aliasKeys];
+  for (const k of keys) {
+    const val = searchParams[k];
+    if (typeof val === "string") return val;
+    if (Array.isArray(val) && val[0]) return val[0];
+  }
+  return undefined;
+};
+
+const parseColorTheme = (
+  val?: string,
+): "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go" => {
+  if (!val) return "Google Cloud";
+  const normalized = val.toLowerCase().trim();
+  if (normalized === "firebase") return "Firebase";
+  if (
+    normalized === "flutter" ||
+    normalized === "dart" ||
+    normalized === "flutter/dart"
+  )
+    return "Flutter/Dart";
+  if (normalized === "go" || normalized === "golang") return "Go";
+  if (
+    normalized === "google cloud" ||
+    normalized === "gcp" ||
+    normalized === "google"
+  )
+    return "Google Cloud";
+  return "Google Cloud";
+};
+
+const parseAspectRatio = (
+  val?: string,
+): "9:16" | "16:9" | "1:1" | "Both" => {
+  if (!val) return "9:16";
+  const normalized = val.toLowerCase().trim();
+  if (
+    normalized === "16:9" ||
+    normalized === "16/9" ||
+    normalized === "landscape"
+  )
+    return "16:9";
+  if (normalized === "1:1" || normalized === "1/1" || normalized === "square")
+    return "1:1";
+  if (normalized === "both") return "Both";
+  if (
+    normalized === "9:16" ||
+    normalized === "9/16" ||
+    normalized === "portrait"
+  )
+    return "9:16";
+  return "9:16";
+};
+
+const parseAmbientAnimation = (val?: string): AmbientAnimationType => {
+  if (!val) return "none";
+  const normalized = val.toLowerCase().trim();
+  if (ANIMATION_OPTIONS.includes(normalized as any)) {
+    return normalized as AmbientAnimationType;
+  }
+  if (normalized === "liquid") return "mesh-liquid";
+  if (normalized === "radial") return "radial-flow";
+  if (normalized === "cosmic") return "cosmic-glow";
+  if (normalized === "warp") return "warp-speed";
+  if (normalized === "laser") return "laser-beams";
+  if (normalized === "vortex") return "color-vortex";
+  if (normalized === "matrix") return "matrix-rain";
+  if (normalized === "logos") return "spinning-logos";
+  if (normalized === "lava") return "lava-lamp";
+  if (normalized === "shapes") return "random-shapes";
+  if (
+    normalized === "trippy" ||
+    normalized === "psych" ||
+    normalized === "swirl"
+  )
+    return "psychedelic-swirl";
+  return "none";
+};
+
+const parsePhase = (val?: string): PhaseType | undefined => {
+  if (!val) return undefined;
+  const normalized = val.toLowerCase().trim();
+  if (normalized === "edit") return "edit";
+  const parsedNum = parseInt(normalized, 10);
+  if (!isNaN(parsedNum) && parsedNum >= 0 && parsedNum <= 6) {
+    return parsedNum as PhaseType;
+  }
+  return undefined;
+};
+
+const parseHidePanels = (val?: string): boolean => {
+  if (!val) return false;
+  const normalized = val.toLowerCase().trim();
+  return (
+    normalized === "true" ||
+    normalized === "1" ||
+    normalized === "yes" ||
+    normalized === "on"
+  );
+};
+
+const parseSpeed = (val?: string): number => {
+  if (!val) return 1.0;
+  const num = parseFloat(val);
+  if (isNaN(num)) return 1.0;
+  return Math.min(Math.max(num, 0.1), 10.0);
+};
+
+const parseTransition = (val?: string): number => {
+  if (!val) return 1.0;
+  const num = parseFloat(val);
+  if (isNaN(num)) return 1.0;
+  return Math.min(Math.max(num, 0.1), 3.0);
+};
+
+const getInitialQuestion = (
+  preset: ExamPreset,
+  val?: string,
+): QuizQuestion => {
+  if (val) {
+    const qNum = parseInt(val.trim(), 10);
+    if (!isNaN(qNum) && qNum >= 1 && qNum <= preset.questions.length) {
+      return preset.questions[qNum - 1];
+    }
+  }
+  return preset.questions[0];
+};
+
 export default function QuizPageClient({
   theme,
   deploymentConfiguration,
   initialTopic,
+  searchParams,
 }: {
   theme: Theme;
   deploymentConfiguration: DeploymentConfiguration;
   initialTopic?: string;
+  searchParams?: Record<string, string | string[] | undefined>;
 }) {
   const { textColorClass, bodyBackgroundColor, textBackgroundColorClass } =
     colorValues(theme);
@@ -2538,25 +2695,75 @@ export default function QuizPageClient({
   const initialPreset =
     findExamPresetBySlug(initialTopic) || GCP_EXAMS_PRESETS[0];
 
+  const qParam = getSearchParam(searchParams, "q", ["question"]);
+  const initialQuestion = getInitialQuestion(initialPreset, qParam);
+
+  const phaseParam = getSearchParam(searchParams, "phase", ["step"]);
+  const parsedPhase = parsePhase(phaseParam);
+  const initialPhase: PhaseType =
+    parsedPhase !== undefined
+      ? parsedPhase
+      : qParam !== undefined
+        ? 0
+        : "edit";
+
+  const fullscreenParam = getSearchParam(searchParams, "fullscreen", [
+    "hidePanels",
+    "recording",
+  ]);
+  const initialHidePanels = parseHidePanels(fullscreenParam);
+
+  const themeParam = getSearchParam(searchParams, "colorTheme", [
+    "color_theme",
+    "theme",
+    "color",
+  ]);
+  const initialColorTheme = parseColorTheme(themeParam);
+
+  const aspectParam = getSearchParam(searchParams, "aspectRatio", [
+    "aspect_ratio",
+    "aspect",
+  ]);
+  const initialAspectRatio = parseAspectRatio(aspectParam);
+
+  const animParam = getSearchParam(searchParams, "ambientAnimation", [
+    "ambient_animation",
+    "anim",
+    "animation",
+  ]);
+  const initialAmbientAnimation = parseAmbientAnimation(animParam);
+
+  const speedParam = getSearchParam(searchParams, "animationSpeed", [
+    "animation_speed",
+    "speed",
+  ]);
+  const initialAnimationSpeed = parseSpeed(speedParam);
+
+  const transitionParam = getSearchParam(searchParams, "transitionTime", [
+    "transition_time",
+    "transition",
+  ]);
+  const initialTransitionTime = parseTransition(transitionParam);
+
   // Core quiz state
   const [format, setFormat] = useState<"markdown" | "json" | "yaml">(
     "markdown",
   );
   const [questionData, setQuestionData] = useState<QuizQuestion>(
-    initialPreset.questions[0],
+    initialQuestion,
   );
   const [rawText, setRawText] = useState(() => {
     return `# Question
-${initialPreset.questions[0].question}
+${initialQuestion.question}
 
 ## Answers
-- [${initialPreset.questions[0].correctIndex === 0 ? "x" : " "}] ${initialPreset.questions[0].answers[0] || ""}
-- [${initialPreset.questions[0].correctIndex === 1 ? "x" : " "}] ${initialPreset.questions[0].answers[1] || ""}
-- [${initialPreset.questions[0].correctIndex === 2 ? "x" : " "}] ${initialPreset.questions[0].answers[2] || ""}
-- [${initialPreset.questions[0].correctIndex === 3 ? "x" : " "}] ${initialPreset.questions[0].answers[3] || ""}
+- [${initialQuestion.correctIndex === 0 ? "x" : " "}] ${initialQuestion.answers[0] || ""}
+- [${initialQuestion.correctIndex === 1 ? "x" : " "}] ${initialQuestion.answers[1] || ""}
+- [${initialQuestion.correctIndex === 2 ? "x" : " "}] ${initialQuestion.answers[2] || ""}
+- [${initialQuestion.correctIndex === 3 ? "x" : " "}] ${initialQuestion.answers[3] || ""}
 
 ## Explanation
-${initialPreset.questions[0].explanation}`;
+${initialQuestion.explanation}`;
   });
   const [copiedTopicSlug, setCopiedTopicSlug] = useState<string | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
@@ -2565,36 +2772,24 @@ ${initialPreset.questions[0].explanation}`;
   // Style customization state
   const [aspectRatio, setAspectRatio] = useState<
     "9:16" | "16:9" | "1:1" | "Both"
-  >("9:16");
+  >(initialAspectRatio);
   const [colorTheme, setColorTheme] = useState<
     "Google Cloud" | "Firebase" | "Flutter/Dart" | "Go"
-  >("Google Cloud");
-  const [ambientAnimation, setAmbientAnimation] = useState<
-    | "none"
-    | "shimmer"
-    | "aurora"
-    | "mesh-liquid"
-    | "radial-flow"
-    | "cosmic-glow"
-    | "fireflies"
-    | "warp-speed"
-    | "laser-beams"
-    | "color-vortex"
-    | "matrix-rain"
-    | "spinning-logos"
-    | "lava-lamp"
-    | "random-shapes"
-    | "psychedelic-swirl"
-  >("none");
-  const [animationSpeed, setAnimationSpeed] = useState<number>(1.0);
-  const [transitionTime, setTransitionTime] = useState<number>(1.0);
-  const [hidePanels, setHidePanels] = useState<boolean>(false);
+  >(initialColorTheme);
+  const [ambientAnimation, setAmbientAnimation] = useState<AmbientAnimationType>(
+    initialAmbientAnimation,
+  );
+  const [animationSpeed, setAnimationSpeed] = useState<number>(
+    initialAnimationSpeed,
+  );
+  const [transitionTime, setTransitionTime] = useState<number>(
+    initialTransitionTime,
+  );
+  const [hidePanels, setHidePanels] = useState<boolean>(initialHidePanels);
 
   // Player phase state:
   // "edit" | 0 (Question) | 1 (A highlight) | 2 (B highlight) | 3 (C highlight) | 4 (D highlight) | 5 (All answers, pause) | 6 (Explanation & correct answer highlighted)
-  const [phase, setPhase] = useState<"edit" | 0 | 1 | 2 | 3 | 4 | 5 | 6>(
-    "edit",
-  );
+  const [phase, setPhase] = useState<PhaseType>(initialPhase);
 
   // Format Helper Functions
   const formatYaml = (q: QuizQuestion) => {
@@ -2934,6 +3129,56 @@ ${q.explanation}`;
     setPhase(0);
   };
 
+  const buildQueryString = useCallback(() => {
+    const params = new URLSearchParams();
+
+    const parentExam = GCP_EXAMS_PRESETS.find((exam) =>
+      exam.questions.some((item) => item.question === questionData.question),
+    );
+    if (parentExam) {
+      const qIndex = parentExam.questions.findIndex(
+        (q) => q.question === questionData.question,
+      );
+      if (qIndex >= 0) {
+        params.set("q", (qIndex + 1).toString());
+      }
+    }
+
+    if (phase !== "edit") {
+      params.set("phase", phase.toString());
+    }
+    if (hidePanels) {
+      params.set("fullscreen", "true");
+    }
+    if (colorTheme !== "Google Cloud") {
+      params.set("theme", colorTheme);
+    }
+    if (aspectRatio !== "9:16") {
+      params.set("aspect", aspectRatio);
+    }
+    if (ambientAnimation !== "none") {
+      params.set("anim", ambientAnimation);
+    }
+    if (animationSpeed !== 1.0) {
+      params.set("speed", animationSpeed.toString());
+    }
+    if (transitionTime !== 1.0) {
+      params.set("transition", transitionTime.toString());
+    }
+
+    const str = params.toString();
+    return str ? `?${str}` : "";
+  }, [
+    questionData,
+    phase,
+    hidePanels,
+    colorTheme,
+    aspectRatio,
+    ambientAnimation,
+    animationSpeed,
+    transitionTime,
+  ]);
+
   const getTopicUrl = useCallback(
     (topicSlug: string) => {
       let path = `/quiz/${topicSlug}`;
@@ -2947,9 +3192,9 @@ ${q.explanation}`;
       if (themeParts.length > 0) {
         path += `/${themeParts.join("/")}`;
       }
-      return path;
+      return `${path}${buildQueryString()}`;
     },
-    [theme],
+    [theme, buildQueryString],
   );
 
   const copyTopicLink = async (topicSlug: string) => {
@@ -2963,7 +3208,7 @@ ${q.explanation}`;
     }
   };
 
-  // Sync URL state to current question's topic
+  // Sync URL state (path & query string) to browser history
   useEffect(() => {
     const parentExam = GCP_EXAMS_PRESETS.find((exam) =>
       exam.questions.some((item) => item.question === questionData.question),
@@ -2973,7 +3218,7 @@ ${q.explanation}`;
       const targetUrl = getTopicUrl(slug);
       if (
         typeof window !== "undefined" &&
-        window.location.pathname !== targetUrl
+        `${window.location.pathname}${window.location.search}` !== targetUrl
       ) {
         window.history.replaceState(null, "", targetUrl);
       }

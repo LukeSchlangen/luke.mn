@@ -49,10 +49,13 @@ export async function generateMetadata({
 
 export default async function Page({
   params: paramsPromise = Promise.resolve({ slug: [] }),
+  searchParams: searchParamsPromise = Promise.resolve({}),
 }: {
   params: Promise<{ slug: string[] }>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await paramsPromise;
+  const searchParams = (await searchParamsPromise) || {};
   const { theme, remainingSlug, deploymentConfiguration, topic } = pathParser(
     params.slug,
   );
@@ -72,6 +75,7 @@ export default async function Page({
       theme={{ ...theme, page: "quiz" }}
       deploymentConfiguration={deploymentConfiguration}
       initialTopic={topic}
+      searchParams={searchParams}
     />
   );
 }

@@ -163,7 +163,14 @@ export default function FaqPage({
                 </summary>
                 <p>
                   Sure! But please have something to say
-                  (<Link href={"https://nohello.net"}>nohello.net</Link>).
+                  (
+                  <Link
+                    href={"https://nohello.net"}
+                    className="underline decoration-blue-400 hover:decoration-blue-600"
+                  >
+                    nohello.net
+                  </Link>
+                  ).
                   I&apos;ve had people reach out to correct bugs in my labs,
                   ask for career advice (some I ended up putting on this website),
                   or to tell me they thought a joke in a talk was funny. I love that.

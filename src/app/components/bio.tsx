@@ -14,6 +14,12 @@ const bioTextLookup: Record<
   short: ShortBio,
 };
 
+const BIO_WORD_COUNTS: Record<Theme["verbosity"], number> = {
+  short: 42,
+  medium: 92,
+  long: 165,
+};
+
 export default function Bio({
   theme,
   deploymentConfiguration,
@@ -33,13 +39,10 @@ export default function Bio({
         <VerbosityToggle
           theme={theme}
           deploymentConfiguration={deploymentConfiguration}
+          wordCounts={BIO_WORD_COUNTS}
         />
       </div>
-      <div
-        className={`sm:text-lg md:text-2xl lg:text-3xl ${
-          theme.verbosity === "short" ? "whitespace-nowrap" : "space-y-4"
-        }`}
-      >
+      <div className="space-y-4 sm:text-lg md:text-2xl lg:text-3xl">
         <BioText tense={theme.tense} />
       </div>
     </>

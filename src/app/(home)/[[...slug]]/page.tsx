@@ -21,9 +21,9 @@ export async function generateMetadata({
   }
 
   return {
-    title: "Luke Schlangen | Software Engineer",
+    title: "Luke Schlangen | Lead AI Builder Advocate",
     description:
-      "Luke Schlangen's personal website. Software engineer, educator, and lifelong learner.",
+      "Luke Schlangen's personal website. Developer Advocate at Google focused on builders, helping people turn ideas into real, helpful tools with Google AI Studio, Firebase, and Cloud Run.",
     icons: {
       icon: icon,
     },

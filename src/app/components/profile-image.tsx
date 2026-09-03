@@ -8,7 +8,7 @@ import yellowSweater from "../../../public/headshots/luke-schlangen-headshot-yel
 export default function ProfileImage({ theme }: { theme: Theme }) {
   // Common classes to keep the images stacked and centered
   const imgBaseClass =
-    "absolute top-0 left-1/2 -translate-x-1/2 transition-all duration-500";
+    "absolute top-0 left-1/2 -translate-x-1/2 transition-all duration-500 h-[400px] w-auto";
 
   return (
     /* relative: acts as the anchor for absolute children */

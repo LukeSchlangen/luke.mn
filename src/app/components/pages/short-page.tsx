@@ -7,6 +7,8 @@ import Link from "next/link";
 
 export const SHORT_LINKS: Record<string, string> = {
   li: "https://www.linkedin.com/in/lukeschlangen/",
+  builders: "https://goo.gle/builders",
+  aistudio: "https://aistudio.google.com/",
 };
 
 export default function ShortPage({

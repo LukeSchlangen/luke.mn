@@ -60,7 +60,14 @@ export default function FaqPage({
                     CS50
                   </Link>
                   &nbsp;is hard to beat. If you are looking for something less
-                  structured, start with a project!
+                  structured, start with a project! Tools like{" "}
+                  <Link
+                    href="https://aistudio.google.com/"
+                    className="underline"
+                  >
+                    Google AI Studio
+                  </Link>
+                  {" "}make it easier than ever to turn ideas into working applications.
                 </p>
               </details>
               <details open className="space-y-4 border p-2 pl-4">
@@ -99,6 +106,46 @@ export default function FaqPage({
               </h3>
               <details open className="space-y-4 border p-2 pl-4">
                 <summary className="-ml-2 text-xl">
+                  What do you work on at Google?
+                  <CopyLinkIcon id="google-focus" />
+                </summary>
+                <p>
+                  My focus is on{" "}
+                  <Link
+                    href="https://goo.gle/builders"
+                    className="underline"
+                  >
+                    builders
+                  </Link>
+                  . I help people turn ideas into real, helpful tools.
+                </p>
+                <p>
+                  Right now, that&apos;s a lot of guides, videos, and tutorials around{" "}
+                  <Link
+                    href="https://aistudio.google.com/"
+                    className="underline"
+                  >
+                    Google AI Studio
+                  </Link>
+                  ,{" "}
+                  <Link
+                    href="https://firebase.google.com/"
+                    className="underline"
+                  >
+                    Firebase
+                  </Link>
+                  , and{" "}
+                  <Link
+                    href="https://cloud.google.com/run"
+                    className="underline"
+                  >
+                    Cloud Run
+                  </Link>
+                  .
+                </p>
+              </details>
+              <details open className="space-y-4 border p-2 pl-4">
+                <summary className="-ml-2 text-xl">
                   How did you get your first job in tech?
                   <CopyLinkIcon id="first-job" />
                 </summary>
@@ -122,12 +169,12 @@ export default function FaqPage({
                   <CopyLinkIcon id="google-job" />
                 </summary>
                 <p>
-                  I applied four times over ten years. The fourth time I applied
-                  — the time I was successful — I had been teaching software
-                  engineers for five years. Depending on your approach to
-                  developer relations, the developer advocate role and teaching
-                  software can have a lot in common. Like with getting that
-                  first job in tech, I think luck plays a role.
+                  I applied four times over ten years. The fourth time I applied,
+                  when I was successful, I had been teaching software engineers
+                  for five years. Depending on your approach to developer
+                  relations, the developer advocate role and teaching software
+                  can have a lot in common. Like with getting that first job in
+                  tech, I think luck plays a role.
                 </p>
                 <p>
                   I do not have any secrets for this one. I signed up for a job

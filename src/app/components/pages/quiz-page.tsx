@@ -277,7 +277,7 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
           "Which service is best suited for hosting a containerized application with automatic scaling to zero when there is no traffic?",
         answers: [
           "Compute Engine",
-          "Google Kubernetes Engine (GKE)",
+          "Cloud Functions",
           "Cloud Run",
           "App Engine Flexible",
         ],
@@ -428,16 +428,16 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
       },
       {
         question:
-          "Which design principle helps minimize operational overhead when managing microservices running on Google Kubernetes Engine?",
+          "Which compute service provides a fully managed serverless environment to run containers with automatic scaling?",
         answers: [
-          "Deploying everything to a single node",
-          "Using Autopilot cluster mode",
-          "Manually managing GKE node versions",
-          "Hardcoding network configurations",
+          "Compute Engine",
+          "Cloud Run",
+          "Bare Metal Solution",
+          "Dedicated Interconnect",
         ],
         correctIndex: 1,
         explanation:
-          "GKE Autopilot manages the entire underlying cluster infrastructure, including node provisioning, scaling, and security.",
+          "Cloud Run enables you to run stateless containers in a fully managed serverless environment with automatic scaling.",
       },
       {
         question:
@@ -696,7 +696,7 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
       },
       {
         question:
-          "How can you ensure that only container images verified by a continuous integration (CI) pipeline can be deployed to GKE?",
+          "How can you ensure that only container images verified by a CI pipeline can be deployed to Cloud Run?",
         answers: [
           "Binary Authorization",
           "VPC Service Controls",
@@ -705,7 +705,7 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
         ],
         correctIndex: 0,
         explanation:
-          "Binary Authorization is a deploy-time security control that ensures only trusted, signed container images are deployed to GKE.",
+          "Binary Authorization is a deploy-time security control that ensures only trusted, signed container images are deployed to Cloud Run.",
       },
       {
         question:
@@ -799,7 +799,7 @@ const GCP_EXAMS_PRESETS: ExamPreset[] = [
         ],
         correctIndex: 1,
         explanation:
-          "Multiple compounding variables—including system prompt overhead, retrieved RAG context, model selection, reasoning traces, and multi-agent tool retries—cause token usage to expand non-linearly.",
+          "Multiple compounding variables, including system prompt overhead, retrieved RAG context, model selection, reasoning traces, and multi-agent tool retries, cause token usage to expand non-linearly.",
       },
       {
         question:

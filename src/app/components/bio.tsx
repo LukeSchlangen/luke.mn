@@ -15,9 +15,9 @@ const bioTextLookup: Record<
 };
 
 const BIO_WORD_COUNTS: Record<Theme["verbosity"], number> = {
-  short: 42,
-  medium: 92,
-  long: 165,
+  short: 24,
+  medium: 94,
+  long: 159,
 };
 
 export default function Bio({

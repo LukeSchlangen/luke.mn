@@ -43,7 +43,8 @@ export default function MediumBio({ tense }: { tense: TenseOption }) {
         {"Outside of Google, "}
         {isFirstPerson ? "I am a " : "he is a "}
         <CoFounderOfCodeChampionship />
-        {"where I lead competitive computer coding programs for 3"}
+        {isFirstPerson ? "where I lead " : "where he leads "}
+        {"competitive computer coding programs for 3"}
         <sup>rd</sup>
         {" to 9"}
         <sup>th</sup>

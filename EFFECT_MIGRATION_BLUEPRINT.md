@@ -62,7 +62,7 @@ Let's convert our custom types and options in `src/app/types/index.ts` into nati
 
 #### Before (TypeScript manual declarations):
 ```typescript
-export const PAGE_OPTIONS = ["home", "faq", "deploy", "short", "not-found", "qr", "quiz"] as const;
+export const PAGE_OPTIONS = ["home", "faq", "deploy", "links", "not-found", "qr", "quiz"] as const;
 export type PageOption = (typeof PAGE_OPTIONS)[number];
 
 export const VIBE_OPTIONS = ["standard", "professional", "fun"] as const;
@@ -79,7 +79,7 @@ export const PageOption = Schema.Union(
   Schema.Literal("home"),
   Schema.Literal("faq"),
   Schema.Literal("deploy"),
-  Schema.Literal("short"),
+  Schema.Literal("links"),
   Schema.Literal("not-found"),
   Schema.Literal("qr"),
   Schema.Literal("quiz")

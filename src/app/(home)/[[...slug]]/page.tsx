@@ -3,7 +3,7 @@ import pathParser from "../../utils/path-parser";
 import NotFoundPage from "../../components/pages/not-found-page";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
-import { SHORT_LINKS } from "../../components/pages/short-page";
+import { SHORT_LINKS } from "../../components/pages/links-page";
 
 export async function generateMetadata({
   params: paramsPromise = Promise.resolve({ slug: [] }),

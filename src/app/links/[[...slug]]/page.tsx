@@ -1,4 +1,4 @@
-import ShortPage from "../../components/pages/short-page";
+import LinksPage from "../../components/pages/links-page";
 import NotFoundPage from "../../components/pages/not-found-page";
 import pathParser from "../../utils/path-parser";
 import { Metadata } from "next";
@@ -19,6 +19,8 @@ export async function generateMetadata({
   }
 
   return {
+    title: "Links | Luke Schlangen",
+    description: "A list of short links that redirect to other pages.",
     icons: {
       icon: icon,
     },
@@ -46,8 +48,8 @@ export default async function Page({
     );
   }
   return (
-    <ShortPage
-      theme={{ ...theme, page: "short" }}
+    <LinksPage
+      theme={{ ...theme, page: "links" }}
       deploymentConfiguration={deploymentConfiguration}
     />
   );

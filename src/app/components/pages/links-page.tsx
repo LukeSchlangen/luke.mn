@@ -11,7 +11,9 @@ export const SHORT_LINKS: Record<string, string> = {
   aistudio: "https://aistudio.google.com/",
 };
 
-export default function ShortPage({
+export const LINKS = SHORT_LINKS;
+
+export default function LinksPage({
   theme,
   deploymentConfiguration,
 }: {
@@ -56,3 +58,5 @@ export default function ShortPage({
     </div>
   );
 }
+
+export { LinksPage as ShortPage };

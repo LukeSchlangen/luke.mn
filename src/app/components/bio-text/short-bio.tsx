@@ -17,20 +17,14 @@ export default function ShortBio({ tense }: { tense: TenseOption }) {
         {" with a focus on "}
         <Builders />
         {". "}
-        {isFirstPerson ? "I help " : "He helps "}
-        {"people turn ideas into real, helpful tools using "}
-        <GoogleAIStudio />
-        {", "}
-        <Firebase />
-        {", and "}
-        <CloudRun />
-        {"."}
       </p>
       <p>
-        {isFirstPerson ? "I am also a " : "He is also a "}
+        {isFirstPerson ? "I am a " : "He is a "}
         <CoFounderOfCodeChampionship />
-        {" and "}
-        {isFirstPerson ? "believe " : "believes "}
+        {". "}
+      </p>
+      <p>
+        {isFirstPerson ? "I believe " : "He believes "}
         <LearningFollowsExcitement />
         {"."}
       </p>

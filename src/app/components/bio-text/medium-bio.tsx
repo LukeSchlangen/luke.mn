@@ -37,10 +37,13 @@ export default function MediumBio({ tense }: { tense: TenseOption }) {
       <p>
         {"Previously, "}
         {isFirstPerson ? "I " : "he "}
-        {"taught at a coding bootcamp and led software engineer onboarding at a Fortune 500 company. Outside of Google, "}
+        {"taught at a coding bootcamp and led software engineer onboarding at a Fortune 500 company."}
+      </p>
+      <p>
+        {"Outside of Google, "}
         {isFirstPerson ? "I am a " : "he is a "}
         <CoFounderOfCodeChampionship />
-        {": a competitive computer coding program for 3"}
+        {"where I lead competitive computer coding programs for 3"}
         <sup>rd</sup>
         {" to 9"}
         <sup>th</sup>

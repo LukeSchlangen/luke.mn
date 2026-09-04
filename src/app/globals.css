@@ -15,17 +15,22 @@
   view-transition-name: bio-card;
 }
 
-.vibe-toggle {
-  view-transition-name: vibe-toggle;
+.navbar {
+  view-transition-name: navbar;
 }
 
-::view-transition-group(vibe-toggle) {
+::view-transition-group(navbar) {
   z-index: 20;
 }
 
-::view-transition-old(vibe-toggle),
-::view-transition-new(vibe-toggle) {
+::view-transition-old(navbar) {
+  display: none;
+  opacity: 0;
+}
+
+::view-transition-new(navbar) {
   animation: none;
+  opacity: 1;
 }
 
 /* Stacking Order during View Transition:
@@ -39,10 +44,15 @@
   z-index: 1;
 }
 
-/* Keep the bio card stationary during view transition */
-::view-transition-old(bio-card),
+/* Keep the bio card stationary and single-layered so shadows never double */
+::view-transition-old(bio-card) {
+  display: none;
+  opacity: 0;
+}
+
 ::view-transition-new(bio-card) {
   animation: none;
+  opacity: 1;
 }
 
 /* Ensure the image pair is clipped at the container bounds and isolated */
@@ -88,6 +98,7 @@
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation-duration: 500ms;
+  mix-blend-mode: normal;
 }
 
 /* Accessibility: respect reduced motion preferences */

@@ -77,7 +77,7 @@ export default function VibeToggle({
 
   return (
     <div
-      className={`vibe-toggle space-x-2 rounded-br-lg p-1 drop-shadow-xl md:rounded-b-lg ${textBackgroundColorClass}`}
+      className={`space-x-2 rounded-br-lg p-1 drop-shadow-xl md:rounded-b-lg ${textBackgroundColorClass}`}
     >
       <Link
         href={professionalHref}

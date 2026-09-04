@@ -5,3 +5,83 @@
   list-style-type: ">";
   padding-inline-start: 1ch;
 }
+
+/* View Transition Names */
+.profile-image {
+  view-transition-name: profile-image;
+}
+
+.bio-card {
+  view-transition-name: bio-card;
+}
+
+/* Stacking Order during View Transition:
+   The bio card is on top (z-index: 10) so the images slide down behind it.
+   The profile image group sits at z-index: 1. */
+::view-transition-group(bio-card) {
+  z-index: 10;
+}
+
+::view-transition-group(profile-image) {
+  z-index: 1;
+}
+
+/* Keep the bio card stationary during view transition */
+::view-transition-old(bio-card),
+::view-transition-new(bio-card) {
+  animation: none;
+}
+
+/* Ensure the image pair is clipped at the container bounds and isolated */
+::view-transition-image-pair(profile-image) {
+  isolation: isolate;
+  overflow: clip;
+  clip-path: inset(0 0 0 0);
+}
+
+/* Old image slides down behind the bio */
+@keyframes slide-down-behind-bio {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}
+
+/* New image slides up from behind the bio, in front of the old image */
+@keyframes slide-up-from-bio {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+::view-transition-old(profile-image) {
+  z-index: 1;
+  mix-blend-mode: normal;
+  animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) both slide-down-behind-bio;
+}
+
+::view-transition-new(profile-image) {
+  z-index: 2;
+  mix-blend-mode: normal;
+  animation: 500ms cubic-bezier(0.4, 0, 0.2, 1) both slide-up-from-bio;
+}
+
+/* Synchronize background color crossfade with headshot slide */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 500ms;
+}
+
+/* Accessibility: respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}

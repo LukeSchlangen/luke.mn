@@ -15,6 +15,19 @@
   view-transition-name: bio-card;
 }
 
+.vibe-toggle {
+  view-transition-name: vibe-toggle;
+}
+
+::view-transition-group(vibe-toggle) {
+  z-index: 20;
+}
+
+::view-transition-old(vibe-toggle),
+::view-transition-new(vibe-toggle) {
+  animation: none;
+}
+
 /* Stacking Order during View Transition:
    The bio card is on top (z-index: 10) so the images slide down behind it.
    The profile image group sits at z-index: 1. */

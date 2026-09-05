@@ -8,6 +8,7 @@ export const PageOptionSchema = Schema.Union(
   Schema.Literal("not-found"),
   Schema.Literal("qr"),
   Schema.Literal("quiz"),
+  Schema.Literal("trending"),
 );
 export type PageOption = Schema.Schema.Type<typeof PageOptionSchema>;
 
@@ -19,6 +20,7 @@ export const PAGE_OPTIONS = [
   "not-found",
   "qr",
   "quiz",
+  "trending",
 ] as const;
 
 export const VibeOptionSchema = Schema.Union(

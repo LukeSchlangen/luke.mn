@@ -17,9 +17,9 @@ export interface TrendingSnapshot {
 }
 
 export const TRENDING_SNAPSHOTS: Record<string, TrendingSnapshot> = {
-  "2026-09-12": {
-    date: "2026-09-12",
-    title: "September 12, 2026 Snapshot",
+  "2026-09-05": {
+    date: "2026-09-05",
+    title: "September 05, 2026 Snapshot",
     description:
       "Grounded in real-time technical updates from Google Cloud Blogs, Google Developer Blogs, and Security Community updates—highlighting Google Cloud AI monthly updates, Cloud Run Agentic roadshows, Google SecOps Threat Hunt Agent, Gartner Leader recognition, and WebMCP browser agent standards.",
     topics: [
@@ -124,9 +124,9 @@ export const TRENDING_SNAPSHOTS: Record<string, TrendingSnapshot> = {
       },
     ],
   },
-  "2026-09-11": {
-    date: "2026-09-11",
-    title: "September 2026 Snapshot",
+  "2026-09-03": {
+    date: "2026-09-03",
+    title: "September 03, 2026 Snapshot",
     description:
       "Grounded in real-time technical updates from Google Cloud Blogs, Hacker News, and AI Developer frameworks—highlighting Gemini 3.5, Google Agent Platform, SecOps AI agents, WebMCP, and cryptographic sub-agent passes.",
     topics: [
@@ -229,9 +229,9 @@ export const TRENDING_SNAPSHOTS: Record<string, TrendingSnapshot> = {
       },
     ],
   },
-  "2026-09-06": {
-    date: "2026-09-06",
-    title: "September 06, 2026 Snapshot",
+  "2026-09-01": {
+    date: "2026-09-01",
+    title: "September 01, 2026 Snapshot",
     description:
       "Grounded in recent web trends across Hacker News, Google Cloud blogs, and AI developer forums focusing on sub-agent delegation, WebMCP, local agent safety, and Gemini reasoning models.",
     topics: [
@@ -540,7 +540,7 @@ export const TRENDING_SNAPSHOTS: Record<string, TrendingSnapshot> = {
   },
 };
 
-export const LATEST_SNAPSHOT_DATE = "2026-09-12";
+export const LATEST_SNAPSHOT_DATE = "2026-09-05";
 
 export function getLatestSnapshot(): TrendingSnapshot {
   return TRENDING_SNAPSHOTS[LATEST_SNAPSHOT_DATE];

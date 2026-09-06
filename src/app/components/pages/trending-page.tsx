@@ -165,6 +165,38 @@ export default function TrendingPage({
             <h2 className="m-2">
               {snapshot.description}
             </h2>
+
+            <div className="mt-6 border-t border-dashed border-current/20 pt-4 space-y-2">
+              <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider opacity-70">
+                <span>📅 Snapshot Archives & Dates</span>
+                <Link
+                  href="/trending/history"
+                  className="hover:underline text-blue-400 font-medium normal-case"
+                >
+                  View All History &rarr;
+                </Link>
+              </div>
+              <div className="flex flex-wrap gap-2 text-xs">
+                {allSnapshotDates.map((date) => {
+                  const isActive = date === snapshot.date;
+                  const isLatestDate = date === LATEST_SNAPSHOT_DATE;
+                  const href = isLatestDate ? "/trending" : `/trending/${date}`;
+                  return (
+                    <Link
+                      key={date}
+                      href={href}
+                      className={`px-2.5 py-1 rounded border transition-colors ${
+                        isActive
+                          ? "bg-amber-500 text-black border-amber-500 font-bold"
+                          : "border-current/30 opacity-80 hover:opacity-100 hover:border-current"
+                      }`}
+                    >
+                      {date} {isLatestDate ? "(Latest)" : ""}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
           </ProseContainer>
         </header>
         <main className="space-y-8">

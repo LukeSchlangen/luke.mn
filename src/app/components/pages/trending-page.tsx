@@ -124,6 +124,96 @@ export const TRENDING_TOPICS: TrendingTopic[] = [
       "Building Hybrid Search with Vertex AI Vector Search & Firestore",
     ],
   },
+  {
+    id: "webmcp-browser-agents",
+    title: "WebMCP & In-Browser Agent Interfaces",
+    category: "Web & AI Standards",
+    status: "Hot",
+    description:
+      "Standardizing client-side tool execution via navigator.modelContext, turning web applications into Model Context Protocol (MCP) servers for browser-native AI agents.",
+    keyPoints: [
+      "Exposing web app functions natively to browser AI extensions without UI scraping.",
+      "Security models, permission prompting, and user consent loops for client-side tool execution.",
+      "Polyfilling WebMCP across modern browsers with @mcp-b/global and local relay servers.",
+    ],
+    contentIdeas: [
+      "Making Your Next.js App Agent-Ready with WebMCP in 10 Minutes",
+      "WebMCP vs API Endpoints: Designing Client-Side Tools for Browser AI",
+      "Testing WebMCP Tool Registrations with the Chrome Model Context Inspector",
+    ],
+  },
+  {
+    id: "mcp-enterprise-integrations",
+    title: "Model Context Protocol (MCP) Enterprise Architecture",
+    category: "AI Infrastructure",
+    status: "Hot",
+    description:
+      "Connecting LLM agents and enterprise data platforms securely using standardized Model Context Protocol (MCP) servers and cloud gateways.",
+    keyPoints: [
+      "Building custom MCP servers in TypeScript and Go for internal microservices.",
+      "Google Cloud MCP Toolbox for Databases: Bridging Gemini CLI & Claude Desktop with Cloud SQL & BigQuery.",
+      "Authentication, rate limiting, and observability patterns for production MCP servers.",
+    ],
+    contentIdeas: [
+      "Architecting Enterprise AI Agents with Google Cloud & MCP Toolbox",
+      "Building an Internal MCP Server with Node.js and Cloud Run",
+      "MCP Security Best Practices: Securing Tool Calling in Production",
+    ],
+  },
+  {
+    id: "reasoning-models-chain-of-thought",
+    title: "Reasoning Models & Visible Chain-of-Thought",
+    category: "LLM Engineering",
+    status: "Hot",
+    description:
+      "Leveraging transparent step-by-step reasoning models (e.g., Gemini 2.0 Flash Thinking) for complex problem solving, debugging, and verifiable AI decisions.",
+    keyPoints: [
+      "Extracting and inspecting internal reasoning steps before generating final outputs.",
+      "Prompt design strategies tailored for reasoning LLMs in math, coding, and logical evaluation.",
+      "Balancing latency vs. accuracy: choosing between instant Flash models and reasoning variants.",
+    ],
+    contentIdeas: [
+      "Inspecting LLM Thoughts: Building Trust with Gemini 2.0 Flash Thinking",
+      "Reasoning LLMs in Code Generation: Debugging Complex Algorithms Automatically",
+      "Chain-of-Thought vs. Few-Shot Prompting: Benchmarking Accuracy on Edge Cases",
+    ],
+  },
+  {
+    id: "agent-evals-ci-cd",
+    title: "AI Agent Evals & Automated Continuous Benchmarking",
+    category: "DevOps & Evals",
+    status: "Emerging",
+    description:
+      "Implementing deterministic and LLM-as-a-judge evaluation frameworks for agentic tool calling, prompt regressions, and multi-turn workflows.",
+    keyPoints: [
+      "Building CI/CD evaluation pipelines to test LLM prompt changes automatically.",
+      "Measuring tool invocation accuracy, arguments parsing, and loop recovery.",
+      "Synthesizing dataset ground truth for multi-step agent trajectory verification.",
+    ],
+    contentIdeas: [
+      "Unit Testing AI Agents: Building CI/CD Eval Pipelines with GitHub Actions",
+      "LLM-as-a-Judge vs. Deterministic Assertions for Tool Calling",
+      "Measuring Agent Drift: How to Catch Regressions Before Production Deployments",
+    ],
+  },
+  {
+    id: "event-driven-serverless-ai",
+    title: "Event-Driven Serverless AI Pipelines",
+    category: "Cloud Infrastructure",
+    status: "Evergreen",
+    description:
+      "Combining Cloud Run, Eventarc, Pub/Sub, and serverless background tasks for resilient, long-running agentic workflows and streaming responses.",
+    keyPoints: [
+      "Decoupling LLM request processing with pub/sub event channels for async execution.",
+      "Handling extended agent tasks with serverless execution limits and checkpointing.",
+      "Streaming live progress updates back to frontend clients via WebSockets & Server-Sent Events (SSE).",
+    ],
+    contentIdeas: [
+      "Building Async AI Background Workers with Cloud Run & Pub/Sub",
+      "Handling 5-Minute Agent Tasks Serverlessly on Google Cloud",
+      "Real-Time SSE Agent Dashboards with Next.js and Serverless Workflows",
+    ],
+  },
 ];
 
 export default function TrendingPage({

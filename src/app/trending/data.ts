@@ -17,6 +17,114 @@ export interface TrendingSnapshot {
 }
 
 export const TRENDING_SNAPSHOTS: Record<string, TrendingSnapshot> = {
+  "2026-09-08": {
+    date: "2026-09-08",
+    title: "September 08, 2026 Snapshot",
+    description:
+      "Grounded in real-time technical updates from Google Cloud Blogs and Google AI—highlighting Cloud Run instances for personal AI agents, Mantis open-source bug fixing harness, Google AI Studio Starter Tier, FinOps cost controls for AI agents, and Gemini 3.8 Flash.",
+    topics: [
+      {
+        id: "cloud-run-instances-personal-ai-agents",
+        title: "Deploy Personal AI Agents with Cloud Run Instances",
+        category: "Cloud Infrastructure & Serverless",
+        status: "Hot",
+        description:
+          "Google Cloud introduced Cloud Run instances—dedicated, singleton compute runtimes designed specifically to support long-lived, stateful personal AI agents (like OpenClaw and Hermes) for $5.70/month without full VM management overhead.",
+        keyPoints: [
+          "Singleton compute runtime with no autoscaling and up to 7-day continuous execution with auto-restart.",
+          "Fixed HTTPS URL per instance for persistent web hooks, Telegram, or WhatsApp interfaces.",
+          "Cost-effective shared vCPU with burst budgets ($5.70/mo for 1 vCPU / 1 GiB memory).",
+        ],
+        contentIdeas: [
+          "Reacting to Google Cloud's New Cloud Run Instances for Personal AI Agents",
+          "Hosting OpenClaw & Autonomous Agents on Cloud Run for $5/Month",
+          "Cloud Run Services vs. Cloud Run Instances: When to Use Which",
+        ],
+        sourceUrl:
+          "https://cloud.google.com/blog/products/serverless/introducing-cloud-run-instances",
+      },
+      {
+        id: "mantis-open-source-bug-fixing-harness",
+        title: "Mantis: Open-Source Bug Finding & Fixing Agent Harness",
+        category: "Developer Tooling & Security",
+        status: "Hot",
+        description:
+          "Google Cloud Security released Mantis, an open-source bug finding and fixing agent harness designed to automate vulnerability detection, patch generation, and regression testing across repositories.",
+        keyPoints: [
+          "Automated agentic source code review and bug patch generation.",
+          "Seamless integration with repository workflows and automated regression suites.",
+          "Open-source release empowering developer teams to automate security hardening.",
+        ],
+        contentIdeas: [
+          "Reacting to Google's Mantis: The Open-Source AI Bug Fixing Harness",
+          "How to Automate Security Code Reviews with Mantis and Gemini",
+          "Testing Mantis Agent Harness on Real-World Repositories",
+        ],
+        sourceUrl:
+          "https://cloud.google.com/blog/products/identity-security/getting-started-with-the-mantis-harness-to-find-and-fix-bugs",
+      },
+      {
+        id: "google-ai-studio-starter-tier",
+        title: "The Starter Tier for Google AI Studio & Cloud Run Integration",
+        category: "Developer Experience & AI",
+        status: "Hot",
+        description:
+          "Google Cloud explained the Starter Tier for Google AI Studio, allowing developers to immediately deploy AI prototypes to Cloud Run and Firestore with no credit card or billing account required.",
+        keyPoints: [
+          "Instant prototype deployment from AI Studio straight to serverless Cloud Run.",
+          "Zero friction setup—no upfront credit card or billing account needed for initial tier.",
+          "Full-stack vibe coding workflow connecting Gemini models, Firestore, and serverless hosting.",
+        ],
+        contentIdeas: [
+          "Full-Stack AI Prototypes in Minutes with Google AI Studio Starter Tier",
+          "Deploying AI Apps without a Credit Card: Cloud Run & AI Studio Walkthrough",
+          "Reacting to Google AI Studio Starter Tier: The Ultimate Vibe Coding Setup",
+        ],
+        sourceUrl:
+          "https://cloud.google.com/blog/topics/developers-practitioners/the-starter-tier-for-google-ai-studio-explained",
+      },
+      {
+        id: "ai-finops-flexible-billing-agent-cost-controls",
+        title: "FinOps for the AI Era: Flexible Billing & Cost Controls for Agents",
+        category: "Operations & AI Strategy",
+        status: "Hot",
+        description:
+          "Google Cloud announced new FinOps billing models and granular cost guardrails tailored specifically for autonomous AI agents, preventing unexpected API bills and managing long-running agent workloads.",
+        keyPoints: [
+          "Flexible usage billing and real-time budget caps for multi-step agent tool calls.",
+          "Granular cost controls and token spend quotas per agent instance.",
+          "FinOps best practices for managing enterprise AI agent operational expenses.",
+        ],
+        contentIdeas: [
+          "Reacting to Google Cloud's AI FinOps & Agent Billing Controls",
+          "How to Prevent Runaway AI Agent Bills on Google Cloud",
+          "AI FinOps 101: Setting Token Budgets and Rate Limits for Production Agents",
+        ],
+        sourceUrl:
+          "https://cloud.google.com/blog/products/ai-machine-learning/flexible-billing-and-cost-controls-for-agents-on-google-cloud",
+      },
+      {
+        id: "gemini-38-flash-announcement",
+        title: "Google Gemini 3.8 Flash & 3.8 Flash Cyber Announcement",
+        category: "Google Cloud & AI",
+        status: "Hot",
+        description:
+          "Google unveiled Gemini 3.8 Flash and 3.8 Flash Cyber, delivering massive latency reductions, agentic video analysis cutting token usage up to 88%, and specialized cybersecurity threat response capabilities.",
+        keyPoints: [
+          "Gemini 3.8 Flash introducing agentic video analysis and sub-second multi-modal reasoning.",
+          "Gemini 3.8 Flash Cyber fine-tuned for automated SOC triage, reverse engineering, and threat hunting.",
+          "Benchmark spikes on Artificial Analysis showing 1,500+ token/sec throughput performance.",
+        ],
+        contentIdeas: [
+          "Reacting to Google Gemini 3.8 Flash & 3.8 Flash Cyber Announcement!",
+          "Gemini 3.8 Flash vs Claude & GPT-6: Speed, Benchmark, & Agentic Video Test",
+          "How Gemini 3.8 Flash Cyber Automates SecOps Triage on Google Cloud",
+        ],
+        sourceUrl:
+          "https://blog.google/innovation-and-ai/models-and-research/gemini-models/3-8-flash-and-3-8-flash-cyber/",
+      },
+    ],
+  },
   "2026-09-07": {
     date: "2026-09-07",
     title: "September 07, 2026 Snapshot",
@@ -645,7 +753,7 @@ export const TRENDING_SNAPSHOTS: Record<string, TrendingSnapshot> = {
   },
 };
 
-export const LATEST_SNAPSHOT_DATE = "2026-09-07";
+export const LATEST_SNAPSHOT_DATE = "2026-09-08";
 
 export function getLatestSnapshot(): TrendingSnapshot {
   return TRENDING_SNAPSHOTS[LATEST_SNAPSHOT_DATE];

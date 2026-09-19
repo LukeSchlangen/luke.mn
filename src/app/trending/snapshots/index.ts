@@ -1,52 +1,63 @@
 import { TrendingSnapshot } from "../types";
-import { snapshot20260917 } from "./2026-09-17";
-import { snapshot20260916 } from "./2026-09-16";
-import { snapshot20260915 } from "./2026-09-15";
-import { snapshot20260914 } from "./2026-09-14";
-import { snapshot20260913 } from "./2026-09-13";
-import { snapshot20260912 } from "./2026-09-12";
-import { snapshot20260911 } from "./2026-09-11";
-import { snapshot20260910 } from "./2026-09-10";
-import { snapshot20260909 } from "./2026-09-09";
-import { snapshot20260907 } from "./2026-09-07";
-import { snapshot20260905 } from "./2026-09-05";
-import { snapshot20260903 } from "./2026-09-03";
-import { snapshot20260901 } from "./2026-09-01";
-import { snapshot20260508 } from "./2026-05-08";
 
 /**
- * CONFLICT MINIMIZATION GUIDELINES FOR ADDING NEW SNAPSHOTS:
- * 1. Create a new file in `src/app/trending/snapshots/YYYY-MM-DD.ts`.
- * 2. Import your snapshot here in `index.ts`.
- * 3. Add your snapshot export to `ALL_SNAPSHOTS` below.
+ * Dynamic module loader for Trending Snapshots.
  *
- * Leaving spaced comment buffers or placing imports/array entries in distinct
- * sections prevents multi-branch git merge conflicts.
+ * To add a new trending snapshot:
+ * Simply create a new file in `src/app/trending/snapshots/YYYY-MM-DD.ts`.
+ * Do NOT modify index.ts!
+ *
+ * `require.context` automatically imports all date snapshot files matching
+ * `YYYY-MM-DD.ts` at build time. This ensures that any number of snapshots
+ * can be added across multiple feature branches without causing merge conflicts.
  */
 
-// --- SNAPSHOT IMPORTS (RECENT) ---
-// Reserved space for new 2026+ snapshot imports across feature branches:
-// [Branch slot A]: import { snapshotYYYYMMDD } from "./YYYY-MM-DD";
-// [Branch slot B]: import { snapshotYYYYMMDD } from "./YYYY-MM-DD";
+interface RequireContext {
+  keys(): string[];
+  (id: string): Record<string, unknown>;
+  <T>(id: string): T;
+  resolve(id: string): string;
+  id: string;
+}
 
-export const ALL_SNAPSHOTS: TrendingSnapshot[] = [
-  // --- RECENT SNAPSHOTS ---
-  snapshot20260917,
-  snapshot20260916,
-  snapshot20260915,
-  snapshot20260914,
-  snapshot20260913,
-  snapshot20260912,
-  snapshot20260911,
-  snapshot20260910,
-  snapshot20260909,
-  snapshot20260907,
-  snapshot20260905,
-  snapshot20260903,
-  snapshot20260901,
+interface NodeRequire {
+  context(
+    directory: string,
+    useSubdirectories?: boolean,
+    regExp?: RegExp,
+    mode?: "sync" | "eager" | "weak" | "lazy" | "lazy-once"
+  ): RequireContext;
+}
 
-  // --- HISTORICAL ARCHIVES ---
-  snapshot20260508,
+declare const require: NodeRequire;
 
-  // Reserved buffer for additional historical or parallel feature branch snapshots
-];
+function isTrendingSnapshot(val: unknown): val is TrendingSnapshot {
+  return (
+    val !== null &&
+    typeof val === "object" &&
+    "date" in val &&
+    "topics" in val &&
+    Array.isArray((val as TrendingSnapshot).topics)
+  );
+}
+
+function loadSnapshots(): TrendingSnapshot[] {
+  const context = require.context(".", false, /^\.\/\d{4}-\d{2}-\d{2}\.ts$/);
+  const snapshots: TrendingSnapshot[] = [];
+
+  for (const key of context.keys()) {
+    const mod = context(key);
+    const candidate = isTrendingSnapshot(mod.default)
+      ? mod.default
+      : Object.values(mod).find(isTrendingSnapshot);
+
+    if (candidate) {
+      snapshots.push(candidate);
+    }
+  }
+
+  // Sort snapshots by date descending (latest date first)
+  return snapshots.sort((a, b) => b.date.localeCompare(a.date));
+}
+
+export const ALL_SNAPSHOTS: TrendingSnapshot[] = loadSnapshots();

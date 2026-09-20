@@ -1,4 +1,5 @@
 import { TrendingSnapshot } from "../types";
+import { snapshot20260920 } from "./2026-09-20";
 import { snapshot20260917 } from "./2026-09-17";
 import { snapshot20260916 } from "./2026-09-16";
 import { snapshot20260915 } from "./2026-09-15";
@@ -31,6 +32,7 @@ import { snapshot20260508 } from "./2026-05-08";
 
 export const ALL_SNAPSHOTS: TrendingSnapshot[] = [
   // --- RECENT SNAPSHOTS ---
+  snapshot20260920,
   snapshot20260917,
   snapshot20260916,
   snapshot20260915,

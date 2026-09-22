@@ -24,6 +24,8 @@ import { snapshot20260508 } from "./2026-05-08";
  * sections prevents multi-branch git merge conflicts.
  */
 
+import { snapshot20260922 } from "./2026-09-22";
+
 // --- SNAPSHOT IMPORTS (RECENT) ---
 // Reserved space for new 2026+ snapshot imports across feature branches:
 // [Branch slot A]: import { snapshotYYYYMMDD } from "./YYYY-MM-DD";
@@ -31,6 +33,7 @@ import { snapshot20260508 } from "./2026-05-08";
 
 export const ALL_SNAPSHOTS: TrendingSnapshot[] = [
   // --- RECENT SNAPSHOTS ---
+  snapshot20260922,
   snapshot20260917,
   snapshot20260916,
   snapshot20260915,

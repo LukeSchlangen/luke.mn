@@ -6,6 +6,7 @@ import Link from "next/link";
 import colorValues from "../../utils/color-values";
 import Navbar from "../navbar";
 import Footer from "../footer";
+import PretextMetrics from "../pretext-metrics";
 
 export default function FaqPage({
   theme,
@@ -41,9 +42,15 @@ export default function FaqPage({
                 <CopyLinkIcon id="learning-to-code" />
               </h3>
               <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  Where should I start?
-                  <CopyLinkIcon id="get-started" />
+                <summary className="-ml-2 text-xl flex items-center justify-between pr-2">
+                  <span>
+                    Where should I start?
+                    <CopyLinkIcon id="get-started" />
+                  </span>
+                  <PretextMetrics
+                    text="It depends on what you want to do. If you are serious about learning to code for a career change, there are some great schools out there. If you are looking for a free guided course, CS50 is hard to beat. If you are looking for something less structured, start with a project! Tools like Google AI Studio make it easier than ever to turn ideas into working applications."
+                    badgeStyle="indigo"
+                  />
                 </summary>
                 <p>
                   It depends on what you want to do. If you are serious about
@@ -71,9 +78,15 @@ export default function FaqPage({
                 </p>
               </details>
               <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  What is a good project?
-                  <CopyLinkIcon id="first-project" />
+                <summary className="-ml-2 text-xl flex items-center justify-between pr-2">
+                  <span>
+                    What is a good project?
+                    <CopyLinkIcon id="first-project" />
+                  </span>
+                  <PretextMetrics
+                    text="As long as you are passionate about it, I think it can make for a good project. Most of what I learned was through automating spreadsheets at work because I was passionate about making parts of my job less redundant."
+                    badgeStyle="indigo"
+                  />
                 </summary>
                 <p>
                   As long as you are passionate about it, I think it can make
@@ -105,9 +118,15 @@ export default function FaqPage({
                 <CopyLinkIcon id="software-career" />
               </h3>
               <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  What do you work on at Google?
-                  <CopyLinkIcon id="google-focus" />
+                <summary className="-ml-2 text-xl flex items-center justify-between pr-2">
+                  <span>
+                    What do you work on at Google?
+                    <CopyLinkIcon id="google-focus" />
+                  </span>
+                  <PretextMetrics
+                    text="My focus is on builders. I help people turn ideas into real, helpful tools. Right now, that's a lot of guides, videos, and tutorials around Google AI Studio, Firebase, and Cloud Run."
+                    badgeStyle="indigo"
+                  />
                 </summary>
                 <p>
                   My focus is on{" "}
@@ -145,9 +164,15 @@ export default function FaqPage({
                 </p>
               </details>
               <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  How did you get your first job in tech?
-                  <CopyLinkIcon id="first-job" />
+                <summary className="-ml-2 text-xl flex items-center justify-between pr-2">
+                  <span>
+                    How did you get your first job in tech?
+                    <CopyLinkIcon id="first-job" />
+                  </span>
+                  <PretextMetrics
+                    text="I used my connections, I took a pay cut, and I got lucky. I still struggle with sharing this story because it forces me to acknowledge the privilege I had and how much luck played a role."
+                    badgeStyle="indigo"
+                  />
                 </summary>
                 <p>
                   I used my connections, I took a pay cut, and I got lucky. I
@@ -164,9 +189,15 @@ export default function FaqPage({
                 </p>
               </details>
               <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  How did you get a job at Google?
-                  <CopyLinkIcon id="google-job" />
+                <summary className="-ml-2 text-xl flex items-center justify-between pr-2">
+                  <span>
+                    How did you get a job at Google?
+                    <CopyLinkIcon id="google-job" />
+                  </span>
+                  <PretextMetrics
+                    text="I applied four times over ten years. The fourth time I applied, when I was successful, I had been teaching software engineers for five years."
+                    badgeStyle="indigo"
+                  />
                 </summary>
                 <p>
                   I applied four times over ten years. The fourth time I applied,
@@ -184,9 +215,15 @@ export default function FaqPage({
                 </p>
               </details>
               <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  Will you refer me for a role at Google?
-                  <CopyLinkIcon id="google-referral" />
+                <summary className="-ml-2 text-xl flex items-center justify-between pr-2">
+                  <span>
+                    Will you refer me for a role at Google?
+                    <CopyLinkIcon id="google-referral" />
+                  </span>
+                  <PretextMetrics
+                    text="If we worked together previously and I can confidently recommend you based on that experience, I would be happy to refer you. If we've never worked together, I am not comfortable doing that."
+                    badgeStyle="indigo"
+                  />
                 </summary>
                 <p>
                   If we worked together previously and I can confidently
@@ -204,9 +241,15 @@ export default function FaqPage({
                 <CopyLinkIcon id="communication-preferences" />
               </h3>
               <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  Can I reach out to you cold?
-                  <CopyLinkIcon id="cold-outreach" />
+                <summary className="-ml-2 text-xl flex items-center justify-between pr-2">
+                  <span>
+                    Can I reach out to you cold?
+                    <CopyLinkIcon id="cold-outreach" />
+                  </span>
+                  <PretextMetrics
+                    text="Sure! But please have something to say (nohello.net). I've had people reach out to correct bugs in my labs, ask for career advice, or to tell me they thought a joke in a talk was funny. Please don't reach out to sell me something."
+                    badgeStyle="indigo"
+                  />
                 </summary>
                 <p>
                   Sure! But please have something to say
@@ -225,9 +268,15 @@ export default function FaqPage({
                 </p>
               </details>
               <details open className="space-y-4 border p-2 pl-4">
-                <summary className="-ml-2 text-xl">
-                  Can we schedule a quick chat?
-                  <CopyLinkIcon id="quick-chat" />
+                <summary className="-ml-2 text-xl flex items-center justify-between pr-2">
+                  <span>
+                    Can we schedule a quick chat?
+                    <CopyLinkIcon id="quick-chat" />
+                  </span>
+                  <PretextMetrics
+                    text="Probably not. I have two young kids and a job I really enjoy. My capacity for just checking in chats is basically zero. If you see me at a conference or other event, I'm happy to chat!"
+                    badgeStyle="indigo"
+                  />
                 </summary>
                 <p>
                   Probably not. I have two young kids and a job I really enjoy.

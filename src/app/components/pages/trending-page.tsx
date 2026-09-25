@@ -5,6 +5,7 @@ import CopyLinkIcon from "../copy-link-icon";
 import colorValues from "../../utils/color-values";
 import Navbar from "../navbar";
 import Footer from "../footer";
+import PretextMetrics from "../pretext-metrics";
 import {
   getLatestSnapshot,
   getSnapshot,
@@ -93,6 +94,9 @@ export default function TrendingPage({
                       <p className="text-sm opacity-90 leading-relaxed">
                         {snapshot.description}
                       </p>
+                      <div className="pt-1">
+                        <PretextMetrics text={snapshot.description} badgeStyle="amber" />
+                      </div>
                       <div className="pt-2 flex justify-end">
                         <Link
                           href={`/trending/${date}`}
@@ -234,6 +238,9 @@ export default function TrendingPage({
                   <p className="text-sm opacity-90 leading-relaxed mt-2">
                     {topic.description}
                   </p>
+                  <div className="pt-1">
+                    <PretextMetrics text={topic.description} badgeStyle="amber" />
+                  </div>
 
                   <div className="space-y-2 pt-2 border-t border-dashed border-current/20">
                     <h4 className="text-sm font-semibold uppercase tracking-wider opacity-70">

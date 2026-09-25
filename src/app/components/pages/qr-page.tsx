@@ -43,6 +43,43 @@ export default function QRPageClient({
   const [qrSvgString, setQrSvgString] = useState("");
   const [error, setError] = useState<string | null>(null);
 
+  // Pretext text layout statistics
+  const [pretextStats, setPretextStats] = useState<{
+    lineCount: number;
+    charCount: number;
+  } | null>(null);
+
+  useEffect(() => {
+    let active = true;
+    const analyzeText = async () => {
+      if (!text.trim()) {
+        setPretextStats(null);
+        return;
+      }
+      try {
+        const pretext = await import("@chenglou/pretext");
+        if (!active) return;
+        const font = "14px system-ui, sans-serif";
+        const prepared = pretext.prepare(text, font);
+        const layoutResult = pretext.layout(prepared, 400, 20);
+        const lineCount = Math.max(1, Math.round(layoutResult.height / 20));
+        setPretextStats({
+          lineCount,
+          charCount: text.length,
+        });
+      } catch (e) {
+        setPretextStats({
+          lineCount: text.split("\n").length,
+          charCount: text.length,
+        });
+      }
+    };
+    analyzeText();
+    return () => {
+      active = false;
+    };
+  }, [text]);
+
   // Refs for preview rendering
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -207,6 +244,13 @@ export default function QRPageClient({
                 placeholder="Enter text, URL, contact details or any other content to encode..."
                 className={`w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 resize-y ${inputThemeClass}`}
               />
+              {pretextStats && (
+                <div className="mt-2 flex items-center gap-2 text-xs font-mono opacity-80">
+                  <span className="rounded bg-blue-500/10 px-2 py-0.5 text-blue-400 border border-blue-500/20">
+                    ⚡ pretext: {pretextStats.charCount} chars • {pretextStats.lineCount} {pretextStats.lineCount === 1 ? "line" : "lines"}
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Config options grid */}

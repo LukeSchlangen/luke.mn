@@ -180,7 +180,7 @@ export default function TrendingPage({
                 {allSnapshotDates.map((date) => {
                   const isActive = date === snapshot.date;
                   const isLatestDate = date === LATEST_SNAPSHOT_DATE;
-                  const href = isLatestDate ? "/trending" : `/trending/${date}`;
+                  const href = `/trending/${date}`;
                   return (
                     <Link
                       key={date}

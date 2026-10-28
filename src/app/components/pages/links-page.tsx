@@ -9,6 +9,7 @@ export const SHORT_LINKS: Record<string, string> = {
   li: "https://www.linkedin.com/in/lukeschlangen/",
   builders: "https://goo.gle/builders",
   aistudio: "https://aistudio.google.com/",
+  strudel: "https://strudel-shaper-git-311363560392.europe-west1.run.app/",
 };
 
 export const LINKS = SHORT_LINKS;

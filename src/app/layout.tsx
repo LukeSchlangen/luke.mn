@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.luke.mn"),
   title: "Luke Schlangen | Developer Advocate",
   description:
     "Luke Schlangen's personal website. Developer Advocate at Google with a focus on builders, helping people turn ideas into real, helpful tools with Google AI Studio, Firebase, and Cloud Run.",

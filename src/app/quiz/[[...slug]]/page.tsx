@@ -2,6 +2,7 @@ import QuizPageClient from "../../components/pages/quiz-page";
 import NotFoundPage from "../../components/pages/not-found-page";
 import pathParser from "../../utils/path-parser";
 import { Metadata } from "next";
+import { buildPageMetadata } from "../../utils/metadata";
 
 const TOPIC_NAMES: Record<string, string> = {
   "agentic-harness": "Agentic Harness",
@@ -23,13 +24,6 @@ export async function generateMetadata({
   const params = await paramsPromise;
   const { theme, topic } = pathParser(params.slug);
 
-  let icon = "/favicons/smiling-face.svg";
-  if (theme.vibe === "professional") {
-    icon = "/favicons/briefcase.svg";
-  } else if (theme.vibe === "fun") {
-    icon = "/favicons/party-popper.svg";
-  }
-
   const topicName = topic ? TOPIC_NAMES[topic] : undefined;
   const title = topicName
     ? `${topicName} Quiz | Luke Schlangen`
@@ -38,13 +32,11 @@ export async function generateMetadata({
     ? `Test your knowledge on ${topicName} with interactive 9:16 presentation quizzes.`
     : "Create, format, and present interactive 9:16 quizzes designed for YouTube Shorts.";
 
-  return {
+  return buildPageMetadata({
     title,
     description,
-    icons: {
-      icon: icon,
-    },
-  };
+    vibe: theme.vibe,
+  });
 }
 
 export default async function Page({

@@ -3,6 +3,7 @@ import NotFoundPage from "../../components/pages/not-found-page";
 import pathParser from "../../utils/path-parser";
 import { getSnapshot } from "../data";
 import { Metadata } from "next";
+import { buildPageMetadata } from "../../utils/metadata";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -25,13 +26,6 @@ export async function generateMetadata({
   );
   const { theme } = pathParser(cleanedSlug);
 
-  let icon = "/favicons/smiling-face.svg";
-  if (theme.vibe === "professional") {
-    icon = "/favicons/briefcase.svg";
-  } else if (theme.vibe === "fun") {
-    icon = "/favicons/party-popper.svg";
-  }
-
   let title = "Trending Topics | Luke Schlangen";
   let description =
     "A curated list of trending topics and content ideas relevant to Luke Schlangen's work.";
@@ -45,13 +39,11 @@ export async function generateMetadata({
     description = `Snapshot of trending technical topics from ${dateMatch}.`;
   }
 
-  return {
+  return buildPageMetadata({
     title,
     description,
-    icons: {
-      icon,
-    },
-  };
+    vibe: theme.vibe,
+  });
 }
 
 export default async function Page({

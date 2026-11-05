@@ -4,6 +4,7 @@ import NotFoundPage from "../../components/pages/not-found-page";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { SHORT_LINKS } from "../../components/pages/links-page";
+import { buildPageMetadata } from "../../utils/metadata";
 
 export async function generateMetadata({
   params: paramsPromise = Promise.resolve({ slug: [] }),
@@ -13,21 +14,12 @@ export async function generateMetadata({
   const params = await paramsPromise;
   const { theme } = pathParser(params.slug);
 
-  let icon = "/favicons/smiling-face.svg";
-  if (theme.vibe === "professional") {
-    icon = "/favicons/briefcase.svg";
-  } else if (theme.vibe === "fun") {
-    icon = "/favicons/party-popper.svg";
-  }
-
-  return {
+  return buildPageMetadata({
     title: "Luke Schlangen | Lead AI Builder Advocate",
     description:
       "Luke Schlangen's personal website. Developer Advocate at Google focused on builders, helping people turn ideas into real, helpful tools with Google AI Studio, Firebase, and Cloud Run.",
-    icons: {
-      icon: icon,
-    },
-  };
+    vibe: theme.vibe,
+  });
 }
 
 export default async function Page({

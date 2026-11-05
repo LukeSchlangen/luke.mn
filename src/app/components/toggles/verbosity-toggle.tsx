@@ -33,15 +33,19 @@ export default function VerbosityToggle({
                 verbosity: opt.value,
               })}
               prefetch={false}
-              title={wordCounts ? `${wordCounts[opt.value]} words` : undefined}
+              aria-current={verbosity === opt.value ? "true" : undefined}
+              aria-describedby={
+                wordCounts ? `verbosity-tooltip-${opt.value}` : undefined
+              }
               className={verbosity === opt.value ? "underline" : ""}
             >
               {opt.label}
             </Link>
             {wordCounts && (
               <span
+                id={`verbosity-tooltip-${opt.value}`}
                 role="tooltip"
-                className={`pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 -translate-y-1 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-150 text-xs px-2 py-0.5 rounded shadow-lg whitespace-nowrap z-30 font-sans font-normal ${
+                className={`pointer-events-none absolute -top-8 left-1/2 -translate-x-1/2 -translate-y-1 opacity-0 group-hover:opacity-100 group-hover:translate-y-0 group-focus-within:opacity-100 group-focus-within:translate-y-0 transition-all duration-150 text-xs px-2 py-0.5 rounded shadow-lg whitespace-nowrap z-30 font-sans font-normal ${
                   isLight
                     ? "bg-neutral-900 text-white"
                     : "bg-neutral-100 text-neutral-900"

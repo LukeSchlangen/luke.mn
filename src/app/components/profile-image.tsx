@@ -51,7 +51,8 @@ export default function ProfileImage({ theme }: { theme: Theme }) {
         <Image
           className="hidden"
           src={blackSuit}
-          alt="Luke Schlangen in a Black Suit preload"
+          alt=""
+          aria-hidden="true"
           height={400}
           priority
         />
@@ -60,7 +61,8 @@ export default function ProfileImage({ theme }: { theme: Theme }) {
         <Image
           className="hidden"
           src={greySweater}
-          alt="Luke Schlangen in a Grey Sweater preload"
+          alt=""
+          aria-hidden="true"
           height={400}
           priority
         />
@@ -69,7 +71,8 @@ export default function ProfileImage({ theme }: { theme: Theme }) {
         <Image
           className="hidden"
           src={yellowSweater}
-          alt="Luke Schlangen in a Yellow Sweater preload"
+          alt=""
+          aria-hidden="true"
           height={400}
           priority
         />

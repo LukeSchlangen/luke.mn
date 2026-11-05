@@ -24,9 +24,11 @@ export default function ColorToggle({
           ...deploymentConfiguration,
         })}
         prefetch={false}
+        aria-label="Light mode"
+        aria-current={color === "light" ? "true" : undefined}
         className={color === "light" ? "" : "opacity-50 hover:opacity-100"}
       >
-        ☀️
+        <span aria-hidden="true">☀️</span>
       </Link>
       <Link
         href={pathBuilder({
@@ -35,9 +37,11 @@ export default function ColorToggle({
           ...deploymentConfiguration,
         })}
         prefetch={false}
+        aria-label="Dark mode"
+        aria-current={color === "dark" ? "true" : undefined}
         className={color === "dark" ? "" : "opacity-50 hover:opacity-100"}
       >
-        🌙
+        <span aria-hidden="true">🌙</span>
       </Link>
     </div>
   );

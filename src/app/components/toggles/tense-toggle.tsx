@@ -20,6 +20,7 @@ export default function TenseToggle({
           ...deploymentConfiguration,
         })}
         prefetch={false}
+        aria-current={tense === "first-person" ? "true" : undefined}
         className={tense === "first-person" ? "underline" : ""}
       >
         1st Person
@@ -32,6 +33,7 @@ export default function TenseToggle({
           ...deploymentConfiguration,
         })}
         prefetch={false}
+        aria-current={tense === "third-person" ? "true" : undefined}
         className={tense === "third-person" ? "underline" : ""}
       >
         3rd Person

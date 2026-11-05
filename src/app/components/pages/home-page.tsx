@@ -33,9 +33,7 @@ export default function HomePage({
           className={`bio-card relative z-10 rounded-lg p-2 drop-shadow-xl md:p-4 ${textBackgroundColorClass}`}
         >
           <header>
-            <h1 className="mb-2 md:flex">
-              <div className="pr-3 text-4xl sm:text-7xl">Luke Schlangen</div>
-            </h1>
+            <h1 className="mb-2 pr-3 text-4xl sm:text-7xl">Luke Schlangen</h1>
           </header>
           <main>
             <Bio

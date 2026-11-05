@@ -24,11 +24,11 @@ export default function PageToggle({
           ...deploymentConfiguration,
         })}
         prefetch={false}
-        className={
-          page === "home" ? "" : "underline opacity-50 hover:opacity-100"
-        }
+        aria-label="Home"
+        aria-current={page === "home" ? "page" : undefined}
+        className={page === "home" ? "" : "opacity-50 hover:opacity-100"}
       >
-        🏠
+        <span aria-hidden="true">🏠</span>
       </Link>
       <Link
         href={pathBuilder({
@@ -37,9 +37,11 @@ export default function PageToggle({
           ...deploymentConfiguration,
         })}
         prefetch={false}
+        aria-label="Frequently Asked Questions"
+        aria-current={page === "faq" ? "page" : undefined}
         className={page === "faq" ? "" : "opacity-50 hover:opacity-100"}
       >
-        ❓
+        <span aria-hidden="true">❓</span>
       </Link>
       <Link
         href={pathBuilder({
@@ -48,9 +50,11 @@ export default function PageToggle({
           ...deploymentConfiguration,
         })}
         prefetch={false}
+        aria-label="Deploy"
+        aria-current={page === "deploy" ? "page" : undefined}
         className={page === "deploy" ? "" : "opacity-50 hover:opacity-100"}
       >
-        🚀
+        <span aria-hidden="true">🚀</span>
       </Link>
     </div>
   );

@@ -82,32 +82,38 @@ export default function VibeToggle({
       <Link
         href={professionalHref}
         prefetch={false}
+        aria-label="Professional vibe"
+        aria-current={activeVibe === "professional" ? "true" : undefined}
         onClick={(e) => handleVibeClick(e, "professional", professionalHref)}
         className={`transition-opacity duration-150 ${
           activeVibe === "professional" ? "" : "opacity-50 hover:opacity-100"
         }`}
       >
-        💼
+        <span aria-hidden="true">💼</span>
       </Link>{" "}
       <Link
         href={standardHref}
         prefetch={false}
+        aria-label="Standard vibe"
+        aria-current={activeVibe === "standard" ? "true" : undefined}
         onClick={(e) => handleVibeClick(e, "standard", standardHref)}
         className={`transition-opacity duration-150 ${
           activeVibe === "standard" ? "" : "opacity-50 hover:opacity-100"
         }`}
       >
-        😃
+        <span aria-hidden="true">😃</span>
       </Link>{" "}
       <Link
         href={funHref}
         prefetch={false}
+        aria-label="Fun vibe"
+        aria-current={activeVibe === "fun" ? "true" : undefined}
         onClick={(e) => handleVibeClick(e, "fun", funHref)}
         className={`transition-opacity duration-150 ${
           activeVibe === "fun" ? "" : "opacity-50 hover:opacity-100"
         }`}
       >
-        🎉
+        <span aria-hidden="true">🎉</span>
       </Link>
     </div>
   );

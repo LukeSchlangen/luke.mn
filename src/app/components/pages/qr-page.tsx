@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import QRCode from "qrcode";
 import { DeploymentConfiguration, Theme } from "../../types";
 import colorValues from "../../utils/color-values";
@@ -42,9 +42,7 @@ export default function QRPageClient({
   const [qrDataUrl, setQrDataUrl] = useState("");
   const [qrSvgString, setQrSvgString] = useState("");
   const [error, setError] = useState<string | null>(null);
-
-  // Refs for preview rendering
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const [copied, setCopied] = useState(false);
 
   // Convert color hex + opacity to RGBA hex string expected by qrcode library
   const toRgbaHex = (hex: string, opacityPercent: number) => {
@@ -106,11 +104,6 @@ export default function QRPageClient({
           type: "svg",
         });
         setQrSvgString(svgStr);
-
-        // 3. Render on canvas if present
-        if (canvasRef.current) {
-          await QRCode.toCanvas(canvasRef.current, text, options);
-        }
       } catch (err: unknown) {
         console.error("QR Code Generation Error:", err);
         setError(
@@ -141,9 +134,11 @@ export default function QRPageClient({
     if (error) return;
 
     const link = document.createElement("a");
+    let objectUrl: string | null = null;
     if (outputFormat === "svg") {
       const blob = new Blob([qrSvgString], { type: "image/svg+xml" });
-      link.href = URL.createObjectURL(blob);
+      objectUrl = URL.createObjectURL(blob);
+      link.href = objectUrl;
       link.download = `qrcode.svg`;
     } else {
       link.href = qrDataUrl;
@@ -152,14 +147,18 @@ export default function QRPageClient({
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    if (objectUrl) {
+      URL.revokeObjectURL(objectUrl);
+    }
   };
 
-  const copyToClipboard = async (content: string, type: string) => {
+  const copyToClipboard = async (content: string) => {
     try {
       await navigator.clipboard.writeText(content);
-      alert(`${type} copied to clipboard!`);
-    } catch (err) {
-      alert("Failed to copy text.");
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      setError("Failed to copy to clipboard.");
     }
   };
 
@@ -361,25 +360,33 @@ export default function QRPageClient({
                 {/* Dark color selector */}
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs font-semibold">
+                    <label
+                      htmlFor="qr-dark-color"
+                      className="text-xs font-semibold"
+                    >
                       Dark Modules (Foreground)
-                    </span>
+                    </label>
                     <span className="text-xs font-mono opacity-60">
                       {darkColor} ({darkOpacity}%)
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <input
+                      id="qr-dark-color"
                       type="color"
                       value={darkColor}
                       onChange={(e) => setDarkColor(e.target.value)}
                       className="w-12 h-10 rounded cursor-pointer border-0 p-0"
                     />
                     <div className="flex-1">
-                      <label className="block text-[10px] uppercase tracking-wider opacity-60 mb-1">
+                      <label
+                        htmlFor="qr-dark-opacity"
+                        className="block text-[10px] uppercase tracking-wider opacity-60 mb-1"
+                      >
                         Opacity
                       </label>
                       <input
+                        id="qr-dark-opacity"
                         type="range"
                         min={0}
                         max={100}
@@ -394,25 +401,33 @@ export default function QRPageClient({
                 {/* Light color selector */}
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-xs font-semibold">
+                    <label
+                      htmlFor="qr-light-color"
+                      className="text-xs font-semibold"
+                    >
                       Light Modules (Background)
-                    </span>
+                    </label>
                     <span className="text-xs font-mono opacity-60">
                       {lightColor} ({lightOpacity}%)
                     </span>
                   </div>
                   <div className="flex items-center gap-3">
                     <input
+                      id="qr-light-color"
                       type="color"
                       value={lightColor}
                       onChange={(e) => setLightColor(e.target.value)}
                       className="w-12 h-10 rounded cursor-pointer border-0 p-0"
                     />
                     <div className="flex-1">
-                      <label className="block text-[10px] uppercase tracking-wider opacity-60 mb-1">
+                      <label
+                        htmlFor="qr-light-opacity"
+                        className="block text-[10px] uppercase tracking-wider opacity-60 mb-1"
+                      >
                         Opacity
                       </label>
                       <input
+                        id="qr-light-opacity"
                         type="range"
                         min={0}
                         max={100}
@@ -445,22 +460,19 @@ export default function QRPageClient({
               ) : (
                 <div className="my-auto flex flex-col items-center gap-4">
                   {/* SVG Renderer or Image Renderer based on format choice */}
-                  {outputFormat === "svg" ? (
-                    <div
-                      className="max-w-[280px] w-full h-auto p-2 bg-white rounded-lg shadow-inner flex items-center justify-center [&>svg]:w-full [&>svg]:h-auto"
-                      dangerouslySetInnerHTML={{ __html: qrSvgString }}
-                    />
-                  ) : (
-                    qrDataUrl && (
-                      <div className="p-2 bg-white rounded-lg shadow-inner flex items-center justify-center">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img
-                          src={qrDataUrl}
-                          alt="Generated QR Code"
-                          className="max-w-[280px] h-auto object-contain"
-                        />
-                      </div>
-                    )
+                  {(outputFormat === "svg" ? qrSvgString : qrDataUrl) && (
+                    <div className="p-2 bg-white rounded-lg shadow-inner flex items-center justify-center">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={
+                          outputFormat === "svg"
+                            ? `data:image/svg+xml;utf8,${encodeURIComponent(qrSvgString)}`
+                            : qrDataUrl
+                        }
+                        alt="Generated QR Code"
+                        className="max-w-[280px] h-auto object-contain"
+                      />
+                    </div>
                   )}
 
                   <span className="text-xs opacity-60">
@@ -469,9 +481,6 @@ export default function QRPageClient({
                   </span>
                 </div>
               )}
-
-              {/* Invisible canvas used for rendering/calculations in background */}
-              <canvas ref={canvasRef} className="hidden" />
             </div>
 
             {/* Download and Share Options */}
@@ -499,6 +508,8 @@ export default function QRPageClient({
                       return (
                         <button
                           key={fmt}
+                          type="button"
+                          aria-pressed={isSelected}
                           onClick={() => setOutputFormat(fmt)}
                           className={`${baseBtnClass} ${isSelected ? activeClass : inactiveClass}`}
                         >
@@ -511,6 +522,7 @@ export default function QRPageClient({
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2">
                   <button
+                    type="button"
                     onClick={handleDownload}
                     className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded-xl text-sm font-bold shadow-lg transition flex items-center justify-center gap-2 cursor-pointer"
                   >
@@ -518,11 +530,12 @@ export default function QRPageClient({
                   </button>
 
                   <button
+                    type="button"
                     onClick={() => {
                       if (outputFormat === "svg") {
-                        copyToClipboard(qrSvgString, "SVG String");
+                        void copyToClipboard(qrSvgString);
                       } else {
-                        copyToClipboard(qrDataUrl, "Data URL");
+                        void copyToClipboard(qrDataUrl);
                       }
                     }}
                     className={`w-full py-2.5 px-4 rounded-xl text-sm font-bold transition flex items-center justify-center gap-2 cursor-pointer ${
@@ -531,7 +544,11 @@ export default function QRPageClient({
                         : "bg-gray-200 text-black hover:bg-gray-300"
                     }`}
                   >
-                    📋 Copy {outputFormat === "svg" ? "SVG" : "Data URL"}
+                    <span aria-live="polite">
+                      {copied
+                        ? "✅ Copied!"
+                        : `📋 Copy ${outputFormat === "svg" ? "SVG" : "Data URL"}`}
+                    </span>
                   </button>
                 </div>
               </div>

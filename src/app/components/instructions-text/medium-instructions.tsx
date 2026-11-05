@@ -1,7 +1,7 @@
 import CommandList from "../command-list";
 import CopyLinkIcon from "../copy-link-icon";
 
-export default function MediumBio({
+export default function MediumInstructions({
   prerequisites,
   createApplication,
   runLocally,
@@ -17,7 +17,7 @@ export default function MediumBio({
       <details open className="space-y-4 border p-2 pl-4">
         <summary className="-ml-2 text-xl">
           Pre-requisites
-          <CopyLinkIcon id="create-application" />
+          <CopyLinkIcon id="prerequisites" />
         </summary>
         <CommandList steps={prerequisites} />
       </details>
@@ -31,7 +31,7 @@ export default function MediumBio({
       <details className="space-y-4 border p-2 pl-4">
         <summary className="-ml-2 text-xl">
           Run application locally
-          <CopyLinkIcon id="create-application" />
+          <CopyLinkIcon id="run-locally" />
         </summary>
         <CommandList steps={runLocally} />
       </details>

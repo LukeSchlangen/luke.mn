@@ -17,7 +17,7 @@ export default function LongInstructions({
       <details open className="space-y-4 border p-2 pl-4">
         <summary className="-ml-2 text-xl">
           Pre-requisites
-          <CopyLinkIcon id="create-application" />
+          <CopyLinkIcon id="prerequisites" />
         </summary>
         <CommandList steps={prerequisites} />
       </details>
@@ -28,10 +28,10 @@ export default function LongInstructions({
         </summary>
         <CommandList steps={createApplication} />
       </details>
-      <details className="space-y-4 border p-2 pl-4">
+      <details open className="space-y-4 border p-2 pl-4">
         <summary className="-ml-2 text-xl">
           Run application locally
-          <CopyLinkIcon id="create-application" />
+          <CopyLinkIcon id="run-locally" />
         </summary>
         <CommandList steps={runLocally} />
       </details>

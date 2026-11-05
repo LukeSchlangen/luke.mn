@@ -1413,9 +1413,9 @@ function QuizViewport({
 
   const isExpanded = hidePanels;
 
-  const viewportStyle: React.CSSProperties = {
+  const viewportStyle: React.CSSProperties & { "--anim-duration"?: string } = {
     transition: `all ${transitionTime}s cubic-bezier(0.4, 0, 0.2, 1)`,
-    ["--anim-duration" as any]: `${10 / animationSpeed}s`,
+    "--anim-duration": `${10 / animationSpeed}s`,
   };
 
   if (isExpanded) {
@@ -1844,17 +1844,19 @@ function QuizViewport({
               <div
                 key={i}
                 className="absolute rounded-full"
-                style={{
-                  left: `${startX}%`,
-                  width: `${size}px`,
-                  height: `${size}px`,
-                  background: color,
-                  boxShadow: `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}`,
-                  ["--start-x" as any]: `${startX}px`,
-                  ["--drift-x" as any]: `${driftX}px`,
-                  animation: `firefly-drift calc(var(--anim-duration) * ${duration / 3}) ease-in-out infinite`,
-                  animationDelay: `${delay}s`,
-                }}
+                style={
+                  {
+                    left: `${startX}%`,
+                    width: `${size}px`,
+                    height: `${size}px`,
+                    background: color,
+                    boxShadow: `0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}`,
+                    "--start-x": `${startX}px`,
+                    "--drift-x": `${driftX}px`,
+                    animation: `firefly-drift calc(var(--anim-duration) * ${duration / 3}) ease-in-out infinite`,
+                    animationDelay: `${delay}s`,
+                  } as React.CSSProperties
+                }
               />
             );
           })}
@@ -1876,15 +1878,17 @@ function QuizViewport({
               <div
                 key={i}
                 className="absolute top-1/2 left-1/2 origin-[0%_0%]"
-                style={{
-                  width: `${width}px`,
-                  height: `${height}px`,
-                  background: `linear-gradient(to top, ${color}, transparent)`,
-                  boxShadow: `0 0 ${width * 3}px ${color}`,
-                  ["--angle" as any]: `${angle}deg`,
-                  animation: `warp-travel calc(var(--anim-duration) * ${duration / 3}) cubic-bezier(0.1, 0.8, 0.1, 1) infinite`,
-                  animationDelay: `${delay}s`,
-                }}
+                style={
+                  {
+                    width: `${width}px`,
+                    height: `${height}px`,
+                    background: `linear-gradient(to top, ${color}, transparent)`,
+                    boxShadow: `0 0 ${width * 3}px ${color}`,
+                    "--angle": `${angle}deg`,
+                    animation: `warp-travel calc(var(--anim-duration) * ${duration / 3}) cubic-bezier(0.1, 0.8, 0.1, 1) infinite`,
+                    animationDelay: `${delay}s`,
+                  } as React.CSSProperties
+                }
               />
             );
           })}
@@ -2607,8 +2611,9 @@ const parseAspectRatio = (
 const parseAmbientAnimation = (val?: string): AmbientAnimationType => {
   if (!val) return "none";
   const normalized = val.toLowerCase().trim();
-  if (ANIMATION_OPTIONS.includes(normalized as any)) {
-    return normalized as AmbientAnimationType;
+  const matchedOption = ANIMATION_OPTIONS.find((opt) => opt === normalized);
+  if (matchedOption) {
+    return matchedOption;
   }
   if (normalized === "liquid") return "mesh-liquid";
   if (normalized === "radial") return "radial-flow";
@@ -2855,10 +2860,10 @@ ${q.explanation}`;
     // 1. JSON Detection
     if (trimmedText.startsWith("{") || trimmedText.startsWith("[")) {
       try {
-        const obj = JSON.parse(trimmedText) as any;
-        const question = (obj.question || "").toString();
+        const obj = JSON.parse(trimmedText) as Record<string, unknown>;
+        const question = (obj.question ?? "").toString();
         const answers = Array.isArray(obj.answers)
-          ? obj.answers.map((a: any) => (a || "").toString())
+          ? obj.answers.map((a: unknown) => (a ?? "").toString())
           : [];
         let correctIndex = -1;
         if (typeof obj.correctIndex === "number") {
@@ -2869,7 +2874,7 @@ ${q.explanation}`;
         ) {
           correctIndex = answers.indexOf(obj.correctAnswer);
         }
-        const explanation = (obj.explanation || "").toString();
+        const explanation = (obj.explanation ?? "").toString();
 
         const qObj = { question, answers, correctIndex, explanation };
         return {
@@ -2877,10 +2882,13 @@ ${q.explanation}`;
           errors: validateQuestion(qObj),
           format: "json",
         };
-      } catch (e: any) {
+      } catch (e: unknown) {
         return {
           data: null,
-          errors: ["Invalid JSON format: " + e.message],
+          errors: [
+            "Invalid JSON format: " +
+              (e instanceof Error ? e.message : String(e)),
+          ],
           format: "json",
         };
       }
@@ -2941,10 +2949,13 @@ ${q.explanation}`;
           errors: validateQuestion(qObj),
           format: "yaml",
         };
-      } catch (e: any) {
+      } catch (e: unknown) {
         return {
           data: null,
-          errors: ["Invalid YAML format: " + e.message],
+          errors: [
+            "Invalid YAML format: " +
+              (e instanceof Error ? e.message : String(e)),
+          ],
           format: "yaml",
         };
       }
@@ -3006,10 +3017,13 @@ ${q.explanation}`;
         errors: validateQuestion(qObj),
         format: "markdown",
       };
-    } catch (e: any) {
+    } catch (e: unknown) {
       return {
         data: null,
-        errors: ["Invalid Markdown format: " + e.message],
+        errors: [
+          "Invalid Markdown format: " +
+            (e instanceof Error ? e.message : String(e)),
+        ],
         format: "markdown",
       };
     }
@@ -3085,21 +3099,19 @@ ${q.explanation}`;
   };
 
   const advancePhase = () => {
-    if (phase === "edit") return;
-    if (phase === 6) {
-      setPhase(0);
-    } else {
-      setPhase((prev) => ((prev as number) + 1) as any);
-    }
+    setPhase((prev) => {
+      if (prev === "edit") return "edit";
+      if (prev === 6) return 0;
+      return (prev + 1) as PhaseType;
+    });
   };
 
   const retreatPhase = () => {
-    if (phase === "edit") return;
-    if (phase === 0) {
-      setPhase(6);
-    } else {
-      setPhase((prev) => ((prev as number) - 1) as any);
-    }
+    setPhase((prev) => {
+      if (prev === "edit") return "edit";
+      if (prev === 0) return 6;
+      return (prev - 1) as PhaseType;
+    });
   };
 
   const goToNextQuestion = () => {
@@ -3511,7 +3523,9 @@ ${q.explanation}`;
                     <select
                       value={format}
                       onChange={(e) =>
-                        handleFormatChange(e.target.value as any)
+                        handleFormatChange(
+                          e.target.value as "markdown" | "json" | "yaml",
+                        )
                       }
                       className={`px-3 py-1 rounded-lg border text-xs font-bold focus:outline-none ${inputThemeClass}`}
                     >
@@ -3627,7 +3641,7 @@ ${q.explanation}`;
                     </>
                   ) : (
                     <QuizViewport
-                      ratio={aspectRatio as any}
+                      ratio={aspectRatio}
                       phase={phase}
                       questionData={questionData}
                       colorTheme={colorTheme}
@@ -3683,10 +3697,10 @@ ${q.explanation}`;
                         </button>
                       </div>
                       <div className="grid grid-cols-7 gap-1 mt-1">
-                        {[0, 1, 2, 3, 4, 5, 6].map((num) => (
+                        {([0, 1, 2, 3, 4, 5, 6] as const).map((num) => (
                           <button
                             key={num}
-                            onClick={() => setPhase(num as any)}
+                            onClick={() => setPhase(num)}
                             className={`py-1 text-xs font-black rounded transition ${
                               phase === num
                                 ? "bg-amber-500 text-white"

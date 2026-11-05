@@ -61,7 +61,7 @@ export default function QRPageClient({
         const darkRgba = toRgbaHex(darkColor, darkOpacity);
         const lightRgba = toRgbaHex(lightColor, lightOpacity);
 
-        const options: any = {
+        const options: QRCode.QRCodeRenderersOptions = {
           errorCorrectionLevel,
           margin: Number(margin),
           scale: Number(scale),
@@ -75,7 +75,9 @@ export default function QRPageClient({
           options.version = Number(version);
         }
         if (maskPattern !== "auto") {
-          options.maskPattern = Number(maskPattern);
+          options.maskPattern = Number(
+            maskPattern,
+          ) as QRCode.QRCodeMaskPattern;
         }
         if (width !== "") {
           options.width = Number(width);
@@ -86,7 +88,7 @@ export default function QRPageClient({
         if (outputFormat === "jpeg") type = "image/jpeg";
         if (outputFormat === "webp") type = "image/webp";
 
-        const dataUrlOpts: any = {
+        const dataUrlOpts: QRCode.QRCodeToDataURLOptions = {
           ...options,
           type,
           rendererOpts: {
@@ -95,28 +97,26 @@ export default function QRPageClient({
         };
 
         // Standard toDataURL
-        const url = await (QRCode.toDataURL(
-          text,
-          dataUrlOpts,
-        ) as unknown as Promise<string>);
+        const url = await QRCode.toDataURL(text, dataUrlOpts);
         setQrDataUrl(url);
 
         // 2. Generate SVG String
-        const svgStr = await (QRCode.toString(text, {
+        const svgStr = await QRCode.toString(text, {
           ...options,
           type: "svg",
-        } as any) as unknown as Promise<string>);
+        });
         setQrSvgString(svgStr);
 
         // 3. Render on canvas if present
         if (canvasRef.current) {
           await QRCode.toCanvas(canvasRef.current, text, options);
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("QR Code Generation Error:", err);
         setError(
-          err?.message ||
-            "Failed to generate QR Code. Please check your options.",
+          err instanceof Error
+            ? err.message
+            : "Failed to generate QR Code. Please check your options.",
         );
       }
     };
@@ -250,7 +250,9 @@ export default function QRPageClient({
                   id="qr-ecl"
                   value={errorCorrectionLevel}
                   onChange={(e) =>
-                    setErrorCorrectionLevel(e.target.value as any)
+                    setErrorCorrectionLevel(
+                      e.target.value as "L" | "M" | "Q" | "H",
+                    )
                   }
                   className={`w-full px-3 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 ${inputThemeClass}`}
                 >

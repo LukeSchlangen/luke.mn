@@ -16,7 +16,10 @@ export function triggerViewTransition(
   updateAction: () => void,
   fallbackMs: number = 1500,
 ) {
-  if (typeof document === "undefined" || !("startViewTransition" in document)) {
+  if (
+    typeof document === "undefined" ||
+    typeof document.startViewTransition !== "function"
+  ) {
     updateAction();
     return;
   }
@@ -24,7 +27,6 @@ export function triggerViewTransition(
   // Clear any existing transition resolve
   notifyViewTransitionReady();
 
-  // @ts-ignore - Document.startViewTransition is native in modern browsers
   document.startViewTransition(() => {
     return new Promise<void>((resolve) => {
       let settled = false;

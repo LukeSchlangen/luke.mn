@@ -32,17 +32,20 @@ export const QUIZ_TOPIC_SLUGS = [
   "ai-token-economics-finops",
 ] as const;
 
+export const QuizTopicSlugSchema = Schema.Literal(...QUIZ_TOPIC_SLUGS);
+export type QuizTopicSlug = Schema.Schema.Type<typeof QuizTopicSlugSchema>;
+
 export interface PathParserResult {
   theme: Theme;
   deploymentConfiguration: DeploymentConfiguration;
   remainingSlug: string[];
-  topic?: string;
+  topic?: QuizTopicSlug;
 }
 
 // Helper to safely parse and advance a slug array
-export const consumeOption = <A>(
+export const consumeOption = <A, I>(
   slugs: string[],
-  schema: Schema.Schema<A, any, never>,
+  schema: Schema.Schema<A, I, never>,
 ): { result: Option.Option<A>; remaining: string[] } => {
   if (slugs.length === 0) {
     return { result: Option.none(), remaining: slugs };
@@ -94,12 +97,14 @@ export const parseSlugEffect = (
     }
 
     // Extract topic if present among remaining slugs
-    let extractedTopic: string | undefined = undefined;
-    const topicIdx = workingSlugs.findIndex((s) =>
-      QUIZ_TOPIC_SLUGS.includes(s as any),
-    );
+    let extractedTopic: QuizTopicSlug | undefined = undefined;
+    const isQuizTopicSlug = Schema.is(QuizTopicSlugSchema);
+    const topicIdx = workingSlugs.findIndex((s) => isQuizTopicSlug(s));
     if (topicIdx !== -1) {
-      extractedTopic = workingSlugs[topicIdx];
+      const matchedSlug = workingSlugs[topicIdx];
+      if (isQuizTopicSlug(matchedSlug)) {
+        extractedTopic = matchedSlug;
+      }
       workingSlugs = [
         ...workingSlugs.slice(0, topicIdx),
         ...workingSlugs.slice(topicIdx + 1),

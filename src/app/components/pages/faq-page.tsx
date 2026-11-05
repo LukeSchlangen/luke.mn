@@ -6,6 +6,7 @@ import Link from "next/link";
 import colorValues from "../../utils/color-values";
 import Navbar from "../navbar";
 import Footer from "../footer";
+import ThemeStyle from "../theme-style";
 
 export default function FaqPage({
   theme,
@@ -14,14 +15,11 @@ export default function FaqPage({
   theme: Theme;
   deploymentConfiguration: DeploymentConfiguration;
 }) {
-  const { textColorClass, bodyBackgroundColor } = colorValues(theme);
+  const { textColorClass } = colorValues(theme);
 
   return (
     <div className={`w-full min-h-screen ${textColorClass}`}>
-      <style>
-        {/* Hacky style tag applied to body here because body has to be defined in layout, but style depends on theme */}
-        {`body { background-color: ${bodyBackgroundColor} }`}
-      </style>
+      <ThemeStyle theme={theme} />
       <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
       <div className="m-auto max-w-prose">
         <header className="my-16">

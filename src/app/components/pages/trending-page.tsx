@@ -5,6 +5,7 @@ import CopyLinkIcon from "../copy-link-icon";
 import colorValues from "../../utils/color-values";
 import Navbar from "../navbar";
 import Footer from "../footer";
+import ThemeStyle from "../theme-style";
 import {
   getLatestSnapshot,
   getSnapshot,
@@ -27,14 +28,14 @@ export default function TrendingPage({
   mode = "latest",
   snapshotDate,
 }: TrendingPageProps) {
-  const { textColorClass, bodyBackgroundColor } = colorValues(theme);
+  const { textColorClass } = colorValues(theme);
   const allSnapshotDates = getSnapshotDates();
 
   // Mode: History view
   if (mode === "history") {
     return (
       <div className={`w-full min-h-screen ${textColorClass}`}>
-        <style>{`body { background-color: ${bodyBackgroundColor} }`}</style>
+        <ThemeStyle theme={theme} />
         <Navbar
           theme={theme}
           deploymentConfiguration={deploymentConfiguration}
@@ -125,7 +126,7 @@ export default function TrendingPage({
 
   return (
     <div className={`w-full min-h-screen ${textColorClass}`}>
-      <style>{`body { background-color: ${bodyBackgroundColor} }`}</style>
+      <ThemeStyle theme={theme} />
       <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
       <div className="m-auto max-w-prose">
         <header className="my-16">

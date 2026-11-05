@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+:root {
+  color-scheme: light dark;
+}
+
 .command-list li {
   display: list-item;
   list-style-type: ">";

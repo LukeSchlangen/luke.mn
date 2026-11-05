@@ -6,6 +6,7 @@ import { DeploymentConfiguration, Theme } from "../../types";
 import colorValues from "../../utils/color-values";
 import Footer from "../footer";
 import Navbar from "../navbar";
+import ThemeStyle from "../theme-style";
 
 export default function QRPageClient({
   theme,
@@ -15,8 +16,7 @@ export default function QRPageClient({
   deploymentConfiguration: DeploymentConfiguration;
 }) {
   // Color values for current website theme
-  const { textColorClass, bodyBackgroundColor, textBackgroundColorClass } =
-    colorValues(theme);
+  const { textColorClass, textBackgroundColorClass } = colorValues(theme);
 
   // QR Code generator state
   const [text, setText] = useState("https://lukeschlangen.com");
@@ -173,7 +173,7 @@ export default function QRPageClient({
     <div
       className={`w-full min-h-screen ${textColorClass} transition-colors duration-300 pb-12`}
     >
-      <style>{`body { background-color: ${bodyBackgroundColor} }`}</style>
+      <ThemeStyle theme={theme} />
 
       <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
 

@@ -5,6 +5,7 @@ import { DeploymentConfiguration, Theme } from "../../types";
 import colorValues from "../../utils/color-values";
 import Footer from "../footer";
 import Navbar from "../navbar";
+import ThemeStyle from "../theme-style";
 
 // NOTE FOR FUTURE AI GENERATING QUESTIONS:
 // Maximum length for any answer option is ~45 characters (roughly half of 90 chars).
@@ -2694,8 +2695,7 @@ export default function QuizPageClient({
   initialTopic?: string;
   searchParams?: Record<string, string | string[] | undefined>;
 }) {
-  const { textColorClass, bodyBackgroundColor, textBackgroundColorClass } =
-    colorValues(theme);
+  const { textColorClass, textBackgroundColorClass } = colorValues(theme);
 
   const initialPreset =
     findExamPresetBySlug(initialTopic) || GCP_EXAMS_PRESETS[0];
@@ -3277,7 +3277,7 @@ ${q.explanation}`;
     <div
       className={`w-full ${hidePanels ? "h-screen overflow-hidden flex flex-col justify-center items-center" : "min-h-screen pb-12"} ${textColorClass}`}
     >
-      <style>{`body { background-color: ${bodyBackgroundColor} }`}</style>
+      <ThemeStyle theme={theme} />
 
       {!hidePanels && (
         <Navbar

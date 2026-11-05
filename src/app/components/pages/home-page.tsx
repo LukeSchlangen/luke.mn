@@ -5,6 +5,7 @@ import colorValues from "../../utils/color-values";
 import ProfileImage from "../profile-image";
 import Navbar from "../navbar";
 import SocialIconBar from "../social-icon-bar";
+import ThemeStyle from "../theme-style";
 import dynamic from "next/dynamic";
 
 const Confetti = dynamic(() => import("../confetti"));
@@ -16,15 +17,11 @@ export default function HomePage({
   theme: Theme;
   deploymentConfiguration: DeploymentConfiguration;
 }) {
-  const { textColorClass, bodyBackgroundColor, textBackgroundColorClass } =
-    colorValues(theme);
+  const { textColorClass, textBackgroundColorClass } = colorValues(theme);
 
   return (
     <div className={`w-full min-h-screen ${textColorClass}`}>
-      <style>
-        {/* Hacky style tag applied to body here because body has to be defined in layout, but style depends on theme */}
-        {`body { background-color: ${bodyBackgroundColor} }`}
-      </style>
+      <ThemeStyle theme={theme} />
       <Navbar theme={theme} deploymentConfiguration={deploymentConfiguration} />
       <ProfileImage theme={theme} />
       <div className="m-auto  -mt-20 w-full max-w-prose px-2">

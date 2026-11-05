@@ -32,7 +32,8 @@ export default function DeployPage({
 
   const allSteps = FRAMEWORK_DETAILS[deploymentConfiguration.framework];
 
-  const [appName, setAppName] = useState(allSteps.defaultApplicationName);
+  const [customAppName, setCustomAppName] = useState<string | null>(null);
+  const appName = customAppName ?? allSteps.defaultApplicationName;
 
   const errorMessage = allSteps.targets[deploymentConfiguration.target].sources[
     deploymentConfiguration.source
@@ -91,7 +92,7 @@ export default function DeployPage({
           <ProseContainer theme={theme}>
             <section className="space-y-4">
               <h3 className="text-3xl">What are you trying to deploy?</h3>
-              <label>
+              <div>
                 <p className="mt-4">Framework</p>
                 <details className="space-y-4 border p-2 pl-4">
                   <summary className="-ml-2 text-xl">
@@ -100,6 +101,8 @@ export default function DeployPage({
                   <ul>
                     {FRAMEWORK_OPTIONS.map((framework) => {
                       const { name } = FRAMEWORK_DETAILS[framework];
+                      const isCurrent =
+                        deploymentConfiguration.framework === framework;
                       return (
                         <li key={framework}>
                           <Link
@@ -109,11 +112,8 @@ export default function DeployPage({
                               framework,
                             })}
                             prefetch={false}
-                            className={
-                              deploymentConfiguration.framework === framework
-                                ? "underline"
-                                : ""
-                            }
+                            aria-current={isCurrent ? "page" : undefined}
+                            className={isCurrent ? "underline" : ""}
                           >
                             {name}
                           </Link>
@@ -122,8 +122,8 @@ export default function DeployPage({
                     })}
                   </ul>
                 </details>
-              </label>
-              <label>
+              </div>
+              <div>
                 <p className="mt-4">Deployment Target</p>
                 <details className="space-y-4 border p-2 pl-4">
                   <summary className="-ml-2 text-xl">
@@ -132,6 +132,8 @@ export default function DeployPage({
                   <ul>
                     {TARGET_OPTIONS.map((target) => {
                       const { name } = TARGET_DETAILS[target];
+                      const isCurrent =
+                        deploymentConfiguration.target === target;
                       return (
                         <li key={target}>
                           <Link
@@ -141,11 +143,8 @@ export default function DeployPage({
                               target,
                             })}
                             prefetch={false}
-                            className={
-                              deploymentConfiguration.target === target
-                                ? "underline"
-                                : ""
-                            }
+                            aria-current={isCurrent ? "page" : undefined}
+                            className={isCurrent ? "underline" : ""}
                           >
                             {name}
                           </Link>
@@ -154,7 +153,7 @@ export default function DeployPage({
                     })}
                   </ul>
                 </details>
-              </label>
+              </div>
               {/* <label>
                 <p className="mt-4">Code Source Location</p>
                 <details className="space-y-4 border p-2 pl-4">
@@ -186,15 +185,18 @@ export default function DeployPage({
                   </ul>
                 </details>
               </label> */}
-              <label>
-                <p className="mt-4">Application Name</p>
+              <div>
+                <label htmlFor="deploy-app-name" className="mt-4 block">
+                  Application Name
+                </label>
                 <input
+                  id="deploy-app-name"
                   type="text"
                   value={appName}
-                  onChange={(e) => setAppName(e.target.value)}
+                  onChange={(e) => setCustomAppName(e.target.value)}
                   className={`border w-full py-2 px-3 text-xl ${textBackgroundColorClass}`}
                 />
-              </label>
+              </div>
             </section>
           </ProseContainer>
           {errorMessage ? (

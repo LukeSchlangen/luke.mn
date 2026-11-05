@@ -5,9 +5,6 @@ import { getSnapshot } from "../data";
 import { Metadata } from "next";
 import { buildPageMetadata } from "../../utils/metadata";
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
-
 const ISO_DATE_REGEX = /^\d{4}-\d{2}-\d{2}$/;
 
 export async function generateMetadata({

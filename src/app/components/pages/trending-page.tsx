@@ -3,6 +3,7 @@ import { DeploymentConfiguration, Theme } from "../../types";
 import ProseContainer from "../prose-container";
 import CopyLinkIcon from "../copy-link-icon";
 import colorValues from "../../utils/color-values";
+import pathBuilder from "../../utils/path-builder";
 import Navbar from "../navbar";
 import Footer from "../footer";
 import ThemeStyle from "../theme-style";
@@ -31,6 +32,15 @@ export default function TrendingPage({
   const { textColorClass } = colorValues(theme);
   const allSnapshotDates = getSnapshotDates();
 
+  const baseTrendingPath = pathBuilder({
+    ...theme,
+    page: "trending",
+    ...deploymentConfiguration,
+  });
+  const themeSuffix = baseTrendingPath.replace(/^\/trending/, "");
+  const buildTrendingHref = (subpath?: string) =>
+    subpath ? `/trending/${subpath}${themeSuffix}` : baseTrendingPath;
+
   // Mode: History view
   if (mode === "history") {
     return (
@@ -45,7 +55,7 @@ export default function TrendingPage({
             <ProseContainer theme={theme}>
               <div className="mb-4">
                 <Link
-                  href="/trending"
+                  href={buildTrendingHref()}
                   className="inline-flex items-center text-sm opacity-80 hover:opacity-100 hover:underline gap-1"
                 >
                   &larr; Back to Latest Trending Topics
@@ -96,7 +106,7 @@ export default function TrendingPage({
                       </p>
                       <div className="pt-2 flex justify-end">
                         <Link
-                          href={`/trending/${date}`}
+                          href={buildTrendingHref(date)}
                           className="text-sm font-semibold hover:underline flex items-center gap-1"
                         >
                           View Snapshot &rarr;
@@ -134,13 +144,13 @@ export default function TrendingPage({
             {isHistorical && (
               <div className="mb-4 flex items-center justify-between text-sm">
                 <Link
-                  href="/trending"
+                  href={buildTrendingHref()}
                   className="opacity-80 hover:opacity-100 hover:underline"
                 >
                   &larr; Back to Current Trending
                 </Link>
                 <Link
-                  href="/trending/history"
+                  href={buildTrendingHref("history")}
                   className="opacity-80 hover:opacity-100 hover:underline"
                 >
                   View All History &rarr;
@@ -157,7 +167,7 @@ export default function TrendingPage({
                 {isHistorical ? "Historical Snapshot" : "Luke's Idea Vault"}
               </span>
               <Link
-                href="/trending/history"
+                href={buildTrendingHref("history")}
                 className="rounded bg-blue-500/20 px-2.5 py-0.5 text-xs font-semibold text-blue-400 border border-blue-500/30 hover:underline flex items-center gap-1"
               >
                 📜 History
@@ -171,7 +181,7 @@ export default function TrendingPage({
               <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider opacity-70">
                 <span>📅 Snapshot Archives & Dates</span>
                 <Link
-                  href="/trending/history"
+                  href={buildTrendingHref("history")}
                   className="hover:underline text-blue-400 font-medium normal-case"
                 >
                   View All History &rarr;
@@ -181,11 +191,12 @@ export default function TrendingPage({
                 {allSnapshotDates.map((date) => {
                   const isActive = date === snapshot.date;
                   const isLatestDate = date === LATEST_SNAPSHOT_DATE;
-                  const href = `/trending/${date}`;
+                  const href = buildTrendingHref(date);
                   return (
                     <Link
                       key={date}
                       href={href}
+                      aria-current={isActive ? "page" : undefined}
                       className={`px-2.5 py-1 rounded border transition-colors ${
                         isActive
                           ? "bg-amber-500 text-black border-amber-500 font-bold"
